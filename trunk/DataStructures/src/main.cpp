@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+void testCompresion()
 {
 	Lzss lz;
 	string postaPosta="ciudado con la ca";// bombachita";/*"hhachaLa Papa, Ciudado con la petiza que te tiza cuak, esto en realidad es muuuy pelotudo de hacer ya que seria mejor cortar un texto de lanacion.com y despues pegarlo aca pasa que este año estoy muy boludo y ademas, esta bueno, esto de ir probrando un poco este texto de mierda y ver si el lzss realmente puede comprimir algo";*/
@@ -27,6 +27,11 @@ int main(int argc, char *argv[])
 	const char * a=ans.c_str();
 	cout<<"la verdadera resp deberia ser:  "<<postaPosta<<endl<<endl;
 	cout<<"LA RESPUESTA ES: TA TAN TA TAN...  "<<a<<endl;
+}
+
+int main(int argc, char *argv[])
+{
+	testCompresion();
 	return EXIT_SUCCESS;
 }
 
