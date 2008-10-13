@@ -13,9 +13,9 @@ string Lzss::compress(std::string toCompress){
 	vector<unsigned char> ans;
 	unsigned int emptyBits=0;
 	this->buffer.clear();
-	bool match=false;
+//	bool match=false;
 	bool endWindow=false;
-	unsigned int posWindMin=0;
+//	unsigned int posWindMin=0;
 	const char* windows=toCompress.c_str();
 	unsigned int posWindMax;
 	unsigned int posMatch;
@@ -65,7 +65,7 @@ string Lzss::compress(std::string toCompress){
 			
 			insertCodePosLong(longMatch,posMatch,&ans,emptyBits);
 			//avanza el buffer
-			for (int i=floor;i<floor+longMatch;i++){
+			for (unsigned int i=floor;i<floor+longMatch;i++){
 				this->buffer.push_back(windows[i]);
 				if (this->buffer.size()>Lzss::sizeBuffer)
 					this->buffer.erase(this->buffer.begin());
@@ -78,7 +78,7 @@ string Lzss::compress(std::string toCompress){
 				this->buffer.erase(this->buffer.begin());
 			floor++;
 		}
-		if (floor==toCompress.length())
+		if (floor==(int)toCompress.length())
 			endWindow=true;
 	}
 
@@ -102,7 +102,7 @@ string Lzss::compress(std::string toCompress){
 		lastChar=lastChar|aux;
 	}
 	answer.append(1,(unsigned char)ans.size());
-	for(int i=0;i<ans.size();i++)
+	for(unsigned int i=0;i<ans.size();i++)
 		answer.append(1,ans[i]);
 	return answer;
 }
@@ -259,7 +259,7 @@ void Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& n
 		floor++;
 	}
 	for (unsigned int i=0;i<lMatch;i++){
-		int test=this->buffer.size();
+//		int test=this->buffer.size();
 		char copy=this->buffer[buffer.size()-(1+pos)];
 		this->buffer.push_back(copy);
 		st.append(1,copy);

@@ -26,7 +26,7 @@ FreeSpaceManager::~FreeSpaceManager(){
  * Metodo que devuelve dado un tamano retorna una lista de espacios en donde se
  * puede almacenar la informacion. 
  */
-List<Space> FreeSpaceManager::GetFreeSpace(int size){
-
-	return  NULL;
+list<Space>* FreeSpaceManager::GetFreeSpace(int size){
+		return  NULL;
 }
+

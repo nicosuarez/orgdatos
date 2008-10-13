@@ -7,7 +7,9 @@
 
 #if !defined(EA_B3354A7E_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B3354A7E_98EA_11dd_B49B_001B2425640C__INCLUDED_
+#include <string>
 
+using namespace std;
 /**
  * Clase que implementa todos los comandos que se pueden ejecutar en el programa.
  */
@@ -20,7 +22,7 @@ public:
 
 	void AddDirectory(string path);
 	void AddFile(string filePath);
-	void ChangePassword(string new, string old);
+	void ChangePassword(string newPass, string oldPass);
 	void GetFile(string outFile, string filePath);
 	void Quit();
 	void RemoveDirectory(string path);

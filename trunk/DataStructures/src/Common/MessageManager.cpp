@@ -23,8 +23,8 @@ MessageManager::~MessageManager(){
 
 
 Message MessageManager::Extract(Message msg){
-
-	return  NULL;
+	Message message;
+	return message;
 }
 
 

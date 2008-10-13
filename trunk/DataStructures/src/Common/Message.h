@@ -8,6 +8,8 @@
 #if !defined(EA_B68DB904_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B68DB904_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
+#include <string>
+using namespace std;
 /**
  * Clase que representa el mensaje a ocultar.
  */

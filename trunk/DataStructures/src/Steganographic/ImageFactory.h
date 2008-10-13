@@ -7,7 +7,7 @@
 
 #if !defined(EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_
-
+#include "Image.h"
 /**
  * Dado un espacio crea una imagen segun el formato que tenga el espacio.
  */

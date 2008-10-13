@@ -7,7 +7,8 @@
 
 #if !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_
-
+#include <string>
+using namespace std;
 /**
  * Unidad de espacio del cual se puede recuperar o almacenar infomacion.
  */

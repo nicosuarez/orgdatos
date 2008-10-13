@@ -7,7 +7,8 @@
 
 #if !defined(EA_B43D3F26_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B43D3F26_98EA_11dd_B49B_001B2425640C__INCLUDED_
-
+#include "Space.h"
+#include <list.h>
 /**
  * Clase que se encarga de buscar dado un mensaje los mejores espacios libres
  * donde se puede guardar la informacion.
@@ -19,7 +20,7 @@ public:
 	FreeSpaceManager();
 	virtual ~FreeSpaceManager();
 
-	List<Space> GetFreeSpace(int size);
+	list<Space>* GetFreeSpace(int size);
 
 };
 #endif // !defined(EA_B43D3F26_98EA_11dd_B49B_001B2425640C__INCLUDED_)

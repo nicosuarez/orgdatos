@@ -8,7 +8,8 @@
 #if !defined(EA_B7E9AE7A_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B7E9AE7A_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
-#include "Message.h"
+#include "../Common/Message.h"
+#include "../Common/Space.h"
 
 /**
  * Clase que se encarga de ocultar la informacion dependiendo del formato de las

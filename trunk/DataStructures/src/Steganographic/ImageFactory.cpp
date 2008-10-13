@@ -26,6 +26,6 @@ ImageFactory::~ImageFactory(){
  * Retorna la imagen segun el formato del espacio.
  */
 Image ImageFactory::GetImage(Space space){
-
-	return  NULL;
+	Image imagen;
+	return imagen;
 }

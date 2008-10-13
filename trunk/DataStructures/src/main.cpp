@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-#include "lzss.h"
+#include "Lzss/lzss.h"
 
 using namespace std;
 
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	/*TEST*/
 	const unsigned char* aux =(unsigned char*) st.c_str();
 	cout<<"ESTE ES EL ARCHIVO COMPRIMIDO  ";
-	for(int i=0;i<st.length();i++)
+	for(unsigned int i=0;i<st.length();i++)
 		cout<<(unsigned int)aux[i]<<" ";
 	cout<<endl;
 	/*ESTO LO DEBE HACER AL LEER EL ARCHIVO*/

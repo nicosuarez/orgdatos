@@ -23,7 +23,7 @@ Commands::~Commands(){
 
 
 /**
- * Agrega un directorio de imágenes al ocultador.
+ * Agrega un directorio de imï¿½genes al ocultador.
  */
 void Commands::AddDirectory(string path){
 
@@ -41,7 +41,7 @@ void Commands::AddFile(string filePath){
 /**
  * Modifica el password de ingreso.
  */
-void Commands::ChangePassword(string new, string old){
+void Commands::ChangePassword(string newPass, string oldPass){
 
 }
 
@@ -63,7 +63,7 @@ void Commands::Quit(){
 
 
 /**
- * Quita un directorio de imágenes del ocultador.
+ * Quita un directorio de imï¿½genes del ocultador.
  */
 void Commands::RemoveDirectory(string path){
 
