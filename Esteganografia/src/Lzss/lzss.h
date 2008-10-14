@@ -9,9 +9,9 @@ class Lzss{
 		static const unsigned int sizeWin=4;
 		static const unsigned int sizeBuffer=4;
 		static const unsigned int lMax=4;
-		static const unsigned int lMin=0;
-		const unsigned int bitsLong;
-		const unsigned int bitsPos;
+		static const unsigned int lMin=2;
+		const int bitsLong;
+		const int bitsPos;
 		std::vector<unsigned char> buffer;
 
 		//Para comprimir

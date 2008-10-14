@@ -13,9 +13,9 @@ string Lzss::compress(std::string toCompress){
 	vector<unsigned char> ans;
 	unsigned int emptyBits=0;
 	this->buffer.clear();
-//	bool match=false;
+	bool match=false;
 	bool endWindow=false;
-//	unsigned int posWindMin=0;
+	unsigned int posWindMin=0;
 	const char* windows=toCompress.c_str();
 	unsigned int posWindMax;
 	unsigned int posMatch;
@@ -57,7 +57,6 @@ string Lzss::compress(std::string toCompress){
 					it=itAux;
 					longCurrMatch=0;
 				}
-				//posCurrMatch++;
 			}
 			currentPos++;
 		}
@@ -65,7 +64,7 @@ string Lzss::compress(std::string toCompress){
 			
 			insertCodePosLong(longMatch,posMatch,&ans,emptyBits);
 			//avanza el buffer
-			for (unsigned int i=floor;i<floor+longMatch;i++){
+			for (int i=floor;i<floor+longMatch;i++){
 				this->buffer.push_back(windows[i]);
 				if (this->buffer.size()>Lzss::sizeBuffer)
 					this->buffer.erase(this->buffer.begin());
@@ -78,7 +77,7 @@ string Lzss::compress(std::string toCompress){
 				this->buffer.erase(this->buffer.begin());
 			floor++;
 		}
-		if (floor==(int)toCompress.length())
+		if (floor==toCompress.length())
 			endWindow=true;
 	}
 
@@ -101,8 +100,8 @@ string Lzss::compress(std::string toCompress){
 		//aux=aux<<emptyBits-1; tmp
 		lastChar=lastChar|aux;
 	}
-	answer.append(1,(unsigned char)ans.size());
-	for(unsigned int i=0;i<ans.size();i++)
+	answer.append(1,(unsigned char)toCompress.length());
+	for(int i=0;i<ans.size();i++)
 		answer.append(1,ans[i]);
 	return answer;
 }
@@ -111,17 +110,20 @@ void Lzss::insertCodePosLong(unsigned int longMatch,unsigned int posMatch,vector
 	unsigned char bit=0x00;
 	unsigned char lastChar;
 	unsigned char aux;
-	lastChar=ans->back();
-	ans->pop_back();
-	if (emptyBits==0) emptyBits=8; //aca le saque un -1 tmp
+	if (emptyBits==0){
+		emptyBits=8; //aca le saque un -1 tmp
+		lastChar=0x00;
+	}else{
+		lastChar=ans->back();
+		ans->pop_back();
+	}	
 	bit=bit<<emptyBits-1;
 	lastChar=lastChar| bit;
+	emptyBits--;
 	if (emptyBits==0){
 		emptyBits=8;
 		ans->push_back(lastChar);
 		lastChar=0x00;
-	}else{
-		emptyBits--;
 	}
 	
 	aux=(unsigned char)(longMatch-Lzss::lMin);
@@ -164,9 +166,10 @@ void Lzss::insertChar(char c,std::vector<unsigned char>* ans, unsigned int& empt
 		unsigned char lastChar;
 		if (ans->empty())
 			lastChar=0x00;
-		else
+		else{
 			lastChar=ans->back();
-		ans->pop_back();
+			ans->pop_back();
+		}
 		lastChar=lastChar | auxC;
 		ans->push_back(lastChar);
 		ans->push_back(c);
@@ -197,6 +200,10 @@ string Lzss::uncompress(const unsigned char* compress, unsigned int cant){
 }	
 
 unsigned int Lzss::getFlag(const unsigned char* compress,unsigned int& floor, unsigned int& nBit){
+	if (nBit==0){
+		nBit=8;
+		floor++;
+	}
 	unsigned char c=compress[floor];
 	c=c<<8-(nBit);
 	c=c>>7;
@@ -241,6 +248,10 @@ void Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& n
 		nBit-=bitsLong;
 	}
 	lMatch=(unsigned int)c + Lzss::lMin;
+	if (nBit==0){
+		floor++;
+		nBit=8;
+	}
 	c=compress[floor];
 	c=c<<8-nBit;
 	c=c>>8-this->bitsPos;
@@ -259,7 +270,7 @@ void Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& n
 		floor++;
 	}
 	for (unsigned int i=0;i<lMatch;i++){
-//		int test=this->buffer.size();
+		int test=this->buffer.size();
 		char copy=this->buffer[buffer.size()-(1+pos)];
 		this->buffer.push_back(copy);
 		st.append(1,copy);
