@@ -30,35 +30,38 @@ string Lzss::compress(std::string toCompress){
 		endWindow=true;
 
 	while (endWindow==false){
-		int test;
 		posMatch=0;
+		char charComp;
 		longMatch=0;
-		unsigned int currentPos=0;
-		unsigned int posCurrMatch=0;
-		unsigned int longCurrMatch=0;
-		bool currentMatch=false;
-		vector<unsigned char>::reverse_iterator itAux;
-		test=this->buffer.size();
-		for(vector<unsigned char>::reverse_iterator it=this->buffer.rbegin();it!=this->buffer.rend();it++){
-			if ((floor+longCurrMatch<toCompress.length())&&((*it)==windows[floor+longCurrMatch])&&(longCurrMatch<Lzss::lMax)){
-				if (currentMatch==false){
-					itAux=it;
-					currentMatch=true;
-					posCurrMatch=currentPos;
+		int currPos=this->buffer.size()-1;
+		unsigned int currPosMatch;
+		unsigned int currLongMatch=0;
+		bool currMatch=false;
+		for(vector<unsigned char>::iterator it=this->buffer.begin();it!=this->buffer.end();it++){
+			if(*it==windows[floor]){
+				currPosMatch=currPos;
+				currLongMatch++;
+				bool endMatch=false;
+				while(endMatch==false){
+					if ((floor+currLongMatch<toCompress.length())&&(currPos-1>=0))
+						charComp=this->buffer[Lzss::sizeBuffer-currPos];
+					else if (floor+currLongMatch<toCompress.length())
+						charComp=windows[floor+(currPos-1)*(-1)];
+					else
+						endMatch=true;
+					if ((charComp==windows[floor+currLongMatch])&&(currLongMatch<=Lzss::lMax)&&(!endMatch))
+						currLongMatch++;
+					else
+						endMatch=true;				
 				}
-				longCurrMatch++;
-				if ((longMatch<longCurrMatch)&&(longCurrMatch>=Lzss::lMin)){
-						longMatch=longCurrMatch;
-						posMatch=posCurrMatch;
+				if ((longMatch<currLongMatch)&&(currLongMatch>=Lzss::lMin)){
+						longMatch=currLongMatch;
+						posMatch=currPosMatch;
 				}
-			}else{
-				if (currentMatch==true){
-					currentMatch=false;
-					it=itAux;
-					longCurrMatch=0;
-				}
+				currLongMatch=0;
+				currPos=currPosMatch;		
 			}
-			currentPos++;
+			currPos--;
 		}
 		if(longMatch>Lzss::lMin){
 			
@@ -187,14 +190,16 @@ void Lzss::insertChar(char c,std::vector<unsigned char>* ans, unsigned int& empt
 string Lzss::uncompress(const unsigned char* compress, unsigned int cant){
 	unsigned int floor=0;
 	unsigned int nBit=8;
+	unsigned int readChar=1;
 	string st;
 	this->buffer.clear();
-	for (unsigned int i=0; i<cant;i++){
+	for (unsigned int i=0; i<cant;i+=readChar){
 		unsigned int flag=getFlag(compress,floor,nBit);
-		if (flag==1)
+		if (flag==1){
 			st.append(1,getChar(compress,nBit,floor));
-		else
-			getPosLong(compress,st,nBit,floor);
+			readChar=1;
+		}else
+			readChar=getPosLong(compress,st,nBit,floor);
 	}
 	return st;
 }	
@@ -232,7 +237,7 @@ char Lzss::getChar (const unsigned char* compress, unsigned int& nBit,unsigned i
 	return c;
 }
 
-void Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& nBit,unsigned int& floor){
+unsigned int Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& nBit,unsigned int& floor){
 	unsigned int pos;
 	unsigned int lMatch;
 	unsigned char c=compress[floor];
@@ -278,6 +283,7 @@ void Lzss::getPosLong (const unsigned char* compress,string& st, unsigned int& n
 			this->buffer.erase(buffer.begin());
 		
 	}
+	return lMatch;
 }
 
 
@@ -287,7 +293,7 @@ unsigned int Lzss::getCantBitsPos(){
 	unsigned int ans=0;
 	while (end==false){
 		aux=pow(ans,2);
-		if (ans>=Lzss::sizeBuffer-1)
+		if (ans>=Lzss::sizeBuffer)
 			end=true;
 		else
 			ans++;
@@ -301,7 +307,7 @@ unsigned int Lzss::getCantBitsLong(){
 	unsigned int ans=0;
 	while (end==false){
 		aux=pow(ans,2);
-		if (ans>=Lzss::lMax-Lzss::lMin-1)
+		if (ans>=Lzss::lMax-Lzss::lMin)
 			end=true;
 		else
 			ans++;
