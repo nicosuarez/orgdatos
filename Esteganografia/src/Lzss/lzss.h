@@ -24,7 +24,7 @@ class Lzss{
 		//modifica nBit aumentandolo
 		unsigned int getFlag(const unsigned char* compress,unsigned int& floor, unsigned int& nBit);
 		//carga el st con la descompresion de ese posLong
-		void getPosLong (const unsigned char* compress,std::string& st, unsigned int& nBit,unsigned int& floor);
+		unsigned int getPosLong (const unsigned char* compress,std::string& st, unsigned int& nBit,unsigned int& floor);
 
 	public:
 		Lzss();
