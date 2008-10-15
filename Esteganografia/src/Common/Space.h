@@ -8,6 +8,7 @@
 #if !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_
 #include <string>
+#include <iostream>
 using namespace std;
 /**
  * Unidad de espacio del cual se puede recuperar o almacenar infomacion.
@@ -16,19 +17,20 @@ class Space
 {
 
 public:
-	Space();
+	Space(string filePath, string format, long initialPosition, long size);
+	Space(string filePath);
 	virtual ~Space();
 
-	string GetFilePath();
-	string GetFormat();
-	int GetInitialPosition();
-	int GetSize();
+	const char* GetFilePath() const;
+	string GetFormat() const;
+	long GetInitialPosition() const;
+	long GetSize() const;
 
 private:
 	string filePath;
-	string fotmat;
-	string initialPosition;
-	int size;
+	string format;
+	long initialPosition;
+	long size;
 
 };
 #endif // !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)

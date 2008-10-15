@@ -8,10 +8,21 @@
 #include "Space.h"
 
 
-Space::Space(){
-
+Space::Space(string filePath, string format, long initialPosition, long size)
+{
+	this->filePath = filePath;
+	this->format = format;
+	this->initialPosition = initialPosition;
+	this->size = size;
 }
 
+Space::Space(string filePath)
+{
+	this->filePath = filePath;
+	this->format = "";
+	this->initialPosition = 0;
+	this->size = 0;
+}
 
 
 Space::~Space(){
@@ -19,40 +30,37 @@ Space::~Space(){
 }
 
 
-
-
-
 /**
  * Obtener el path del archivo del cual pertenece el espacio.
  */
-string Space::GetFilePath(){
-
-	return  NULL;
+const char* Space::GetFilePath() const
+{
+	return  this->filePath.c_str();
 }
 
 
 /**
  * Obtiene el formato/extension del archivo.
  */
-string Space::GetFormat(){
-
-	return  NULL;
+string Space::GetFormat() const
+{
+	return  this->format;
 }
 
 
 /**
  * Apunta al comienzo de la posicion del espacio dentro del archivo.
  */
-int Space::GetInitialPosition(){
-
-	return 0;
+long Space::GetInitialPosition() const 
+{
+	return this->initialPosition;
 }
 
 
 /**
  * Tamano total en bytes de lo que ocupa el espacio.
  */
-int Space::GetSize(){
-
-	return 0;
+long Space::GetSize() const
+{
+	return this->size;
 }

@@ -18,6 +18,7 @@ class Image : public IStenographic
 
 public:
 	Image();
+	virtual bool ValidateFormat(Space space);
 	virtual ~Image();
 
 };

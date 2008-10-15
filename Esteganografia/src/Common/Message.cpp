@@ -25,16 +25,16 @@ Message::~Message(){
 /**
  * Obtiene el path donde almacenar o leer el mensaje.
  */
-string Message::GetFilePath(){
+const char* Message::GetFilePath() const{
 
-	return  NULL;
+	return  this->filePath.c_str();
 }
 
 
 /**
  * Obtiene el tamano total del mensaje
  */
-int Message::GetSize(){
+long Message::GetSize() const{
 
-	return 0;
+	return this->size;
 }
