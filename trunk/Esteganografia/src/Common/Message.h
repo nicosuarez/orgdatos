@@ -20,12 +20,12 @@ public:
 	Message();
 	virtual ~Message();
 
-	string GetFilePath();
-	int GetSize();
+	const char* GetFilePath() const;
+	long GetSize() const;
 
 private:
 	string filePath;
-	int size;
+	long size;
 
 };
 #endif // !defined(EA_B68DB904_98EA_11dd_B49B_001B2425640C__INCLUDED_)

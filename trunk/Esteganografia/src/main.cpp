@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <vector>
 #include "Lzss/lzss.h"
+#include "Steganographic/Bmp.h"
+#include "Common/Space.h"
 
 using namespace std;
 
@@ -29,9 +31,17 @@ void testCompresion()
 	cout<<"LA RESPUESTA ES: TA TAN TA TAN...  "<<a<<endl;
 }
 
+void testStenographic(int argc, char *argv[])
+{
+	Space space(argv[1]);
+	Bmp bmp;
+	bmp.ValidateFormat(space);
+}
+
 int main(int argc, char *argv[])
 {
-	testCompresion();
+	//testCompresion();
+	testStenographic(argc, argv);
 	return EXIT_SUCCESS;
 }
 
