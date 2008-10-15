@@ -6,9 +6,9 @@
 
 class Lzss{
 	private:
-		static const unsigned int sizeWin=4;
-		static const unsigned int sizeBuffer=4;
-		static const unsigned int lMax=4;
+		static const unsigned int sizeWin=16;
+		static const unsigned int sizeBuffer=63;
+		static const unsigned int lMax=9;
 		static const unsigned int lMin=2;
 		const int bitsLong;
 		const int bitsPos;
@@ -25,6 +25,9 @@ class Lzss{
 		unsigned int getFlag(const unsigned char* compress,unsigned int& floor, unsigned int& nBit);
 		//carga el st con la descompresion de ese posLong
 		unsigned int getPosLong (const unsigned char* compress,std::string& st, unsigned int& nBit,unsigned int& floor);
+
+		int readVarInt(unsigned int* valor);
+		int writeVarInt(unsigned int valor);
 
 	public:
 		Lzss();
