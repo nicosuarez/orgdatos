@@ -18,7 +18,7 @@ Image::~Image(){
 
 }
 
-bool Image::ValidateFormat(Space space)
+bool Image::ValidateFormat(Space* space)
 {
 	return false;
 }

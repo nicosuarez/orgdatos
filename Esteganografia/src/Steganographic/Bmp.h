@@ -16,13 +16,7 @@
 #define DATASIZE 64
 #define STARTBYTE 64
 
-typedef unsigned char UBYTE;
-
-struct steg_header
-{
-	unsigned long datalen;
-	char key[10];
-};
+typedef char UBYTE;
 
 /**
  * Estructuras del header del formato BMP
@@ -65,9 +59,11 @@ public:
 	Bmp();
 	virtual ~Bmp();
 
-	void Extract(Space& space, Message& msg);
-	void Hide(Space& space, Message& msg);
-	bool ValidateFormat(Space space);
+	void Extract(Space* space, Message* msg);
+	void Hide(Space* space, Message* msg);
+	bool ValidateFormat(Space* space);
+	virtual void LsbHide(UBYTE dataByte,fstream& fin);
+	virtual long LsbExtract(fstream& fin, fstream& fdata);
 
 };
 #endif // !defined(EA_B2D82F06_98EA_11dd_B49B_001B2425640C__INCLUDED_)

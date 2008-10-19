@@ -22,7 +22,6 @@ StenographicManager::~StenographicManager(){
 
 
 
-Message StenographicManager::Hide(Message msg, Space space){
-	Message message;
-	return  message;
+Message StenographicManager::Hide(Message* msg, Space* space){
+	return  *msg;
 }

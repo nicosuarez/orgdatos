@@ -22,7 +22,7 @@ public:
 	StenographicManager();
 	virtual ~StenographicManager();
 
-	Message Hide(Message msg, Space space);
+	Message Hide(Message* msg, Space* space);
 
 };
 #endif // !defined(EA_B7E9AE7A_98EA_11dd_B49B_001B2425640C__INCLUDED_)

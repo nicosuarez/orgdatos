@@ -58,9 +58,42 @@ long Space::GetInitialPosition() const
 
 
 /**
- * Tamano total en bytes de lo que ocupa el espacio.
+ * Tamano total en bytes del archivo donde esta contenido el espacio.
+ */
+long Space::GetTotalSize() const
+{
+	long pos = 0;
+	ifstream fin(this->filePath.c_str());
+	if(fin)
+	{
+	   fin.seekg(0, ios::end); 
+	   pos = fin.tellg();
+	}
+	fin.close();
+	return pos;
+}
+
+/**
+ * Tamano total en bytes de lo que ocupa el espacio en el archivo.
  */
 long Space::GetSize() const
 {
 	return this->size;
 }
+
+/**
+ * Tamano total en bytes de lo que ocupa el espacio en el archivo.
+ */
+void Space::SetSize(long size)
+{
+	this->size = size;
+}
+
+/**
+ * Apunta al comienzo de la posicion del espacio dentro del archivo.
+ */
+void Space::SetInitialPosition(long position)
+{
+	this->initialPosition = position;
+}
+

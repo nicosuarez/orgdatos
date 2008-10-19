@@ -26,8 +26,7 @@ CompressionManager::~CompressionManager(){
  * Comprime el mensaje.
  */
 Message CompressionManager::Compress(Message msg){
-	Message message;
-	return message;
+	return msg;
 }
 
 
@@ -35,6 +34,5 @@ Message CompressionManager::Compress(Message msg){
  * Descomprime el mensaje.
  */
 Message CompressionManager::Decompress(Message msg){
-	Message message;
-	return message;
+	return msg;
 }

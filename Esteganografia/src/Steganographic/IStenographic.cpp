@@ -26,7 +26,7 @@ IStenographic::~IStenographic(){
  * Implementar el comportamiento para extraer la informacion en un lugar
  * determinado.
  */
-void IStenographic::Extract(Space space, Message msg){
+void IStenographic::Extract(Space* space, Message* msg){
 
 }
 
@@ -35,6 +35,6 @@ void IStenographic::Extract(Space space, Message msg){
  * Implementa el comportamiento para ocultar unn mensaje en el espacio indicado
  * por el parametro space.
  */
-void IStenographic::Hide(Space space, Message msg){
+void IStenographic::Hide(Space* space, Message* msg){
 
 }

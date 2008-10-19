@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <vector>
 #include "Lzss/lzss.h"
-#include "Steganographic/Bmp.h"
+#include "Steganographic/BmpHighColor.h"
 #include "Common/Space.h"
 
 using namespace std;
@@ -31,11 +31,45 @@ void testCompresion()
 	cout<<"LA RESPUESTA ES: TA TAN TA TAN...  "<<a<<endl;
 }
 
+void testBmpLSB1bit(int argc, char *argv[])
+{
+	Space spaceHide(argv[1]);
+	spaceHide.SetInitialPosition(STARTBYTE);
+	Message msg(argv[2]);
+	Message msgOut(argv[3]);
+	spaceHide.SetSize(spaceHide.GetTotalSize());
+	Bmp bmp;
+	//bmp.ValidateFormat(&space);
+	bmp.Hide(&spaceHide,&msg);
+	
+	Space spaceExtract(argv[1]);
+	spaceExtract.SetInitialPosition(STARTBYTE);
+	spaceExtract.SetSize(msg.GetSize()*8);
+	bmp.Extract(&spaceExtract,&msgOut);
+}
+
+void testBmpLSB2bit(int argc, char *argv[])
+{
+	Space spaceHide(argv[1]);
+	spaceHide.SetInitialPosition(STARTBYTE);
+	Message msg(argv[2]);
+	Message msgOut(argv[3]);
+	spaceHide.SetSize(spaceHide.GetTotalSize());
+	BmpHighColor* bmp = new BmpHighColor();
+	//bmp.ValidateFormat(&space);
+	bmp->Hide(&spaceHide,&msg);
+	
+	Space spaceExtract(argv[1]);
+	spaceExtract.SetInitialPosition(STARTBYTE);
+	spaceExtract.SetSize(msg.GetSize()*4);
+	bmp->Extract(&spaceExtract,&msgOut);
+}
+
+
 void testStenographic(int argc, char *argv[])
 {
-	Space space(argv[1]);
-	Bmp bmp;
-	bmp.ValidateFormat(space);
+	testBmpLSB1bit(argc,argv);
+	//testBmpLSB2bit(argc,argv);
 }
 
 int main(int argc, char *argv[])
