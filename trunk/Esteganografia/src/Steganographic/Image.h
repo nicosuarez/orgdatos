@@ -18,8 +18,10 @@ class Image : public IStenographic
 
 public:
 	Image();
-	virtual bool ValidateFormat(Space space);
+	virtual bool ValidateFormat(Space* space);
 	virtual ~Image();
+	
+	
 
 };
 #endif // !defined(EA_B4E5CF88_98EA_11dd_B49B_001B2425640C__INCLUDED_)

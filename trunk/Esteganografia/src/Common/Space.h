@@ -8,6 +8,7 @@
 #if !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_
 #include <string>
+#include <fstream>
 #include <iostream>
 using namespace std;
 /**
@@ -25,6 +26,9 @@ public:
 	string GetFormat() const;
 	long GetInitialPosition() const;
 	long GetSize() const;
+	long GetTotalSize() const;
+	void SetSize(long size);
+	void SetInitialPosition(long position);
 
 private:
 	string filePath;

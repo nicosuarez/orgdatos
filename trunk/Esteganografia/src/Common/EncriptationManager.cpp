@@ -26,8 +26,7 @@ EncriptationManager::~EncriptationManager(){
  * Retorna el mensaje desencriptado con la password.
  */
 Message EncriptationManager::Decrypt(string pass, Message msg){
-	Message message;
-	return message;
+	return msg;
 }
 
 
@@ -35,6 +34,5 @@ Message EncriptationManager::Decrypt(string pass, Message msg){
  * Retorna el mensaje encriptado con la password.
  */
 Message EncriptationManager::Encrypt(string pass, Message msg){
-	Message message;
-	return message;
+	return msg;
 }
