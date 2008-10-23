@@ -16,8 +16,6 @@
 #define DATASIZE 64
 #define STARTBYTE 64
 
-typedef char UBYTE;
-
 /**
  * Estructuras del header del formato BMP
  */

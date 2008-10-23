@@ -12,19 +12,25 @@ ImageManager::ImageManager(){
 
 }
 
-
-
 ImageManager::~ImageManager(){
 
 }
 
 
-
-
-
 /**
  * Quita una imagen del ocultador
  */
-void ImageManager::DeleteImage(){
+void ImageManager::DeleteImage(Image* image)
+{
 
 }
+
+/**
+ * Agrega una imagen del ocultador
+ */
+void ImageManager::AddImage(Image* image)
+{
+	
+}
+
+
