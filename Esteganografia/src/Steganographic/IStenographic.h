@@ -7,8 +7,13 @@
 
 #if !defined(EA_B5E3EB86_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B5E3EB86_98EA_11dd_B49B_001B2425640C__INCLUDED_
+
+#include <iostream>
+#include <fstream>
 #include "../Common/Message.h"
 #include "../Common/Space.h"
+
+
 /**
  * Interface que permite a un objeto (Ej: imagen) implementar el comportamiento
  * para que se puedan ocultar y extraer mensajes dentro de el mismo. 

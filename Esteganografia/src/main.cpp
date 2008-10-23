@@ -3,7 +3,10 @@
 #include <vector>
 #include "Lzss/lzss.h"
 #include "Steganographic/BmpHighColor.h"
+#include "Steganographic/Jpg.h"
 #include "Common/Space.h"
+#include "Common/FileSystem.h"
+
 
 using namespace std;
 
@@ -65,11 +68,38 @@ void testBmpLSB2bit(int argc, char *argv[])
 	bmp->Extract(&spaceExtract,&msgOut);
 }
 
+void testJPG(int argc,char* argv[])
+{
+	
+	Space spaceHide(argv[1]);
+	spaceHide.SetInitialPosition(STARTBYTE);
+	Message msg(argv[2]);
+	Message msgOut(argv[3]);
+	spaceHide.SetSize(spaceHide.GetTotalSize());
+	Jpg* jpg = new Jpg();
+	jpg->Hide(&spaceHide,&msg);
+	
+	Space spaceExtract(argv[1]);
+	spaceExtract.SetInitialPosition(STARTBYTE);
+	spaceExtract.SetSize(msg.GetSize()*4);
+	jpg->Extract(&spaceExtract,&msgOut);
+}
+
+void testFileSystem(char* path)
+{
+	vector<string> fileList = FileSystem::GetFiles(path);
+	for(size_t i=0; i < fileList.size(); i++)
+	{
+		cout << fileList[i] << "\n";
+	}
+}
 
 void testStenographic(int argc, char *argv[])
 {
-	testBmpLSB1bit(argc,argv);
+	//testBmpLSB1bit(argc,argv);
 	//testBmpLSB2bit(argc,argv);
+	//testJPG(argc,argv);
+	testFileSystem("/home/zebas/workspace/Esteganografia/Images/");
 }
 
 int main(int argc, char *argv[])

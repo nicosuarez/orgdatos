@@ -12,7 +12,10 @@ Image::Image(){
 
 }
 
-
+Image::Image(char* filePath)
+{
+	this->filePath = filePath;
+}
 
 Image::~Image(){
 

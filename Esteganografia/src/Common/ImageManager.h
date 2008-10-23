@@ -8,6 +8,9 @@
 #if !defined(EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
+#include "CImg.h"
+#include "../Steganographic/Image.h"
+
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
  */
@@ -18,7 +21,8 @@ public:
 	ImageManager();
 	virtual ~ImageManager();
 
-	void DeleteImage();
+	void DeleteImage(Image* image);
+	void AddImage(Image* image);
 
 };
 #endif // !defined(EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_)
