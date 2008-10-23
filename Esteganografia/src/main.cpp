@@ -99,7 +99,7 @@ void testStenographic(int argc, char *argv[])
 	//testBmpLSB1bit(argc,argv);
 	//testBmpLSB2bit(argc,argv);
 	//testJPG(argc,argv);
-	testFileSystem("/home/zebas/workspace/Esteganografia/Images/");
+	testFileSystem(argv[1]);
 }
 
 int main(int argc, char *argv[])
