@@ -1,0 +1,42 @@
+[Breakpoint 0]
+Enabled=true
+File=main.cpp
+Line=58
+Temporary=false
+
+[Breakpoint 1]
+Enabled=true
+File=main.cpp
+Line=598
+Temporary=false
+
+[Breakpoint 2]
+Enabled=true
+File=bppTree/bpptree.cpp
+Line=232
+Temporary=false
+
+[Breakpoint 3]
+Enabled=true
+File=bppTree/bpptree.cpp
+Line=265
+Temporary=false
+
+[Breakpoint 4]
+Enabled=true
+File=bppTree/bpptree.cpp
+Line=28
+Temporary=false
+
+[General]
+DebuggerCmdStr=
+DriverName=GDB
+FileVersion=1
+OptionsSelected=
+ProgramArgs=
+TTYLevel=7
+WorkingDirectory=/home/HPK/Escritorio/test
+
+[Memory]
+ColumnWidths=80,0
+NumExprs=0
