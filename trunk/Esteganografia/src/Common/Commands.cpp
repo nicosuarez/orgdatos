@@ -7,6 +7,7 @@
 
 #include "Commands.h"
 
+using namespace std;
 
 Commands::Commands(){
 
@@ -19,21 +20,42 @@ Commands::~Commands(){
 }
 
 
-
-
-
 /**
  * Agrega un directorio de im�genes al ocultador.
  */
-void Commands::AddDirectory(string path){
-
+void Commands::AddDirectory(const char* path)
+{
+	vector<string> fileList = FileSystem::GetFiles(path, File);
+	string dirPath(path);
+	string fullPath(path);
+	Image* image = NULL;
+	
+	for(size_t i=0; i < fileList.size(); i++)
+	{
+		cout << fileList[i] << "\n";
+		fullPath.append(fileList[i]);
+		cout << fullPath << "\n";
+		if(ImageFactory::SupportedFormats(fullPath.c_str()))
+		{
+			image = ImageFactory::GetImage(fullPath.c_str());
+			if(image != NULL)
+			{
+				image->Load();
+			}
+		}
+		
+		fullPath = dirPath;
+	}
+	
+	
+	
 }
 
 
 /**
  * Agrega un mensaje ocultandolo.
  */
-void Commands::AddFile(string filePath){
+void Commands::AddFile(const char* filePath){
 
 }
 
@@ -49,7 +71,7 @@ void Commands::ChangePassword(string newPass, string oldPass){
 /**
  * Obtiene el mensaje oculto.
  */
-void Commands::GetFile(string outFile, string filePath){
+void Commands::GetFile(const char* outFile, const char* filePath){
 
 }
 
@@ -65,7 +87,7 @@ void Commands::Quit(){
 /**
  * Quita un directorio de im�genes del ocultador.
  */
-void Commands::RemoveDirectory(string path){
+void Commands::RemoveDirectory(const char* path){
 
 }
 
@@ -73,7 +95,7 @@ void Commands::RemoveDirectory(string path){
 /**
  * Quita un archivo de texto del ocultador.
  */
-void Commands::RemoveFile(string path){
+void Commands::RemoveFile(const char* path){
 
 }
 

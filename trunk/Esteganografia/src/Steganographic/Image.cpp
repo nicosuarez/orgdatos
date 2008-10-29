@@ -12,7 +12,7 @@ Image::Image(){
 
 }
 
-Image::Image(char* filePath)
+Image::Image(const char* filePath)
 {
 	this->filePath = filePath;
 }
@@ -21,7 +21,7 @@ Image::~Image(){
 
 }
 
-bool Image::ValidateFormat(Space* space)
+bool Image::Load()
 {
 	return false;
 }

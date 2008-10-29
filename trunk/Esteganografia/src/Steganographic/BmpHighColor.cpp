@@ -12,7 +12,10 @@ BmpHighColor::BmpHighColor(){
 
 }
 
-
+BmpHighColor::BmpHighColor(const char* filePath)
+{
+	this->filePath = filePath;
+}
 
 BmpHighColor::~BmpHighColor(){
 

@@ -13,6 +13,11 @@ Bmp::Bmp(){
 
 }
 
+Bmp::Bmp(const char* filePath)
+{
+	this->filePath = filePath;
+}
+
 Bmp::~Bmp(){
 
 }
@@ -54,26 +59,81 @@ long Bmp::LsbExtract(fstream& fin, fstream& fdata)
 	return 8;
 }
 
+ImageColor Bmp::ImageInfo(const char* filePath)
+{
+	BmpInfoHeader bmpInfoHeader;
+	fstream fin(filePath);
+	ImageColor color = LowColor;
+	
+	if(fin.bad())
+	{
+		cout << "No se pudo abrir el archivo " << filePath << "\n";
+		return InvalidColor;
+	}
+
+	fin.seekg(14);
+	fin.read((char*)&bmpInfoHeader,sizeof(bmpInfoHeader));
+	
+	cout << "Size of " << filePath << " = " << bmpInfoHeader.biSizeImage/1024 << "KB\n";
+	cout << "Width of Bitmap File = " << bmpInfoHeader.biWidth << "\n";
+	cout << "Height of Bitmap File = " << bmpInfoHeader.biHeight << "\n";
+	switch(bmpInfoHeader.biBitCount)
+	{
+		case 1:
+			cout << "Monochrome Image 1bit (2 color)\n";
+			break;
+		case 4:
+			cout << "VGA Image ->4bit (16 color)\n";
+			break;
+		case 8:
+			cout << "SVGA or greyscale ->8bit (256 color)\n";
+			break;
+		case 16:
+			cout << "High Color ->16bit (65536 colour)\n";
+			break;
+		case 24:
+		{
+			cout << "True Color ->24bit (16.7 Mio colour)\n";
+			color = HighColor;
+			break;
+		}
+		default:
+		{
+			color = HighColor;
+			cout << "Unknown color depth = " << bmpInfoHeader.biBitCount << "\n";
+			break;
+		}
+	}
+	
+	if(bmpInfoHeader.biCompression != 0)
+		cout << "BitMap File <"<< filePath << "> is Compressed\n";
+	else
+		cout << "BitMap File <"<< filePath << "> is UnCompressed\n";
+	
+	fin.close();
+	return color;
+}
+
 bool Bmp::ValidateFormat(Space* space)
 {
 	fstream fin(space->GetFilePath());
 	string format;
-	string header("BM");
+	string header(BmpFileType);
 	bool isValid = false;
     
 	if(fin.good())
 	{
 		fin >> format;
 		if(format.compare(0,2,header) == 0)
+		{
+			cout << "Formato BMP correcto.\n";
 			isValid = true;
+		}
 	}
 	else
 	{
 		cerr << "Error al abrir el archivo BMP." << space->GetFilePath() <<"\n";
 	}
-	
-	if(!isValid)
-		cerr << "Formato BMP incorrecto.\n";
 	
 	fin.close();
 	return isValid;

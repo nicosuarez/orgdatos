@@ -9,7 +9,7 @@
 
 using namespace std;
 
-vector<string> FileSystem::GetFiles(char* path)
+vector<string> FileSystem::GetFiles(const char* path, FSMode mode)
 {
 	 DIR *pdir;
 	 struct dirent *pent;
@@ -31,7 +31,19 @@ vector<string> FileSystem::GetFiles(char* path)
 		  if (lstat(szFullName, &stFileInfo) < 0)
 			  perror ( szFullName );
 		
-		  if (S_ISREG(stFileInfo.st_mode))
+		  if (S_ISREG(stFileInfo.st_mode) && (mode==All || mode==File ))
+		  {
+			  string file(pent->d_name);
+			  fileList.push_back(file);
+		  }
+		  
+		  if (S_ISDIR(stFileInfo.st_mode) && (mode==All || mode==Dir ))
+  		  {
+  			  string file(pent->d_name);
+  			  fileList.push_back(file);
+  		  }
+		  
+		  if (S_ISLNK(stFileInfo.st_mode) && mode==All)
 		  {
 			  string file(pent->d_name);
 			  fileList.push_back(file);
