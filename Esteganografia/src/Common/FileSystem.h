@@ -12,13 +12,15 @@
 
 using namespace std;
 
+typedef enum FSMode {File=0 , All=1, Dir=2 } FSMode;
+
 /**
  * Clase que maneja el FileSystems.
  */
 class FileSystem
-{
+{	
 public:
-	static vector<string> GetFiles(char* path);
+	static vector<string> GetFiles(const char* path, FSMode mode);
 };
 
 #endif /*FILESYSTEM_H_*/

@@ -31,6 +31,7 @@ void ImageManager::DeleteImage(Image* image)
 void ImageManager::AddImage(Image* image)
 {
 	
+	
 }
 
 

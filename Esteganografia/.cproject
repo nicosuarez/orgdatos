@@ -15,7 +15,7 @@
 </extensions>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<configuration artifactName="Esteganografia" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.365937912" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
+<configuration artifactExtension="" artifactName="Esteganografia" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.365937912" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 <folderInfo id="cdt.managedbuild.config.gnu.exe.debug.365937912." name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.604390846" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug.1775281623" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
@@ -34,7 +34,7 @@
 <option id="gnu.cpp.compiler.option.debugging.prof.356846747" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof"/>
 <option id="gnu.cpp.compiler.option.debugging.gprof.785437214" name="Generate gprof information (-pg)" superClass="gnu.cpp.compiler.option.debugging.gprof"/>
 <option id="gnu.cpp.compiler.option.warnings.syntax.1572531679" name="Check syntax only (-fsyntax-only)" superClass="gnu.cpp.compiler.option.warnings.syntax"/>
-<option id="gnu.cpp.compiler.option.warnings.pedantic.167312507" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic"/>
+<option id="gnu.cpp.compiler.option.warnings.pedantic.167312507" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
 <option id="gnu.cpp.compiler.option.warnings.pedantic.error.1260127397" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.cpp.compiler.option.warnings.pedantic.error"/>
 <option id="gnu.cpp.compiler.option.warnings.nowarn.2000995742" name="Inhibit all warnings (-w)" superClass="gnu.cpp.compiler.option.warnings.nowarn"/>
 <option id="gnu.cpp.compiler.option.warnings.allwarn.983523687" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn"/>
@@ -54,8 +54,11 @@
 <option id="gnu.cpp.link.option.nodeflibs.2057967963" name="Do not use default libraries (-nodefaultlibs)" superClass="gnu.cpp.link.option.nodeflibs"/>
 <option id="gnu.cpp.link.option.nostdlibs.857986641" name="No startup or default libs (-nostdlib)" superClass="gnu.cpp.link.option.nostdlibs"/>
 <option id="gnu.cpp.link.option.strip.385577932" name="Omit all symbol information (-s)" superClass="gnu.cpp.link.option.strip"/>
-<option id="gnu.cpp.link.option.libs.816081562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
-<option id="gnu.cpp.link.option.paths.1188741888" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
+<option id="gnu.cpp.link.option.libs.816081562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="pthread"/>
+<listOptionValue builtIn="false" value="X11"/>
+</option>
+<option id="gnu.cpp.link.option.paths.1188741888" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths"/>
 <option id="gnu.cpp.link.option.flags.1738153276" name="Linker flags" superClass="gnu.cpp.link.option.flags"/>
 <option id="gnu.cpp.link.option.other.510367864" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other"/>
 <option id="gnu.cpp.link.option.userobjs.2086441713" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
@@ -494,6 +497,7 @@
 </scannerConfigBuildInfo>
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 </cconfiguration>
 <cconfiguration id="cdt.managedbuild.config.gnu.exe.release.2087235729">
 <storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.2087235729" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -953,6 +957,7 @@
 </scannerConfigBuildInfo>
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
 </cconfiguration>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">

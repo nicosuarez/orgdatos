@@ -7,7 +7,10 @@
 
 #if !defined(EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_
-#include "Image.h"
+#include "BmpHighColor.h"
+#include "Jpg.h"
+#include <string>
+
 /**
  * Dado un espacio crea una imagen segun el formato que tenga el espacio.
  */
@@ -18,7 +21,9 @@ public:
 	ImageFactory();
 	virtual ~ImageFactory();
 
-	Image GetImage(Space space);
+	static Image* GetImage(Space* space);
+	static Image* GetImage(const char* filePath);
+	static bool SupportedFormats(const char* filePath);
 
 };
 #endif // !defined(EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_)

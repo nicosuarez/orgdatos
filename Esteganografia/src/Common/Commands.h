@@ -7,7 +7,14 @@
 
 #if !defined(EA_B3354A7E_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B3354A7E_98EA_11dd_B49B_001B2425640C__INCLUDED_
+
 #include <string>
+#include <vector>
+#include "../Steganographic/BmpHighColor.h"
+#include "../Steganographic/Jpg.h"
+#include "../Steganographic/ImageFactory.h"
+#include "Space.h"
+#include "FileSystem.h"
 
 using namespace std;
 /**
@@ -20,15 +27,15 @@ public:
 	Commands();
 	virtual ~Commands();
 
-	void AddDirectory(string path);
-	void AddFile(string filePath);
-	void ChangePassword(string newPass, string oldPass);
-	void GetFile(string outFile, string filePath);
-	void Quit();
-	void RemoveDirectory(string path);
-	void RemoveFile(string path);
-	void ShowDirectories();
-	void ShowFiles();
+	static void AddDirectory(const char* path);
+	static void AddFile(const char* filePath);
+	static void ChangePassword(string newPass, string oldPass);
+	static void GetFile(const char* outFile, const char* filePath);
+	static void Quit();
+	static void RemoveDirectory(const char* path);
+	static void RemoveFile(const char* path);
+	static void ShowDirectories();
+	static void ShowFiles();
 
 };
 #endif // !defined(EA_B3354A7E_98EA_11dd_B49B_001B2425640C__INCLUDED_)

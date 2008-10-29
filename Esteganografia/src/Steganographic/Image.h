@@ -19,9 +19,9 @@ class Image : public IStenographic
 {
 
 public:
-	Image(char* filePath);
+	Image(const char* filePath);
 	Image();
-	virtual bool ValidateFormat(Space* space);
+	virtual bool Load();
 	virtual ~Image();
 	
 	long GetId() const{
@@ -48,6 +48,10 @@ public:
 		return maxFreeSpaceSize;
 	}
 	
+	const char* GetFilePath() const{
+		return filePath;
+	}
+	
 protected:
 	long imageId;
 	long directoryId;
@@ -55,7 +59,7 @@ protected:
 	long firstFreeSpaceId;
 	long lastFreeSpaceId;
 	long maxFreeSpaceSize;
-	char* filePath;
+	const char* filePath;
 
 };
 #endif // !defined(EA_B4E5CF88_98EA_11dd_B49B_001B2425640C__INCLUDED_)

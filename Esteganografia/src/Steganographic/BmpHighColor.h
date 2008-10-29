@@ -19,6 +19,7 @@ class BmpHighColor : public Bmp
 
 public:
 	BmpHighColor();
+	BmpHighColor(const char* filePath);
 	virtual ~BmpHighColor();
 
 	virtual long LsbExtract(fstream& fin, fstream& fdata);

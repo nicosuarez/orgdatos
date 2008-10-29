@@ -13,6 +13,10 @@ Jpg::Jpg(){
 
 }
 
+Jpg::Jpg(const char* filePath){
+	this->filePath = filePath;
+}
+
 Jpg::~Jpg(){
 
 }
@@ -68,3 +72,43 @@ void Jpg::Hide(Space* space, Message* msg)
 	fin.close();
 	fdata.close();
 }
+
+bool Jpg::ValidateFormat(Space* space)
+{
+	
+	fstream fin(space->GetFilePath());
+	fin.seekg(6);
+	string format;
+	string header(JpgFileType);
+	bool isValid = false;
+    
+	if(fin.good())
+	{
+		fin >> format;
+		cout << format << "\n";
+		cout << header << "\n";
+		if(format.compare(0,4,header) == 0)
+		{
+			cout << "Formato JPG/JPEG Correcto.\n";
+			isValid = true;
+		}
+	}
+	else
+	{
+		cerr << "Error al abrir el archivo JPG." << space->GetFilePath() <<"\n";
+	}
+		
+	fin.close();
+	return isValid;
+}
+
+bool Jpg::Load()
+{
+	cout << "Load Path: "<< this->GetFilePath() << "\n";
+	cimg_library::CImg<unsigned char> image(this->GetFilePath());
+	cimg_library::CImgDisplay main_disp(image,"Formato JPEG");
+	image.save_jpeg(this->GetFilePath(),50);
+    
+	return false;
+}
+
