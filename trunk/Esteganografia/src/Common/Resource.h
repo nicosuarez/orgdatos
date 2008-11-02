@@ -15,23 +15,27 @@
 #define ERR_FILE_ERROR "Error al leer en el directorio: "
 #define ERR_PATH_NOT_EXIST "El directorio no exite: "
 #define LBL_PROMT "> "
+#define LBL_PASS "Password: "
+#define EMPTY " "
+#define ERR_INCORRECT_PASSWORD "El password ingresado es incorrecto."
+#define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_INITIAL_PROGRAM "\n\
-////////////////////////////////////////////////////////////////\n\
-//              Bienvenido a Esteganografia v1.0              //\n\
-////////////////////////////////////////////////////////////////\n\
+//////////////////////////////////////////////////////////////////////\n\
+//                  Bienvenido a Esteganografia v1.0                //\n\
+//////////////////////////////////////////////////////////////////////\n\
 \nIngrese un comando: (Para la ayuda ingrese: help)\n"
 #define ERR_PARAMS_SIZE_INCORRECT "\
 La cantidad de parametros es incorrecta.\n\
 Por favor respete la siguiente sintaxis para el comando:\n"
 
-#define HLP_HELP "  \
+#define HLP_HELP "\
 	●   help \n \t \
 	Lista la ayuda para todos los comandos disponibles."
 
 #define HLP_QUIT "\
 	●   quit \n \t Sale de la consola."
 
-#define HLP_ADD_DIRECTORY "  \
+#define HLP_ADD_DIRECTORY "\
 	●   addDirectory <directorio> \n \t \
 	Agrega un directorio de imágenes al ocultador."
 
@@ -41,28 +45,28 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define HLP_ADD_FILE "\
 	●   addFile <nombre_archivo> \n \t \
-    Oculta un archivo de texto en el ocultador."
+	Oculta un archivo de texto en el ocultador."
 
 #define HLP_REMOVE_FILE "\
 	●   removeFile <nombre_archivo> \n \t \
-    Quita un archivo de texto del ocultador."
+	Quita un archivo de texto del ocultador."
 
 #define HLP_GET_FILE "\
 	●   getFile <nombre_archivo> <ruta_destino> \n \t \
-    Obtiene un archivo del ocultador."
+	Obtiene un archivo del ocultador."
 
 #define HLP_SHOW_FILES "\
 	●   showFiles \n \t \
-    Muestra el nombre de los archivos ocultos."
+	Muestra el nombre de los archivos ocultos."
 
 #define HLP_SHOW_DIRECTORIES "\
 	●   showDirectories \n \t \
-    Muestra la ruta de los directorios que contienen \
+	Muestra la ruta de los directorios que contienen\n\
 	que se utilizan para ocultar textos."
 
 #define HLP_CHANGE_PASSWORD "\
 	●   changePassword <old_password> <new_password> \n \t \
-    Modifica el password de ingreso."
+	Modifica el password de ingreso."
 
 
 #endif /*RESOURCE_H_*/
