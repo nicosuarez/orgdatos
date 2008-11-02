@@ -25,22 +25,6 @@ void AddDirectory::ShowHelpCommand()
 }
 
 /**
- * Valida el formato del comando.
- */
-bool AddDirectory::Validate(string cmd)
-{
-	StrToken::toLowerString(cmd);
-	tVecStr params = StrToken::getStrTokens(cmd," ");
-	
-	if(params.size() != 2)
-	{
-		this->ShowParamsErrMsg();
-		return false;
-	}
-	return true;	
-}
-
-/**
  * Ejecuta el comando correspondiente.
  */
 bool AddDirectory::InternalProcess(tVecStr params)

@@ -3,7 +3,14 @@
 
 #include "AddDirectory.h"
 #include "Help.h"
-#include "StrToken.h"
+#include "RemoveDirectory.h"
+#include "RemoveFile.h"
+#include "AddFile.h"
+#include "GetFile.h"
+#include "ShowFiles.h"
+#include "ShowDirectories.h"
+#include "ChangePassword.h"
+#include "../Common/StrToken.h"
 
 typedef std::vector<Command*> tVecCmd;
 

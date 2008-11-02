@@ -5,7 +5,7 @@
 //  Original author: zebas
 ///////////////////////////////////////////////////////////
 
-#include "CommandFactory.h"
+#include "../Commands/CommandFactory.h"
 #include "Console.h"
 
 using namespace std;
