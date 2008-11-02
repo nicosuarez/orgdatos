@@ -20,7 +20,7 @@ vector<string> FileSystem::GetFiles(const char* path, FSMode mode)
 	 pdir=opendir(path);
 	 if (!pdir)
 	 {
-		 cerr << "El directorio " << path << " no existe\n";
+		 cerr << ERR_PATH_NOT_EXIST << "\"" << path << "\"" << "\n" << flush;
 		 return fileList;
 	 }
 	 errno=0;
@@ -50,7 +50,7 @@ vector<string> FileSystem::GetFiles(const char* path, FSMode mode)
 		  }
 	 }
 	 if (errno){
-		 cerr <<  "Error al leer en el directorio: " << path << "\n";
+		 cerr << ERR_FILE_ERROR << path << "\n" << flush;
 		 closedir(pdir);
 		 return fileList;
 	 }

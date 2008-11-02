@@ -21,8 +21,8 @@ public:
 	ImageManager();
 	virtual ~ImageManager();
 
-	void DeleteImage(Image* image);
-	void AddImage(Image* image);
+	static void DeleteImage(Image* image);
+	static void AddImage(Image* image);
 
 };
 #endif // !defined(EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_)

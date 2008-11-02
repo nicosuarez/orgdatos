@@ -104,11 +104,35 @@ bool Jpg::ValidateFormat(Space* space)
 
 bool Jpg::Load()
 {
-	cout << "Load Path: "<< this->GetFilePath() << "\n";
+	long sizeOrig=0, sizeComp=0, freeSpace=0;
+	char fillChar = '\0';
+	
+	sizeOrig = this->GetTotalSize();
+	
+	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
 	cimg_library::CImg<unsigned char> image(this->GetFilePath());
 	cimg_library::CImgDisplay main_disp(image,"Formato JPEG");
+	main_disp.wait(2000);
 	image.save_jpeg(this->GetFilePath(),50);
-    
+	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de 50" <<  "\n";
+	sizeComp = this->GetTotalSize();
+	cout << "Load Path: "<< this->GetFilePath() << " SizeComp: " << sizeComp << "\n";
+	
+	freeSpace = sizeOrig - sizeComp;
+	ofstream fout(this->GetFilePath(),ios::binary | ios::app);
+	
+	cout << "Free Space: "<< freeSpace << "\n";
+	
+	//Relleno la imagen para mantener el tamano original.
+	while(freeSpace)
+	{
+		fout << fillChar;
+		freeSpace--;
+	}
+	fout.close();
+	cout << "Load Path: "<< this->GetFilePath() << " NewSizeComp: " << this->GetTotalSize() << "\n";
+
+	this->SetInitPosFreeSpace(sizeComp);
 	return false;
 }
 
