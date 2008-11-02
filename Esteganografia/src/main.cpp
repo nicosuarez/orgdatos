@@ -4,8 +4,11 @@
 #include "Lzss/lzss.h"
 #include "Steganographic/BmpHighColor.h"
 #include "Steganographic/Jpg.h"
+#include "Common/Space.h"
+#include "Steganographic/Gif.h"
 #include "Commands/AddDirectory.h"
 #include "Common/Console.h"
+
 
 
 using namespace std;
@@ -110,20 +113,46 @@ void testConsole(int argc, char *argv[])
 	Console::Run(argc,argv);
 }
 
+
+
+
+void testGif(int argc, char *argv[])
+{
+	
+	Message msg(argv[2]);
+	Message msgOut(argv[3]);
+	Gif *gif = new Gif();
+	list<Space*> *lista = gif->getSpaces(argv[1]);
+	if( lista == NULL)
+		return;
+//	list<Space*>::iterator it;
+//	for( it=lista->begin(); it !=lista->end(); it++)
+//	{
+//		cout << "Posicion Inicial: " << (*it)->GetInitialPosition() << " - ";
+//		cout << "Tamaño: " << (*it)->GetSize() << endl;
+//	}
+	gif->Hide(lista->front(),&msg);
+	gif->Extract(lista->front(),&msgOut);
+	
+}
+
 void testStenographic(int argc, char *argv[])
 {
 	//testBmpLSB1bit(argc,argv);
 	//testBmpLSB2bit(argc,argv);
 	//testJPG(argc,argv);
 	//testFileSystem(argv[1]);
-	//testAddDirectory(argc,argv);
-	testConsole(argc,argv);
+	//testGif(argc, argv);
+//	testConsole(argc,argv);
 }
+
 
 int main(int argc, char *argv[])
 {
 	//testCompresion();
 	testStenographic(argc, argv);
+	
 	return EXIT_SUCCESS;
 }
+
 
