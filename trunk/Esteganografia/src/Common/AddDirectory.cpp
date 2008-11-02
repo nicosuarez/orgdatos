@@ -1,0 +1,72 @@
+#include "AddDirectory.h"
+
+using namespace std;
+
+AddDirectory::AddDirectory(string cmd) : Command(cmd)
+{
+
+}
+
+AddDirectory::AddDirectory() : Command(" ")
+{
+
+}
+
+AddDirectory::~AddDirectory()
+{
+}
+
+/**
+ * Muestra la ayuda del comando.
+ */
+void AddDirectory::ShowHelpCommand()
+{
+	cout << HLP_ADD_DIRECTORY << "\n";
+}
+
+/**
+ * Valida el formato del comando.
+ */
+bool AddDirectory::Validate(string cmd)
+{
+	StrToken::toLowerString(cmd);
+	tVecStr params = StrToken::getStrTokens(cmd," ");
+	
+	if(params.size() != 2)
+	{
+		this->ShowParamsErrMsg();
+		return false;
+	}
+	return true;	
+}
+
+/**
+ * Ejecuta el comando correspondiente.
+ */
+bool AddDirectory::InternalProcess(tVecStr params)
+{
+	string path = params[1];
+	tVecStr fileList = FileSystem::GetFiles(path.c_str(), File);
+	string dirPath(path);
+	string fullPath(path);
+	Image* image = NULL;
+	
+	for(size_t i=0; i < fileList.size(); i++)
+	{
+		cout << fileList[i] << "\n";
+		fullPath.append(fileList[i]);
+		cout << fullPath << "\n";
+		if(ImageFactory::SupportedFormats(fullPath.c_str()))
+		{
+			image = ImageFactory::GetImage(fullPath.c_str());
+			if(image != NULL)
+			{
+				image->Load();
+			}
+			ImageManager::AddImage(image);
+		}
+		
+		fullPath = dirPath;
+	}
+	return true;
+}

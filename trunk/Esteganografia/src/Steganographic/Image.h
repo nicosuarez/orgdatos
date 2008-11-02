@@ -52,6 +52,12 @@ public:
 		return filePath;
 	}
 	
+	/**
+	 * Tamano total en bytes del archivo donde esta contenido el espacio.
+	 */
+	long GetTotalSize() const;
+	
+	
 protected:
 	long imageId;
 	long directoryId;
@@ -59,6 +65,7 @@ protected:
 	long firstFreeSpaceId;
 	long lastFreeSpaceId;
 	long maxFreeSpaceSize;
+	long initialPosition;
 	const char* filePath;
 
 };

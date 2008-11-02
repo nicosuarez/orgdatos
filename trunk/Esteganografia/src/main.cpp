@@ -4,10 +4,8 @@
 #include "Lzss/lzss.h"
 #include "Steganographic/BmpHighColor.h"
 #include "Steganographic/Jpg.h"
-#include "Common/Space.h"
-#include "Common/FileSystem.h"
-#include "Steganographic/ImageFactory.h"
-#include "Common/Commands.h"
+#include "Common/AddDirectory.h"
+#include "Common/Console.h"
 
 
 using namespace std;
@@ -104,7 +102,12 @@ void testFileSystem(const char* path)
 
 void testAddDirectory(int argc, char *argv[])
 {
-	Commands::AddDirectory(argv[1]);
+	
+}
+
+void testConsole(int argc, char *argv[])
+{
+	Console::Run(argc,argv);
 }
 
 void testStenographic(int argc, char *argv[])
@@ -113,7 +116,8 @@ void testStenographic(int argc, char *argv[])
 	//testBmpLSB2bit(argc,argv);
 	//testJPG(argc,argv);
 	//testFileSystem(argv[1]);
-	testAddDirectory(argc,argv);
+	//testAddDirectory(argc,argv);
+	testConsole(argc,argv);
 }
 
 int main(int argc, char *argv[])

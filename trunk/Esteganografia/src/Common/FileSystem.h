@@ -9,6 +9,7 @@
 #include <sys/param.h>
 #include <string>
 #include <vector>
+#include "Resource.h"
 
 using namespace std;
 
