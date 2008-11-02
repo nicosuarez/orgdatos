@@ -56,6 +56,7 @@
 <option id="gnu.cpp.link.option.strip.385577932" name="Omit all symbol information (-s)" superClass="gnu.cpp.link.option.strip"/>
 <option id="gnu.cpp.link.option.libs.816081562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="pthread"/>
+<listOptionValue builtIn="false" value="readline"/>
 <listOptionValue builtIn="false" value="X11"/>
 </option>
 <option id="gnu.cpp.link.option.paths.1188741888" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
