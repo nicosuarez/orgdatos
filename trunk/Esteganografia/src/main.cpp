@@ -4,7 +4,7 @@
 #include "Lzss/lzss.h"
 #include "Steganographic/BmpHighColor.h"
 #include "Steganographic/Jpg.h"
-#include "Common/AddDirectory.h"
+#include "Commands/AddDirectory.h"
 #include "Common/Console.h"
 
 

@@ -10,8 +10,8 @@
 
 #include <string>
 #include <vector>
-#include "StrToken.h"
-#include "Resource.h"
+#include "../Common/StrToken.h"
+#include "../Common/Resource.h"
 
 /**
  * Clase que implementa todos los comandos que se pueden ejecutar en el programa.
@@ -26,6 +26,7 @@ public:
 	virtual ~Command();
 
 	virtual bool Validate(std::string cmd);
+	virtual unsigned int GetNumParams();
 	virtual bool Run(std::string cmd);
 	virtual bool InternalProcess(tVecStr params);
 	void ShowParamsErrMsg();

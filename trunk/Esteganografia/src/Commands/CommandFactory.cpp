@@ -76,21 +76,21 @@ Command* CommandFactory::CreateCommand(string cmd)
 	if (CommandFactory::IsAddDirectoryCommand(cmdName))
 		return new AddDirectory(cmd);
 	else if (CommandFactory::IsRemoveDirectoryCommand(cmdName))
-		return NULL; // new RemoveDirectory(cmd);
+		return new RemoveDirectory(cmd);
 	else if (CommandFactory::IsHelpCommand(cmdName))
 		return new Help(cmd); // new RemoveDirectory(cmd);
 	else if (CommandFactory::IsRemoveFileCommand(cmdName))
-		return NULL; //return new RemoveFile(cmd);
+		return new RemoveFile(cmd);
 	else if (CommandFactory::IsAddFileCommand(cmdName))
-		return NULL; //return new AddFile(cmd);
+		return new AddFile(cmd);
 	else if (CommandFactory::IsGetFileCommand(cmdName))
-		return NULL; //return new GetFile(cmd);
+		return new GetFile(cmd);
 	else if (CommandFactory::IsShowFilesCommand(cmdName))
-		return NULL; //return new ShowFiles(cmd);
+		return new ShowFiles(cmd);
 	else if (CommandFactory::IsShowDirectoriesCommand(cmdName))
-		return NULL; //return new ShowDirectories(cmd);
+		return new ShowDirectories(cmd);
 	else if (CommandFactory::IsChangePasswordCommand(cmdName))
-		return NULL; //return new ChangePasswordCommand(cmd);
+		return new ChangePassword(cmd);
 	else if(CommandFactory::IsQuitCommand(cmdName))
 		return NULL;
 	else
@@ -104,5 +104,12 @@ tVecCmd CommandFactory::GetAllCommandsList()
 	vector<Command*> cmdVec;
 	cmdVec.push_back(new AddDirectory());
 	cmdVec.push_back(new Help());
+	cmdVec.push_back(new RemoveDirectory());
+	cmdVec.push_back(new RemoveFile());
+	cmdVec.push_back(new AddFile());
+	cmdVec.push_back(new GetFile());
+	cmdVec.push_back(new ShowFiles());
+	cmdVec.push_back(new ShowDirectories());
+	cmdVec.push_back(new ChangePassword());
 	return cmdVec;
 }

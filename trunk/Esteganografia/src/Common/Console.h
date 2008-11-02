@@ -1,8 +1,9 @@
 #ifndef CONSOLE_H_
 #define CONSOLE_H_
 
-/*Clase que se encarga de correr el hilo principal*/
-
+/**
+ * Clase que se encarga de correr el hilo principal
+ **/
 class Console
 {
 public:
