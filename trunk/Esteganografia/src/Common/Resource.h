@@ -1,6 +1,13 @@
 #ifndef RESOURCE_H_
 #define RESOURCE_H_
 
+#define EXT_BMP ".bmp"
+#define EXT_JPG ".jpg"
+#define EXT_JPEG ".jpeg"
+#define EXT_PNG ".png"
+#define EXT_GIF ".gif"
+
+
 #define CMD_QUIT "quit"
 #define CMD_ADD_DIRECTORY "adddirectory"
 #define CMD_REMOVE_DIRECTORY "removedirectory"
@@ -11,6 +18,8 @@
 #define CMD_SHOW_FILES "showfiles"
 #define CMD_SHOW_DIRECTORIES "showdirectories"
 #define CMD_CHANGE_PASSWORD "changepassword"
+
+#define ERR_IMAGE_NOT_SUPPORT "Imagen no reconocida "
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "
 #define ERR_PATH_NOT_EXIST "El directorio no exite: "
