@@ -29,9 +29,10 @@ bool ImageFactory::SupportedFormats(const char* filePath)
 	if ( extPos != string::npos)
 	{
 		ext = path.substr(extPos,5);
-
+		StrToken::toLowerString(ext);
 		cout << ext << "\n";
-		if(ext == ".bmp" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".gif")
+		if(ext == EXT_BMP || ext == EXT_JPG || 
+			ext == EXT_JPEG || ext == EXT_PNG || ext == EXT_GIF)
 			return true;
 	}
 	return false;
@@ -65,17 +66,17 @@ Image* ImageFactory::GetImage(const char* filePath)
 	{
 		image = new Jpg(filePath);
 	}
-//	else if(Png::ValidateFormat(space))
-//	{
-//		image = new Png(filePath);
-//	}
+	else if(Png::ValidateFormat(&space))
+	{
+		image = new Png(filePath);
+	}
 //	else if(Gif::ValidateFormat(space))
 //	{
 //		image = new Gif(filePath);
 //	}
 	else
 	{
-		cout << "Imagen no reconocida " << filePath << "\n";
+		cout << ERR_IMAGE_NOT_SUPPORT << filePath << "\n";
 	}
 	
 	return image;

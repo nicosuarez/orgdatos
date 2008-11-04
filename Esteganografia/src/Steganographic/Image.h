@@ -9,8 +9,11 @@
 #define EA_B4E5CF88_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
 #include "IStenographic.h"
+#include "../Common/Resource.h"
+#include <list>
 
 typedef char UBYTE;
+typedef std::list<Space*> tListSpaces;
 
 /**
  * Clase que agrupa todos los formatos de imagenes disponibles.

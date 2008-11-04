@@ -9,7 +9,8 @@
 #define EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_
 #include "BmpHighColor.h"
 #include "Jpg.h"
-#include <string>
+#include "Png.h"
+#include "../Common/StrToken.h"
 
 /**
  * Dado un espacio crea una imagen segun el formato que tenga el espacio.
