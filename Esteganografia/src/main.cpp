@@ -420,10 +420,11 @@ void TestUpdateDeleted()
   {
     delete reg;
     f1.Destroy();
-    return;
+//    return;
+    throw "TestDeleteWithUpdate failed";
   }
 
-  throw "TestDeleteWithUpdate failed";
+  
 }
 
 /* -------------------------------------------------------------------------- */
@@ -592,18 +593,12 @@ void testGif(int argc, char *argv[])
 	
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
-	Gif *gif = new Gif();
-	list<Space*> *lista = gif->getSpaces(argv[1]);
-	if( lista == NULL)
+	Gif *gif = new Gif(argv[1]);
+	Space *space = gif->GetFreeSpace();
+	if( space == NULL )
 		return;
-//	list<Space*>::iterator it;
-//	for( it=lista->begin(); it !=lista->end(); it++)
-//	{
-//		cout << "Posicion Inicial: " << (*it)->GetInitialPosition() << " - ";
-//		cout << "Tamaño: " << (*it)->GetSize() << endl;
-//	}
-	gif->Hide(lista->front(),&msg);
-	gif->Extract(lista->front(),&msgOut);
+	gif->Hide(space,&msg);
+	gif->Extract(space,&msgOut);
 	
 }
 
@@ -613,8 +608,8 @@ void testStenographic(int argc, char *argv[])
 	//testBmpLSB2bit(argc,argv);
 	//testJPG(argc,argv);
 	//testFileSystem(argv[1]);
-	//testGif(argc, argv);
-	testConsole(argc,argv);
+	testGif(argc, argv);
+//	testConsole(argc,argv);
 	//testPNG(argc,argv);
 }
 
@@ -622,18 +617,18 @@ int testDataAccess(int argc, char *argv[])
 {
   try
   {
-    TestCreateFile();
-    TestCreateFileTwice();
-    TestOpenFileWithoutCreate();
-    TestOpenFileWrongMode();
-    TestOpenFile();
-    TestOpenCloseOpenFile();
-    TestWriteAndRead();
-    TestRegistryActive();
-    TestRegistryDeleted();
-    TestSeekWrong();
+//    TestCreateFile();
+//    TestCreateFileTwice();
+//    TestOpenFileWithoutCreate();
+//    TestOpenFileWrongMode();
+//    TestOpenFile();
+//    TestOpenCloseOpenFile();
+//    TestWriteAndRead();
+//    TestRegistryActive();
+//    TestRegistryDeleted();
+//    TestSeekWrong();
     TestUpdateDeleted();
-    TestOrgExtensibleRelative();
+//    TestOrgExtensibleRelative();
   }
   catch (char* error)
   {
@@ -647,8 +642,7 @@ int main(int argc, char *argv[])
 {
 	//testCompresion();
 	testStenographic(argc, argv);
-	testDataAccess(argc, argv);
-	
+//	testDataAccess(argc, argv);
 	return EXIT_SUCCESS;
 }
 

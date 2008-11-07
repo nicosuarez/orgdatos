@@ -23,6 +23,7 @@
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "
 #define ERR_PATH_NOT_EXIST "El directorio no exite: "
+#define ERR_FILE_OPEN "No se pudo abrir el archivo: "
 #define LBL_PROMT "> "
 #define LBL_PASS "Password: "
 #define EMPTY " "
