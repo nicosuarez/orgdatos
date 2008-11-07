@@ -9,6 +9,7 @@
 #define EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
 #include "Image.h"
+#include "../Common/Resource.h"
 #include <list>
 #include <math.h>
 
@@ -19,8 +20,17 @@
 #define EXTENSION_INTRODUCER 0x21
 #define APP_EXTENSION_LABEL 0xff
 #define GRAPHIC_CONTROL_LABEL 0xf9
+#define COMMENT_LABEL 0xfe
+#define PLAIN_TEXT_LABEL 0x01
 #define IMAGE_SEPARATOR 0x2c
 #define GIF_TRAILER 0x3b
+
+#define SIZE_HEADER 6
+#define SIZE_SCREEN_DESCRIPTOR 7
+#define SIZE_APP_EXTENSION 16
+#define SIZE_GRAPHIC_EXTENSION 5
+#define SIZE_PLAIN_TEXT_EXTENSION 13
+
 
 typedef struct GifFileHeader 
 {
@@ -37,8 +47,9 @@ typedef struct GifFileLogicalScreenDescriptor
 typedef struct GifFileAppExtension
 {
 	unsigned char blockSize;
-	char appIdentifier[8];
-	char appAuthCode[3];
+	unsigned char appIdentifier[8];
+	unsigned char appAuthCode[3];
+	unsigned char appData[4];
 };
 
 typedef struct GifFileGraphicControlExtension
@@ -49,6 +60,19 @@ typedef struct GifFileGraphicControlExtension
 	unsigned char transparentColorIndex;
 };
 
+typedef struct GifPlainTextExtension
+{
+	unsigned char blockSize;
+	unsigned short gridLeftPosition;
+	unsigned short gridTopPosition;
+	unsigned short gridWidth;
+	unsigned short gridHeight;
+	unsigned char charCellWidth;
+	unsigned char charCellHeight;
+	unsigned char textForegroundColorIndex;
+	unsigned char textBackgroundColorIndex;
+};
+
 typedef struct GifFileImageDescriptor
 {
 	unsigned short imageLeftPosition;
@@ -57,35 +81,6 @@ typedef struct GifFileImageDescriptor
 	unsigned short imageHeight;
 	unsigned char packedFields;
 };
-
-
-typedef struct GifInfoHeader
-{
-	char version[3]; //Version del GIF. Puede ser 87a u 89a.
-	unsigned short width; //ancho de la imagen
-	unsigned short height; //altura de la imagen
-	unsigned int globalColorTable; //indica la presencia de la paleta global
-	unsigned int colorResolution; //numero de bits por color primario
-	unsigned sortFlag; //indica si la paleta esta ordenada. El orden es decreciente por frecuencia del color
-	unsigned sizeGlobalColorTable; //Tamaño de la paleta;
-	unsigned int backgroundColorIndex; //index de la paleta, del color del fondo de la imagen 
-	unsigned int pixelAspectRatio; //
-};
-
-typedef struct GifImageDescriptor
-{
-	unsigned char imageSeparator;
-	unsigned short imageLeftPosition;
-	unsigned short imageTopPosition;
-	unsigned short imageWidth;
-	unsigned short imageHeight;
-	unsigned int localColorTable;
-	unsigned int interlaceFlag;
-	unsigned int sortFlag;
-	unsigned int reserved;
-	unsigned int sizeLocalColorTable;
-};
-
 
 
 class Gif : public Image
@@ -100,7 +95,7 @@ public:
 	void Hide(Space* space, Message* msg);
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
-	list<Space*>* getSpaces(char *path);
+	Space* GetFreeSpace();
 	
 };
 #endif // !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)
