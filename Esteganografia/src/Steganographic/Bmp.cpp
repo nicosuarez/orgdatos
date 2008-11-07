@@ -67,7 +67,7 @@ ImageColor Bmp::ImageInfo(const char* filePath)
 	
 	if(fin.bad())
 	{
-		cout << "No se pudo abrir el archivo " << filePath << "\n";
+		cout << ERR_FILE_OPEN << filePath << "\n";
 		return InvalidColor;
 	}
 
@@ -132,7 +132,7 @@ bool Bmp::ValidateFormat(Space* space)
 	}
 	else
 	{
-		cerr << "Error al abrir el archivo BMP." << space->GetFilePath() <<"\n";
+		cerr << ERR_FILE_OPEN << space->GetFilePath() <<"\n";
 	}
 	
 	fin.close();

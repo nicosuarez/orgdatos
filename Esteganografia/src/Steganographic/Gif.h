@@ -24,6 +24,8 @@
 #define PLAIN_TEXT_LABEL 0x01
 #define IMAGE_SEPARATOR 0x2c
 #define GIF_TRAILER 0x3b
+#define OLD_SIGNATURE "GIF87a"
+#define NEW_SIGNATURE "GIF89a"
 
 #define SIZE_HEADER 6
 #define SIZE_SCREEN_DESCRIPTOR 7
@@ -96,6 +98,7 @@ public:
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
 	Space* GetFreeSpace();
+	bool ValidateFormat(Space* space);
 	
 };
 #endif // !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)

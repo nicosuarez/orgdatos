@@ -106,6 +106,29 @@ void Gif::LsbHide(UBYTE dataByte,fstream& fin)
 	}
 }
 
+bool Gif::ValidateFormat(Space* space)
+{
+	fstream fin(space->GetFilePath());
+	string format;
+	bool isValid = false;
+    
+	if(fin.good())
+	{
+		fin >> format;
+		if( (format.compare(0,6,OLD_SIGNATURE) == 0) || (format.compare(0,6,NEW_SIGNATURE) == 0))
+		{
+			isValid = true;
+		}
+	}
+	else
+	{
+		cerr << ERR_FILE_OPEN << space->GetFilePath() <<"\n";
+	}
+	
+	fin.close();
+	return isValid;
+}
+
 Space* Gif::GetFreeSpace()
 {
 	fstream file(this->filePath);
