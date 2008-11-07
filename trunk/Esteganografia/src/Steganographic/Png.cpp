@@ -108,10 +108,10 @@ tListSpaces* Png::GetFreeSpaces(char * path)
 		return NULL;
 	}
 	tListSpaces* lista = new tListSpaces();
-	Space *space;
+//	Space *space;
 //	GifFileHeader header;
 //	GifFileLogicalScreenDescriptor lsd;
-	int sizePaleta=0, pos=0;
+//	int sizePaleta=0, pos=0;
 	
 	//leo el header de la imagen
 //	file.read((char*)&header, sizeof(GifFileHeader));
@@ -178,5 +178,5 @@ tListSpaces* Png::GetFreeSpaces(char * path)
 //		file.read(&buf, sizeof(char));
 //	}
 //	file.close();
-//	return lista;
+	return lista;
 }
