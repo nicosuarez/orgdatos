@@ -19,8 +19,11 @@ class ListRegistry : public ExtensibleRelativeRegistry
     /* Destructor. */ 
     virtual ~ListRegistry();
 
-    /* Gets the next ID of the registry in the list. */
+    /* Gets the next ID in the list. */
     ID_type GetNextID() const;
+
+    /* Gets the previous ID in the list. */
+    ID_type GetPreviousID() const;
 
     /* Gets the size of the registry.
      * Each derived class should specify its size. */
@@ -41,10 +44,15 @@ class ListRegistry : public ExtensibleRelativeRegistry
 
   private:
     ID_type nextId;
+    ID_type previousId;
 
     /* Sets the ID of the next registry in the list. 
      * id: ID of the next registry in the list. */
     void SetNextID(ID_type id);
+
+    /* Sets the ID of the previous registry in the list. 
+     * id: ID of the previous registry in the list. */
+    void SetPreviousID(ID_type id);
 
     /* Allocation and copy constructor are private to prevent errors. */
     ListRegistry(const ListRegistry &reg);

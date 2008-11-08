@@ -6,6 +6,7 @@
 #ifndef _ORG_LIST_
 #define _ORG_LIST_
 
+#include <list>
 #include <string>
 #include "../Files/ExtensibleRelativeFile.h"
 #include "../Registries/ListRegistry.h"
@@ -19,23 +20,52 @@ class OrgList
      * filename: Name of the file that the organization uses. 
      * ptrMethodCreateRegistry: Pointer to a method that return a 
      * pointer to a new ListRegistry. */
-    OrgList(const string &fileName, ListRegistry* (*ptrMethodCreateRegistry)());
+    OrgList(const string &fileName, ExtensibleRelativeRegistry* (*ptrMethodCreateRegistry)());
 
     /* Destructor. */ 
     virtual ~OrgList();
     
-    void GetList();
+    /* Gets the entire list. The caller must free the allocated memory.
+     * first: The ID of the first registry in the list. */
+    std::list<ListRegistry*>* GetList(ID_type first);
+    
+    /* Starts a new list.
+     * firstReg: The first registry of the new list. */
+    void CreateList(ListRegistry &firstReg);
 
-    void AddToListFirst();
+    /* Adds a regitry at the top of the list.
+     * reg: Registry to add at the top of the list.
+     * first: The ID of the first registry in the list. */
+    void AddToListFirst(ListRegistry &reg, ID_type first);
 
-    void AddToListLast();
+    /* Adds a regitry at the end of the list.
+     * reg: Registry to add at the end of the list.
+     * last: The ID of the last registry in the list. */
+    void AddToListLast(ListRegistry &reg, ID_type last);
 
-    void DeleteList();
+    /* Deletes the entire list.
+     * first: The ID of the first registry in the list. */
+    void DeleteList(ID_type first);
 
-    void DeleteFromList();
+    /* Deletes a registry from the list.
+     * id: The ID of the registry to delete. */
+    void DeleteFromList(ID_type id);
+
+    /* Destroys the organization deleting all the files. */
+    void Destroy();
+
+    /* Static method that deletes correctly a list of 
+     * pointer ListRegistry. 
+     * list; Pointer to the list that will be erased/freed. */
+    static void FreeList(std::list<ListRegistry*> *list);
 
   private:
     ExtensibleRelativeFile *file;
+
+    /* Asserts. */
+    void AssertLastReg(const ListRegistry &reg) const;
+    void AssertFirstReg(const ListRegistry &reg) const;
+    void AssertNotDeleted(const ListRegistry &reg) const;
 
     /* Allocation and copy constructor are private to prevent errors. */
     OrgList(const OrgList &org);

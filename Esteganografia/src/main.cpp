@@ -9,7 +9,9 @@
 #include "Commands/AddDirectory.h"
 #include "Common/Console.h"
 #include "DataAccess/Files/ExtensibleRelativeFile.h"
+#include "DataAccess/Registries/ListRegistry.h"
 #include "DataAccess/Registries/ExtensibleRelativeRegistry.h"
+#include "DataAccess/Organizations/OrgList.h"
 #include "DataAccess/Organizations/OrgExtensibleRelative.h"
 
 class Reg : public ExtensibleRelativeRegistry
@@ -25,6 +27,11 @@ class Reg : public ExtensibleRelativeRegistry
     {
       this->numero = numero;
       SetTexto(texto);
+    }
+
+    char* GetTexto()
+    {
+      return this->texto;
     }
 
     void SetTexto(std::string texto)
@@ -81,7 +88,7 @@ class Reg : public ExtensibleRelativeRegistry
       return !((*this) == reg);
     }
     
-    static ExtensibleRelativeRegistry* Create();
+    static ExtensibleRelativeRegistry* CreateReg();
 
   private:
     int numero;
@@ -92,9 +99,101 @@ class Reg : public ExtensibleRelativeRegistry
     Reg& operator=(const Reg &reg);
 };
 
-ExtensibleRelativeRegistry* Reg::Create()
+ExtensibleRelativeRegistry* Reg::CreateReg()
 {
   return new Reg();
+}
+
+/* -------------------------------------------------------------------------- */
+
+class RegList : public ListRegistry
+{
+  public:
+    RegList() : ListRegistry()
+    {
+      this->numero = 0;
+      memset(this->texto, '\0', 11);
+    }
+
+    RegList(int numero, std::string texto) : ListRegistry()
+    {
+      this->numero = numero;
+      SetTexto(texto);
+    }
+
+    char* GetTexto()
+    {
+      return this->texto;
+    }
+
+    void SetTexto(std::string texto)
+    {
+      memset(this->texto, '\0', 11);
+      strcpy(this->texto, texto.c_str());
+    }
+
+    unsigned int GetSize() const
+    {
+      return ListRegistry::GetSize() + sizeof(numero) + sizeof(texto) - 1; 
+    }
+
+    char* Serialize() const
+    {
+      char *buffer = ListRegistry::Serialize();
+
+      unsigned int pos = ListRegistry::GetSize();
+      AddToSerialization(buffer, &numero, pos, sizeof(numero));
+
+      pos += sizeof(numero);
+      AddToSerialization(buffer, texto, pos, 10);
+
+      return buffer;
+    }
+
+    void Deserialize(const char* buffer, unsigned int length)
+    {
+      ListRegistry::Deserialize(buffer, length);
+
+      unsigned int pos = ListRegistry::GetSize();
+      GetFromSerialization(buffer, &numero, pos, sizeof(numero));
+
+      pos += sizeof(numero);
+      GetFromSerialization(buffer, texto, pos, 10);
+    }
+
+    bool operator==(const RegList &reg)
+    {
+      if (GetID() != reg.GetID())
+        return false;
+        
+      if (this->numero != reg.numero)
+        return false;
+
+      if (strcmp(this->texto, reg.texto) != 0)
+        return false;
+
+      return true;
+    }
+
+    bool operator!=(const RegList &reg)
+    {
+      return !((*this) == reg);
+    }
+    
+    static ExtensibleRelativeRegistry* CreateRegList();
+
+  private:
+    int numero;
+    char texto[11];
+
+    /* Allocation and copy constructor are private to prevent errors. */
+    RegList(const RegList &reg);
+    RegList& operator=(const RegList &reg);
+};
+
+ExtensibleRelativeRegistry* RegList::CreateRegList()
+{
+  return new RegList();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -467,6 +566,116 @@ void TestOrgExtensibleRelative()
 }
 
 
+/* -------------------------------------------------------------------------- */
+
+void TestOrgListCreate()
+{
+  RegList reg(101, "CINTIA_LUC");
+  OrgList org("orglist.dat", RegList::CreateRegList);
+
+  org.CreateList(reg);
+  std::list<ListRegistry*> *list = org.GetList(1);
+  
+  if (list->size() != 1)
+  {
+    OrgList::FreeList(list);
+    throw "TestOrgListCreate failed.";
+  }
+
+  OrgList::FreeList(list);
+
+  org.Destroy();
+}
+
+/* -------------------------------------------------------------------------- */
+
+void TestOrgListTwoList()
+{
+  RegList reg1(101, "CINTIA_LUC");
+  RegList reg2(102, "CECILIA_BE");
+  RegList reg3(103, "MARINA_BEA");
+  RegList reg4(104, "EUGENIA_BE");
+  RegList reg5(105, "EMILIO_HEC");
+  RegList reg6(106, "LUISA_ROSA");
+
+  RegList reg7(201, "LEANDRO_OS");
+  RegList reg8(202, "PAULA_ANDR");
+  RegList reg9(203, "BRUNA_LAVA");
+  RegList reg10(204, "OSCAR_ALBE");
+  RegList reg11(205, "COREY_ROLE");
+
+  RegList reg12(206, "BETH_PERRO");
+  RegList reg13(207, "NANO_PERRO");
+
+  OrgList org("orglist_reloaded.dat", RegList::CreateRegList);
+
+  // 2
+  // 8
+  org.CreateList(reg2);
+  org.CreateList(reg8);
+  
+  // 2->3
+  // 8->9
+  org.AddToListLast(reg3, reg2.GetID());
+  org.AddToListLast(reg9, reg8.GetID());
+
+  // 2->3->4
+  // 8->9->10
+  org.AddToListLast(reg4, reg3.GetID());
+  org.AddToListLast(reg10, reg9.GetID());
+  
+  // 1->2->3->4
+  // 7->8->9->10
+  org.AddToListFirst(reg1, reg2.GetID());
+  org.AddToListFirst(reg7, reg8.GetID());
+
+  // 1->2->3->4->5
+  // 7->8->9->10->11
+  org.AddToListLast(reg5, reg4.GetID());
+  org.AddToListLast(reg11, reg10.GetID());
+
+  // 1->2->3->4->5->6
+  // 7->8->9->10->11
+  org.AddToListLast(reg6, reg5.GetID());
+
+  // 1->2->4->5->6
+  // 7->8->10->11
+  org.DeleteFromList(reg3.GetID());
+  org.DeleteFromList(reg9.GetID());
+
+  // 12->1->2->3->4->5
+  // 7->8->9->10->11->13
+  org.AddToListFirst(reg12, reg1.GetID());
+  org.AddToListLast(reg13, reg11.GetID());
+
+  std::list<ListRegistry*> *list_yo = org.GetList(reg7.GetID());
+  std::list<ListRegistry*> *list_cin = org.GetList(reg12.GetID());
+
+  if (list_yo->size() != 5)
+  {
+    OrgList::FreeList(list_yo);
+    throw "TestOrgListTwoList failed.";
+  }
+
+  if (list_cin->size() != 6)
+  {
+    OrgList::FreeList(list_cin);
+    throw "TestOrgListTwoList failed.";
+  }
+/*
+  std::list<ListRegistry*>::iterator i;
+
+  for (i = list_yo->begin(); i != list_yo->end(); ++i)
+    std::cout << dynamic_cast<RegList*>(*i)->GetTexto() << std::endl;
+
+  for (i = list_cin->begin(); i != list_cin->end(); ++i)
+    std::cout << dynamic_cast<RegList*>(*i)->GetTexto() << std::endl;
+*/
+  OrgList::FreeList(list_yo);
+  OrgList::FreeList(list_cin);
+
+  org.Destroy();
+}
 
 using namespace std;
 
@@ -629,6 +838,8 @@ int testDataAccess(int argc, char *argv[])
 //    TestSeekWrong();
     TestUpdateDeleted();
 //    TestOrgExtensibleRelative();
+    TestOrgListCreate();
+    TestOrgListTwoList();
   }
   catch (char* error)
   {
