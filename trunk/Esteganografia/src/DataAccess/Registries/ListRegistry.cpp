@@ -8,6 +8,7 @@
 ListRegistry::ListRegistry()
 {
   SetNextID(0);
+  SetPreviousID(0);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -27,14 +28,28 @@ ID_type ListRegistry::GetNextID() const
 
 void ListRegistry::SetNextID(ID_type id)
 {
-  this->nextId = nextId;
+  this->nextId = id;
+}
+
+/* -------------------------------------------------------------------------- */
+
+ID_type ListRegistry::GetPreviousID() const
+{
+  return previousId;
+}
+
+/* -------------------------------------------------------------------------- */
+
+void ListRegistry::SetPreviousID(ID_type id)
+{
+  this->previousId = id;
 }
 
 /* -------------------------------------------------------------------------- */
 
 unsigned int ListRegistry::GetSize() const
 {
-  return ExtensibleRelativeRegistry::GetSize() + sizeof(nextId);
+  return ExtensibleRelativeRegistry::GetSize() + sizeof(nextId) + sizeof(previousId);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -45,6 +60,9 @@ char* ListRegistry::Serialize() const
 
   unsigned int pos = ExtensibleRelativeRegistry::GetSize();
   AddToSerialization(buffer, &nextId, pos, sizeof(nextId));
+
+  pos += sizeof(nextId);
+  AddToSerialization(buffer, &previousId, pos, sizeof(previousId));
 
   return buffer;
 }
@@ -57,5 +75,8 @@ void ListRegistry::Deserialize(const char* buffer, unsigned int length)
 
   unsigned int pos = ExtensibleRelativeRegistry::GetSize();
   GetFromSerialization(buffer, &nextId, pos, sizeof(nextId));
+
+  pos += sizeof(nextId);
+  GetFromSerialization(buffer, &previousId, pos, sizeof(previousId));
 }
 

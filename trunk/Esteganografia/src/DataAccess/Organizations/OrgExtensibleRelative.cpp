@@ -35,7 +35,13 @@ ExtensibleRelativeRegistry* OrgExtensibleRelative::GetRegistry(ID_type id)
   reg = file->Read(id);
   file->Close();
 
-  return (reg->IsDeleted() ? NULL : reg);
+  if (reg->IsDeleted())
+  {
+    delete reg;
+    return NULL;
+  }
+
+  return reg;
 }
 
 /* -------------------------------------------------------------------------- */
