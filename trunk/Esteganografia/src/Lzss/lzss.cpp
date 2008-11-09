@@ -1,6 +1,8 @@
 #include "lzss.h"
 #include <stdio.h>
 #include <math.h>
+#include "../Common/Exception/eFile.h"
+
 using namespace std;
 
 Lzss::Lzss() :
@@ -13,23 +15,20 @@ void Lzss::save(ostream* fp,unsigned char& lastChar, unsigned int& emptyBits,
 				 unsigned int valueToemptyBits,unsigned char c){
 	 emptyBits = valueToemptyBits;
 	 fp->write((char*)&lastChar,sizeof(char));
-	 cout<<(unsigned int)lastChar<<endl;
 	 lastChar=c;
 }
-void Lzss::compress(string toCompress, string temporaryFile) {
+void Lzss::compress(const char* toCompress, const char* temporaryFile)  {
 	vector<unsigned char> ans;
 	unsigned int emptyBits = 0;
 	this->buffer.clear();
 	unsigned int posMatch, longMatch;
 	unsigned char lastChar=0x00;
-	ifstream fpOrigin(toCompress.c_str(),ios::binary| ios::in);
+	ifstream fpOrigin(toCompress,ios::in);
 	if(!fpOrigin.good())
-		cout<<"GRABE ERROR";
-	//lanza ex
-	ofstream fpTarget(temporaryFile.c_str(), ios::binary| ios::out| ios::trunc);
+		throw eFile("fallo archivo 1");
+	ofstream fpTarget(temporaryFile, ios::binary| ios::out| ios::trunc);
 	if (!fpTarget.good())
-		cout<<"GRABE ERROR";
-	//laNZA ex
+		throw eFile("fallo archivo 2");
 	writeVarLong(&fpOrigin,&fpTarget);
 	readFile(fpOrigin, Lzss::sizeWin);
 	while (this->windows.size() > 0) {
@@ -177,11 +176,11 @@ void Lzss::uncompress(const char* origin, const char* target) {
 		cout<<"error grabe";
 	ifstream fpOri(origin,ios::binary| ios::in);
 	if(!fpOri.good())
-		cout<<"GRABE ERROR";
+		throw eFile("fallo archivo");//cout<<"GRABE ERROR";
 	//lanza ex
 	ofstream fpTarget(target, ios::binary| ios::out| ios::trunc);
 	if (!fpTarget.good())
-		cout<<"GRABE ERROR";
+		throw eFile("fallo archivo");//cout<<"GRABE ERROR";
 	//laNZA ex
 	unsigned long cant=readVarLong(&fpOri);
 	fpOri.read((char*)&lastChar,sizeof(char));
@@ -191,7 +190,6 @@ void Lzss::uncompress(const char* origin, const char* target) {
 		if (flag == 1) {
 			unsigned char c=getChar(&fpOri, nBit, lastChar);
 			fpTarget.write((char*)&c,sizeof(char));
-			cout<<c<<endl;
 			readChar = 1;
 		} else
 			readChar = getPosLong(&fpOri,&fpTarget, nBit, lastChar);
@@ -275,8 +273,7 @@ unsigned int Lzss::getPosLong (ifstream* fpOrigin,ofstream* fpTarget,
 	for (unsigned int i = 0; i < lMatch; i++) {
 		char copy = this->buffer[buffer.size() - (1 + pos)];
 		this->buffer.push_back(copy);
-		cout<< copy;
-		*fpTarget<< copy;
+		fpTarget->write(&copy,sizeof(char));
 		if (this->buffer.size() > Lzss::sizeBuffer)
 			this->buffer.erase(buffer.begin());
 	}
@@ -297,23 +294,23 @@ unsigned long Lzss::readVarLong(ifstream* fp) {
 	unsigned long ans;
 	fp->read((char*)&ans,sizeof(unsigned long));
 	return ans;
-/*	unsigned int intaux;
+	/*unsigned long intaux,valor=0;
 	unsigned char aux;
 	unsigned char prox;
 	unsigned char masc = 0x7F;
 	int cont = 0;
 	bool last = false;
 	while (last == false) {
-		//fread(&(aux),sizeof(char),1,ptrArch);
+		fp->read((char*)&aux,sizeof(char));
 		prox = aux >> 7;
 		if (prox == 0)
 			last = true;
 		intaux = aux & masc; //le quita el primer bit
 		intaux = intaux << (7 * cont);
-		(*valor) = (*valor) | intaux;
+		valor = valor + intaux;
 		cont++;
 	}
-	return cont;*/
+	return valor;*/
 }
 
 void Lzss::writeVarLong(ifstream* fp, ofstream* fpTarget) {
@@ -324,30 +321,57 @@ void Lzss::writeVarLong(ifstream* fp, ofstream* fpTarget) {
 	size = end - begin;
 	fp->seekg(0, ios::beg);
 	fpTarget->write((char*)&size,sizeof(long));
-	/*//unsigned char masc=0x80;
-	unsigned int countBytes = 0;
-	bool last = false;
-	str = new unsigned char[4];
-	str[0] = 0;
-	bool end = false;
-	while (!end) {
-		str[countBytes] = (unsigned char) valor;
-		countBytes++;
-		if (valor <= 256)
-			end = true;
-		else
-			valor = (unsigned int) valor / 256;
+	/*unsigned char masc1=0x80;
+	unsigned char masc3=0x7F;
+	unsigned long begin,end, size;
+	fp->seekg(0, ios::beg);
+	begin = fp->tellg();
+	fp->seekg(0, ios::end);
+	end = fp->tellg();
+	size = end - begin;
+	Valor val;
+	val.vlong=size;
+	int cont=0;
+	bool startNumber=false;
+	for(int pos=4;pos>=0;pos--){
+		if (!startNumber){
+			if (val.st[pos]!=0x00){
+				cont++;
+				startNumber=true;
+			}
+		}else
+			cont++;
 	}
-	while (last == false) {
+	unsigned int nbit=0;
+	unsigned char toWrite[9];
+	for(int i=0;i<cont;i++){
+		unsigned char c=0x00;
+		unsigned char c2=0x00;
+		if (i<0)
+			nbit=0;
+		else{
+			nbit=i;
+			//c=newChar[i-1];
+			c=val.st[i-1];
+		}
 
-		if (valor <= pow(2, 8 * (countBytes + 1) - 1))
-			last = true;
-		//		intaux=aux & masc; //le quita el primer bit
-		//		intaux=intaux<< (7*cantBytes);
-		//(valor)=(*valor) | intaux;
-		//cont++;
+		c=c>>8-nbit;
+		//c2=newChar[i]<<nbit;
+		c2=val.st[i]<<nbit;
+		//apago el ultimo bit
+		c2=c2&masc3;
+		c2=c2|c;
+		if (i!=cont-1)
+			toWrite[i]=c2|masc1;
+		else
+			toWrite[i]=c2&masc3;
 	}
-	return countBytes;*/
+	if (cont==4)
+		toWrite[5]=val.st[4]&masc3;
+		//toWrite[9]=newChar[8]&masc3;
+	//delete newChar;
+	fp->seekg(0, ios::beg);
+	fpTarget->write((char*)toWrite,sizeof(char)*cont);*/
 }
 
 unsigned int Lzss::getCantBitsPos() {

@@ -6,6 +6,11 @@
 #include <vector.h>
 
 
+
+typedef union{
+		    unsigned long vlong;
+		    unsigned char st[4];
+}Valor;
 class Lzss{
 	private:
 		static const unsigned int sizeWin=16;
@@ -48,7 +53,7 @@ class Lzss{
 	public:
 		Lzss();
 		virtual ~Lzss();
-		void compress(std::string toCompress, std::string temporaryFile);
+		void compress(const char* toCompress,const char* temporaryFile);
 		void uncompress(const char* origin, const char* target);
 
 };
