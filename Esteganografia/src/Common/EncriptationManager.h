@@ -20,8 +20,8 @@ public:
 	EncriptationManager();
 	virtual ~EncriptationManager();
 
-	Message Decrypt(string pass, Message msg);
-	Message Encrypt(string pass, Message msg);
+	Message static Decrypt(string pass, Message msg);
+	Message static Encrypt(string pass, Message msg);
 
 };
 #endif // !defined(EA_B3E47C10_98EA_11dd_B49B_001B2425640C__INCLUDED_)

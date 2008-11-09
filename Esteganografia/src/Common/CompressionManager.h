@@ -21,8 +21,8 @@ public:
 	CompressionManager();
 	virtual ~CompressionManager();
 
-	Message Compress(Message msg);
-	Message Decompress(Message msg);
+	Message static Compress(Message msg);
+	Message static Decompress(Message msg);
 
 };
 #endif // !defined(EA_B38D9B20_98EA_11dd_B49B_001B2425640C__INCLUDED_)

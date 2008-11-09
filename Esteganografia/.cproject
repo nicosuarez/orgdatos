@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?fileVersion 4.0.0?>
 
 <cproject>
@@ -29,7 +29,7 @@
 <option id="gnu.cpp.compiler.option.preprocessor.def.192498207" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def"/>
 <option id="gnu.cpp.compiler.option.preprocessor.undef.32301400" name="Undefined symbols (-U)" superClass="gnu.cpp.compiler.option.preprocessor.undef"/>
 <option id="gnu.cpp.compiler.option.include.paths.1293312246" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths"/>
-<option id="gnu.cpp.compiler.option.optimization.flags.1263927495" name="Other optimization flags" superClass="gnu.cpp.compiler.option.optimization.flags"/>
+<option id="gnu.cpp.compiler.option.optimization.flags.1263927495" name="Other optimization flags" superClass="gnu.cpp.compiler.option.optimization.flags" value="-Wno-deprecated" valueType="string"/>
 <option id="gnu.cpp.compiler.option.debugging.other.1626009304" name="Other debugging flags" superClass="gnu.cpp.compiler.option.debugging.other"/>
 <option id="gnu.cpp.compiler.option.debugging.prof.356846747" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof"/>
 <option id="gnu.cpp.compiler.option.debugging.gprof.785437214" name="Generate gprof information (-pg)" superClass="gnu.cpp.compiler.option.debugging.gprof"/>

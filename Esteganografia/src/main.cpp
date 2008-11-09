@@ -501,7 +501,7 @@ void testCompresion()
 	Message m2("");
 	try{
 		temp=CompressionManager::Compress(m);
-		ansCompress=EncriptationManager::Encrypt(temp);
+		ansCompress=EncriptationManager::Encrypt("pass",temp);
 	}catch(eFile e){
 			std::cout<<e.what()<<std::endl;
 	}
@@ -509,7 +509,7 @@ void testCompresion()
 			    perror( "Error deleting file" );
 
 	try{
-		m2=EncriptationManager::Decrypt(ansCompress);
+		m2=EncriptationManager::Decrypt("pass",ansCompress);
 		CompressionManager::Decompress(m2);
 	}catch(eFile e){
 		std::cout<<e.what()<<std::endl;
