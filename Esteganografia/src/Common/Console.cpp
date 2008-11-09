@@ -46,7 +46,7 @@ tVecStr Console::GetAllCommands()
 	vecCmd.push_back(CMD_CHANGE_PASSWORD);
 	return vecCmd;
 }
-	
+
 /**
  * Se valida el pass ingresado, tiene tantos intentos como la variables
  * cantIntentosPass indique.
@@ -63,18 +63,18 @@ bool Console::ValidatePassword()
 		//TODO: LLAMAR A LA VALIDACION POSTA.
 		if(pass == "12")
 			esValido=true;
-		
+
 		if(!esValido)
 			cout << ERR_INCORRECT_PASSWORD << "\n" << flush;
-		
+
 		intentos++;
 	}
 	return esValido;
 }
 
 /**
- * Obtiene el password de manera oculta, no se muestra mientras se 
- * escribe por cuestiones de seguridad. 
+ * Obtiene el password de manera oculta, no se muestra mientras se
+ * escribe por cuestiones de seguridad.
  */
 string Console::GetInputPassword()
 {
@@ -90,50 +90,50 @@ void Console::ShowInitialMessage()
 
 /**
  * Se lee el comando ingresado. Guardando la lista de comandos en el
- * historial (Menos el password que se lo elimina del historial por seguridad) 
+ * historial (Menos el password que se lo elimina del historial por seguridad)
  */
 void Console::ReadCommand(string& cmd)
 {
-	rl_attempted_completion_function = AutoCompletion;  
+	rl_attempted_completion_function = AutoCompletion;
 	rl_bind_key('\t',rl_complete);
 	cmd = readline(LBL_PROMT);
 	if(!cmd.empty())
-		add_history(cmd.c_str()); 
+		add_history(cmd.c_str());
 }
 
 /**
- * Se permite el autocompletados de comandos mediante la tecla tab. 
+ * Se permite el autocompletados de comandos mediante la tecla tab.
  */
-char** Console::AutoCompletion( const char * text , int start,  int end)  
-{  
-     char **matches;   
-     matches = (char **)NULL;  
-  
-     if (start == 0)  
-         matches = rl_completion_matches ((char*)text, & Generator);  
-     else  
-         rl_bind_key('\t',rl_abort);  
-   
-     return (matches);     
-}  
-  
+char** Console::AutoCompletion( const char * text , int start,  int end)
+{
+     char **matches;
+     matches = (char **)NULL;
+
+     if (start == 0)
+         matches = rl_completion_matches ((char*)text, & Generator);
+     else
+         rl_bind_key('\t',rl_abort);
+
+     return (matches);
+}
+
 /**
- * Busca en todos los comandos posibles para autocomplar el texto. 
+ * Busca en todos los comandos posibles para autocomplar el texto.
  */
-char* Console::Generator(const char* text, int state)  
-{  
+char* Console::Generator(const char* text, int state)
+{
 	 //Obtengo todos los comandos posibles.
 	 tVecStr cmd = GetAllCommands();
-     static int len;  
+     static int len;
      static size_t index;
      string empty = EMPTY;
-     string name = EMPTY;  
-   
-     if (!state) {  
-    	 index = 0;  
-         len = strlen (text);  
-     }  
-     
+     string name = EMPTY;
+
+     if (!state) {
+    	 index = 0;
+         len = strlen (text);
+     }
+
      while(index < cmd.size())
      {
     	 name = cmd[index];
@@ -144,19 +144,19 @@ char* Console::Generator(const char* text, int state)
     	 }
     	 index++;
      }
-     //Si ya verifico todos los comandos y no encontro nada 
+     //Si ya verifico todos los comandos y no encontro nada
      //retorno null.
-     return ((char *)NULL);     
- }  
-  
+     return ((char *)NULL);
+ }
+
 /**
- * Convierte un string a char* 
+ * Convierte un string a char*
  */
-char * Console::StrToChar (string s) 
-{  
+char * Console::StrToChar (string s)
+{
    char *r = (char*) malloc(s.length() + 1);
-   strcpy (r, s.c_str());  
-   return (r);  
- }  
+   strcpy (r, s.c_str());
+   return (r);
+ }
 
 
