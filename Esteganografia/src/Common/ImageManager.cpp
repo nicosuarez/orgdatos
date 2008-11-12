@@ -7,6 +7,7 @@
 
 #include "ImageManager.h"
 
+unsigned long ImageManager:: freeTotalSize = 0;
 
 ImageManager::ImageManager(){
 

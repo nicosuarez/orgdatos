@@ -16,7 +16,8 @@
  */
 class ImageManager
 {
-
+private:
+	static unsigned long freeTotalSize;
 public:
 	ImageManager();
 	virtual ~ImageManager();

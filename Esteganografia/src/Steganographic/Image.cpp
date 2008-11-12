@@ -22,7 +22,7 @@ Image::~Image(){
 
 }
 
-bool Image::Load()
+Space* Image::Load()
 {
 	return false;
 }

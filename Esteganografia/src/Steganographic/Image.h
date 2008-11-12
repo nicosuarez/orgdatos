@@ -10,10 +10,12 @@
 
 #include "IStenographic.h"
 #include "../Common/Resource.h"
+#include <string>
 #include <list>
 
+using namespace std;
+
 typedef char UBYTE;
-typedef std::list<Space*> tListSpaces;
 
 /**
  * Clase que agrupa todos los formatos de imagenes disponibles.
@@ -24,8 +26,9 @@ class Image : public IStenographic
 public:
 	Image(const char* filePath);
 	Image();
-	virtual bool Load();
 	virtual ~Image();
+	
+	virtual Space* Load() = 0;
 	
 	long GetId() const{
 		return imageId;
@@ -55,21 +58,31 @@ public:
 		return filePath;
 	}
 	
-	/**
-	 * Tamano total en bytes del archivo donde esta contenido el espacio.
-	 */
+	/* Capacidad de la imagen para almacenar información 
+	 * (expresado en bytes) */
+	unsigned long GetSpaceTotal() const{
+		return spaceTotal;
+	}
+	
+	/* Espacio libre (en bytes) disponible de la imagen */
+	unsigned long GetFreeSpaceTotal() const{
+			return freeSpaceTotal;
+	}
+	
+	/*Tamano total en bytes del archivo donde esta contenido el espacio.*/
 	long GetTotalSize() const;
 	
 	
 protected:
+	const char* filePath;
 	long imageId;
 	long directoryId;
 	long nameId;
 	long firstFreeSpaceId;
 	long lastFreeSpaceId;
-	long maxFreeSpaceSize;
-	long initialPosition;
-	const char* filePath;
+	unsigned long maxFreeSpaceSize;
+	unsigned long spaceTotal;
+	unsigned long freeSpaceTotal;
 
 };
 #endif // !defined(EA_B4E5CF88_98EA_11dd_B49B_001B2425640C__INCLUDED_)

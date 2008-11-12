@@ -9,19 +9,61 @@
 
 using namespace std;
 
-Bmp::Bmp(){
-
-}
-
 Bmp::Bmp(const char* filePath)
 {
 	this->filePath = filePath;
 }
 
-Bmp::~Bmp(){
-
+Bmp::~Bmp()
+{
 }
 
+Space* Bmp::Load()
+{
+	fstream file(filePath);
+	BmpInfoHeader bmpInfoHeader;
+	long spaceTotal = 0;
+	Space *space = NULL;
+	if( file.bad() )
+	{
+		cout << ERR_FILE_OPEN << this->filePath << endl; 
+		return NULL;
+	}
+	file.seekg(14);
+	file.read((char*)&bmpInfoHeader,sizeof(bmpInfoHeader));
+	file.seekg(0, ios::end);
+	spaceTotal = file.tellg();
+	switch( bmpInfoHeader.biBitCount)
+	{
+		case 1:
+		{
+			spaceTotal = 0;
+			break;
+		}
+		case 4:
+		case 8:
+		{
+			spaceTotal = spaceTotal/8;
+			break;
+		}
+		case 16:
+		case 24:
+		case 32:
+		{
+			spaceTotal = spaceTotal / 4;
+			break;
+		}
+		default:
+		{
+			spaceTotal = 0;
+			break;
+		}
+	}
+	if( spaceTotal > 0)
+		space = new Space(filePath, BmpFileType, STARTBYTE, spaceTotal);
+	file.close();
+	return space;	
+}
 
 /**
  * Implementar el comportamiento para extraer la informacion en un lugar
@@ -114,9 +156,9 @@ ImageColor Bmp::ImageInfo(const char* filePath)
 	return color;
 }
 
-bool Bmp::ValidateFormat(Space* space)
+bool Bmp::ValidateFormat(const char *filePath)
 {
-	fstream fin(space->GetFilePath());
+	fstream fin(filePath);
 	string format;
 	string header(BmpFileType);
 	bool isValid = false;
@@ -129,13 +171,12 @@ bool Bmp::ValidateFormat(Space* space)
 			cout << "Formato BMP correcto.\n";
 			isValid = true;
 		}
+		fin.close();
 	}
 	else
 	{
-		cerr << ERR_FILE_OPEN << space->GetFilePath() <<"\n";
+		cerr << ERR_FILE_OPEN << filePath << "\n";
 	}
-	
-	fin.close();
 	return isValid;
 }
 

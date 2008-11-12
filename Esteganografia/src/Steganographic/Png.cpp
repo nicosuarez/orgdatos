@@ -7,11 +7,6 @@
 
 #include "Png.h"
 
-
-Png::Png(){
-
-}
-
 Png::Png(const char* filePath){
 	this->filePath = filePath;
 }
@@ -72,9 +67,9 @@ void Png::LsbHide(UBYTE dataByte,fstream& fin)
 	}
 }
 
-bool Png::ValidateFormat(Space* space)
+bool Png::ValidateFormat(const char* filePath)
 {
-	fstream fin(space->GetFilePath());
+	fstream fin(filePath);
 	fin.seekg(1);
 	string format;
 	string header(PngFileType);
@@ -88,27 +83,25 @@ bool Png::ValidateFormat(Space* space)
 			cout << "Formato PNG Correcto.\n";
 			isValid = true;
 		}
+		fin.close();
 	}
 	else
 	{
-		cerr << "Error al abrir el archivo PNG." << space->GetFilePath() <<"\n";
+		cerr << ERR_FILE_OPEN << filePath << "\n";
 	}
-		
-	fin.close();
 	return isValid;
 }
 
 
-tListSpaces* Png::GetFreeSpaces(char * path)
+Space* Png::Load()
 {
-	fstream file(path);
+	fstream file(filePath);
 	if( file.bad())
 	{
-		cout << "NO SE PUDO ABRIR LA IMAGEN: " << path << endl; 
+		cout << "NO SE PUDO ABRIR LA IMAGEN: " << filePath << endl; 
 		return NULL;
 	}
-	tListSpaces* lista = new tListSpaces();
-//	Space *space;
+	Space *space = NULL;
 //	GifFileHeader header;
 //	GifFileLogicalScreenDescriptor lsd;
 //	int sizePaleta=0, pos=0;
@@ -178,5 +171,5 @@ tListSpaces* Png::GetFreeSpaces(char * path)
 //		file.read(&buf, sizeof(char));
 //	}
 //	file.close();
-	return lista;
+	return space;
 }

@@ -2,7 +2,7 @@
 //  Gif.h
 //  Implementation of the Class Gif
 //  Created on:      13-Oct-2008 2:49:31 AM
-//  Original author: zebas
+//  Original author: Nicolas
 ///////////////////////////////////////////////////////////
 
 #if !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)
@@ -13,9 +13,6 @@
 #include <list>
 #include <math.h>
 
-/**
- * Gif Formato.
- */
 #define BLOCK_TERMINATOR 0x00
 #define EXTENSION_INTRODUCER 0x21
 #define APP_EXTENSION_LABEL 0xff
@@ -26,6 +23,7 @@
 #define GIF_TRAILER 0x3b
 #define OLD_SIGNATURE "GIF87a"
 #define NEW_SIGNATURE "GIF89a"
+#define GifFileType "GIF"
 
 #define SIZE_HEADER 6
 #define SIZE_SCREEN_DESCRIPTOR 7
@@ -46,59 +44,31 @@ typedef struct GifFileLogicalScreenDescriptor
 	unsigned char packedFields, backgroundColor, pixelAspectRatio;
 };
 
-typedef struct GifFileAppExtension
-{
-	unsigned char blockSize;
-	unsigned char appIdentifier[8];
-	unsigned char appAuthCode[3];
-	unsigned char appData[4];
-};
-
-typedef struct GifFileGraphicControlExtension
-{
-	unsigned char blockSize;
-	unsigned char packedFields;
-	unsigned short delayTime;
-	unsigned char transparentColorIndex;
-};
-
-typedef struct GifPlainTextExtension
-{
-	unsigned char blockSize;
-	unsigned short gridLeftPosition;
-	unsigned short gridTopPosition;
-	unsigned short gridWidth;
-	unsigned short gridHeight;
-	unsigned char charCellWidth;
-	unsigned char charCellHeight;
-	unsigned char textForegroundColorIndex;
-	unsigned char textBackgroundColorIndex;
-};
-
-typedef struct GifFileImageDescriptor
-{
-	unsigned short imageLeftPosition;
-	unsigned short imageTopPosition;
-	unsigned short imageWidth;
-	unsigned short imageHeight;
-	unsigned char packedFields;
-};
-
-
 class Gif : public Image
 {
 
 public:
-	Gif();
-	Gif(char *filePath);
+	Gif(const char *filePath);
+	
 	virtual ~Gif();
-
+	
+	/*Devuelve el espacio libre inicial*/
+	Space* Load();
+	
+	/*Verifica si el archivo es del tipo GIF*/
+	static bool ValidateFormat(const char* filePath);
+	
+	/* Implementa el comportamiento para extraer la informacion 
+	 * en un lugar determinado.*/
 	void Extract(Space* space, Message* msg);
+	
+	/* Implementa el comportamiento para ocultar unn mensaje en el espacio indicado
+	 * por el parametro space.*/
 	void Hide(Space* space, Message* msg);
+	
+private:
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
-	Space* GetFreeSpace();
-	bool ValidateFormat(Space* space);
 	
 };
 #endif // !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)

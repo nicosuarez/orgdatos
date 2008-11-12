@@ -19,15 +19,14 @@ class Png : public Image
 {
 
 public:
-	Png();
 	Png(const char* filePath);
 	virtual ~Png();
-
+	
 	void Extract(Space* space, Message* msg);
 	void Hide(Space* space, Message* msg);
-	static bool ValidateFormat(Space* space);
+	static bool ValidateFormat(const char* filePath);
 	void LsbHide(UBYTE dataByte,fstream& fin);
-	tListSpaces* GetFreeSpaces(char* path);
+	Space* Load();
 
 };
 #endif // !defined(EA_B73EE7E2_98EA_11dd_B49B_001B2425640C__INCLUDED_)

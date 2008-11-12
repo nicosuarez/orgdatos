@@ -10,6 +10,7 @@
 #include "BmpHighColor.h"
 #include "Jpg.h"
 #include "Png.h"
+#include "Gif.h"
 #include "../Common/StrToken.h"
 
 /**
