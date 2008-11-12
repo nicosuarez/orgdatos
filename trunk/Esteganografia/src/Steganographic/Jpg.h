@@ -20,14 +20,13 @@ class Jpg : public Image
 {
 
 public:
-	Jpg();
 	Jpg(const char* filePath);
 	virtual ~Jpg();
 
-	static bool ValidateFormat(Space* space);
+	static bool ValidateFormat(const char *filePath);
 	virtual void Extract(Space* space, Message* msg);
 	virtual void Hide(Space* space, Message* msg);
-	bool Load();
+	Space* Load();
 	
 	long GetInitPosFreeSpace() const{
 		return initPosFreeSpace;

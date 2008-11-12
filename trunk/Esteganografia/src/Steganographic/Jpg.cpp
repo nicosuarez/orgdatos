@@ -9,18 +9,15 @@
 
 using namespace std;
 
-Jpg::Jpg(){
-
-}
-
 Jpg::Jpg(const char* filePath){
 	this->filePath = filePath;
 }
+/* -------------------------------------------------------------------------- */
 
 Jpg::~Jpg(){
 
 }
-
+/* -------------------------------------------------------------------------- */
 
 /**
  * Implementar el comportamiento para extraer la informacion en un lugar
@@ -45,7 +42,7 @@ void Jpg::Extract(Space* space, Message* msg)
 	fin.close();
 	fdata.close();
 }
-
+/* -------------------------------------------------------------------------- */
 
 /**
  * Implementa el comportamiento para ocultar unn mensaje en el espacio indicado
@@ -72,11 +69,12 @@ void Jpg::Hide(Space* space, Message* msg)
 	fin.close();
 	fdata.close();
 }
+/* -------------------------------------------------------------------------- */
 
-bool Jpg::ValidateFormat(Space* space)
+bool Jpg::ValidateFormat(const char *filePath)
 {
 	
-	fstream fin(space->GetFilePath());
+	fstream fin(filePath);
 	fin.seekg(6);
 	string format;
 	string header(JpgFileType);
@@ -92,21 +90,21 @@ bool Jpg::ValidateFormat(Space* space)
 			cout << "Formato JPG/JPEG Correcto.\n";
 			isValid = true;
 		}
+		fin.close();
 	}
 	else
 	{
-		cerr << "Error al abrir el archivo JPG." << space->GetFilePath() <<"\n";
+		cerr << ERR_FILE_OPEN << filePath <<"\n";
 	}
-		
-	fin.close();
 	return isValid;
 }
+/* -------------------------------------------------------------------------- */
 
-bool Jpg::Load()
+Space* Jpg::Load()
 {
 	long sizeOrig=0, sizeComp=0, freeSpace=0;
 	char fillChar = '\0';
-	
+	Space *space;
 	sizeOrig = this->GetTotalSize();
 	
 	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
@@ -119,6 +117,8 @@ bool Jpg::Load()
 	cout << "Load Path: "<< this->GetFilePath() << " SizeComp: " << sizeComp << "\n";
 	
 	freeSpace = sizeOrig - sizeComp;
+	this->spaceTotal = freeSpace;
+	this->freeSpaceTotal = freeSpace;	
 	ofstream fout(this->GetFilePath(),ios::binary | ios::app);
 	
 	cout << "Free Space: "<< freeSpace << "\n";
@@ -133,6 +133,7 @@ bool Jpg::Load()
 	cout << "Load Path: "<< this->GetFilePath() << " NewSizeComp: " << this->GetTotalSize() << "\n";
 
 	this->SetInitPosFreeSpace(sizeComp);
-	return false;
+	space = new Space(this->filePath, JpgFileType, sizeComp, spaceTotal);
+	return space;
 }
-
+/* -------------------------------------------------------------------------- */

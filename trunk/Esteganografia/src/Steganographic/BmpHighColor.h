@@ -18,7 +18,6 @@ class BmpHighColor : public Bmp
 {
 
 public:
-	BmpHighColor();
 	BmpHighColor(const char* filePath);
 	virtual ~BmpHighColor();
 

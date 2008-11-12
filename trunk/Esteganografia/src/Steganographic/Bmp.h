@@ -58,12 +58,12 @@ class Bmp : public Image
 
 public:
 	Bmp(const char* filePath);
-	Bmp();
 	virtual ~Bmp();
 
+	Space* Load();
+	static bool ValidateFormat(const char *filePath);
 	void Extract(Space* space, Message* msg);
 	void Hide(Space* space, Message* msg);
-	static bool ValidateFormat(Space* space);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	static ImageColor ImageInfo(const char* filePath);

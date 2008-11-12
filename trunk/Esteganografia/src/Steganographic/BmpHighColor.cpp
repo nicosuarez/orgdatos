@@ -8,13 +8,8 @@
 #include "BmpHighColor.h"
 
 
-BmpHighColor::BmpHighColor(){
-
-}
-
-BmpHighColor::BmpHighColor(const char* filePath)
+BmpHighColor::BmpHighColor(const char* filePath):Bmp(filePath)
 {
-	this->filePath = filePath;
 }
 
 BmpHighColor::~BmpHighColor(){

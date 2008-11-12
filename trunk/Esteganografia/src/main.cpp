@@ -518,19 +518,37 @@ void testCompresion()
 
 void testBmpLSB1bit(int argc, char *argv[])
 {
-	Space spaceHide(argv[1]);
-	spaceHide.SetInitialPosition(STARTBYTE);
+//	Space spaceHide(argv[1]);
+//	spaceHide.SetInitialPosition(STARTBYTE);
+//	Message msg(argv[2]);
+//	Message msgOut(argv[3]);
+//	spaceHide.SetSize(spaceHide.GetTotalSize());
+//	Bmp bmp(argv[1]);
+//	//bmp.ValidateFormat(&space);
+//	bmp.Hide(&spaceHide,&msg);
+//
+//	Space spaceExtract(argv[1]);
+//	spaceExtract.SetInitialPosition(STARTBYTE);
+//	spaceExtract.SetSize(msg.GetSize()*8);
+//	bmp.Extract(&spaceExtract,&msgOut);
+	if( !Bmp::ValidateFormat(argv[1]) )
+	{
+		cout << "FORMATO DE IMAGEN NO VALIDO" << endl;
+		return;
+	}
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
-	spaceHide.SetSize(spaceHide.GetTotalSize());
-	Bmp bmp;
-	//bmp.ValidateFormat(&space);
-	bmp.Hide(&spaceHide,&msg);
-
+	Bmp bmp(argv[1]);
+	Space *spaceHide = bmp.Load();
 	Space spaceExtract(argv[1]);
 	spaceExtract.SetInitialPosition(STARTBYTE);
 	spaceExtract.SetSize(msg.GetSize()*8);
-	bmp.Extract(&spaceExtract,&msgOut);
+	if( spaceHide != NULL)
+	{
+		bmp.Hide(spaceHide,&msg);
+		bmp.Extract(&spaceExtract,&msgOut);
+	}
+	delete spaceHide;
 }
 
 void testBmpLSB2bit(int argc, char *argv[])
@@ -540,7 +558,7 @@ void testBmpLSB2bit(int argc, char *argv[])
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
 	spaceHide.SetSize(spaceHide.GetTotalSize());
-	BmpHighColor* bmp = new BmpHighColor();
+	BmpHighColor* bmp = new BmpHighColor(argv[1]);
 	//bmp.ValidateFormat(&space);
 	bmp->Hide(&spaceHide,&msg);
 
@@ -553,18 +571,37 @@ void testBmpLSB2bit(int argc, char *argv[])
 void testJPG(int argc,char* argv[])
 {
 
-	Space spaceHide(argv[1]);
-	spaceHide.SetInitialPosition(STARTBYTE);
+//	Space spaceHide(argv[1]);
+//	spaceHide.SetInitialPosition(STARTBYTE);
+//	Message msg(argv[2]);
+//	Message msgOut(argv[3]);
+//	spaceHide.SetSize(spaceHide.GetTotalSize());
+//	Jpg* jpg = new Jpg(argv[1]);
+//	jpg->Hide(&spaceHide,&msg);
+//
+//	Space spaceExtract(argv[1]);
+//	spaceExtract.SetInitialPosition(STARTBYTE);
+//	spaceExtract.SetSize(msg.GetSize()*4);
+//	jpg->Extract(&spaceExtract,&msgOut);
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
-	spaceHide.SetSize(spaceHide.GetTotalSize());
-	Jpg* jpg = new Jpg();
-	jpg->Hide(&spaceHide,&msg);
-
+	if( !Jpg::ValidateFormat(argv[1]) )
+	{
+		cout << "FORMATO DE IMAGEN NO VALIDO" << endl;
+		return;
+	}
+	Jpg* jpg = new Jpg(argv[1]);
+	Space *spaceHide = jpg->Load();
 	Space spaceExtract(argv[1]);
 	spaceExtract.SetInitialPosition(STARTBYTE);
-	spaceExtract.SetSize(msg.GetSize()*4);
-	jpg->Extract(&spaceExtract,&msgOut);
+	spaceExtract.SetSize(msg.GetSize());
+	if( spaceHide != NULL)
+	{
+		jpg->Hide(spaceHide,&msg);
+		jpg->Extract(&spaceExtract,&msgOut);
+	}
+	delete jpg;
+	delete spaceHide;
 }
 
 void testFileSystem(const char* path)
@@ -600,7 +637,7 @@ void testPNG(int argc,char* argv[])
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
 	spaceHide.SetSize(spaceHide.GetTotalSize());
-	Png* png = new Png();
+	Png* png = new Png(argv[1]);
 	png->Hide(&spaceHide,&msg);
 
 //	Space spaceExtract(argv[1]);
@@ -612,25 +649,26 @@ void testPNG(int argc,char* argv[])
 
 void testGif(int argc, char *argv[])
 {
-
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
-	Gif *gif = new Gif(argv[1]);
-	Space *space = gif->GetFreeSpace();
-	if( space == NULL )
+	if( ! Gif::ValidateFormat(argv[1]) )
 		return;
-	gif->Hide(space,&msg);
-	gif->Extract(space,&msgOut);
-
+	Gif *gif = new Gif(argv[1]);
+	Space *space = gif->Load();
+	if( space != NULL)
+	{
+		gif->Hide(space,&msg);
+		gif->Extract(space,&msgOut);
+	}
 }
 
 void testStenographic(int argc, char *argv[])
 {
-	//testBmpLSB1bit(argc,argv);
+	testBmpLSB1bit(argc,argv);
 	//testBmpLSB2bit(argc,argv);
-	//testJPG(argc,argv);
+//	testJPG(argc,argv);
 	//testFileSystem(argv[1]);
-	testGif(argc, argv);
+//	testGif(argc, argv);
 //	testConsole(argc,argv);
 	//testPNG(argc,argv);
 }
@@ -663,9 +701,9 @@ int testDataAccess(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	//testCompresion();
-	//testConsole(argc,argv);
-	testDate();
-	//testStenographic(argc, argv);
+//	testConsole(argc,argv);
+	//testDate();
+	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	return EXIT_SUCCESS;
 }

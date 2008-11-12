@@ -45,7 +45,7 @@ Image* ImageFactory::GetImage(const char* filePath)
 {
 	Space space(filePath);
 	Image* image = NULL;
-	if(Bmp::ValidateFormat(&space))
+	if(Bmp::ValidateFormat(filePath))
 	{
 		ImageColor color = Bmp::ImageInfo(filePath); 
 		if(color == LowColor)
@@ -62,18 +62,18 @@ Image* ImageFactory::GetImage(const char* filePath)
 		}
 			
 	}
-	else if(Jpg::ValidateFormat(&space))
+	else if(Jpg::ValidateFormat(filePath))
 	{
 		image = new Jpg(filePath);
 	}
-	else if(Png::ValidateFormat(&space))
+	else if(Png::ValidateFormat(filePath))
 	{
 		image = new Png(filePath);
 	}
-//	else if(Gif::ValidateFormat(space))
-//	{
-//		image = new Gif(filePath);
-//	}
+	else if(Gif::ValidateFormat(filePath))
+	{
+		image = new Gif(filePath);
+	}
 	else
 	{
 		cout << ERR_IMAGE_NOT_SUPPORT << filePath << "\n";
