@@ -15,6 +15,8 @@ OrgExtensibleRelative::OrgExtensibleRelative(const string &fileName, ExtensibleR
     file->Create(reg->GetSize());
     delete reg;
   }
+
+  file->Open(ExtensibleRelativeFile::READ_WRITE);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -22,18 +24,24 @@ OrgExtensibleRelative::OrgExtensibleRelative(const string &fileName, ExtensibleR
 OrgExtensibleRelative::~OrgExtensibleRelative()
 {
   if (file != NULL)
+  {
+    file->Close();
     delete file;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+
+void OrgExtensibleRelative::SeekRegistry(ID_type id)
+{
+  file->Seek(id); 
 }
 
 /* -------------------------------------------------------------------------- */
 
 ExtensibleRelativeRegistry* OrgExtensibleRelative::GetRegistry(ID_type id)
 {
-  ExtensibleRelativeRegistry *reg;
-
-  file->Open(ExtensibleRelativeFile::READ);
-  reg = file->Read(id);
-  file->Close();
+  ExtensibleRelativeRegistry *reg = file->Read(id);
 
   if (reg->IsDeleted())
   {
@@ -46,29 +54,30 @@ ExtensibleRelativeRegistry* OrgExtensibleRelative::GetRegistry(ID_type id)
 
 /* -------------------------------------------------------------------------- */
 
+ExtensibleRelativeRegistry* OrgExtensibleRelative::GetNextRegistry()
+{
+  return file->ReadNext();
+}
+
+/* -------------------------------------------------------------------------- */
+
 void OrgExtensibleRelative::WriteRegistry(ExtensibleRelativeRegistry &reg)
 {
-  file->Open(ExtensibleRelativeFile::WRITE);
   file->Write(reg);
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */
 
 void OrgExtensibleRelative::UpdateRegistry(const ExtensibleRelativeRegistry &reg)
 {
-  file->Open(ExtensibleRelativeFile::WRITE);
   file->Update(reg);
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */
 
 void OrgExtensibleRelative::DeleteRegistry(ID_type id)
 {
-  file->Open(ExtensibleRelativeFile::WRITE);
   file->Delete(id);
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */
