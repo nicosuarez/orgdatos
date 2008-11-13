@@ -28,7 +28,10 @@
 #define LBL_PASS "Password: "
 #define EMPTY " "
 #define ERR_INCORRECT_PASSWORD "El password ingresado es incorrecto."
+#define ERR_SAME_PASSWORD "La validacion del password es erronea."
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
+#define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
+#define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
 #define MSG_INITIAL_PROGRAM "\n\
 //////////////////////////////////////////////////////////////////////\n\
 //                  Bienvenido a Esteganografia v1.0                //\n\

@@ -1,0 +1,81 @@
+Scanning
+
+Most scanners are automatically supported by Ubuntu, and should be easy to install and operate. This guide will walk you through how to use your scanner and what to do if Ubuntu cannot find your scanner.
+Does my scanner work with Ubuntu?
+
+There are three ways to see if you scanner works in Ubuntu:
+
+   1.
+
+      Simply plug it in and try it! If it is a newer Universal Serial Bus (USB) scanner, it is likely that it will just work.
+   2.
+
+      Check https://wiki.ubuntu.com/HardwareSupportComponentsScanners which is Ubuntu specific.
+   3.
+
+      SANE project listing of support scanners - The SANE (Scanner Access Now Easy) project provides most of the backends to the scanning software on Ubuntu.
+
+Using your scanner
+
+Most of the time, Ubuntu will simply detect your scanner and you just be able to use it. To scan a document, you need to follow these steps:
+
+   1.
+
+      Place what you want to scan on the scanner.
+   2.
+
+      Go to Applications → Graphics → XSane Image Scanner.
+   3.
+
+      Alternately, pressing the scan button on the scanner should also work.
+
+What if it says "No devices available"?
+
+There are two reasons why you might get this message.
+
+   1.
+
+      Your scanner is not supported in Ubuntu. The most common type of scanner not supported is old parallel port or Lexmark All-in-One printer/scanner/faxes.
+   2.
+
+      The driver for your scanner is not being autoloaded.
+
+Manually installing a scanner
+
+There are some scanners that have less than complete drivers from the SANE project. They can sometimes be used, but not all the features may work.
+
+   1.
+
+      Make sure the Universe repository is enabled. The easiest way to do this is probably through Synaptic.
+   2.
+
+      Get the drivers by searching Synaptic for libsane-extras or at a terminal type:
+
+      sudo apt-get install libsane-extras
+
+   3.
+
+      Edit the /etc/sane.d/dll.conf and enable the right driver for your scanner. Look for the lines that say:
+
+      # The following backends are not part of the SANE distribution
+      # but are provided by the libsane-extras Debian package
+
+      Below it are several commented out lines. Uncomment (delete the #) the right one for your scanner.
+   4.
+
+      Fire up sane and scan away.
+
+[Note] 	
+
+Because of the way Ubuntu's hotplugging stuff works, you may need to plug in the scanner after the computer has booted. If you're having problems seeing the scanner, you might want to try this.
+XSane Image Scanner
+
+You can use XSane to control a scanner and acquire images from it. With XSane, you can easily photocopy documents and save, fax or e-mail your scanned images. It can even save your scans as multi-page documents, instead of separate, one-page files. The Xsane website has more information.
+
+    *
+
+      To start Applications → Graphics → XSane Image Scanner.
+
+[Note] 	
+
+XSane can also be used from within The GIMP; just click File → Acquire → XSane to scan directly into an image.

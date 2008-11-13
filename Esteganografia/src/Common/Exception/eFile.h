@@ -1,17 +1,17 @@
 #ifndef EFILE_H_
 #define EFILE_H_
 #include <string>
+class eFile{
+    protected:
+        std::string message;
 
-class eFile
-{
-	std::string msg;
-	public:
-		eFile( std::string error){ this->msg = error;};  
-		virtual const char* what() const throw()
-		  {
-			  return msg.c_str();
-		  }
+    public:
+        eFile(const std::string& amessage) : message(amessage) {
+        }
 
+        const char* what() const{
+            return message.c_str();
+        }
 };
 
-#endif /*EFILE_H_*/
+#endif /* EFILE_H_ */
