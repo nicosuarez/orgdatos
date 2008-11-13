@@ -11,40 +11,42 @@
 #include "ExtensibleRelativeRegistry.h"
 #include "../../Common/Date.h"
 
-class ImgRegistry:ExtensibleRelativeRegistry{
+class ImgRegistry:public ExtensibleRelativeRegistry{
+	public:
+		ImgRegistry();
+		~ImgRegistry();
 
-	ImgRegistry();
-	~ImgRegistry();
+		static ExtensibleRelativeRegistry* RegCreate();
 
-    ID_type getIDDir() const;
+		ID_type getIDDir() const;
 
-    void setIDDir(ID_type idDir);
+		void setIDDir(ID_type idDir);
 
-    ID_type getIDName() const;
+		ID_type getIDName() const;
 
-    void setIDName(ID_type idName);
+		void setIDName(ID_type idName);
 
-    ID_type getIDFirstFreeSpace() const;
-    void setIDFirstFreeSpace(ID_type idFirstFreeSpace);
+		ID_type getIDFirstFreeSpace() const;
+		void setIDFirstFreeSpace(ID_type idFirstFreeSpace);
 
-    ID_type getIDLastFreeSpace() const;
-    void setIDLastFreeSpace(ID_type idLastFreeSpace);
+		ID_type getIDLastFreeSpace() const;
+		void setIDLastFreeSpace(ID_type idLastFreeSpace);
 
-    ID_type getPtrMsgList() const;
+		ID_type getPtrMsgList() const;
 
-    void setPtrMsgList(ID_type ptrMsgList);
+		void setPtrMsgList(ID_type ptrMsgList);
 
-    unsigned long getSizeMaxFreeSpace() const;
+		unsigned long getSizeMaxFreeSpace() const;
 
-    void setSizeMaxFreeSpace(unsigned long  sizeMaxFreeSpace);
+		void setSizeMaxFreeSpace(unsigned long  sizeMaxFreeSpace);
 
-    Date getDate() const;
+		Date getDate() const;
 
-    void setDate(Date& date);
+		void setDate(Date& date);
 
-    unsigned int GetSize() const;
+		unsigned int GetSize() const;
 
-    char* Serialize() const;
+		char* Serialize() const;
 
   private:
     ID_type idDir;

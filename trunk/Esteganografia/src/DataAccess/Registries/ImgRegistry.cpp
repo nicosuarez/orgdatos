@@ -3,6 +3,9 @@
 	ImgRegistry::~ImgRegistry(){}
 	ImgRegistry::ImgRegistry():ExtensibleRelativeRegistry(){};
 
+	ExtensibleRelativeRegistry* ImgRegistry::RegCreate(){
+		return new ImgRegistry();
+	}
 
     ID_type ImgRegistry::getIDDir() const
     {
