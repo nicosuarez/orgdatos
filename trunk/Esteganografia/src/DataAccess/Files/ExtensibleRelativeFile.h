@@ -50,6 +50,11 @@ class ExtensibleRelativeFile
      * id: The ID of the registry to read. */
     ExtensibleRelativeRegistry* Read(ID_type id);
 
+    /* Reads the next not deleted registry until the end of the file (NULL). 
+     * Before using this method Seek must be used to positionate the file. 
+     * The allocated memory must be freed by the caller. */
+    ExtensibleRelativeRegistry* ReadNext();
+
     /* Writes the registry to the file. 
      * reg: The registry to write. */
     void Write(ExtensibleRelativeRegistry &reg);
@@ -78,6 +83,9 @@ class ExtensibleRelativeFile
     short openMode;
     const string *fileName;
     
+    // ID that is used in the ReadNext.
+    ID_type readNextID;
+    
     // Pointer to the function that creates the specific registry.
     ExtensibleRelativeRegistry* (*ptrMethodCreateRegistry)();
 
@@ -101,7 +109,6 @@ class ExtensibleRelativeFile
     void AssertFileClosed() const;
     void AssertRead(ID_type id) const;
     void AssertRangeID(ID_type id) const;
-    void AssertSize(const ExtensibleRelativeRegistry &reg) const;
     void AssertWrite(const ExtensibleRelativeRegistry &reg) const;
 
     /* Allocation and copy constructor are private to prevent errors. */

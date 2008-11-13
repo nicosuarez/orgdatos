@@ -15,6 +15,8 @@ OrgList::OrgList(const string &fileName, ExtensibleRelativeRegistry* (*ptrMethod
     file->Create(reg->GetSize());
     delete reg;
   }
+
+  file->Open(ExtensibleRelativeFile::READ_WRITE);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -22,15 +24,16 @@ OrgList::OrgList(const string &fileName, ExtensibleRelativeRegistry* (*ptrMethod
 OrgList::~OrgList()
 {
   if (file != NULL)
+  {
+    file->Close();
     delete file;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
 
 std::list<ListRegistry*>* OrgList::GetList(ID_type first)
 {
-  file->Open(ExtensibleRelativeFile::READ);
-
   ListRegistry *reg = dynamic_cast<ListRegistry*>(file->Read(first));
   AssertFirstReg(*reg);
 
@@ -48,8 +51,6 @@ std::list<ListRegistry*>* OrgList::GetList(ID_type first)
     id = reg->GetNextID();
   }
 
-  file->Close();
-
   if (list->size() == 0)
   {
     FreeList(list);
@@ -66,9 +67,7 @@ void OrgList::CreateList(ListRegistry &firstReg)
   firstReg.SetNextID(0);
   firstReg.SetPreviousID(0);
 
-  file->Open(ExtensibleRelativeFile::WRITE);
   file->Write(firstReg);
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -76,9 +75,7 @@ void OrgList::CreateList(ListRegistry &firstReg)
 void OrgList::AddToListFirst(ListRegistry &reg, ID_type first)
 {
   // Read the 'old' first registry of the list.
-  file->Open(ExtensibleRelativeFile::READ_WRITE);
   ListRegistry *firstReg = dynamic_cast<ListRegistry*>(file->Read(first));
-  
   AssertFirstReg(*firstReg);
 
   // Set 'old' first registry ID as the next ID of the new one.
@@ -91,7 +88,6 @@ void OrgList::AddToListFirst(ListRegistry &reg, ID_type first)
   firstReg->SetPreviousID(reg.GetID());
   file->Update(*firstReg);
 
-  file->Close();
   delete firstReg;
 }
 
@@ -100,9 +96,7 @@ void OrgList::AddToListFirst(ListRegistry &reg, ID_type first)
 void OrgList::AddToListLast(ListRegistry &reg, ID_type last)
 {
   // Read the 'old' last registry of the list.
-  file->Open(ExtensibleRelativeFile::READ_WRITE);
   ListRegistry *lastReg = dynamic_cast<ListRegistry*>(file->Read(last));
-
   AssertLastReg(*lastReg);
 
   // Set 'old' last registry ID as the previous ID of the new one.
@@ -115,7 +109,6 @@ void OrgList::AddToListLast(ListRegistry &reg, ID_type last)
   lastReg->SetNextID(reg.GetID());
   file->Update(*lastReg);
 
-  file->Close();
   delete lastReg;
 }
 
@@ -123,10 +116,11 @@ void OrgList::AddToListLast(ListRegistry &reg, ID_type last)
 
 void OrgList::DeleteList(ID_type first)
 {
-  file->Open(ExtensibleRelativeFile::READ_WRITE);
+  ListRegistry *reg = dynamic_cast<ListRegistry*>(file->Read(first));
+  AssertFirstReg(*reg);
 
-  ID_type id = first;
-  ListRegistry *reg = NULL;
+  ID_type id = reg->GetNextID();
+  delete reg;
 
   while (id != 0)
   {
@@ -134,18 +128,14 @@ void OrgList::DeleteList(ID_type first)
     file->Delete(reg->GetID());
 
     id = reg->GetNextID();
-
     delete reg;
   }
-
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */
 
 void OrgList::DeleteFromList(ID_type id)
 {
-  file->Open(ExtensibleRelativeFile::READ_WRITE);
   file->Delete(id);
 
   // Update the list ID depending on the previous and next registries.
@@ -184,8 +174,6 @@ void OrgList::DeleteFromList(ID_type id)
   }
   
   delete reg;
-
-  file->Close();
 }
 
 /* -------------------------------------------------------------------------- */

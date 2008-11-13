@@ -24,10 +24,20 @@ class OrgExtensibleRelative
     /* Destructor. */ 
     virtual ~OrgExtensibleRelative();
 
+    /* Seeks the registry with the ID. 
+     * id: The ID of the registry. */
+    void SeekRegistry(ID_type id);
+
     /* Gets a registry with the ID from the organization. 
      * The allocated memory must be freed by the caller.
      * id: The ID of the registry to get. */
     ExtensibleRelativeRegistry* GetRegistry(ID_type id);
+
+    /* Reads the next not deleted registry until the end, when it 
+     * returns NULL. Before using this method SeekRegistry must 
+     * be used to positionate the file. The allocated memory must be 
+     * freed by the caller. */
+    ExtensibleRelativeRegistry* GetNextRegistry();
 
     /* Writes the registry to the organization. 
      * reg: The registry to write. */

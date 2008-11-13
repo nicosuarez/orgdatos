@@ -1,29 +1,29 @@
 /* -------------------------------------------------------------------------- */
-// ListRegistry.h
+// TextRegistry.h
 // Developer: Leandro Oscar Mencias
 /* -------------------------------------------------------------------------- */
 
-#ifndef _LIST_REGISTRY_
-#define _LIST_REGISTRY_
+#ifndef _TEXT_REGISTRY_
+#define _TEXT_REGISTRY_
 
 #include "ExtensibleRelativeRegistry.h"
 
 /* This class represents the registry that will be used in the organization 
- * OrgList. It inherits ExtensibleRelativeRegistry and override methods. */
-class ListRegistry : public ExtensibleRelativeRegistry
+ * OrgText. It inherits ExtensibleRelativeRegistry and override methods. */
+class TextRegistry : public ExtensibleRelativeRegistry
 {
   public:
     /* Constructor. */ 
-    ListRegistry();
+    TextRegistry();
 
     /* Destructor. */ 
-    virtual ~ListRegistry();
+    virtual ~TextRegistry();
 
-    /* Gets the next ID in the list. */
-    ID_type GetNextID() const;
+    /* Gets the offset of the text in the file. */
+    unsigned int GetOffset() const;
 
-    /* Gets the previous ID in the list. */
-    ID_type GetPreviousID() const;
+    /* Gets the length of the text. */
+    unsigned int GetLength() const;
 
     /* Gets the size of the registry.
      * Each derived class should specify its size. */
@@ -43,23 +43,23 @@ class ListRegistry : public ExtensibleRelativeRegistry
     virtual void Deserialize(const char* buffer, unsigned int length);
 
   private:
-    ID_type nextId;
-    ID_type previousId;
+    unsigned int offset;
+    unsigned int length;
 
-    /* Sets the ID of the next registry in the list. 
-     * id: ID of the next registry in the list. */
-    void SetNextID(ID_type id);
+    /* Sets the offset of the text in the file.
+     * offset: Offset of the text in the file. */
+    void SetOffset(unsigned int offset);
 
-    /* Sets the ID of the previous registry in the list. 
-     * id: ID of the previous registry in the list. */
-    void SetPreviousID(ID_type id);
+    /* Sets the length of the text.
+     * length: Length of the text. */
+    void SetLength(unsigned int length);
 
     /* Allocation and copy constructor are private to prevent errors. */
-    ListRegistry(const ListRegistry &reg);
-    ListRegistry& operator=(const ListRegistry &reg);
+    TextRegistry(const TextRegistry &reg);
+    TextRegistry& operator=(const TextRegistry &reg);
 
-    // Friend class that will use SetNextID and SetPreviousID methods.    
-    friend class OrgList;
+    // Friend class that will use SetOffset and SetLength methods.    
+    friend class OrgText;
 };
 #endif
 

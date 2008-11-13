@@ -101,6 +101,8 @@ void ExtensibleRelativeFile::Open(short mode)
 void ExtensibleRelativeFile::Seek(ID_type id)
 {
   AssertRangeID(id);
+
+  readNextID = id;
   InternalSeek(id);
 }
 
@@ -123,9 +125,28 @@ ExtensibleRelativeRegistry* ExtensibleRelativeFile::Read(ID_type id)
 
 /* -------------------------------------------------------------------------- */
 
+ExtensibleRelativeRegistry* ExtensibleRelativeFile::ReadNext()
+{
+  AssertFileOpened();
+
+  while (readNextID < newID)
+  {
+    ExtensibleRelativeRegistry *reg = InternalRead(readNextID);
+    ++readNextID;
+
+    if (!reg->IsDeleted())
+      return reg;
+
+    delete reg;
+  }
+
+  return NULL;
+}
+
+/* -------------------------------------------------------------------------- */
+
 void ExtensibleRelativeFile::Write(ExtensibleRelativeRegistry &reg)
 {
-  AssertSize(reg);
   AssertWrite(reg);
 
   /* If nextID is greater than 0, the new registry will occupy a deleted one.
@@ -153,9 +174,7 @@ void ExtensibleRelativeFile::Write(ExtensibleRelativeRegistry &reg)
 
 void ExtensibleRelativeFile::Update(const ExtensibleRelativeRegistry &reg)
 {
-  AssertSize(reg);
   AssertWrite(reg);
-
   ExtensibleRelativeRegistry *existent = InternalRead(reg.GetID());
 
   if (existent->IsDeleted())
@@ -171,8 +190,6 @@ void ExtensibleRelativeFile::Update(const ExtensibleRelativeRegistry &reg)
 void ExtensibleRelativeFile::Delete(ID_type id)
 {
   ExtensibleRelativeRegistry *reg = InternalRead(id);
-
-  AssertSize(*reg);
   AssertWrite(*reg);
 
   reg->SetID(nextID);
@@ -310,17 +327,12 @@ void ExtensibleRelativeFile::AssertRangeID(ID_type id) const
 
 /* -------------------------------------------------------------------------- */
 
-void ExtensibleRelativeFile::AssertSize(const ExtensibleRelativeRegistry &reg) const
-{
-  if (reg.GetSize() != size)
-    throw "The registry size and the serialization size are different.";
-}
-
-/* -------------------------------------------------------------------------- */
-
 void ExtensibleRelativeFile::AssertWrite(const ExtensibleRelativeRegistry &reg) const
 {
   AssertFileOpened();
+
+  if (reg.GetSize() != size)
+    throw "The registry size and the serialization size are different.";
 
   if (openMode == READ)
     throw "The file is opened just for Read.";
