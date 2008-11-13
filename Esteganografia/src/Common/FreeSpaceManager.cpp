@@ -7,26 +7,35 @@
 
 #include "FreeSpaceManager.h"
 
-
-FreeSpaceManager::FreeSpaceManager(){
-
-}
+FreeSpaceManager* FreeSpaceManager:: instance = NULL;
+/* -------------------------------------------------------------------------- */
 
 
-
-FreeSpaceManager::~FreeSpaceManager(){
+FreeSpaceManager::FreeSpaceManager()
+{
 
 }
+/* -------------------------------------------------------------------------- */
 
 
+FreeSpaceManager* FreeSpaceManager::GetInstance()
+{
+	if(instance == NULL)
+		instance = new FreeSpaceManager();
+	return instance;
+}
+/* -------------------------------------------------------------------------- */
 
 
+FreeSpaceManager::~FreeSpaceManager()
+{
 
-/**
- * Metodo que devuelve dado un tamano retorna una lista de espacios en donde se
- * puede almacenar la informacion. 
- */
-list<Space>* FreeSpaceManager::GetFreeSpace(int size){
+}
+/* -------------------------------------------------------------------------- */
+
+
+list<Space>* FreeSpaceManager::GetFreeSpace(int size)
+{
 		return  NULL;
 }
-
+/* -------------------------------------------------------------------------- */

@@ -8,31 +8,55 @@
 #include "ImageManager.h"
 
 unsigned long ImageManager:: freeTotalSize = 0;
+ImageManager* ImageManager:: instace = NULL;
+/* -------------------------------------------------------------------------- */
+
 
 ImageManager::ImageManager(){
 
 }
+/* -------------------------------------------------------------------------- */
+
+
+ImageManager* ImageManager::GetInstance()
+{
+	if(instace == NULL)
+		instace = new ImageManager();
+	return instace;
+}
+/* -------------------------------------------------------------------------- */
+
 
 ImageManager::~ImageManager(){
 
 }
+/* -------------------------------------------------------------------------- */
 
 
-/**
- * Quita una imagen del ocultador
- */
 void ImageManager::DeleteImage(Image* image)
 {
 
 }
+/* -------------------------------------------------------------------------- */
 
-/**
- * Agrega una imagen del ocultador
- */
+
 void ImageManager::AddImage(Image* image)
 {
-	
-	
 }
+/* -------------------------------------------------------------------------- */
 
 
+list<int> ImageManager::GetMessages(Image* image)
+{
+	list<int> listMessages;
+	return listMessages;
+}
+/* -------------------------------------------------------------------------- */
+
+
+list<Space> ImageManager::GetFreeSpaces(Image* image)
+{
+	list<Space> listSpaces;
+	return listSpaces;
+}
+/* -------------------------------------------------------------------------- */

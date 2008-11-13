@@ -7,32 +7,38 @@
 
 #include "CompressionManager.h"
 
+CompressionManager* CompressionManager:: instance = NULL;
+/* -------------------------------------------------------------------------- */
+
 
 CompressionManager::CompressionManager(){
 
 }
+/* -------------------------------------------------------------------------- */
 
+
+CompressionManager* CompressionManager::GetInstance()
+{
+	if(instance == NULL)
+		instance = new CompressionManager();
+	return instance;
+}
+/* -------------------------------------------------------------------------- */
 
 
 CompressionManager::~CompressionManager(){
 
 }
+/* -------------------------------------------------------------------------- */
 
 
-
-
-
-/**
- * Comprime el mensaje.
- */
 Message CompressionManager::Compress(Message msg){
 	return msg;
 }
+/* -------------------------------------------------------------------------- */
 
 
-/**
- * Descomprime el mensaje.
- */
 Message CompressionManager::Decompress(Message msg){
 	return msg;
 }
+/* -------------------------------------------------------------------------- */
