@@ -9,7 +9,7 @@
 #define PNGRGB_H_
 
 #include "Image.h"
-#include <png++/png.hpp>
+#include <png.h>
 
 #define PngFileType "PNG"
 
