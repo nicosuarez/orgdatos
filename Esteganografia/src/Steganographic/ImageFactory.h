@@ -26,6 +26,9 @@ public:
 	static Image* GetImage(Space* space);
 	static Image* GetImage(const char* filePath);
 	static bool SupportedFormats(const char* filePath);
+private:
+	static Image* GetPng(const char* filePath);
+	static Image* GetBmp(const char* filePath);
 
 };
 #endif // !defined(EA_B53A0FA8_98EA_11dd_B49B_001B2425640C__INCLUDED_)

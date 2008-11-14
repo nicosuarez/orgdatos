@@ -28,7 +28,7 @@ public:
 	Image();
 	virtual ~Image();
 	
-	virtual Space* Load() = 0;
+	virtual Space* Load();
 	
 	long GetId() const{
 		return imageId;

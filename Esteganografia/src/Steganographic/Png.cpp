@@ -1,175 +1,252 @@
-///////////////////////////////////////////////////////////
-//  Png.cpp
-//  Implementation of the Class Png
-//  Created on:      13-Oct-2008 2:49:35 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #include "Png.h"
 
-Png::Png(const char* filePath){
-	this->filePath = filePath;
+Png::Png()
+{	
 }
-
-Png::~Png(){
-
-}
-
-
-/**
- * Implementar el comportamiento para extraer la informacion en un lugar
- * determinado.
- */
-void Png::Extract(Space* space, Message* msg){
-	
-}
-
-
-/**
- * Implementa el comportamiento para ocultar unn mensaje en el espacio indicado
- * por el parametro space.
- */
-void Png::Hide(Space* space, Message* msg)
+/*---------------------------------------------------------------------------*/
+Png::~Png()
 {
-	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath());
-	UBYTE dataByte;
-	long hideBytes = 0;
-	
-	fdata.seekg(msg->GetHiddenSize());
-	fin.seekg(space->GetInitialPosition());
-	
-	while(!fdata.eof() && (hideBytes < spaceSize))
-	{
-		fdata.read(&dataByte,sizeof(UBYTE));
-		this->LsbHide(dataByte,fin);
-		hideBytes++;
-	}
-	msg->IncHiddenSize(hideBytes);
-	
-	fin.close();
-	fdata.close();
 }
-
-void Png::LsbHide(UBYTE dataByte,fstream& fin)
+/*---------------------------------------------------------------------------*/
+Png::Png(const char* filePath) : Image(filePath)
 {
-	long pos = 0;
-	UBYTE imgByte;
-	
-	//Se utiliza LSB de 1 bit.
-	for(int k=0;k<8;k++)
-	{
-		pos = fin.tellp();
-		fin.read(&imgByte,sizeof(UBYTE));
-		imgByte = (imgByte & ~1) | ((dataByte>>(7-k))&1);
-		fin.seekp(pos);
-		fin.write(&imgByte,sizeof(UBYTE));			
-	}
 }
-
-bool Png::ValidateFormat(const char* filePath)
+/*---------------------------------------------------------------------------*/
+Space* Png::GetFreeSpace()
 {
-	fstream fin(filePath);
-	fin.seekg(1);
-	string format;
-	string header(PngFileType);
-	bool isValid = false;
-    
-	if(fin.good())
-	{
-		fin >> format;
-		if(format.compare(0,3,header) == 0)
-		{
-			cout << "Formato PNG Correcto.\n";
-			isValid = true;
-		}
-		fin.close();
-	}
-	else
-	{
-		cerr << ERR_FILE_OPEN << filePath << "\n";
-	}
-	return isValid;
-}
-
-
-Space* Png::Load()
-{
-	fstream file(filePath);
-	if( file.bad())
-	{
-		cout << "NO SE PUDO ABRIR LA IMAGEN: " << filePath << endl; 
-		return NULL;
-	}
-	Space *space = NULL;
-//	GifFileHeader header;
-//	GifFileLogicalScreenDescriptor lsd;
-//	int sizePaleta=0, pos=0;
+	long initialPosition=0;
+	SetPngInfo(this->GetFilePath());
+	long totalComponents = (this->Height * this->Width) * this->Channels;
+	long freeSpace = (totalComponents / (8/BitsLSB));
 	
-	//leo el header de la imagen
-//	file.read((char*)&header, sizeof(GifFileHeader));
-	
-	//leo el logical screen description, para ver si hay paleta global
-//	file.read((char*)&lsd, sizeof(GifFileLogicalScreenDescriptor));
-//	if( (lsd.packedFields >> 7) == 1 )//si hay paleta global
-//	{
-//		//obtengo el tamaño de la paleta
-//		sizePaleta = lsd.packedFields & 0x07;
-//		sizePaleta = 3*(int)pow(2,(double)sizePaleta+1);
-//		
-//		//obtengo posicion donde esta la paleta
-//		pos = file.tellg();
-//		
-//		//doy de alta un nuevo espacio libre y lo agrego a la lista
-//		space = new Space(path, "GIF", pos, sizePaleta);
-//		lista->push_back(space);
-//		
-//		//posiciono el puntero al final de la paleta
-//		file.seekg(sizePaleta, ios_base::cur);
-//	}
-//	
-//	//sigo leyendo en busca de paletas locales
-//	char buf;
-//	file.read(&buf, sizeof(char));
-//	
-//	//si hay bloques extension los salteo porque no me interesan
-//	if( buf  == EXTENSION_INTRODUCER)
-//	{
-//		file.read(&buf, sizeof(char));
-//		if( (unsigned char)buf == APP_EXTENSION_LABEL)
-//		{
-//			file.seekg(sizeof(GifFileAppExtension), ios_base::cur);
-//			file.read(&buf, sizeof(char));
-//			while( buf != BLOCK_TERMINATOR)
-//				file.read(&buf, sizeof(char));
-//			file.read(&buf, sizeof(char));
-//		}
-//		if( (unsigned char)buf == GRAPHIC_CONTROL_LABEL)
-//		{
-//			file.seekg(sizeof(GifFileGraphicControlExtension) + 1, ios_base::cur);
-//			file.read(&buf,sizeof(char));
-//		}
-//	}
-//	
-//	GifFileImageDescriptor imageDescriptor;
-//	
-//	//por cada imagen que hay en el gif me fijo en su "image descriptor" si tiene paleta local
-//	while(buf == IMAGE_SEPARATOR)	
-//	{
-//		file.read((char*)&imageDescriptor, sizeof(GifFileImageDescriptor));
-//		if( (imageDescriptor.packedFields >> 7) == 1) //si hay paleta local
-//		{
-//			sizePaleta = imageDescriptor.packedFields & 0x07;
-//			sizePaleta = 3*(int)pow(2,(double)sizePaleta+1);
-//			pos = file.tellg();
-//			space = new Space(path, "GIF", pos, sizePaleta);
-//			lista->push_back(space);
-//			file.seekg(sizePaleta+1, ios_base::cur); //posiciono donde empieza el bloque de datos
-//			file.read(&buf, sizeof(char)); //leo el tamaño del bloque
-//			file.seekg( ((int)buf)+1, ios_base::cur);//posiciono al final del bloque de datos
-//		}
-//		file.read(&buf, sizeof(char));
-//	}
-//	file.close();
+	Space* space = new Space(this->GetFilePath());
+	space->SetInitialPosition(initialPosition);
+	space->SetSize(freeSpace);
 	return space;
 }
+/*---------------------------------------------------------------------------*/
+bool Png::ValidateFormat(const char* filePath)
+{
+	png_byte header[8];
+    FILE *fp = fopen(filePath, "rb");
+    if (!fp)
+    {
+    	cerr << ERR_FILE_OPEN << filePath <<"\n";
+        throw EMPTY;
+    }
+    fread(header, 1, 8, fp);
+    bool is_png = !png_sig_cmp(header, 0, 8);
+	fclose(fp);
+	return is_png;
+}
+/*---------------------------------------------------------------------------*/
+void Png::Hide(Space* space, Message* msg)
+{
+	//Verifica que tipo de profundidad de color tiene para realizar 
+	//el ocultamiento (Tipos: RGB,RGBA,GA,GRAY 16 y 8 bits)
+	try
+	{
+		this->SetPngInfo(space->GetFilePath());
+		if(this->BitDepth == HighBitDepth)
+			this->Hide<png_uint_16>(space,msg);
+		else
+			this->Hide<png_byte>(space,msg);
+	}
+	catch (char* error)
+    {
+		std::cout << error << std::endl;
+    }
+}
+/*---------------------------------------------------------------------------*/
+void Png::Extract(Space* space, Message* msg)
+{
+	//Verifica que tipo de profundidad de color tiene para realizar 
+	//el ocultamiento (Tipos: RGB,RGBA,GA,GRAY 16 y 8 bits)
+	try
+	{
+		SetPngInfo(space->GetFilePath());
+		if(this->BitDepth == HighBitDepth)
+			this->Extract<png_uint_16>(space,msg);
+		else
+			this->Extract<png_byte>(space,msg);
+	}
+	catch (char* error)
+    {
+		std::cout << error << std::endl;
+    }
+}
+/*---------------------------------------------------------------------------*/
+FILE* Png::OpenImage(const char* filePath, const char* mode)
+{
+	FILE* inputFile;
+    if ((inputFile = fopen(filePath,mode))== NULL)
+    {
+    	cout << ERR_FILE_OPEN << filePath << endl;
+    	throw EMPTY;
+    }
+    
+    return inputFile;
+}
+/*---------------------------------------------------------------------------*/
+void Png::SetPngInfo(const char* filePath)
+{
+	FILE* imageFile = OpenImage(filePath, "r+b");
+	CreateReadPng(imageFile);
+	CreateInfo();
+	ValidateReadInfo(imageFile);
+	ValidatePng(imageFile);
+	ReadPng(imageFile);
+	GetIHDR(Width, Height, BitDepth, ColorType, InterlaceType, 
+			CompressionType ,FilterMethod );
+	this->Channels = GetChannels();
+	this->RowBytes = GetRowBytes();
+	DeleteReadPng(imageFile);
+}
+/*---------------------------------------------------------------------------*/
+bool Png::CreateReadPng(FILE* inputFile)
+{
+	PngStruct = png_create_read_struct( PNG_LIBPNG_VER_STRING, NULL ,
+									       NULL ,
+									       NULL );
+	if (PngStruct== NULL)
+	{
+		fclose(inputFile);
+		throw ERR_CREATE_PNG_STRUCT_WRITE;
+	}
+	return false;
+}
+/*---------------------------------------------------------------------------*/
+void Png::CreateInfo()
+{
+	InfoStruct = png_create_info_struct( PngStruct );
+}
+/*---------------------------------------------------------------------------*/
+bool Png::ValidatePng(FILE* inputFile)
+{
+	if (setjmp(png_jmpbuf(PngStruct)))
+	{
+		DeleteReadPng(inputFile);
+	    throw ERR_VALIDATE_PNG_FORMAT;
+	} 
+	return false; //No error
+}
+/*---------------------------------------------------------------------------*/
+void Png::ReadPng(FILE* inputFile)
+{ 
+	unsigned int sig_read=0;
+	InitIO(inputFile); 
+	png_set_sig_bytes( PngStruct , sig_read );
+	png_read_png( PngStruct , InfoStruct , PNG_TRANSFORM_IDENTITY , NULL );
+}
+/*---------------------------------------------------------------------------*/
+void Png::GetIHDR(png_uint_32& width, png_uint_32& height, int& bit_depth, 
+					int& color_type, int& interlace_type ,
+					int& compression_type, int& filter_method)
+{  
+	png_get_IHDR( 
+	  PngStruct , 
+	  InfoStruct , 
+	  &width , 
+	  &height ,
+	  &bit_depth , 
+	  &color_type , 
+	  &interlace_type ,
+	  &compression_type , 
+	  &filter_method );
+}
+/*---------------------------------------------------------------------------*/
+png_uint_32 Png::GetChannels()
+{
+	return png_get_channels(PngStruct, InfoStruct);
+}
+/*---------------------------------------------------------------------------*/
+png_uint_32 Png::GetRowBytes()
+{
+	return png_get_rowbytes(PngStruct, InfoStruct);
+}
+/*---------------------------------------------------------------------------*/
+void Png::InitIO(FILE* inputFile)
+{
+	png_init_io( PngStruct, inputFile);
+}
+/*---------------------------------------------------------------------------*/
+bool Png::ValidateWriteInfo(FILE* outFile)
+{
+	if(InfoStruct==NULL)
+	{
+		DeleteWritePng(outFile);
+		throw ERR_VALIDATE_INFO_PNG;
+	}
+	return false; //No error.
+}
+/*---------------------------------------------------------------------------*/
+bool Png::ValidateReadInfo(FILE* outFile)
+{
+	if(InfoStruct==NULL)
+	{
+		DeleteReadPng(outFile);
+		throw ERR_VALIDATE_INFO_PNG;
+	}
+	return false; //No error.
+}
+/*---------------------------------------------------------------------------*/
+void Png::DeleteReadPng(FILE* inputFile)
+{
+	// Se destruye la estructura para lectura. 
+	png_destroy_read_struct(&PngStruct , &InfoStruct , png_infopp_NULL);
+	// se cierra el archivo.
+	fclose( inputFile );
+}
+/*---------------------------------------------------------------------------*/
+void Png::DeleteWritePng(FILE* onputFile)
+{
+	// Se destruye la estructura para escritura.  
+	png_destroy_write_struct(&PngStruct , &InfoStruct);
+	// se cierra el archivo.
+	fclose( onputFile );
+}
+/*---------------------------------------------------------------------------*/
+void Png::SetIHDR(png_uint_32 width, png_uint_32 height, int bit_depth, 
+					int color_type, int interlace_type ,int compression_type,
+					int filter_method)
+{  
+	png_set_IHDR( 
+	  PngStruct , 
+	  InfoStruct , 
+	  width , 
+	  height ,
+	  bit_depth , 
+	  color_type , 
+	  interlace_type ,
+	  compression_type , 
+	  filter_method );
+}
+/*---------------------------------------------------------------------------*/
+void Png::WriteInfo()
+{ 
+	png_write_info( PngStruct, InfoStruct);
+}
+/*---------------------------------------------------------------------------*/
+void Png::WriteEnd()
+{
+	png_write_end(PngStruct , NULL);
+}
+/*---------------------------------------------------------------------------*/
+bool Png::CreateWritePng(FILE* inputFile)
+{
+	PngStruct = 
+	  png_create_write_struct( 
+	    PNG_LIBPNG_VER_STRING ,
+	    NULL , 
+	    NULL , 
+	    NULL );
+
+	if (PngStruct == NULL) 
+	{
+		fclose(inputFile);
+		throw ERR_CREATE_PNG_STRUCT_WRITE;
+	}
+		
+	return false;
+}
+/*---------------------------------------------------------------------------*/

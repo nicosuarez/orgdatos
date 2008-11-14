@@ -1,5 +1,6 @@
 #include "Console.h"
 #include "Date.h"
+#include "Message.h"
 #include "Constant.h"
 #include <fstream.h>
 #include "Exception/eBrokenProgram.h"

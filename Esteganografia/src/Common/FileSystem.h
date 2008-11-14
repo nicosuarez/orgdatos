@@ -9,9 +9,8 @@
 #include <sys/param.h>
 #include <string>
 #include <vector>
-#include "Resource.h"
 #include "Message.h"
-
+#include "Resource.h"
 
 typedef enum FSMode {File=0 , All=1, Dir=2 } FSMode;
 

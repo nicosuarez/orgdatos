@@ -38,7 +38,8 @@ public:
 	/* Setea el tamano en bytes ocultos en la imagen */
 	void SetHiddenSize(long size);
 
-	void SetFilePath(std::string st);
+	/* Setea el archivo donde se encuentra el mensaje */
+	void SetFilePath(std::string filePath);
 
 	/*Setea un nuevo id al mensaje*/
 	void SetId(unsigned long newId);
