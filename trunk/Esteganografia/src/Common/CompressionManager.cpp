@@ -2,8 +2,8 @@
 #include "../Lzss/lzss.h"
 
 using namespace std;
-const string CompressionManager::targetCompress="./rchTemp2.dat";
-const string CompressionManager::targetDescompress="./ans.txt";
+const string CompressionManager::targetCompress="../Files/rchTemp2.dat";
+const string CompressionManager::targetDescompress="../Files/ans.txt";
 
 CompressionManager* CompressionManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
@@ -36,9 +36,7 @@ Message CompressionManager::Compress(const Message& msg){
 	return ans;
 }
 /* -------------------------------------------------------------------------- */
-Message CompressionManager::Decompress(const Message& msg){
+void CompressionManager::Decompress(const Message& msg,const Message& msgTarget){
 	Lzss lz;
-	Message ans(CompressionManager::targetDescompress.c_str());
-	lz.uncompress(msg.GetFilePath(),ans.GetFilePath());
-	return ans;
+	lz.uncompress(msg.GetFilePath(),msgTarget.GetFilePath());
 }

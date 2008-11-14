@@ -10,9 +10,9 @@
  */
 class CompressionManager
 {
-
-	static const std::string targetDescompress;
-	static const std::string targetCompress;
+	public:
+		static const std::string targetDescompress;
+		static const std::string targetCompress;
 	public:
 
 		/*Devuelve la unica instancia de CompressionManager (clase singleton)*/
@@ -22,15 +22,12 @@ class CompressionManager
 		static Message Compress(const Message& msg);
 
 		/* Descomprime el mensaje.*/
-		static Message Decompress(const Message& msg);
+		static void Decompress(const Message& msg,const Message& msgTarget);
 
 		/* Destructor */
 		virtual ~CompressionManager();
 
 	private:
-
-		static const std::string targetDescompress;
-		static const std::string targetCompress;
 
 		/*Puntero a la unica instancia del CompressionManager*/
 		static CompressionManager* instance;

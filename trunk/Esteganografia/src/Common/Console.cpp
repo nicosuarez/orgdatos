@@ -13,6 +13,8 @@
 
 using namespace std;
 
+const string Console::temporaryFile="../Files/temporaryFileConsole.txt";
+
 int Console::Run(int argc,char* argv[])
 {
 	string cmd;
@@ -51,7 +53,7 @@ bool Console::ExistPassword(){
 	if(!fpImg.good())
 		return false;
 	fpImg.close();
-
+	//Extraigo fecha
 	struct tm* clock;				// create a time structure
 	struct stat attrib;			// create a file attribute structure
 	stat(Constant::PassFile.c_str(), &attrib);		// get the attributes of afile.txt
@@ -89,28 +91,27 @@ tVecStr Console::GetAllCommands()
  * Devuelve si el pass ingresado(st) es igual al original
  */
 bool Console::IsCorrectPass(const string& st){
-	ifstream fpPass(Constant::PassFile.c_str(), ios::in);
-	if (!fpPass.good())
-		throw eBrokenProgram(Constant::PassFile);
 	Message message(Constant::PassFile.c_str());
 	Message truePass=MessageManager::Extract(message);
-	fpPass.close();
 	ifstream fp(truePass.GetFilePath(), ios::in);
 	unsigned long begin, end, size;
 	begin = fp.tellg();
 	fp.seekg(0, ios::end);
 	end = fp.tellg();
 	size = end - begin;
+	fp.seekg(0, ios::beg);
 	char* pass=new char[size+1];
-	fp.get(pass,sizeof(char)*size,EOF);
+	fp.get(pass,sizeof(char)*(size+1));
+	string aux=pass;
 	pass[size]='\0';
+	aux=pass;
 	return (!strcmp(pass,st.c_str()));
 }
 
 
 /**
  * Pide el nuevo password y su confirmacion. Devuelve un true si fue ingresado correctamente
- * y en caso de hacerlo guarda un mensaje
+ * y en ese caso lo guarda en un mensaje
  */
 bool Console::InsertNewPassword(Message& msg){
 	bool esValido=false;
@@ -133,8 +134,8 @@ bool Console::InsertNewPassword(Message& msg){
 	}
 	if (!esValido)
 		return false;
-	msg.SetFilePath(Constant::PassTemp.c_str());
-	ofstream fp(msg.GetFilePath(),ios::out|ios::binary|ios::trunc);
+	msg.SetFilePath(Console::temporaryFile.c_str());
+	ofstream fp(msg.GetFilePath(),ios::out|ios::trunc);
 	fp.write(pass1.c_str(),sizeof(char)*pass1.length());
 	fp.close();
 	return true;
@@ -153,13 +154,12 @@ bool Console::ValidatePassword()
 		string pass;
 		cout << MSG_INPUT_PASSWORD << "(" << (intentos+1) << "/"<< cantIntentosPass << ")\n" << flush;
 		pass = GetInputPassword();
+
 		//TODO: LLAMAR A LA VALIDACION POSTA.
-		if(pass == "12")
+		if (Console::IsCorrectPass(pass))
 			esValido=true;
-
-		if(!esValido)
+		else
 			cout << ERR_INCORRECT_PASSWORD << "\n" << flush;
-
 		intentos++;
 	}
 	return esValido;

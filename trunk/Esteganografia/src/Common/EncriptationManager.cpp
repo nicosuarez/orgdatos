@@ -9,19 +9,17 @@ const string EncriptationManager::targetDecrypt="./ansDecrypt.dat";
 Message EncriptationManager::Decrypt(const Message& msg){
 	Message temp("./temp.dat");
 	Message ans(EncriptationManager::targetDecrypt.c_str());
-	Transposition::encrypt(msg.GetFilePath(),temp.GetFilePath());
-	BitsInverter::encrypt(temp.GetFilePath(),ans.GetFilePath());
+	Transposition::decrypt(msg.GetFilePath(),temp.GetFilePath());
+	BitsInverter::decrypt(temp.GetFilePath(),ans.GetFilePath());
 	  if( remove( temp.GetFilePath() ) != 0 )
 	    perror( "Error deleting file" );
 	 return ans;
 }
 
-Message EncriptationManager::Encrypt(const Message& msg){
+void EncriptationManager::Encrypt(const Message& msg,const Message& msgTarget){
 	Message temp("./temp.dat");
-	Message ans(EncriptationManager::targetEncrypt.c_str());
-	BitsInverter::decrypt(msg.GetFilePath(),temp.GetFilePath());
-	Transposition::decrypt(temp.GetFilePath(),ans.GetFilePath());
+	BitsInverter::encrypt(msg.GetFilePath(),temp.GetFilePath());
+	Transposition::encrypt(temp.GetFilePath(),msgTarget.GetFilePath());
 	if( remove( temp.GetFilePath()) != 0 )
 	    perror( "Error deleting file" );
-	return ans;
 }

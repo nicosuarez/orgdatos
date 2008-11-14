@@ -29,6 +29,7 @@ private:
 	static char * StrToChar (std::string str);
 	static bool InsertNewPassword(Message& msg);
 //	static void *Xmalloc (int);
+	static const string temporaryFile;
 
 };
 
