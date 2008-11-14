@@ -19,6 +19,14 @@
 #define CMD_SHOW_DIRECTORIES "showdirectories"
 #define CMD_CHANGE_PASSWORD "changepassword"
 
+#define ERR_INCORRECT_FORMAT_PNG "Formato PNG incorrecto.\n"
+#define ERR_CREATE_IMAGE_PNG "No se pudo almacenar los datos de la imagen.\n"
+#define ERR_VALIDATE_PNG_FORMAT "El formato png produjo un error del tipo de entrada/salida.\n"
+#define ERR_VALIDATE_INFO_PNG "No se pudo obtener la informacion administrativa del png.\n"
+#define ERR_CREATE_PNG_STRUCT_WRITE "No se pudo crear la estructura del png para escritura\n"
+#define ERR_CREATE_PNG_STRUCT_READ "No se pudo crear la estructura del png para lectura\n"
+
+
 #define ERR_IMAGE_NOT_SUPPORT "Imagen no reconocida "
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "

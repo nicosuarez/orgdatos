@@ -4,23 +4,23 @@
 
 using namespace bpptree;
 
-std::ostream& bpptree::operator <<(std::ostream& out,BppTree& tree){
-
-	Node* node = tree.manager.readNode(BppTree::OFFSET_ROOT);
-	std::queue<unsigned int> offsets;
-	out << "*------Comienzo Arbol B+----------*" << std::endl;
-	node->toOstream(out,offsets);
-	while(!offsets.empty()){		
-		unsigned int off = offsets.front();
-		offsets.pop();
-		Node* temp = tree.manager.readNode(off);
-		temp->toOstream(out,offsets); /* suma al queue offsets */
-		delete temp;
-	}
-	out << "*------Fin Arbol B+----------*" << std::endl;
-	delete node;
-	return out;
-}
+//std::ostream& BppTree::operator <<(std::ostream& out,BppTree& tree){
+//
+//	Node* node = tree.manager.readNode(BppTree::OFFSET_ROOT);
+//	std::queue<unsigned int> offsets;
+//	out << "*------Comienzo Arbol B+----------*" << std::endl;
+//	node->toOstream(out,offsets);
+//	while(!offsets.empty()){		
+//		unsigned int off = offsets.front();
+//		offsets.pop();
+//		Node* temp = tree.manager.readNode(off);
+//		temp->toOstream(out,offsets); /* suma al queue offsets */
+//		delete temp;
+//	}
+//	out << "*------Fin Arbol B+----------*" << std::endl;
+//	delete node;
+//	return out;
+//}
 
 std::ostream& BppTree::toOstream(std::ostream& out){
 	BppTree& tree = dynamic_cast<BppTree&>(*this);

@@ -6,6 +6,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "Message.h"
+
 /**
  * Clase que se encarga de correr el hilo principal
  **/

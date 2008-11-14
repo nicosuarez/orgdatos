@@ -17,7 +17,7 @@ class Constant
 		/*------------Temporarios------------*/
 		static const std::string PassTemp;
 };
-#endif /*__CONSTANT__H_*/
+
 const std::string Constant::PassTemp="../Files/passTemp.txt";
 const std::string Constant::ImgFile="../Files/img.dat";
 const std::string Constant::PassFile="../Files/pass.dat";
@@ -26,5 +26,6 @@ const std::string Constant::ImgListFile="../Files/ImgList.dat";
 const std::string Constant::MsgListFile="../Files/MsgList.dat";
 const std::string Constant::FreeSpaceFile="../Files/FreeSpaceList.dat";
 
+#endif /*__CONSTANT__H_*/
 
 

@@ -35,6 +35,26 @@ class BppTree : public Tree{
 		
 		BppIterator* getFirst();
 		BppIterator* getLast();
+		
+		friend std::ostream& operator <<(std::ostream& out,BppTree& tree)
+		{
+
+			Node* node = tree.manager.readNode(BppTree::OFFSET_ROOT);
+			std::queue<unsigned int> offsets;
+			out << "*------Comienzo Arbol B+----------*" << std::endl;
+			node->toOstream(out,offsets);
+			while(!offsets.empty()){		
+				unsigned int off = offsets.front();
+				offsets.pop();
+				Node* temp = tree.manager.readNode(off);
+				temp->toOstream(out,offsets); /* suma al queue offsets */
+				delete temp;
+			}
+			out << "*------Fin Arbol B+----------*" << std::endl;
+			delete node;
+			return out;
+		}
+		
 	private:
 		bool nodeInsert(unsigned int nodeOffset,LevelNode* root,const Register& reg);
 		void handleLevelOverflow(LevelNode* levelnode,LevelNode* root);
@@ -43,7 +63,6 @@ class BppTree : public Tree{
 		void handleLeafUnderflow(LeafNode* leafNode,LevelNode* root,const Register& reg);
 		void handleLevelUnderflow(LevelNode* levelNode,LevelNode* root,const Register& reg);
 		
-		friend std::ostream& operator <<(std::ostream& out,BppTree& tree);
 		/* Por si se usa polimorfismo desde Tree */
 		std::ostream& toOstream(std::ostream& out);
 };
