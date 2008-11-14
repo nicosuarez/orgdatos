@@ -20,8 +20,8 @@ public:
 	/**
 	 * llena el mensaje msgTarget
 	 */
-	static Message Encrypt(const Message& msg);
-private:
+	static void Encrypt(const Message& msg,const Message& msgTarget);
+public:
 	static const std::string targetEncrypt;
 	static const std::string targetDecrypt;
 

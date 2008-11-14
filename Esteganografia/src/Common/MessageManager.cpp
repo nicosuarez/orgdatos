@@ -30,21 +30,21 @@ MessageManager::~MessageManager(){
 }
 /* -------------------------------------------------------------------------- */
 
-Message MessageManager::Extract(Message msg){
+Message MessageManager::Extract(Message msg,Message msgTarget){
 	Message m1=EncriptationManager::Decrypt(msg);
-	Message ans=CompressionManager::Decompress(m1);
+	CompressionManager::Decompress(m1,msgTarget);
 	if( remove( m1.GetFilePath()) != 0 )
 		perror( "Error deleting file" );
-	return ans;
+	return msgTarget;
 }
 /* -------------------------------------------------------------------------- */
 
-Message MessageManager::Hide(Message msg){
+Message MessageManager::Hide(Message msg,Message msgTarget){
 	Message m1=CompressionManager::Compress(msg);
-	Message ans=EncriptationManager::Encrypt(m1);
+	EncriptationManager::Encrypt(m1, msgTarget);
 	if( remove( m1.GetFilePath()) != 0 )
 		perror( "Error deleting file" );
-	return ans;
+	return msgTarget;
 }
 /* -------------------------------------------------------------------------- */
 

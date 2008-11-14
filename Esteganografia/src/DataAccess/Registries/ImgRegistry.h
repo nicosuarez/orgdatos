@@ -48,6 +48,8 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 
 		char* Serialize() const;
 
+		void Deserialize(const char* buffer, unsigned int length);
+
   private:
     ID_type idDir;
     ID_type idName;

@@ -87,7 +87,6 @@
     char* ImgRegistry::Serialize() const
     {
     	char *buffer=ExtensibleRelativeRegistry::Serialize();
-    	buffer = (char*)realloc(buffer,GetSize());
     	unsigned int pos = ExtensibleRelativeRegistry::GetSize();
     	AddToSerialization(buffer, &idDir, pos, sizeof(this->idDir));
 		pos += sizeof(this->idDir);
@@ -119,3 +118,39 @@
 		pos += sizeof(this->date.getSeg());
 		return buffer;
     }
+
+    void ImgRegistry::Deserialize(const char* buffer, unsigned int length){
+          ExtensibleRelativeRegistry::Deserialize(buffer, length);
+
+          unsigned int pos = ExtensibleRelativeRegistry::GetSize();
+          GetFromSerialization(buffer, &idDir, pos, sizeof(this->idDir));
+          pos += sizeof(this->idDir);
+          GetFromSerialization(buffer, &idName, pos, sizeof(idName));
+          pos += sizeof(this->idName);
+          GetFromSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
+          pos += sizeof(this->idFirstFreeSpace);
+          GetFromSerialization(buffer, &idLastFreeSpace, pos, sizeof(idLastFreeSpace));
+          pos += sizeof(this->idLastFreeSpace);
+          GetFromSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
+          pos+=sizeof(this->ptrMsgList);
+          unsigned int year=date.getYear();
+          unsigned int month=date.getMonth();
+          unsigned int day=date.getDay();
+          unsigned int hour=date.getHour();
+          unsigned int min=date.getMin();
+          unsigned int seg=date.getSeg();
+          GetFromSerialization(buffer, &year, pos, sizeof(date.getYear()));
+          pos += sizeof(this->date.getYear());
+          GetFromSerialization(buffer, &month, pos, sizeof(date.getMonth()));
+          pos += sizeof(this->date.getMonth());
+          GetFromSerialization(buffer, &day, pos, sizeof(date.getDay()));
+          pos+=sizeof(this->date.getDay());
+          GetFromSerialization(buffer, &hour, pos, sizeof(this->date.getHour()));
+          pos += sizeof(this->date.getHour());
+          GetFromSerialization(buffer, &min, pos, sizeof(date.getMin()));
+          pos+=sizeof(this->date.getMin());
+          GetFromSerialization(buffer, &seg, pos, sizeof(this->date.getSeg()));
+          Date d(year,month,day,hour,min,seg);
+          this->date=d;
+    }
+

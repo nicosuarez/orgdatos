@@ -10,6 +10,8 @@
 
 #include "Message.h"
 #include "Space.h"
+#include "EncriptationManager.h"
+#include "CompressionManager.h"
 #include <list>
 
 /**
@@ -24,10 +26,10 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	static Message Extract(Message msg);
+	static Message Extract(Message msg,Message msgTar=Message(CompressionManager::targetDescompress.c_str()));
 
 	/*Oculta un mensaje*/
-	static Message Hide(Message msg);
+	static Message Hide(Message msg,Message msg=Message(EncriptationManager::targetEncrypt.c_str()));
 
 	/*Elimina un mensaje oculto*/
 	void DeleteMessage(unsigned long messageId);

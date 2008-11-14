@@ -62,25 +62,7 @@ bool FileSystem::IsValidStructure(){
 }
 
 void FileSystem::CreatePass(const Message& msg){
-	ofstream fpPass("../Files/pass.dat"/*Constant::PassFile.c_str()*/, ios::binary| ios::out| ios::trunc);
-	if (!fpPass.good())
-		throw eFile("../Files/pass.dat"/*Constant::PassFile.c_str()*/);
-	Message msgTmp;
-	msgTmp=MessageManager::Hide(msg);
-	ifstream fp(msgTmp.GetFilePath(), ios::in);
-	unsigned long begin, end, size;
-	begin = fp.tellg();
-	fp.seekg(0, ios::end);
-	end = fp.tellg();
-	size = end - begin;
-	char* pass=new char[size];
-	fp.get(pass,sizeof(char)*size,EOF);
-	fpPass.write(pass,sizeof(char)*size);
-	fpPass.close();
-	fp.close();
-	if( remove( msgTmp.GetFilePath() ) != 0 )
-		perror( "Error deleting file");
-
+	MessageManager::Hide(msg,Message("../Files/pass.dat"/*Constant::PassFile.c_str()*/));
 	ImgRegistry reg;
 	ExtensibleRelativeFile fImg("../Files/img.dat"/*Constant::ImgFile*.c_str()*/, ImgRegistry::RegCreate);
 	struct tm* clock;				// create a time structure
