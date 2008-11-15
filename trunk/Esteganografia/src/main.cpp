@@ -12,6 +12,12 @@
 #include "DataAccess/Files/ExtensibleRelativeFile.h"
 #include "DataAccess/Registries/ExtensibleRelativeRegistry.h"
 #include "DataAccess/Organizations/OrgExtensibleRelative.h"
+#include "DataAccess/Organizations/OrgList.h"
+#include "DataAccess/Registries/MsgRegistry.h"
+#include "DataAccess/Registries/ListImgRegistry.h"
+#include "DataAccess/Registries/ListFreeSpaceRegistry.h"
+
+using namespace std;
 
 class Reg : public ExtensibleRelativeRegistry
 {
@@ -466,9 +472,80 @@ void TestOrgExtensibleRelative()
   org.Destroy();
 }
 
+void TestMsgRegistry()
+{
+	OrgExtensibleRelative org("mesajes.dat", MsgRegistry::Create);
+	MsgRegistry reg1(1, 10);
+	MsgRegistry reg2(2, 15);
+	MsgRegistry reg3(3, 100);
+	MsgRegistry *reg;
+	
+	org.WriteRegistry(reg1);
+	org.WriteRegistry(reg2);
+	org.WriteRegistry(reg3);
+	
+	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg1.GetID()));
+	cout << "idName: " << reg->GetIDName() << " - ptrImg: " << reg->GetPtrImgList() << endl;
+	delete reg;
+	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg2.GetID()));
+	cout << "idName: " << reg->GetIDName() << " - ptrImg: " << reg->GetPtrImgList() << endl;
+	delete reg;
+	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg3.GetID()));
+	cout << "idName: " << reg->GetIDName() << " - ptrImg: " << reg->GetPtrImgList() << endl;
+	delete reg;
+}
 
 
-using namespace std;
+void TestListImgRegistry()
+{
+//	OrgList org("mesajesList.dat", ListImgRegistry::Create);
+//	
+//	ListImgRegistry reg1(1, 10, 50);
+//	ListImgRegistry reg2(2, 15, 100);
+//	ListImgRegistry reg3(3, 100, 1000);
+//	ListImgRegistry reg4(4, 200, 1500);
+//	ListImgRegistry *reg;
+//	
+//	org.CreateList(reg1);
+//	org.AddToListLast(reg2, reg1.GetID());
+//	org.AddToListLast(reg3, reg2.GetID());
+//	org.AddToListLast(reg4, reg3.GetID());
+//	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
+//	list<ListRegistry*>::iterator it;
+//	
+//	for( it= lista->begin(); it != lista->end(); it++)
+//	{
+//		reg = dynamic_cast<ListImgRegistry*>( (*it) );
+//		cout << "idImage: " << reg->GetIDImage() << " - offsetImg: " << reg->GetOffsetImg() <<  " - sizePartitionMsg: " << reg->GetSizePartitionMsg() << endl;
+//		delete reg;
+//	}
+	
+	OrgList org("mesajesList.dat", ListFreeSpaceRegistry::Create);
+		
+	ListFreeSpaceRegistry reg1(1, 10);
+	ListFreeSpaceRegistry reg2(2, 15);
+	ListFreeSpaceRegistry reg3(3, 100);
+	ListFreeSpaceRegistry reg4(4, 200);
+	ListFreeSpaceRegistry *reg;
+	
+	org.CreateList(reg1);
+	org.AddToListLast(reg2, reg1.GetID());
+	org.AddToListLast(reg3, reg2.GetID());
+	org.AddToListLast(reg4, reg3.GetID());
+	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
+	list<ListRegistry*>::iterator it;
+	
+	for( it= lista->begin(); it != lista->end(); it++)
+	{
+		reg = dynamic_cast<ListFreeSpaceRegistry*>( (*it) );
+		cout << "Reg: " << reg->GetID() <<" - offsetImg: " << reg->GetOffsetImage() << " - sizeFreeSpace: " << reg->GetSizeFreeSpace() <<  " - Next: " << reg->GetNextID()<< endl;
+		delete reg;
+	}
+
+}
+
+
+
 
 void testCompresion()
 {
@@ -618,18 +695,20 @@ int testDataAccess(int argc, char *argv[])
 {
   try
   {
-    TestCreateFile();
-    TestCreateFileTwice();
-    TestOpenFileWithoutCreate();
-    TestOpenFileWrongMode();
-    TestOpenFile();
-    TestOpenCloseOpenFile();
-    TestWriteAndRead();
-    TestRegistryActive();
-    TestRegistryDeleted();
-    TestSeekWrong();
-    TestUpdateDeleted();
-    TestOrgExtensibleRelative();
+//    TestCreateFile();
+//    TestCreateFileTwice();
+//    TestOpenFileWithoutCreate();
+//    TestOpenFileWrongMode();
+//    TestOpenFile();
+//    TestOpenCloseOpenFile();
+//    TestWriteAndRead();
+//    TestRegistryActive();
+//    TestRegistryDeleted();
+//    TestSeekWrong();
+//    TestUpdateDeleted();
+//    TestOrgExtensibleRelative();
+//	  TestMsgRegistry();
+	  TestListImgRegistry();
   }
   catch (char* error)
   {
@@ -642,8 +721,8 @@ int testDataAccess(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
 	//testCompresion();
-	testStenographic(argc, argv);
-	//testDataAccess(argc, argv);
+//	testStenographic(argc, argv);
+	testDataAccess(argc, argv);
 	
 	return EXIT_SUCCESS;
 }
