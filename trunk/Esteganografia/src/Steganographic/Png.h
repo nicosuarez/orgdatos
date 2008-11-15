@@ -234,7 +234,7 @@ template<typename BitDepthType>
 void Png::Extract(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fdata(msg->GetFilePath(),ios::out | ios::app);
+	fstream fdata(msg->GetFilePath(), ios::out | ios::binary | ios::app);
 	long extractBytes = 0;
 	BitDepthType** imageData = GetImageData<BitDepthType>(space->GetFilePath());
 	long position = space->GetInitialPosition();
@@ -292,7 +292,7 @@ template<typename BitDepthType>
 void  Png::Hide(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fdata(msg->GetFilePath());
+	fstream fdata(msg->GetFilePath(), ios::binary | ios::in);
 	UBYTE dataByte;
 	long hideBytes = -1;
 	

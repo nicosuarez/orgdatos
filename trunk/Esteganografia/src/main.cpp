@@ -682,8 +682,8 @@ void testGif(int argc, char *argv[])
 void testStenographic(int argc, char *argv[])
 {
 	//testBmpLSB1bit(argc,argv);
-	//testBmpLSB2bit(argc,argv);
-	testJPG(argc,argv);
+	testBmpLSB2bit(argc,argv);
+	//testJPG(argc,argv);
 	//testFileSystem(argv[1]);
 	//testGif(argc, argv);
 	//testConsole(argc,argv);
