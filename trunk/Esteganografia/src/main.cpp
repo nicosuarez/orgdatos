@@ -723,35 +723,12 @@ void testPass(int argc, char *argv[]){
 	Console::Run(argc,argv);
 }
 
-void testInsert(){
-	KeyStFactory  kf;
-	VulueIntFactory  vf;
-	BppTree tree(512,kf,vf,"dummy.temporal");
-
-	KeySt k1("Armando1.jpg");
-	ValueInt v1(1);
-	tree.insert(k1,v1);
-	KeySt k2("JULIO.jpg");
-	ValueInt v2(2);
-	tree.insert(k2,v2);
-	KeySt k3("home/nicolas/600x800.jpg");
-	ValueInt v3(3);
-	tree.insert(k3,v3);
-	KeySt k4("./etc/include/wallpaper.jpg");
-	ValueInt v4(4);
-	tree.insert(k4,v4);
-
-	std::cout << tree << std::endl;
-
-}
-
 int main(int argc, char *argv[])
 {
-//	testPass(argc,argv);
+	//testPass(argc,argv);
 	//testCompresion();
-//	testStenographic(argc, argv);
+	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
-	testInsert();
 	
 	return EXIT_SUCCESS;
 }

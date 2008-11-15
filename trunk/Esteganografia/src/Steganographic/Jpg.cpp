@@ -26,7 +26,8 @@ Jpg::~Jpg(){
 void Jpg::Extract(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath(),ios::out | ios::app);
+	ifstream fin(space->GetFilePath(), ios::in | ios::binary);
+	ofstream fdata(msg->GetFilePath(), ios::out | ios::app);
 	long extractBytes = 0;
 	UBYTE dataByte;
 
@@ -51,12 +52,13 @@ void Jpg::Extract(Space* space, Message* msg)
 void Jpg::Hide(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath());
+	fstream fin(space->GetFilePath(), ios::in | ios::out | ios::binary);
+	ifstream fdata(msg->GetFilePath(),ios::in | ios::binary);
 	UBYTE dataByte;
 	long hideBytes = -1;
 	
 	fdata.seekg(msg->GetHiddenSize());
-	fin.seekg(space->GetInitialPosition());
+	fin.seekp(space->GetInitialPosition());
 	
 	while(!fdata.eof() && (hideBytes < spaceSize))
 	{
@@ -129,7 +131,7 @@ int Jpg::SearchBestCompression(){
 	double sizeComp = 0;
 	double compressionPct = 0;
 	
-	for(int quality=0; quality <=100; quality+=10)
+	for(int quality=0; quality <=90; quality+=20)
 	{
 		sizeComp = this->CompressImage(quality, PATH_COMPRESS_IMAGE_TEMP);
 		compressionPct = (sizeComp / sizeOrig)*100;
@@ -139,6 +141,9 @@ int Jpg::SearchBestCompression(){
 			imageQualityList.push_back(quality);
 		}
 	}
+	
+	if( remove(PATH_COMPRESS_IMAGE_TEMP) != 0 )
+		perror( "Error deleting file" );
 	
 	return GetQualityForMinSizeCompressionFound(imageSizeList, imageQualityList);
 }
@@ -172,12 +177,12 @@ Space* Jpg::Load()
 /* -------------------------------------------------------------------------- */
 void Jpg::FillImage(long freeSpace)
 {
-	ofstream fout(this->GetFilePath(),ios::binary | ios::app);
+	ofstream fout(this->GetFilePath(), ios::out | ios::binary | ios::app);
 	srand( (unsigned int) time(NULL));
 	while(freeSpace)
 	{
 		char rdmChar = (rand() % 26) + 'a';
-		fout << rdmChar;
+		fout.write(&rdmChar,sizeof(UBYTE));
 		freeSpace--;
 	}
 	fout.close();
