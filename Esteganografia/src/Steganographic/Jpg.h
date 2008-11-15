@@ -10,6 +10,12 @@
 
 #include "Image.h"
 #include "../Common/CImg.h"
+#include "../Common/Constant.h"
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+typedef  std::vector<long> tVecLong;
 
 #define JpgFileType "JFIF"
 
@@ -36,8 +42,20 @@ public:
 		this->initPosFreeSpace = position;
 	}
 	
+	//Relleno la imagen para mantener el tamano original.
+	void FillImage(long freeSpace);
+	
+	//Comprime la imagen.
+	long CompressImage(int quality, const char* outFile);
+	
+	//Obtiene la mejor calidad con la que hay que comprimir la imagen.
+	int GetQualityForMinSizeCompressionFound(tVecLong imageSizeList,
+												tVecLong imageQualityList);
+	
 private:
 	long initPosFreeSpace;
+	int SearchBestCompression();
+	static const double CompressionPercentage = 30;
 
 };
 #endif // !defined(EA_B637FB36_98EA_11dd_B49B_001B2425640C__INCLUDED_)
