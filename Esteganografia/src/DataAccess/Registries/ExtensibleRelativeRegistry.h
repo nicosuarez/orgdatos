@@ -7,8 +7,8 @@
 #define _EXTENSIBLE_RELATIVE_REGISTRY_
 
 #include "../Files/Serializable.h"
+#include "../../Common/Resource.h"
 
-typedef unsigned int ID_type;
 
 /* This class represents the registry that will be saved in a file of 
  * type ExtensibleRelativeFile. It inherits Serializable, so it 

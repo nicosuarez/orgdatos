@@ -1,12 +1,13 @@
 #ifndef RESOURCE_H_
 #define RESOURCE_H_
 
+typedef unsigned int ID_type;
+
 #define EXT_BMP ".bmp"
 #define EXT_JPG ".jpg"
 #define EXT_JPEG ".jpeg"
 #define EXT_PNG ".png"
 #define EXT_GIF ".gif"
-
 
 #define CMD_QUIT "quit"
 #define CMD_ADD_DIRECTORY "adddirectory"
@@ -37,6 +38,7 @@
 #define EMPTY " "
 #define ERR_INCORRECT_PASSWORD "El password ingresado es incorrecto."
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
+#define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
@@ -88,6 +90,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 #define HLP_CHANGE_PASSWORD "\
 	●   changePassword <old_password> <new_password> \n \t \
 	Modifica el password de ingreso."
+
 
 
 #endif /*RESOURCE_H_*/

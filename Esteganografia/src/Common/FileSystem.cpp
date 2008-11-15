@@ -1,5 +1,4 @@
 #include "FileSystem.h"
-#include "Constant.h"
 #include "Exception/eFile.h"
 #include "Date.h"
 #include "MessageManager.h"
@@ -62,12 +61,12 @@ bool FileSystem::IsValidStructure(){
 }
 
 void FileSystem::CreatePass(const Message& msg){
-	MessageManager::Hide(msg,Message(Constant::PassFile.c_str()));
+	MessageManager::GetInstance()->Hide(msg,Message("./Files/passTemp.txt"));//(Constant::PassFile.c_str()));
 	ImgRegistry reg;
-	ExtensibleRelativeFile fImg(Constant::ImgFile.c_str(), ImgRegistry::RegCreate);
+	ExtensibleRelativeFile fImg("./Files/img.dat"/*Constant::ImgFile.c_str()*/, ImgRegistry::RegCreate);
 	struct tm* clock;				// create a time structure
 	struct stat attrib;			// create a file attribute structure
-	stat(Constant::PassFile.c_str(), &attrib);		// get the attributes of PassFile
+	stat("./Files/passTemp.txt"/*Constant::PassFile.c_str()*/, &attrib);		// get the attributes of PassFile
 	clock = gmtime(&(attrib.st_mtime));	// Get the last modified time and put it into the time structure
 	Date d(clock->tm_year,clock->tm_mon,clock->tm_mday,clock->tm_hour,clock->tm_min,clock->tm_sec);
 	reg.setDate(d);
@@ -78,7 +77,7 @@ void FileSystem::CreatePass(const Message& msg){
 
 void FileSystem::CreateStruture(const Message& pass){
 	ImgRegistry reg;
-	ExtensibleRelativeFile fImg(Constant::ImgFile.c_str(), ImgRegistry::RegCreate);
+	ExtensibleRelativeFile fImg("./Files/img.dat"/*Constant::ImgFile.c_str()*/, ImgRegistry::RegCreate);
 	fImg.Create(reg.GetSize());
 
 	FileSystem::CreatePass(pass);

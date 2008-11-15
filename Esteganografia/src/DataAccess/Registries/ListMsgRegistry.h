@@ -12,6 +12,8 @@ public:
 	
 	virtual ~ListMsgRegistry();
 	
+	static ExtensibleRelativeRegistry* Create();
+	
 	ID_type GetIDImage() const;
 	
 	unsigned int GetSize() const;

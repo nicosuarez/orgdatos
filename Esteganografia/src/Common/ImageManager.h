@@ -11,6 +11,14 @@
 #include "CImg.h"
 #include "../Steganographic/Image.h"
 #include <list>
+#include "../DataAccess/Organizations/OrgExtensibleRelative.h"
+#include "../DataAccess/Organizations/OrgList.h"
+#include "../DataAccess/Organizations/OrgText.h"
+#include "../DataAccess/Registries/ImgRegistry.h"
+#include "../DataAccess/Registries/ListImgRegistry.h"
+#include "../DataAccess/Registries/ListMsgRegistry.h"
+#include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
+#include "Constant.h"
 
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
@@ -37,17 +45,28 @@ public:
 	 * la imagen parámetro */
 	list<Space> GetFreeSpaces(Image* image);
 	
+	/*Dado el tamaño de un mensaje, devuelve una lista de espacios 
+	 * libres para almacenarlo*/
+	list<Space> GetSpacesToStore(unsigned long sizeMsg);
+	
+	/*Devuelve el espacio libre total en toda la organizacion*/
+	unsigned long GetTotalFreeSize() const;
+	
 	/* Destructor*/
 	virtual ~ImageManager();
 	
 private:
 	
 	/*Espacio libre total para almacenar mensajes*/
-	static unsigned long freeTotalSize;
+	static unsigned long totalFreeSize;
 
 	/*Puntero a la unica instancia del ImageManager*/
 	static ImageManager *instance;
 
+	OrgExtensibleRelative orgImages;
+	OrgList orgListFreeSpaces, orgListMsgs;
+	OrgText orgNamesImages, orgNamesDir;
+	
 	/*Constructor privado*/ 
 	ImageManager();
 	

@@ -7,19 +7,19 @@
 #include "Common/register.h"
 #include "Common/register_factory.h"
 
-class Value : public Register{
+class ValueInt : public Register{
 	private:
 		unsigned int value;
 
 	public:
-		Value(unsigned int value){
+		ValueInt(unsigned int value){
 			this->value = value;
 		}
 
-		~Value(){
+		~ValueInt(){
 		}
 
-		virtual Register* duplicate() const{ return new Value(*this); }
+		virtual Register* duplicate() const{ return new ValueInt(*this); }
 
 		unsigned int getValue()const{ return this->value; }
 
@@ -41,24 +41,24 @@ class Value : public Register{
 		}
 };
 
-class Key : public Register{
+class KeySt : public Register{
 	protected:
 		std::string key;
 
 	public:
-		Key(const std::string& key){
+		KeySt(const std::string& key){
 			this->key = key;
 		}
 
-		virtual ~Key(){
+		virtual ~KeySt(){
 		}
 
-		virtual Register* duplicate() const{ return new Key(*this); }
+		virtual Register* duplicate() const{ return new KeySt(*this); }
 
 		std::string getKey()const{ return this->key; }
 
 		void setFields(const Register& b2){
-			this->key = ((Key&)b2).key;
+			this->key = ((KeySt&)b2).key;
 		}
 
 		unsigned int getSize()const{
@@ -66,7 +66,7 @@ class Key : public Register{
 		}
 
 		bool operator <(const Register& r2)const{
-			return key< ((const Key&)r2).key;
+			return key< ((const KeySt&)r2).key;
 		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
@@ -77,20 +77,34 @@ class Key : public Register{
 		}
 };
 
-class ValueVar : public Key{
+class ValueNull : public Register{
 	public:
-		ValueVar(const std::string& value) : Key(value){
+		ValueNull(){
 		}
 
-		~ValueVar(){
+		~ValueNull(){
 		}
 
-		Register* duplicate() const{ return new ValueVar(*this); }
+		virtual Register* duplicate() const{ return new ValueNull(*this); }
+
+		void* getKey()const{ return NULL }
+
+		void setFields(const Register& b2){
+			this->key = ((ValueNull&)b2).key;
+		}
+
+		unsigned int getSize()const{
+			return (key.length()+1);
+		}
+
+		bool operator <(const Register& r2)const{
+			return key< ((const KeySt&)r2).key;
+		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
-			ValueVar* k = (ValueVar*)this;
-			out << "\tValue = " << k->key.substr(0,5) << "\n";
-			//out << "\tValue = " << this->key << "\n";
+			Key* k = (Key*)this;
+			out << "\tKey = " << k->key.substr(0,5) << "\n";
+			//out << "\tKey = " << this->key << "\n";
 			return out;
 		}
 };
@@ -118,15 +132,15 @@ class DummyKeyFactory : public RegisterFactory{
 		}
 };
 
-class DummyValueVarFactory : public DummyKeyFactory{
+class DummyValueNullFactory : public DummyKeyFactory{
 	public:
-		DummyValueVarFactory(){}
-		~DummyValueVarFactory(){}
+		DummyValueNullFactory(){}
+		~DummyValueNullFactory(){}
 
-		RegisterFactory* duplicate()const{ return new DummyValueVarFactory(); }
+		RegisterFactory* duplicate()const{ return new DummyValueNullFactory(); }
 
 		virtual Register* operator()(char* data){
-			return new ValueVar(std::string(data));
+			return new ValueNull(std::string(data));
 		}
 };
 

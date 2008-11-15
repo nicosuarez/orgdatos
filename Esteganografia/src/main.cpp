@@ -663,7 +663,6 @@ void testPNG(int argc,char* argv[])
 	png->Extract(spaceExtract,&msgOut);
 }
 
-
 void testGif(int argc, char *argv[])
 {
 	
@@ -718,11 +717,16 @@ int testDataAccess(int argc, char *argv[])
   return 0;
 }
 
+void testPass(int argc, char *argv[]){
+	Console::Run(argc,argv);
+}
+
 int main(int argc, char *argv[])
 {
+	testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
-	testDataAccess(argc, argv);
+	//testDataAccess(argc, argv);
 	
 	return EXIT_SUCCESS;
 }
