@@ -77,41 +77,6 @@ class KeySt : public Register{
 		}
 };
 
-class ValueList : public Register{
-	private:
-		std::list<ID_type> listIDImg;
-		
-	public:
-		ValueList(){
-		}
-
-		~ValueList(){
-		}
-
-		virtual Register* duplicate() const{ return new ValueList(*this); }
-
-		void* getKey()const{ return NULL; }
-
-		void setFields(const Register& b2){
-			this->listIDImg = ((ValueList&)b2).listIDImg;
-		}
-
-		unsigned int getSize()const{
-			return (listIDImg.size()*sizeof(ID_type));
-		}
-
-		bool operator <(const Register& r2)const{
-			return true;// No se comparan values
-		}
-
-		virtual std::ostream& toOstream(std::ostream& out)const{
-			KeySt* k = (KeySt*)this;
-			out << "\tKeyList = " << k->getKey() << " - sizeList: " << listIDImg.size() << "\n";
-			//out << "\tKey = " << this->key << "\n";
-			return out;
-		}
-};
-
 class KeyStFactory : public RegisterFactory{
 	public:
 		KeyStFactory(){}
@@ -132,18 +97,6 @@ class KeyStFactory : public RegisterFactory{
 
 		virtual Register* operator()(char* data){
 			return new KeySt(std::string(data));
-		}
-};
-
-class ValueListFactory : public KeyStFactory{
-	public:
-		ValueListFactory(){}
-		~ValueListFactory(){}
-
-		RegisterFactory* duplicate()const{ return new ValueListFactory(); }
-
-		virtual Register* operator()(char* data){
-			return new ValueList();
 		}
 };
 
