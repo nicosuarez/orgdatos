@@ -81,7 +81,8 @@ Space* Gif::Load()
 void Gif::Extract(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath(),ios::out | ios::app);
+	fstream fin(space->GetFilePath(),  ios::in | ios::binary);
+	fstream fdata(msg->GetFilePath(), ios::out | ios::binary | ios::app);
 	long extractBytes = 0;
 
 	fin.seekg(space->GetInitialPosition());
@@ -115,7 +116,8 @@ long Gif::LsbExtract(fstream& fin, fstream& fdata)
 void Gif::Hide(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath());
+	fstream fin(space->GetFilePath(), ios::binary | ios::in | ios::out); 
+	fstream fdata(msg->GetFilePath(),  ios::binary | ios::in);
 	UBYTE dataByte;
 	long hideBytes = 0;
 	
