@@ -24,7 +24,7 @@ class ValueInt : public Register{
 		unsigned int getValue()const{ return this->value; }
 
 		void setFields(const Register& b2){
-			this->value = ((Value&)b2).value;
+			this->value = ((ValueInt&)b2).value;
 		}
 
 		unsigned int getSize()const{
@@ -70,54 +70,57 @@ class KeySt : public Register{
 		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
-			Key* k = (Key*)this;
-			out << "\tKey = " << k->key.substr(0,5) << "\n";
+			KeySt* k = (KeySt*)this;
+			out << "\tKeySt = " << k->key.c_str()<< "\n";
 			//out << "\tKey = " << this->key << "\n";
 			return out;
 		}
 };
 
-class ValueNull : public Register{
+class ValueList : public Register{
+	private:
+		std::list<ID_type> listIDImg;
+		
 	public:
-		ValueNull(){
+		ValueList(){
 		}
 
-		~ValueNull(){
+		~ValueList(){
 		}
 
-		virtual Register* duplicate() const{ return new ValueNull(*this); }
+		virtual Register* duplicate() const{ return new ValueList(*this); }
 
-		void* getKey()const{ return NULL }
+		void* getKey()const{ return NULL; }
 
 		void setFields(const Register& b2){
-			this->key = ((ValueNull&)b2).key;
+			this->listIDImg = ((ValueList&)b2).listIDImg;
 		}
 
 		unsigned int getSize()const{
-			return (key.length()+1);
+			return (listIDImg.size()*sizeof(ID_type));
 		}
 
 		bool operator <(const Register& r2)const{
-			return key< ((const KeySt&)r2).key;
+			return true;// No se comparan values
 		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
-			Key* k = (Key*)this;
-			out << "\tKey = " << k->key.substr(0,5) << "\n";
+			KeySt* k = (KeySt*)this;
+			out << "\tKeyList = " << k->getKey() << " - sizeList: " << listIDImg.size() << "\n";
 			//out << "\tKey = " << this->key << "\n";
 			return out;
 		}
 };
 
-class DummyKeyFactory : public RegisterFactory{
+class KeyStFactory : public RegisterFactory{
 	public:
-		DummyKeyFactory(){}
-		virtual ~DummyKeyFactory(){}
+		KeyStFactory(){}
+		virtual ~KeyStFactory(){}
 
-		virtual RegisterFactory* duplicate()const{ return new DummyKeyFactory(); }
+		virtual RegisterFactory* duplicate()const{ return new KeyStFactory(); }
 
 		char* operator()(Register& reg,char* data){
-			Key& akey = dynamic_cast<Key&>(reg);
+			KeySt& akey = dynamic_cast<KeySt&>(reg);
 
 			std::string keystr  = akey.getKey();
 
@@ -128,31 +131,31 @@ class DummyKeyFactory : public RegisterFactory{
 		}
 
 		virtual Register* operator()(char* data){
-			return new Key(std::string(data));
+			return new KeySt(std::string(data));
 		}
 };
 
-class DummyValueNullFactory : public DummyKeyFactory{
+class ValueListFactory : public KeyStFactory{
 	public:
-		DummyValueNullFactory(){}
-		~DummyValueNullFactory(){}
+		ValueListFactory(){}
+		~ValueListFactory(){}
 
-		RegisterFactory* duplicate()const{ return new DummyValueNullFactory(); }
+		RegisterFactory* duplicate()const{ return new ValueListFactory(); }
 
 		virtual Register* operator()(char* data){
-			return new ValueNull(std::string(data));
+			return new ValueList();
 		}
 };
 
-class DummyValFactory : public RegisterFactory{
+class VulueIntFactory : public RegisterFactory{
 	public:
-		DummyValFactory(){}
-		~DummyValFactory(){}
+		VulueIntFactory(){}
+		~VulueIntFactory(){}
 
-		RegisterFactory* duplicate()const{ return new DummyValFactory(); }
+		RegisterFactory* duplicate()const{ return new VulueIntFactory(); }
 
 		char* operator()(Register& reg,char* data){
-			Value& avalue = dynamic_cast<Value&>(reg);
+			ValueInt& avalue = dynamic_cast<ValueInt&>(reg);
 
 			unsigned int valint  = avalue.getValue();
 
@@ -163,7 +166,7 @@ class DummyValFactory : public RegisterFactory{
 		}
 
 		Register* operator()(char* data){
-			return new Value(*((unsigned int*)data));
+			return new ValueInt(*((unsigned int*)data));
 		}
 };
 

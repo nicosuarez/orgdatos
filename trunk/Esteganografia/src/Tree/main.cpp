@@ -35,6 +35,21 @@ void testIterators(bool clean);
 void testUpdate();
 void testIterators2(bool clean);
 
+void testInsert(bool clean){
+	KeyStFactory  kf;
+	VulueIntFactory  vf;
+	BppTree tree(128,kf,vf,"dummy.temporal");
+
+	KeySt k1("Armando1.jpg");
+	ValueInt v1(1);
+	tree.insert(k1,v1);
+
+	std::cout << tree << std::endl;
+
+	if(clean)
+		fclean();
+}
+
 /*TODO
  *		~-	Recordar que se modifico el toOstream de la clase Key, se trunca el output a 4 chars para hacerlo legible
  *		~-	Recordar que se modifico la register factory common
@@ -58,7 +73,7 @@ void testIterators2(bool clean);
 	//testFirstLevelDoubleOverflow(true);
 	//testRandomInsert(true);
 	//testIterators(true);
-
+//	testInsert(true);
 //	return 0;
 //}
 
