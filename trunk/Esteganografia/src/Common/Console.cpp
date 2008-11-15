@@ -50,18 +50,18 @@ int Console::Run(int argc,char* argv[])
  */
 bool Console::ExistPassword(){
 	bool ans=false;
-	std::ifstream fpImg(Constant::ImgFile.c_str(),std::ios::in);
+	std::ifstream fpImg(PATH_IMG_FILE,std::ios::in);
 	if(!fpImg.good())
 		return false;
 	fpImg.close();
 	//Extraigo fecha
 	struct tm* clock;				// create a time structure
 	struct stat attrib;			// create a file attribute structure
-	stat(Constant::PassFile.c_str(), &attrib);		// get the attributes of afile.txt
+	stat(PATH_PASS_FILE, &attrib);		// get the attributes of afile.txt
 	clock = gmtime(&(attrib.st_mtime));	// Get the last modified time and put it into the time structure
 	Date datePass(clock->tm_year,clock->tm_mon,clock->tm_mday,clock->tm_hour,clock->tm_min,clock->tm_sec);
 	//COMPARAR!! la fecha con el archivo
-	ExtensibleRelativeFile fImg(Constant::ImgFile.c_str(), ImgRegistry::RegCreate);
+	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	fImg.Open(ExtensibleRelativeFile::READ);
 	ImgRegistry* reg=(ImgRegistry*)fImg.Read(1);
 	if (reg->getDate()==datePass)
@@ -92,8 +92,8 @@ tVecStr Console::GetAllCommands()
  * Devuelve si el pass ingresado(st) es igual al original
  */
 bool Console::IsCorrectPass(const string& st){
-	Message message(Constant::PassFile.c_str());
-	Message truePass=MessageManager::Extract(message);
+	Message message(PATH_PASS_FILE);
+	Message truePass=MessageManager::GetInstance()->Extract(message);
 	ifstream fp(truePass.GetFilePath(), ios::in);
 	unsigned long begin, end, size;
 	begin = fp.tellg();

@@ -7,12 +7,17 @@
 
 #include "ImageManager.h"
 
-unsigned long ImageManager:: freeTotalSize = 0;
+unsigned long ImageManager:: totalFreeSize = 0;
 ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-ImageManager::ImageManager(){
+ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate), 
+							  orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
+							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
+							  orgNamesImages(PATH_NAMES_IMG_FILE),
+							  orgNamesDir(PATH_NAMES_DIR_FILE)
+{
 
 }
 /* -------------------------------------------------------------------------- */
@@ -61,3 +66,16 @@ list<Space> ImageManager::GetFreeSpaces(Image* image)
 	return listSpaces;
 }
 /* -------------------------------------------------------------------------- */
+
+
+unsigned long ImageManager::GetTotalFreeSize() const
+{
+	return totalFreeSize;
+}
+/* -------------------------------------------------------------------------- */
+
+list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
+{
+	list<Space> lista;
+	return lista;
+}

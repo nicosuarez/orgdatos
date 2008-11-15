@@ -2,8 +2,8 @@
 #include "../Lzss/lzss.h"
 
 using namespace std;
-const string CompressionManager::targetCompress="../Files/rchTemp2.dat";
-const string CompressionManager::targetDescompress="../Files/ans.txt";
+const string CompressionManager::targetCompress="./Files/rchTemp2.dat";
+const string CompressionManager::targetDescompress="./Files/ans.txt";
 
 CompressionManager* CompressionManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */

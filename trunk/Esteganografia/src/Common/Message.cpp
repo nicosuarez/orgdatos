@@ -7,12 +7,12 @@
 
 #include "Message.h"
 
-using namespace std;
-
 Message::Message(string filePath)
 {
 	this->filePath = filePath;
 	this->hiddenSize = 0;
+	tVecStr strings = StrToken::getStrTokens(filePath,"/");
+	this->name = strings[strings.size()-1];
 }
 
 Message::Message(){
@@ -31,7 +31,7 @@ void Message::SetFilePath(std::string filePath)
 /**
  * Obtiene la cantidad en bytes que se ocultaron del mensaje
  */
-long Message::GetHiddenSize() const
+unsigned long Message::GetHiddenSize() const
 {
 	return this->hiddenSize;
 }
@@ -39,7 +39,7 @@ long Message::GetHiddenSize() const
 /**
  * Setea el tamano en bytes ocultos en la imagen.
  */
-void Message::SetHiddenSize(long size)
+void Message::SetHiddenSize(unsigned long size)
 {
 	this->hiddenSize = size;
 }
@@ -47,7 +47,7 @@ void Message::SetHiddenSize(long size)
 /**
  * Incrementa la cantidad de bytes ocultos del mensaje en la imagen.
  */
-long Message::IncHiddenSize(long size)
+unsigned long Message::IncHiddenSize(unsigned long size)
 {
 	this->SetHiddenSize(this->hiddenSize + size);
 	return this->hiddenSize;
@@ -61,16 +61,21 @@ const char* Message::GetFilePath() const{
 	return  this->filePath.c_str();
 }
 
+std::string Message::GetName() const
+{
+	return name;
+}
+
 /**
  * Obtiene el tamano total del mensaje
  */
-long Message::GetSize() const
+unsigned long Message::GetSize() const
 {
 	long pos = 0;
-	ifstream fin(this->filePath.c_str());
+	std::ifstream fin(this->filePath.c_str());
 	if(fin)
 	{
-	   fin.seekg(0, ios::end); 
+	   fin.seekg(0, std::ios::end); 
 	   pos = fin.tellg();
 	}
 	fin.close();

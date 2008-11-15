@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "StrToken.h"
 /**
  * Clase que representa el mensaje a ocultar.
  */
@@ -22,21 +23,24 @@ public:
 	const char* GetFilePath() const;
 
 	/* Obtiene el tamano total del mensaje */
-	long GetSize() const;
+	unsigned long GetSize() const;
 
 	/* Obtiene la cantidad en bytes que se ocultaron del mensaje */
-	long GetHiddenSize() const;
+	unsigned long GetHiddenSize() const;
 
 	/*Devuelve el id del mensaje*/
 	unsigned long GetId() const;
+	
+	/*Devuelve el nombre del mensaje*/
+	std::string GetName() const;
 
 	/* Incrementa la cantidad de bytes ocultos del mensaje en la imagen */
-	long IncHiddenSize(long size);
+	unsigned long IncHiddenSize(unsigned long size);
 
-	void SetSize(long size);
+	void SetSize(unsigned long size);
 
 	/* Setea el tamano en bytes ocultos en la imagen */
-	void SetHiddenSize(long size);
+	void SetHiddenSize(unsigned long size);
 
 	/* Setea el archivo donde se encuentra el mensaje */
 	void SetFilePath(std::string filePath);
@@ -47,7 +51,8 @@ public:
 
 private:
 	std::string filePath;
-	long hiddenSize;
+	std::string name;
+	unsigned long hiddenSize;
 	unsigned long messageID;
 
 };

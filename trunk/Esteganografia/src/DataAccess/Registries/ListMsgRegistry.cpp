@@ -13,6 +13,11 @@ ListMsgRegistry::~ListMsgRegistry()
 {
 }
 
+ExtensibleRelativeRegistry* ListMsgRegistry::Create()
+{
+	return new ListMsgRegistry();
+}
+
 ID_type ListMsgRegistry::GetIDImage() const
 {
 	return idImage;

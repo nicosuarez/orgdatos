@@ -3,8 +3,8 @@
 #include "../Encrypter/transposition.h"
 
 using namespace std;
-const string EncriptationManager::targetEncrypt="./ansEncrypt.txt";
-const string EncriptationManager::targetDecrypt="./ansDecrypt.dat";
+const string EncriptationManager::targetEncrypt="./Files/ansEncrypt.txt";
+const string EncriptationManager::targetDecrypt="./Files/ansDecrypt.dat";
 
 Message EncriptationManager::Decrypt(const Message& msg){
 	Message temp("./temp.dat");

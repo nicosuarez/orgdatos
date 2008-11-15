@@ -41,7 +41,11 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 		void setSizeMaxFreeSpace(unsigned long  sizeMaxFreeSpace);
 
 		Date getDate() const;
-
+		
+		unsigned long getTotalFreeSpace() const;
+		
+		void setTotalFreeSpace(unsigned long totalFreeSapce);
+		
 		void setDate(Date& date);
 
 		unsigned int GetSize() const;
@@ -57,6 +61,7 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
     ID_type idLastFreeSpace;
     ID_type ptrMsgList;
     unsigned long sizeMaxFreeSpace;
+    unsigned long totalFreeSpace;
     Date date;
 };
 

@@ -12,7 +12,15 @@
 #include "Space.h"
 #include "EncriptationManager.h"
 #include "CompressionManager.h"
+#include "ImageManager.h"
 #include <list>
+#include "../DataAccess/Organizations/OrgExtensibleRelative.h"
+#include "../DataAccess/Organizations/OrgList.h"
+#include "../DataAccess/Organizations/OrgText.h"
+#include "../DataAccess/Registries/MsgRegistry.h"
+#include "../DataAccess/Registries/ListImgRegistry.h"
+#include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
+#include "Constant.h"
 
 /**
  * Clase que maneja el comportamiento de los mensajes, ocultandolos y extrayendolos
@@ -26,10 +34,10 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	static Message Extract(Message msg,Message msgTar=Message(CompressionManager::targetDescompress.c_str()));
+	Message Extract(Message msg,Message msgTar=Message(CompressionManager::targetDescompress.c_str()));
 
 	/*Oculta un mensaje*/
-	static Message Hide(Message msg,Message msg=Message(EncriptationManager::targetEncrypt.c_str()));
+	void Hide(Message msg,Message msg=Message(EncriptationManager::targetEncrypt.c_str()));
 
 	/*Elimina un mensaje oculto*/
 	void DeleteMessage(unsigned long messageId);
@@ -46,6 +54,10 @@ private:
 	/*Puntero a la unica instancia del MessageManager*/
 	static MessageManager* instance;
 
+	OrgExtensibleRelative orgMsg;
+	OrgList orgListImages;
+	OrgText orgNamesMsg;
+	
 	/*Constructor privado*/
 	MessageManager();
 

@@ -77,6 +77,16 @@
         this->date = date;
     }
 
+    unsigned long ImgRegistry::getTotalFreeSpace() const
+    {
+    	return totalFreeSpace;
+    }
+    		
+    void ImgRegistry::setTotalFreeSpace(unsigned long totalFreeSapce)
+    {
+    	this->totalFreeSpace = totalFreeSpace; 
+    }
+    
     unsigned int ImgRegistry::GetSize() const
     {
     	size_t extRel=ExtensibleRelativeRegistry::GetSize();
@@ -116,6 +126,8 @@
 		pos+=sizeof(this->date.getMin());
 		AddToSerialization(buffer, &seg, pos, sizeof(this->date.getSeg()));
 		pos += sizeof(this->date.getSeg());
+		AddToSerialization(buffer, &totalFreeSpace, pos, sizeof(this->totalFreeSpace));
+		pos += sizeof(this->totalFreeSpace);
 		return buffer;
     }
 
@@ -152,5 +164,8 @@
           GetFromSerialization(buffer, &seg, pos, sizeof(this->date.getSeg()));
           Date d(year,month,day,hour,min,seg);
           this->date=d;
+          pos += sizeof(this->date.getSeg());
+          GetFromSerialization(buffer, &totalFreeSpace, pos, sizeof(this->totalFreeSpace));
+          
     }
 
