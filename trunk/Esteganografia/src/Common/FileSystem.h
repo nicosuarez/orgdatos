@@ -12,15 +12,37 @@
 #include "Message.h"
 #include "Resource.h"
 
-typedef enum FSMode {File=0 , All=1, Dir=2 } FSMode;
+typedef enum FSMode {File=0 , Dir=1 } FSMode;
 
-/**
+/**	
  * Clase que maneja el FileSystems.
  */
 class FileSystem
 {
+private:	
+		/* Returns true if the entity (file or directory) is hidden
+		 * otherwise returns false. */   
+		static bool isHide (const char* );
+		
+	    /* Gets the extension from the file name (string). */     	
+		static std::string getFileExt (const std::string& );
+		
+		/**
+		 * Crea el archivo de password
+		 * Lanza ex de eFile
+		 */
+		static void CreatePass(const Message& msg);
+		
 public:
+	/* Returns true if the image extension is supported otherwise 
+	 * returns false. */ 
+	static bool isASupportedImage (const std::string& );
+	
+	/* Returns a list of files or subdirectories from a path. 
+	 * returns false. 
+	 * FSMode: filter through file or directory */ 	
 	static std::vector<std::string> GetFiles(const char* path, FSMode mode);
+	
 	 /**
 	 * Devuelve true si la estructura es valida
 	 */
@@ -31,13 +53,7 @@ public:
 	 * lanza ex de eFile
 	 */
 	static void CreateStruture(const Message& pass);
-
-private:
-	/**
-	  * Crea el archivo de password
-	  * Lanza ex de eFile
-	*/
-	static void CreatePass(const Message& msg);
+	
 };
 
 #endif /*FILESYSTEM_H_*/

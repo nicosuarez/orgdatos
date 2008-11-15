@@ -26,7 +26,7 @@ Jpg::~Jpg(){
 void Jpg::Extract(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath(), ios::binary), fdata(msg->GetFilePath(),ios::out | ios::app);
+	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath(),ios::out | ios::app);
 	long extractBytes = 0;
 	UBYTE dataByte;
 
@@ -51,9 +51,9 @@ void Jpg::Extract(Space* space, Message* msg)
 void Jpg::Hide(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath(),ios::binary), fdata(msg->GetFilePath());
+	fstream fin(space->GetFilePath()), fdata(msg->GetFilePath());
 	UBYTE dataByte;
-	long hideBytes = 0;
+	long hideBytes = -1;
 	
 	fdata.seekg(msg->GetHiddenSize());
 	fin.seekg(space->GetInitialPosition());
@@ -99,41 +99,101 @@ bool Jpg::ValidateFormat(const char *filePath)
 	return isValid;
 }
 /* -------------------------------------------------------------------------- */
-
+int Jpg::GetQualityForMinSizeCompressionFound(tVecLong imageSizeList,
+												tVecLong imageQualityList)
+{
+	int posMin = -1;
+	if(!imageSizeList.empty())
+	{
+		long min = imageSizeList[0];
+		int posMin = 0;
+		for(size_t i=0; i<imageSizeList.size(); i++)
+		{
+			if(imageSizeList[i] < min)
+			{
+				min=imageSizeList[i];
+				posMin=i;
+			}
+		}
+		return imageQualityList[posMin];
+	}
+	
+	return posMin;
+}
+/* -------------------------------------------------------------------------- */
+int Jpg::SearchBestCompression(){
+	
+	tVecLong imageSizeList;
+	tVecLong imageQualityList;
+	double sizeOrig = this->GetTotalSize();
+	double sizeComp = 0;
+	double compressionPct = 0;
+	
+	for(int quality=0; quality <=100; quality+=10)
+	{
+		sizeComp = this->CompressImage(quality, PATH_COMPRESS_IMAGE_TEMP);
+		compressionPct = (sizeComp / sizeOrig)*100;
+		if((compressionPct >= CompressionPercentage) && (compressionPct < 100))
+		{
+			imageSizeList.push_back(sizeComp);
+			imageQualityList.push_back(quality);
+		}
+	}
+	
+	return GetQualityForMinSizeCompressionFound(imageSizeList, imageQualityList);
+}
+/* -------------------------------------------------------------------------- */
 Space* Jpg::Load()
 {
-	long sizeOrig=0, sizeComp=0, freeSpace=0;
-	char fillChar = '\0';
+	long sizeComp=0, freeSpace=0;
 	Space *space;
-	sizeOrig = this->GetTotalSize();
-	
-	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
-	cimg_library::CImg<unsigned char> image(this->GetFilePath());
-	cimg_library::CImgDisplay main_disp(image,"Formato JPEG");
-	main_disp.wait(2000);
-	image.save_jpeg(this->GetFilePath(),50);
-	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de 50" <<  "\n";
-	sizeComp = this->GetTotalSize();
-	cout << "Load Path: "<< this->GetFilePath() << " SizeComp: " << sizeComp << "\n";
-	
-	freeSpace = sizeOrig - sizeComp;
-	this->spaceTotal = freeSpace;
-	this->freeSpaceTotal = freeSpace;	
-	ofstream fout(this->GetFilePath(),ios::binary | ios::app);
-	
-	cout << "Free Space: "<< freeSpace << "\n";
-	
-	//Relleno la imagen para mantener el tamano original.
-	while(freeSpace)
-	{
-		fout << fillChar;
-		freeSpace--;
-	}
-	fout.close();
-	cout << "Load Path: "<< this->GetFilePath() << " NewSizeComp: " << this->GetTotalSize() << "\n";
+	long sizeOrig = this->GetTotalSize();
 
-	this->SetInitPosFreeSpace(sizeComp);
-	space = new Space(this->filePath, JpgFileType, sizeComp, spaceTotal);
+	//Se busca la mejor compresion.
+	int quality = SearchBestCompression();
+	
+	//Si se puede comprimir.
+	if(quality != -1)
+	{
+		sizeComp = this->CompressImage(quality, this->GetFilePath());
+		freeSpace = sizeOrig - sizeComp;
+		this->spaceTotal = freeSpace;
+		this->freeSpaceTotal = freeSpace;	
+		this->FillImage(freeSpace);
+		this->SetInitPosFreeSpace(sizeComp);
+		space = new Space(this->filePath, JpgFileType, sizeComp, spaceTotal);
+	}
+	else
+	{
+		std::cout << "La imagen no se puede comprimir mas.\n";
+	}
 	return space;
 }
 /* -------------------------------------------------------------------------- */
+void Jpg::FillImage(long freeSpace)
+{
+	ofstream fout(this->GetFilePath(),ios::binary | ios::app);
+	srand( (unsigned int) time(NULL));
+	while(freeSpace)
+	{
+		char rdmChar = (rand() % 26) + 'a';
+		fout << rdmChar;
+		freeSpace--;
+	}
+	fout.close();
+}
+/* -------------------------------------------------------------------------- */
+long Jpg::CompressImage(int quality, const char* outFile)
+{
+	Jpg jpg(outFile);
+	long sizeOrig = this->GetTotalSize();
+	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
+	cimg_library::CImg<unsigned char> image(this->GetFilePath());
+	image.save_jpeg(outFile, quality);
+	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de " << quality <<  "\n";
+	long sizeComp = jpg.GetTotalSize();
+	cout << "Load Path: "<< jpg.GetTotalSize() << " SizeComp: " << sizeComp << "\n";
+	return sizeComp;
+}
+/* -------------------------------------------------------------------------- */
+

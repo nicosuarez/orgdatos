@@ -608,18 +608,18 @@ void testBmpLSB2bit(int argc, char *argv[])
 void testJPG(int argc,char* argv[])
 {
 	
-	Space spaceHide(argv[1]);
-	spaceHide.SetInitialPosition(STARTBYTE);
+//	Space spaceHide(argv[1]);
+//	spaceHide.SetInitialPosition(STARTBYTE);
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
-	spaceHide.SetSize(spaceHide.GetTotalSize());
+//	spaceHide.SetSize(spaceHide.GetTotalSize());
 	Jpg* jpg = new Jpg(argv[1]);
-	jpg->Load();
-	jpg->Hide(&spaceHide,&msg);
+	Space* space = jpg->Load();
+	jpg->Hide(space,&msg);
 	
-	Space spaceExtract(argv[1]);
-	spaceExtract.SetInitialPosition(STARTBYTE);
-	spaceExtract.SetSize(msg.GetSize()*4);
+    Space spaceExtract(argv[1]);
+	spaceExtract.SetInitialPosition(space->GetInitialPosition());
+	spaceExtract.SetSize(msg.GetHiddenSize());
 	jpg->Extract(&spaceExtract,&msgOut);
 }
 
