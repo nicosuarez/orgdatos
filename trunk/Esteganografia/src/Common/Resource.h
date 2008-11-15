@@ -16,7 +16,7 @@ typedef unsigned int ID_type;
 #define CMD_ADD_FILE "addfile"
 #define CMD_REMOVE_FILE "removefile"
 #define CMD_GET_FILE "getfile"
-#define CMD_SHOW_FILES "showfiles"
+#define CMD_SHOW_FILES "showfiles" 
 #define CMD_SHOW_DIRECTORIES "showdirectories"
 #define CMD_CHANGE_PASSWORD "changepassword"
 
