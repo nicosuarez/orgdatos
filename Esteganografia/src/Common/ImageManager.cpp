@@ -8,7 +8,7 @@
 #include "ImageManager.h"
 
 unsigned long ImageManager:: freeTotalSize = 0;
-ImageManager* ImageManager:: instace = NULL;
+ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
@@ -20,15 +20,16 @@ ImageManager::ImageManager(){
 
 ImageManager* ImageManager::GetInstance()
 {
-	if(instace == NULL)
-		instace = new ImageManager();
-	return instace;
+	if(instance == NULL)
+		instance = new ImageManager();
+	return instance;
 }
 /* -------------------------------------------------------------------------- */
 
 
-ImageManager::~ImageManager(){
-
+ImageManager::~ImageManager()
+{
+	delete instance;
 }
 /* -------------------------------------------------------------------------- */
 

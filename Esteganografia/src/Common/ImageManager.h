@@ -5,8 +5,8 @@
 //  Original author: zebas
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_)
-#define EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_
+#ifndef IMAGEMANAGER_H
+#define IMAGEMANAGER_H
 
 #include "CImg.h"
 #include "../Steganographic/Image.h"
@@ -46,7 +46,7 @@ private:
 	static unsigned long freeTotalSize;
 
 	/*Puntero a la unica instancia del ImageManager*/
-	static ImageManager *instace;
+	static ImageManager *instance;
 
 	/*Constructor privado*/ 
 	ImageManager();
@@ -56,4 +56,4 @@ private:
     ImageManager& operator=(const ImageManager &manager);
 
 };
-#endif // !defined(EA_B58FBDCC_98EA_11dd_B49B_001B2425640C__INCLUDED_)
+#endif /* IMAGEMANAGER_H */
