@@ -8,17 +8,13 @@ class MsgRegistry : public ExtensibleRelativeRegistry
 public:
 	MsgRegistry();
 	
-	MsgRegistry(ID_type idName, ID_type ptrImgList);
+	MsgRegistry(ID_type ptrImgList);
 	
 	virtual ~MsgRegistry();
 	
 	static ExtensibleRelativeRegistry* Create();
 	
-	ID_type GetIDName() const;
-	
 	ID_type GetPtrImgList() const;
-	
-	void SetIDName(ID_type idName);
 	
 	void SetPtrImgList(ID_type ptrImgList);
 	
@@ -29,7 +25,6 @@ public:
 	void Deserialize(const char* buffer, unsigned int length);
 	
 private:
-	ID_type idName;
 	ID_type ptrImgList;
 	
     /* Allocation and copy constructor are private to prevent errors. */
