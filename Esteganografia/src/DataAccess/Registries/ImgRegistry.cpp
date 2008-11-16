@@ -7,26 +7,6 @@
 		return new ImgRegistry();
 	}
 
-    ID_type ImgRegistry::getIDDir() const
-    {
-        return idDir;
-    }
-
-    void ImgRegistry::setIDDir(ID_type idDir)
-    {
-        this->idDir = idDir;
-    }
-
-    ID_type ImgRegistry::getIDName() const
-    {
-        return idName;
-    }
-
-    void ImgRegistry::setIDName(ID_type idName)
-    {
-        this->idName = idName;
-    }
-
     ID_type ImgRegistry::getIDFirstFreeSpace() const
     {
         return idFirstFreeSpace;
@@ -90,19 +70,15 @@
     unsigned int ImgRegistry::GetSize() const
     {
     	size_t extRel=ExtensibleRelativeRegistry::GetSize();
-    	return (extRel+ sizeof(idDir) + sizeof(idFirstFreeSpace)+sizeof(idLastFreeSpace)+
-    			sizeof(idName)+ sizeof(ptrMsgList) + sizeof(sizeMaxFreeSpace)+date.getSize());
+    	return (extRel + sizeof(idFirstFreeSpace)+sizeof(idLastFreeSpace)+
+    			sizeof(ptrMsgList) + sizeof(sizeMaxFreeSpace)+date.getSize());
     }
 
     char* ImgRegistry::Serialize() const
     {
     	char *buffer=ExtensibleRelativeRegistry::Serialize();
     	unsigned int pos = ExtensibleRelativeRegistry::GetSize();
-    	AddToSerialization(buffer, &idDir, pos, sizeof(this->idDir));
-		pos += sizeof(this->idDir);
-		AddToSerialization(buffer, &idName, pos, sizeof(idName));
-		pos += sizeof(this->idName);
-		AddToSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
+    	AddToSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
 		pos += sizeof(this->idFirstFreeSpace);
 		AddToSerialization(buffer, &idLastFreeSpace, pos, sizeof(idLastFreeSpace));
 		pos += sizeof(this->idLastFreeSpace);
@@ -135,10 +111,6 @@
           ExtensibleRelativeRegistry::Deserialize(buffer, length);
 
           unsigned int pos = ExtensibleRelativeRegistry::GetSize();
-          GetFromSerialization(buffer, &idDir, pos, sizeof(this->idDir));
-          pos += sizeof(this->idDir);
-          GetFromSerialization(buffer, &idName, pos, sizeof(idName));
-          pos += sizeof(this->idName);
           GetFromSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
           pos += sizeof(this->idFirstFreeSpace);
           GetFromSerialization(buffer, &idLastFreeSpace, pos, sizeof(idLastFreeSpace));
