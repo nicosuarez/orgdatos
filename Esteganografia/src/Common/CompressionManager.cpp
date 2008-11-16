@@ -1,9 +1,8 @@
 #include "CompressionManager.h"
 #include "../Lzss/lzss.h"
+#include "Constant.h"
 
 using namespace std;
-const string CompressionManager::targetCompress="./Files/rchTemp2.dat";
-const string CompressionManager::targetDescompress="./Files/ans.txt";
 
 CompressionManager* CompressionManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
@@ -31,7 +30,7 @@ CompressionManager::~CompressionManager(){
 
 Message CompressionManager::Compress(const Message& msg){
 	Lzss lz;
-	Message ans(CompressionManager::targetCompress.c_str());
+	Message ans(PATH_TARGET_COMPRESS_CM);
 	lz.compress(msg.GetFilePath(),ans.GetFilePath());
 	return ans;
 }

@@ -14,35 +14,36 @@
 
 typedef enum FSMode {File=0 , Dir=1 } FSMode;
 
-/**	
+typedef std::vector<std::string> tVecStr;
+/**
  * Clase que maneja el FileSystems.
  */
 class FileSystem
 {
-private:	
+private:
 		/* Returns true if the entity (file or directory) is hidden
-		 * otherwise returns false. */   
+		 * otherwise returns false. */
 		static bool isHide (const char* );
-		
-	    /* Gets the extension from the file name (string). */     	
+
+	    /* Gets the extension from the file name (string). */
 		static std::string getFileExt (const std::string& );
-		
+
 		/**
 		 * Crea el archivo de password
 		 * Lanza ex de eFile
 		 */
 		static void CreatePass(const Message& msg);
-		
+
 public:
-	/* Returns true if the image extension is supported otherwise 
-	 * returns false. */ 
+	/* Returns true if the image extension is supported otherwise
+	 * returns false. */
 	static bool isASupportedImage (const std::string& );
-	
-	/* Returns a list of files or subdirectories from a path. 
-	 * returns false. 
-	 * FSMode: filter through file or directory */ 	
-	static std::vector<std::string> GetFiles(const char* path, FSMode mode);
-	
+
+	/* Returns a list of files or subdirectories from a path.
+	 * returns false.
+	 * FSMode: filter through file or directory */
+	static tVecStr GetFiles(const char* path, FSMode mode);
+
 	 /**
 	 * Devuelve true si la estructura es valida
 	 */
@@ -53,7 +54,7 @@ public:
 	 * lanza ex de eFile
 	 */
 	static void CreateStruture(const Message& pass);
-	
+
 };
 
 #endif /*FILESYSTEM_H_*/

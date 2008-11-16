@@ -19,6 +19,9 @@
 #include "../DataAccess/Registries/ListMsgRegistry.h"
 #include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
 #include "Constant.h"
+#include "../Tree/factory.h"
+#include "../Tree/BppTree/bpptree.h"
+#include "FileSystem.h"
 
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
@@ -26,37 +29,42 @@
  */
 class ImageManager
 {
-public:
+
+
+	public:
 
 	/* Devuelve la unica instancia de ImageManager (clase singleton)*/
 	static ImageManager* GetInstance();
-	
+
+	void AddDirectory(const char* dirPath);
+	void DeleteDirectory(const char* dirPath);
+
 	/* Elimina una imagen de la organizacion de archivos*/
-	static void DeleteImage(Image* image);
-	
+	void DeleteImage(Image* image);
+
 	/* Almacena una imagen en la organizacion de archivos*/
-	static void AddImage(Image* image);
-	
-	/* Devuelve una lista con los IDs de los mensajes que estan 
+	ID_type AddImage(Image* image);
+
+	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */
 	list<int> GetMessages(Image* image);
-	
-	/* Devuelve una lista con los espacios libres que tiene 
+
+	/* Devuelve una lista con los espacios libres que tiene
 	 * la imagen parámetro */
 	list<Space> GetFreeSpaces(Image* image);
-	
-	/*Dado el tamaño de un mensaje, devuelve una lista de espacios 
+
+	/*Dado el tamaño de un mensaje, devuelve una lista de espacios
 	 * libres para almacenarlo*/
 	list<Space> GetSpacesToStore(unsigned long sizeMsg);
-	
+
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
-	
+
 	/* Destructor*/
 	virtual ~ImageManager();
-	
+
 private:
-	
+
 	/*Espacio libre total para almacenar mensajes*/
 	static unsigned long totalFreeSize;
 
@@ -66,10 +74,12 @@ private:
 	OrgExtensibleRelative orgImages;
 	OrgList orgListFreeSpaces, orgListMsgs;
 	OrgText orgNamesImages, orgNamesDir;
-	
-	/*Constructor privado*/ 
+
+	BppTree imgTree;
+
+	/*Constructor privado*/
 	ImageManager();
-	
+
 	/*Constructor de copia y operador = privados para evitar errores*/
     ImageManager(const ImageManager &manager);
     ImageManager& operator=(const ImageManager &manager);

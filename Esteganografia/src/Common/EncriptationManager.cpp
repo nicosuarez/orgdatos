@@ -1,14 +1,13 @@
 #include "EncriptationManager.h"
 #include "../Encrypter/bits_inverter.h"
 #include "../Encrypter/transposition.h"
+#include "Constant.h"
 
 using namespace std;
-const string EncriptationManager::targetEncrypt="./Files/ansEncrypt.txt";
-const string EncriptationManager::targetDecrypt="./Files/ansDecrypt.dat";
 
 Message EncriptationManager::Decrypt(const Message& msg){
 	Message temp("./temp.dat");
-	Message ans(EncriptationManager::targetDecrypt.c_str());
+	Message ans(PATH_TARGET_DECRYPT_EM);
 	Transposition::decrypt(msg.GetFilePath(),temp.GetFilePath());
 	BitsInverter::decrypt(temp.GetFilePath(),ans.GetFilePath());
 	  if( remove( temp.GetFilePath() ) != 0 )

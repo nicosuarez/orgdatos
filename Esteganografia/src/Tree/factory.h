@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <string>
 
 #include "Common/register.h"
 #include "Common/register_factory.h"
@@ -41,24 +42,28 @@ class ValueInt : public Register{
 		}
 };
 
-class KeySt : public Register{
+class KeyStr : public Register{
 	protected:
 		std::string key;
 
 	public:
-		KeySt(const std::string& key){
+		KeyStr(std::string key){
 			this->key = key;
 		}
 
-		virtual ~KeySt(){
+		//KeyStr(const KeyStr& key){
+		//	this->key = key.key;
+		//}
+
+		virtual ~KeyStr(){
 		}
 
-		virtual Register* duplicate() const{ return new KeySt(*this); }
+		virtual Register* duplicate() const{ return new KeyStr(*this); }
 
 		std::string getKey()const{ return this->key; }
 
 		void setFields(const Register& b2){
-			this->key = ((KeySt&)b2).key;
+			this->key = ((KeyStr&)b2).key;
 		}
 
 		unsigned int getSize()const{
@@ -66,26 +71,26 @@ class KeySt : public Register{
 		}
 
 		bool operator <(const Register& r2)const{
-			return key< ((const KeySt&)r2).key;
+			return key< ((const KeyStr&)r2).key;
 		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
-			KeySt* k = (KeySt*)this;
+			KeyStr* k = (KeyStr*)this;
 			out << "\tKeySt = " << k->key.c_str()<< "\n";
 			//out << "\tKey = " << this->key << "\n";
 			return out;
 		}
 };
 
-class KeyStFactory : public RegisterFactory{
+class KeyStrFactory : public RegisterFactory{
 	public:
-		KeyStFactory(){}
-		virtual ~KeyStFactory(){}
+		KeyStrFactory(){}
+		virtual ~KeyStrFactory(){}
 
-		virtual RegisterFactory* duplicate()const{ return new KeyStFactory(); }
+		virtual RegisterFactory* duplicate()const{ return new KeyStrFactory(); }
 
 		char* operator()(Register& reg,char* data){
-			KeySt& akey = dynamic_cast<KeySt&>(reg);
+			KeyStr& akey = dynamic_cast<KeyStr&>(reg);
 
 			std::string keystr  = akey.getKey();
 
@@ -96,16 +101,16 @@ class KeyStFactory : public RegisterFactory{
 		}
 
 		virtual Register* operator()(char* data){
-			return new KeySt(std::string(data));
+			return new KeyStr(std::string(data));
 		}
 };
 
-class VulueIntFactory : public RegisterFactory{
+class ValueIntFactory : public RegisterFactory{
 	public:
-		VulueIntFactory(){}
-		~VulueIntFactory(){}
+		ValueIntFactory(){}
+		~ValueIntFactory(){}
 
-		RegisterFactory* duplicate()const{ return new VulueIntFactory(); }
+		RegisterFactory* duplicate()const{ return new ValueIntFactory(); }
 
 		char* operator()(Register& reg,char* data){
 			ValueInt& avalue = dynamic_cast<ValueInt&>(reg);
