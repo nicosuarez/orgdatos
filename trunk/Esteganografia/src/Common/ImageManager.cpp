@@ -76,8 +76,9 @@ void ImageManager::DeleteDirectory(const char* dirPath){
 	KeyStr kDir(dirPath);
 	TreeIterator& it = imgTree.iterator(kDir);
 	while (!it.end()){
-		Register* kStr=it.getKey();
-		tVecStr tokens=StrToken::getStrTokens(((KeyStr)kStr).getKey(),"/");
+		KeyStr* kStr=(KeyStr*)it.getKey();
+		string a=kStr->getKey();
+		tVecStr tokens=StrToken::getStrTokens(a,"/");
 		if (!(tokens.size()>tokensDir.size()+1)){
 
 		delete kStr;

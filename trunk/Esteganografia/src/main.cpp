@@ -44,7 +44,7 @@ class Reg : public ExtensibleRelativeRegistry
 
     unsigned int GetSize() const
     {
-      return ExtensibleRelativeRegistry::GetSize() + sizeof(numero) + sizeof(texto) - 1; 
+      return ExtensibleRelativeRegistry::GetSize() + sizeof(numero) + sizeof(texto) - 1;
     }
 
     char* Serialize() const
@@ -75,7 +75,7 @@ class Reg : public ExtensibleRelativeRegistry
     {
       if (GetID() != reg.GetID())
         return false;
-        
+
       if (this->numero != reg.numero)
         return false;
 
@@ -89,7 +89,7 @@ class Reg : public ExtensibleRelativeRegistry
     {
       return !((*this) == reg);
     }
-    
+
     static ExtensibleRelativeRegistry* Create();
 
   private:
@@ -141,7 +141,7 @@ void TestCreateFileTwice()
     f.Destroy();
     return;
   }
-  
+
   throw "TestCreateFileTwice failed";
 }
 
@@ -159,7 +159,7 @@ void TestOpenFileWithoutCreate()
   {
     return;
   }
-  
+
   throw "TestOpenFileWithoutCreate failed";
 }
 
@@ -177,7 +177,7 @@ void TestOpenFileWrongMode()
   {
     return;
   }
-  
+
   throw "TestOpenFileWrongMode failed";
 }
 
@@ -256,12 +256,12 @@ void TestWriteAndRead()
 
     if (reg3.GetID() != 3)
       throw "Failed";
-    
+
     f2.Close();
 
     f3.Open(ExtensibleRelativeFile::READ);
     reg = dynamic_cast<Reg*>(f3.Read(1));
-    
+
     if ((*reg) != reg1)
       throw "Failed";
 
@@ -313,7 +313,7 @@ void TestRegistryActive()
     f1->Open(ExtensibleRelativeFile::READ);
 
     reg = dynamic_cast<Reg*>(f1->Read(1));
-    
+
     if ((*reg) != reg1)
       throw "Failed";
 
@@ -421,7 +421,7 @@ void TestUpdateDeleted()
     f1.Write(reg2);
 
     f1.Delete(2);
-    
+
     reg = dynamic_cast<Reg*>(f1.Read(2));
     f1.Update(*reg);
   }
@@ -440,12 +440,12 @@ void TestUpdateDeleted()
 void TestOrgExtensibleRelative()
 {
   OrgExtensibleRelative org("organization.dat", Reg::Create);
-  
+
   Reg reg1(101, "CINTIA_LUC");
   Reg reg2(102, "LEANDRO_OS");
   Reg reg3(103, "CECILIA_BE");
   Reg reg4(104, "EUGENIA_BE");
-  
+
   org.WriteRegistry(reg1);
   org.WriteRegistry(reg2);
   org.WriteRegistry(reg3);
@@ -456,7 +456,7 @@ void TestOrgExtensibleRelative()
 
   org.DeleteRegistry(4);
   org.DeleteRegistry(2);
-  
+
   Reg reg5(105, "MARINA_BEA");
   Reg reg6(106, "BRUNA_ESTR");
   Reg reg7(107, "OSCAR_ALBE");
@@ -470,7 +470,7 @@ void TestOrgExtensibleRelative()
 
   reg6.SetTexto("ESTR_BRUNA");
   org.UpdateRegistry(reg6);
-  
+
   org.Destroy();
 }
 
@@ -481,11 +481,11 @@ void TestMsgRegistry()
 	MsgRegistry reg2(2, 15);
 	MsgRegistry reg3(3, 100);
 	MsgRegistry *reg;
-	
+
 	org.WriteRegistry(reg1);
 	org.WriteRegistry(reg2);
 	org.WriteRegistry(reg3);
-	
+
 	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg1.GetID()));
 	cout << "idName: " << reg->GetIDName() << " - ptrImg: " << reg->GetPtrImgList() << endl;
 	delete reg;
@@ -501,42 +501,42 @@ void TestMsgRegistry()
 void TestListImgRegistry()
 {
 //	OrgList org("mesajesList.dat", ListImgRegistry::Create);
-//	
+//
 //	ListImgRegistry reg1(1, 10, 50);
 //	ListImgRegistry reg2(2, 15, 100);
 //	ListImgRegistry reg3(3, 100, 1000);
 //	ListImgRegistry reg4(4, 200, 1500);
 //	ListImgRegistry *reg;
-//	
+//
 //	org.CreateList(reg1);
 //	org.AddToListLast(reg2, reg1.GetID());
 //	org.AddToListLast(reg3, reg2.GetID());
 //	org.AddToListLast(reg4, reg3.GetID());
 //	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
 //	list<ListRegistry*>::iterator it;
-//	
+//
 //	for( it= lista->begin(); it != lista->end(); it++)
 //	{
 //		reg = dynamic_cast<ListImgRegistry*>( (*it) );
 //		cout << "idImage: " << reg->GetIDImage() << " - offsetImg: " << reg->GetOffsetImg() <<  " - sizePartitionMsg: " << reg->GetSizePartitionMsg() << endl;
 //		delete reg;
 //	}
-	
+
 	OrgList org("mesajesList.dat", ListFreeSpaceRegistry::Create);
-		
+
 	ListFreeSpaceRegistry reg1(1, 10);
 	ListFreeSpaceRegistry reg2(2, 15);
 	ListFreeSpaceRegistry reg3(3, 100);
 	ListFreeSpaceRegistry reg4(4, 200);
 	ListFreeSpaceRegistry *reg;
-	
+
 	org.CreateList(reg1);
 	org.AddToListLast(reg2, reg1.GetID());
 	org.AddToListLast(reg3, reg2.GetID());
 	org.AddToListLast(reg4, reg3.GetID());
 	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
 	list<ListRegistry*>::iterator it;
-	
+
 	for( it= lista->begin(); it != lista->end(); it++)
 	{
 		reg = dynamic_cast<ListFreeSpaceRegistry*>( (*it) );
@@ -567,7 +567,7 @@ void testCompresion()
 //		descomprimir.append(1,aux2[i+1]);
 //	/*FIN DE ESTO*/
 //	string ans=lz.uncompress((unsigned char*)descomprimir.c_str(),st.size());
-//	
+//
 //	const char * a=ans.c_str();
 //	cout<<"la verdadera resp deberia ser:  "<<postaPosta<<endl<<endl;
 //	cout<<"LA RESPUESTA ES: TA TAN TA TAN...  "<<a<<endl;
@@ -583,7 +583,7 @@ void testBmpLSB1bit(int argc, char *argv[])
 	Bmp bmp(argv[1]);
 	//bmp.ValidateFormat(&space);
 	bmp.Hide(&spaceHide,&msg);
-	
+
 	Space spaceExtract(argv[1]);
 	spaceExtract.SetInitialPosition(STARTBYTE);
 	spaceExtract.SetSize(msg.GetSize()*8);
@@ -600,7 +600,7 @@ void testBmpLSB2bit(int argc, char *argv[])
 	BmpHighColor* bmp = new BmpHighColor(argv[1]);
 	//bmp.ValidateFormat(&space);
 	bmp->Hide(&spaceHide,&msg);
-	
+
 	Space spaceExtract(argv[1]);
 	spaceExtract.SetInitialPosition(STARTBYTE);
 	spaceExtract.SetSize(msg.GetSize()*4);
@@ -609,7 +609,7 @@ void testBmpLSB2bit(int argc, char *argv[])
 
 void testJPG(int argc,char* argv[])
 {
-	
+
 //	Space spaceHide(argv[1]);
 //	spaceHide.SetInitialPosition(STARTBYTE);
 	Message msg(argv[2]);
@@ -618,7 +618,7 @@ void testJPG(int argc,char* argv[])
 	Jpg* jpg = new Jpg(argv[1]);
 	Space* space = jpg->Load();
 	jpg->Hide(space,&msg);
-	
+
     Space spaceExtract(argv[1]);
 	spaceExtract.SetInitialPosition(space->GetInitialPosition());
 	spaceExtract.SetSize(msg.GetHiddenSize());
@@ -632,17 +632,17 @@ void testFileSystem(const char* path)
 	{
 		cout << fileList[i] << "\n";
 	}
-	
+
 	ImageFactory::SupportedFormats(path);
 	Image* image = ImageFactory::GetImage(path);
-	cout << image->GetFilePath() << "\n"; 
-	
+	cout << image->GetFilePath() << "\n";
+
 	Bmp::ImageInfo(path);
 }
 
 void testAddDirectory(int argc, char *argv[])
 {
-	
+
 }
 
 void testConsole(int argc, char *argv[])
@@ -653,11 +653,11 @@ void testConsole(int argc, char *argv[])
 void testPNG(int argc,char* argv[])
 {
 	Png* png = new Png(argv[1]);
-	Space* spaceHide = png->GetFreeSpace(); 
+	Space* spaceHide = png->GetFreeSpace();
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
 	png->Hide(spaceHide,&msg);
-	
+
 	Space* spaceExtract = new Space(argv[1]);
 	spaceExtract->SetInitialPosition(0);
 	std::cout << msg.GetHiddenSize() << "\n";
@@ -667,7 +667,7 @@ void testPNG(int argc,char* argv[])
 
 void testGif(int argc, char *argv[])
 {
-	
+
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
 //	Gif *gif = new Gif(argv[1]);
@@ -676,7 +676,7 @@ void testGif(int argc, char *argv[])
 //		return;
 //	gif->Hide(space,&msg);
 //	gif->Extract(space,&msgOut);
-	
+
 }
 
 void testStenographic(int argc, char *argv[])
@@ -724,20 +724,20 @@ void testPass(int argc, char *argv[]){
 }
 
 void testInsertValueInt(){
-	KeyStFactory  kf;
-	VulueIntFactory  vf;
+	KeyStrFactory  kf;
+	ValueIntFactory  vf;
 	BppTree tree(512,kf,vf,"dummy.temporal");
 
-	KeySt k1("Armando1.jpg");
+	KeyStr k1("Armando1.jpg");
 	ValueInt v1(1);
 	tree.insert(k1,v1);
-	KeySt k2("JULIO.jpg");
+	KeyStr k2("JULIO.jpg");
 	ValueInt v2(2);
 	tree.insert(k2,v2);
-	KeySt k3("home/nicolas/600x800.jpg");
+	KeyStr k3("home/nicolas/600x800.jpg");
 	ValueInt v3(3);
 	tree.insert(k3,v3);
-	KeySt k4("./etc/include/wallpaper.jpg");
+	KeyStr k4("./etc/include/wallpaper.jpg");
 	ValueInt v4(4);
 	tree.insert(k4,v4);
 
@@ -751,7 +751,7 @@ void testInsertValueInt(){
 	 testInsertValueInt();
 
  }
- 
+
 int main(int argc, char *argv[])
 {
 	//testPass(argc,argv);
@@ -760,7 +760,7 @@ int main(int argc, char *argv[])
 	//testDataAccess(argc, argv);
 	testArbol();
 
-	
+
 	return EXIT_SUCCESS;
 }
 
