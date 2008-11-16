@@ -34,7 +34,7 @@ bool AddDirectory::InternalProcess(tVecStr params)
 	string dirPath(path);
 	string fullPath(path);
 	Image* image = NULL;
-	
+
 	for(size_t i=0; i < fileList.size(); i++)
 	{
 		cout << fileList[i] << "\n";
@@ -47,9 +47,10 @@ bool AddDirectory::InternalProcess(tVecStr params)
 			{
 				image->Load();
 			}
-			ImageManager::AddImage(image);
+			ImageManager* iManager=ImageManager::GetInstance();
+			ID_type id=iManager->AddImage(image);
 		}
-		
+
 		fullPath = dirPath;
 	}
 	return true;
