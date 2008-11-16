@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <list>
@@ -27,9 +27,9 @@ void testLevelUnderflow(bool clean);
 void testSingleInsert(bool clean);
 void testBigRegisterInsert(bool clean);
 void testFirstLeafOverflow(bool clean);
-void testFirstLeafDoubleOverflow(bool clean);/* Obsoleto -> idem testLeafOverflow */
+void testFirstLeafDoubleOverflow(bool clean);// Obsoleto -> idem testLeafOverflow
 void testFirstLevelOverflow(bool clean);
-void testFirstLevelDoubleOverflow(bool clean);/* Obsoleto -> idem testLevelOverflow */
+void testFirstLevelDoubleOverflow(bool clean);// Obsoleto -> idem testLevelOverflow
 void testRandomInsert(bool clean);
 void testIterators(bool clean);
 void testUpdate();
@@ -49,12 +49,6 @@ void testInsert(bool clean){
 	if(clean)
 		fclean();
 }
-
-/*TODO
- *		~-	Recordar que se modifico el toOstream de la clase Key, se trunca el output a 4 chars para hacerlo legible
- *		~-	Recordar que se modifico la register factory common
- *		~-	Recordar que los registros en el registerFile nunca se eliminan( requiere de proceso externo para ordenar )
-*/
 //int main(int argc,char** argv){
 
 	//createRandomDump("bigDump.txt",5000);
@@ -89,7 +83,7 @@ void testIterators2(bool clean){
 		tree.insert(k1,v1);
 	}
 
-	/* Pruebo el estado del iterador luego de borrada la clave a donde apunta */
+	// Pruebo el estado del iterador luego de borrada la clave a donde apunta
 	Key pk(uintToStr(15));
 	TreeIterator& it = tree.iterator(pk);
 	it.peekKey().toOstream(std::cout);
@@ -100,7 +94,7 @@ void testIterators2(bool clean){
 
 	tree.deleteIterator(it);
 
-	/* Pruebo el estado del iterador luego de un overflow, la clave a la que apunta cambia de nodo */
+	// Pruebo el estado del iterador luego de un overflow, la clave a la que apunta cambia de nodo
 	Key pk2(uintToStr(70));
 	TreeIterator& it2 = tree.iterator(pk2);
 	it2.peekKey().toOstream(std::cout);
@@ -113,7 +107,7 @@ void testIterators2(bool clean){
 
 	it2.peekKey().toOstream(std::cout);
 
-	/* Pruebo el estado del iterador luego de un underflow(con join), la clave a la que apunta cambia de nodo */
+	// Pruebo el estado del iterador luego de un underflow(con join), la clave a la que apunta cambia de nodo
 	for(unsigned int c=0;c<8;++c){
 		Key k1(uintToStr(c+20));
 		tree.remove(k1);
@@ -123,7 +117,7 @@ void testIterators2(bool clean){
 
 	it2.peekKey().toOstream(std::cout);
 
-	/* Pruebo el estado del iterador luego de un underflow(sin join), la clave a la que apunta cambia de nodo */
+	// Pruebo el estado del iterador luego de un underflow(sin join), la clave a la que apunta cambia de nodo
 	Key pk3(uintToStr(2));
 	TreeIterator& it3 = tree.iterator(pk3);
 	it3.peekKey().toOstream(std::cout);
@@ -228,7 +222,7 @@ void testRandomDelete(bool clean){
 	bool ret=true;
 	DummyKeyFactory  kf;
 	DummyValFactory  vf;
-	/* Existesn Registros > 1024 en el bigDump, No existen > a 3*1024 */
+	// Existesn Registros > 1024 en el bigDump, No existen > a 3*1024
 	BppTree tree(1024,kf,vf,"dummy.temporal");
 	std::set<Key> inserted;
 	std::list<std::string> dump;
@@ -368,8 +362,7 @@ void testLevelUnderflow(bool clean){
 		else
 			ret = tree.remove(key);
 		c++;
-		/*salida << "Iteracion c= " << c << std::endl;
-		salida << tree << std::endl;*/
+		//salida << "Iteracion c= " << c << std::endl;salida << tree << std::endl;
 		keys.pop();
 	}
 
@@ -459,7 +452,7 @@ void testIterators(bool clean){
 	Key k21("Armando");
 	Value v21(2);
 	tree.insert(k21,v21);
-	
+
 	Key k2("Bielsa");
 	Value v2(2);
 	tree.insert(k2,v2);
@@ -477,7 +470,7 @@ void testIterators(bool clean){
 	tree.insert(k5,v5);
 
 	Key keyFind("Urquiza");
-	
+
 	if(tree.exists((keyFind)))
 	{
 		Register* reg = tree.find(keyFind);
@@ -487,7 +480,7 @@ void testIterators(bool clean){
 			std::cout << value->getValue() << "\n";
 		}
 	}
-	
+
 	Key k6("Arman");
 	TreeIterator& it = tree.iterator(k6);
 	printIteratorValue(it);
@@ -710,4 +703,4 @@ void fclean(){
 	remove("dummy.temporal");
 	remove("dummy.temporal-big-regs");
 	remove("dummy.temporal-tmp");
-}
+}*/

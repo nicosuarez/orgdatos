@@ -34,10 +34,10 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	Message Extract(Message msg,Message msgTar=Message(CompressionManager::targetDescompress.c_str()));
+	Message Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
 
 	/*Oculta un mensaje*/
-	void Hide(Message msg,Message msg=Message(EncriptationManager::targetEncrypt.c_str()));
+	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
 
 	/*Elimina un mensaje oculto*/
 	void DeleteMessage(unsigned long messageId);
@@ -57,7 +57,7 @@ private:
 	OrgExtensibleRelative orgMsg;
 	OrgList orgListImages;
 	OrgText orgNamesMsg;
-	
+
 	/*Constructor privado*/
 	MessageManager();
 

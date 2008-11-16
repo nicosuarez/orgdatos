@@ -11,9 +11,6 @@
 class CompressionManager
 {
 	public:
-		static const std::string targetDescompress;
-		static const std::string targetCompress;
-	public:
 
 		/*Devuelve la unica instancia de CompressionManager (clase singleton)*/
 		static CompressionManager* GetInstance();

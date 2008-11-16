@@ -6,17 +6,23 @@
 ///////////////////////////////////////////////////////////
 
 #include "ImageManager.h"
+#include "../Tree/BppTree/treeIterator.h"
+#include "../Tree/factory.h"
+#include <string>
+
+using namespace std;
 
 unsigned long ImageManager:: totalFreeSize = 0;
 ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate), 
+ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate),
 							  orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_FILE),
-							  orgNamesDir(PATH_NAMES_DIR_FILE)
+							  orgNamesDir(PATH_NAMES_DIR_FILE),
+							  imgTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG)
 {
 
 }
@@ -39,19 +45,50 @@ ImageManager::~ImageManager()
 /* -------------------------------------------------------------------------- */
 
 
-void ImageManager::DeleteImage(Image* image)
-{
+void ImageManager::DeleteImage(Image* image){
 
 }
 /* -------------------------------------------------------------------------- */
 
 
-void ImageManager::AddImage(Image* image)
-{
+ID_type ImageManager::AddImage(Image* image){
+	return 1;
+}
+/* -------------------------------------------------------------------------- */
+void ImageManager::AddDirectory(const char* dirPath){
+	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	KeyStr kDir(dirPath);
+	ValueInt vDir(0);
+	imgTree.insert(kDir,vDir);
+	for(size_t i=0; i<fileList.size();i++){
+		Image img(fileList[i].c_str());
+		ID_type id=AddImage(&img);
+		KeyStr keyImg(fileList[i]);
+		ValueInt valImg(id);
+		this->imgTree.insert(keyImg,valImg);
+	}
 }
 /* -------------------------------------------------------------------------- */
 
+void ImageManager::DeleteDirectory(const char* dirPath){
+	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
+	KeyStr kDir(dirPath);
+	TreeIterator& it = imgTree.iterator(kDir);
+	while (!it.end()){
+		Register* kStr=it.getKey();
+		tVecStr tokens=StrToken::getStrTokens(((KeyStr)kStr).getKey(),"/");
+		if (!(tokens.size()>tokensDir.size()+1)){
 
+		delete kStr;
+
+		}
+		++it;
+	}
+
+}
+
+/* -------------------------------------------------------------------------- */
 list<int> ImageManager::GetMessages(Image* image)
 {
 	list<int> listMessages;

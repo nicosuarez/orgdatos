@@ -21,9 +21,6 @@ public:
 	 * llena el mensaje msgTarget
 	 */
 	static void Encrypt(const Message& msg,const Message& msgTarget);
-public:
-	static const std::string targetEncrypt;
-	static const std::string targetDecrypt;
 
 };
 #endif // __ENCRIPTATIONMANAGER__H_
