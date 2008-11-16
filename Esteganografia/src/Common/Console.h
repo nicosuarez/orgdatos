@@ -19,8 +19,8 @@ public:
 	static int Run(int argc,char* argv[]);
 
 private:
-	static bool ExistPassword();
-	static bool IsCorrectPass(const std::string& st);
+	//static bool ExistPassword();
+	//static bool IsCorrectPass(const std::string& st);
 	static bool ValidatePassword();
 	static std::string GetInputPassword();
 	static void ShowInitialMessage();

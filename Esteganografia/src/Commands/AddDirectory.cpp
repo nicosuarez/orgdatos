@@ -1,4 +1,5 @@
 #include "AddDirectory.h"
+#include "../Common/ImageManager.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ bool AddDirectory::InternalProcess(tVecStr params)
 	string fullPath(path);
 	Image* image = NULL;
 
+
 	for(size_t i=0; i < fileList.size(); i++)
 	{
 		cout << fileList[i] << "\n";
@@ -48,7 +50,8 @@ bool AddDirectory::InternalProcess(tVecStr params)
 				image->Load();
 			}
 			ImageManager* iManager=ImageManager::GetInstance();
-			ID_type id=iManager->AddImage(image);
+			iManager->AddDirectory(path.c_str());
+			//ID_type id=iManager->AddImage(image);
 		}
 
 		fullPath = dirPath;

@@ -19,6 +19,10 @@ class Date{
 		unsigned int getMin() const;
 		unsigned int getSeg() const;
 		unsigned int getSize() const;
+		/**
+		 * Devuelve la fecha del archivo file
+		 */
+		static Date getDate(const char* file);
 
 	private:
 		unsigned int year;

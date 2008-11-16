@@ -7,9 +7,7 @@
 #include "MessageManager.h"
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
 #include "../DataAccess/Registries/ImgRegistry.h"
-#include <sys/stat.h>
-#include <unistd.h>
-#include <time.h>
+#include "PasswordManager.h"
 
 
 using namespace std;
@@ -19,7 +17,7 @@ const string Console::temporaryFile="../Files/temporaryFileConsole.txt";
 int Console::Run(int argc,char* argv[])
 {
 	string cmd;
-	if (ExistPassword()){
+	if (PasswordManager::ValidatePassword()){
 		if(ValidatePassword())
 		{
 			ShowInitialMessage();
@@ -48,7 +46,7 @@ int Console::Run(int argc,char* argv[])
  * Devuelve true si ya se ha seteado un password
  * Si la el passesta corrompida tira excepcion
  */
-bool Console::ExistPassword(){
+/*bool Console::ExistPassword(){
 	bool ans=false;
 	std::ifstream fpImg(PATH_IMG_FILE,std::ios::in);
 	if(!fpImg.good())
@@ -68,7 +66,7 @@ bool Console::ExistPassword(){
 		ans=true;
 	delete reg;
 	return ans;
-}
+}*/
 
 /**
  * Obtiene una lista de todos los cmd disponibles en la consola.
@@ -91,7 +89,7 @@ tVecStr Console::GetAllCommands()
 /**
  * Devuelve si el pass ingresado(st) es igual al original
  */
-bool Console::IsCorrectPass(const string& st){
+/*bool Console::IsCorrectPass(const string& st){
 	Message message(PATH_PASS_FILE);
 	Message truePass=MessageManager::GetInstance()->Extract(message);
 	ifstream fp(truePass.GetFilePath(), ios::in);
@@ -107,12 +105,12 @@ bool Console::IsCorrectPass(const string& st){
 	pass[size]='\0';
 	aux=pass;
 	return (!strcmp(pass,st.c_str()));
-}
+}*/
 
 
 /**
  * Pide el nuevo password y su confirmacion. Devuelve un true si fue ingresado correctamente
- * y en ese caso lo guarda en un mensaje
+ * y en ese caso lo guarda en msg
  */
 bool Console::InsertNewPassword(Message& msg){
 	bool esValido=false;
@@ -136,9 +134,7 @@ bool Console::InsertNewPassword(Message& msg){
 	if (!esValido)
 		return false;
 	msg.SetFilePath(Console::temporaryFile.c_str());
-	ofstream fp(msg.GetFilePath(),ios::out|ios::trunc);
-	fp.write(pass1.c_str(),sizeof(char)*pass1.length());
-	fp.close();
+
 	return true;
 }
 
@@ -157,7 +153,7 @@ bool Console::ValidatePassword()
 		pass = GetInputPassword();
 
 		//TODO: LLAMAR A LA VALIDACION POSTA.
-		if (Console::IsCorrectPass(pass))
+		if (PasswordManager::IsCorrectPass(pass))
 			esValido=true;
 		else
 			cout << ERR_INCORRECT_PASSWORD << "\n" << flush;
