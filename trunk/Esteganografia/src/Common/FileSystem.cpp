@@ -4,51 +4,52 @@
 #include "MessageManager.h"
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
+#include "Constant.h"
 
 using namespace std;
 
 /* -------------------------------------------------------------------------- */
-	
-bool FileSystem::isHide (const char* hide) 
-{ 
+
+bool FileSystem::isHide (const char* hide)
+{
 	/* If the entity is hidden the firt char must be '.'. */
-	return hide[0] == '.'; 
+	return hide[0] == '.';
 }
 
 /* -------------------------------------------------------------------------- */
 
-std::string FileSystem::getFileExt (const std::string& str) 
-{	
-   /* Searches '.' in a backward direction, and returns the position of 
+std::string FileSystem::getFileExt (const std::string& str)
+{
+   /* Searches '.' in a backward direction, and returns the position of
     * the last occurrence in the string str*/
    size_t i = str.rfind('.', str.length());
-      
+
    if ( i != std::string::npos )
-   /* The extension has been found it and returned. */ 
-      return (str.substr(i+1, str.length() - i));   
+   /* The extension has been found it and returned. */
+      return (str.substr(i+1, str.length() - i));
    return "";
 }
 
 /* -------------------------------------------------------------------------- */
 
-bool FileSystem::isASupportedImage (const std::string& filename) 
-{			
-	std::vector <std::string> supported;	
+bool FileSystem::isASupportedImage (const std::string& filename)
+{
+	std::vector <std::string> supported;
 
 	/* The vector supported is loaded with possible extensions.*/
-	supported.push_back (EXT_BMP);	supported.push_back(EXT_JPG);	
-	supported.push_back(EXT_JPEG);	supported.push_back(EXT_PNG);	
+	supported.push_back (EXT_BMP);	supported.push_back(EXT_JPG);
+	supported.push_back(EXT_JPEG);	supported.push_back(EXT_PNG);
 	supported.push_back(EXT_GIF);
-	std::string ext = "." + getFileExt (filename);	
+	std::string ext = "." + getFileExt (filename);
 	unsigned int j = 0, size = supported.size();
-	bool found = false;		
-	
+	bool found = false;
+
 	while ( (j < size) && (!found) )
 	{
 		if ( std::string::npos != ext.find( supported.at(j) , 0 ) )
 			found = true;
 		j++;
-	}		
+	}
 	supported.clear();
 	return found;
 }
@@ -72,11 +73,11 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 	 errno = 0;
 	 while ( ( pent = readdir (pdir) ) )
 	 {
-		  sprintf(szFullName, "%s/%s", path, pent->d_name);		 
-		 
+		  sprintf(szFullName, "%s/%s", path, pent->d_name);
+
 		  if (lstat(szFullName, &stFileInfo) < 0)
 			  perror ( szFullName );
-		
+
 		  /* The file or directory is not hidden. */
 		  if ( !isHide(pent->d_name) )
 		  {
@@ -89,30 +90,30 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 			   fileList.push_back(file);
 		  	  }
 		  	}
-		  
+
 		  	if ( S_ISDIR(stFileInfo.st_mode) && (mode == File || mode == Dir ) )
-  		  	{  
-  		  	  /* The entity is a directory. */			  
-  		  	  if ( ( strcmp (pent->d_name,".") != 0 ) && 
-  		  	  ( strcmp (pent->d_name ,"..") != 0 )  )		
-  		  	  {  		  		
+  		  	{
+  		  	  /* The entity is a directory. */
+  		  	  if ( ( strcmp (pent->d_name,".") != 0 ) &&
+  		  	  ( strcmp (pent->d_name ,"..") != 0 )  )
+  		  	  {
   		  	   if (mode == Dir)
   		  	   {
   		  	   	std::string file(pent->d_name);
 	 		   	fileList.push_back(file);
-  		  	   }	  
-	 		     	  
+  		  	   }
+
   			   subfileList = GetFiles (szFullName, mode);
-  			   
+
   			   for (unsigned int i = 0; i < subfileList.size(); i++)
-			   {			   	
-			   	 std::string str("/" + subfileList.at(i)), file(pent->d_name + str);	 			 	
+			   {
+			   	 std::string str("/" + subfileList.at(i)), file(pent->d_name + str);
 	 			 fileList.push_back(file);
-		   	   } 			
+		   	   }
 			   subfileList.clear();
-			   
-  		  	  }			      			  
-  		  	}		  		
+
+  		  	  }
+  		  	}
 		  }
 	 }
 	 if (errno){
@@ -133,12 +134,12 @@ bool FileSystem::IsValidStructure(){
 /* -------------------------------------------------------------------------- */
 
 void FileSystem::CreatePass(const Message& msg){
-	MessageManager::GetInstance()->Hide(msg,Message("./Files/passTemp.txt"));//(Constant::PassFile.c_str()));
+	MessageManager::GetInstance()->Hide(msg,Message(PATH_PASS_FILE));
 	ImgRegistry reg;
-	ExtensibleRelativeFile fImg("./Files/img.dat"/*Constant::ImgFile.c_str()*/, ImgRegistry::RegCreate);
+	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	struct tm* clock;				// create a time structure
 	struct stat attrib;			// create a file attribute structure
-	stat("./Files/passTemp.txt"/*Constant::PassFile.c_str()*/, &attrib);		// get the attributes of PassFile
+	stat(PATH_PASS_FILE, &attrib);		// get the attributes of PassFile
 	clock = gmtime(&(attrib.st_mtime));	// Get the last modified time and put it into the time structure
 	Date d(clock->tm_year,clock->tm_mon,clock->tm_mday,clock->tm_hour,clock->tm_min,clock->tm_sec);
 	reg.setDate(d);
@@ -151,7 +152,7 @@ void FileSystem::CreatePass(const Message& msg){
 
 void FileSystem::CreateStruture(const Message& pass){
 	ImgRegistry reg;
-	ExtensibleRelativeFile fImg("./Files/img.dat"/*Constant::ImgFile.c_str()*/, ImgRegistry::RegCreate);
+	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	fImg.Create(reg.GetSize());
 
 	FileSystem::CreatePass(pass);

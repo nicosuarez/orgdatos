@@ -52,20 +52,35 @@ void ImageManager::DeleteImage(Image* image){
 
 
 ID_type ImageManager::AddImage(Image* image){
+
 	return 1;
 }
 /* -------------------------------------------------------------------------- */
+/*
+ * Agrega todos los directorios y imagenes al arbol imgTree
+ * Agrega agrega todas las imagenes al imgFile
+ */
 void ImageManager::AddDirectory(const char* dirPath){
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	ValueInt vDir(0);
 	imgTree.insert(kDir,vDir);
 	for(size_t i=0; i<fileList.size();i++){
-		Image img(fileList[i].c_str());
-		ID_type id=AddImage(&img);
-		KeyStr keyImg(fileList[i]);
-		ValueInt valImg(id);
-		this->imgTree.insert(keyImg,valImg);
+		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
+		if((tokensFile.size()-tokensDir.size())%2==0){
+			//es una imagen
+			Image img(fileList[i].c_str());
+			ID_type id=AddImage(&img);
+			KeyStr keyImg(fileList[i]);
+			ValueInt valImg(id);
+			this->imgTree.insert(keyImg,valImg);
+		}else{
+			//es un directorio
+			KeyStr kSubDir(dirPath);
+			ValueInt vSubDir(0);
+			imgTree.insert(kSubDir,vSubDir);
+		}
 	}
 }
 /* -------------------------------------------------------------------------- */
@@ -77,8 +92,7 @@ void ImageManager::DeleteDirectory(const char* dirPath){
 	TreeIterator& it = imgTree.iterator(kDir);
 	while (!it.end()){
 		KeyStr* kStr=(KeyStr*)it.getKey();
-		string a=kStr->getKey();
-		tVecStr tokens=StrToken::getStrTokens(a,"/");
+		tVecStr tokens=StrToken::getStrTokens(kStr->getKey(),"/");
 		if (!(tokens.size()>tokensDir.size()+1)){
 
 		delete kStr;
