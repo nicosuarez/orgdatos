@@ -1,26 +1,24 @@
-///////////////////////////////////////////////////////////
-//  MessageManager.h
-//  Implementation of the Class MessageManager
-//  Created on:      13-Oct-2008 2:49:34 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #ifndef __MESSAGEMANAGER_H__
 #define __MESSAGEMANAGER_H__
 
+#include <list>
 #include "Message.h"
 #include "Space.h"
 #include "EncriptationManager.h"
 #include "CompressionManager.h"
 #include "ImageManager.h"
-#include <list>
+#include "FreeSpaceManager.h"
+#include "Constant.h"
+#include "StrToken.h"
+#include "Exception/eFile.h"
+#include "../Steganographic/ImageFactory.h"
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
 #include "../DataAccess/Organizations/OrgList.h"
-#include "../DataAccess/Organizations/OrgText.h"
 #include "../DataAccess/Registries/MsgRegistry.h"
 #include "../DataAccess/Registries/ListImgRegistry.h"
 #include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
-#include "Constant.h"
+#include "../Tree/BppTree/bpptree.h"
+#include "../Tree/factory.h"
 
 /**
  * Clase que maneja el comportamiento de los mensajes, ocultandolos y extrayendolos
@@ -56,8 +54,10 @@ private:
 
 	OrgExtensibleRelative orgMsg;
 	OrgList orgListImages;
-	//OrgText orgNamesMsg;
 
+	/*Arbol de Mensajes*/
+	BppTree treeMsg;
+	
 	/*Constructor privado*/
 	MessageManager();
 

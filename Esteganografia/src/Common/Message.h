@@ -14,6 +14,7 @@ class Message
 public:
 	/* Constructor */
 	Message(std::string filePath);
+	Message(const Message &message);
 	Message();
 
 	/*Destructor*/
@@ -32,7 +33,7 @@ public:
 	unsigned long GetId() const;
 	
 	/*Devuelve el nombre del mensaje*/
-	std::string GetName() const;
+	const char* GetName() const;
 
 	/* Incrementa la cantidad de bytes ocultos del mensaje en la imagen */
 	unsigned long IncHiddenSize(unsigned long size);
@@ -51,7 +52,6 @@ public:
 
 private:
 	std::string filePath;
-	std::string name;
 	unsigned long hiddenSize;
 	unsigned long messageID;
 

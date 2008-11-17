@@ -193,3 +193,8 @@ list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
 	list<Space> lista;
 	return lista;
 }
+
+ID_type ImageManager::GetIDImage(std::string pathImg)
+{
+	return 0;
+}

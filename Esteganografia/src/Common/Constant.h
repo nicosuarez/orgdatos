@@ -23,6 +23,7 @@
 
 /*----------------TREE--------------*/
 #define PATH_TREE_IMG "./Files/treeImg.dat"
+#define PATH_TREE_MSG "./Files/treeMsg.dat"
 
 /*----------------CONSOLE--------------*/
 #define CONSOLE_TEMPORARY_FILE "./Files/temporaryFileConsole.txt"

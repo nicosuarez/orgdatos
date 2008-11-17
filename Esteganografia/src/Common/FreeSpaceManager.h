@@ -6,6 +6,8 @@
 #include "../Tree/BppTree/bpptree.h"
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
 #include "../DataAccess/Registries/FreeSpaceRegistry.h"
+#include "../Steganographic/Image.h"
+#include "../Steganographic/ImageFactory.h"
 #include <list.h>
 
 typedef std::list<Space*> tListSpaces;

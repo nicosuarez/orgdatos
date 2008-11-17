@@ -9,6 +9,7 @@
 #include "Steganographic/Gif.h"
 #include "Commands/AddDirectory.h"
 #include "Common/Console.h"
+#include "Common/MessageManager.h"
 #include "DataAccess/Files/ExtensibleRelativeFile.h"
 #include "DataAccess/Registries/ExtensibleRelativeRegistry.h"
 #include "DataAccess/Organizations/OrgExtensibleRelative.h"
@@ -756,7 +757,7 @@ void TestAddDirectory(){
 
 int main(int argc, char *argv[])
 {
-	testPass(argc,argv);
+//	testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);

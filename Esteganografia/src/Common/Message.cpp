@@ -11,11 +11,14 @@ Message::Message(string filePath)
 {
 	this->filePath = filePath;
 	this->hiddenSize = 0;
-	//tVecStr strings = StrToken::getStrTokens(filePath,"/");
-	//No anda puede ver si el tVectSting es traido correctamente
-	//this->name=strings.back();
-	//this->name = strings[strings.size()-1];
+	this->messageID = 0;
+}
 
+Message::Message(const Message &message)
+{
+	this->filePath = message.GetFilePath();
+	this->hiddenSize = message.GetHiddenSize();
+	this->messageID = message.GetId();
 }
 
 Message::Message(){
@@ -64,9 +67,10 @@ const char* Message::GetFilePath() const{
 	return  this->filePath.c_str();
 }
 
-std::string Message::GetName() const
+const char* Message::GetName() const
 {
-	return name;
+	tVecStr tokens = StrToken::getStrTokens(std::string(filePath), "/");
+	return ((std::string)tokens.back()).c_str();
 }
 
 /**
@@ -83,4 +87,9 @@ unsigned long Message::GetSize() const
 	}
 	fin.close();
 	return pos;
+}
+
+unsigned long Message:: GetId() const
+{
+	return this->messageID;
 }
