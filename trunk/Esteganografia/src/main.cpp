@@ -632,8 +632,6 @@ void testFileSystem(const char* path)
 	{
 		cout << fileList[i] << "\n";
 	}
-
-	ImageFactory::SupportedFormats(path);
 	Image* image = ImageFactory::GetImage(path);
 	cout << image->GetFilePath() << "\n";
 
@@ -647,13 +645,13 @@ void testAddDirectory(int argc, char *argv[])
 
 void testConsole(int argc, char *argv[])
 {
-	//Console::Run(argc,argv);
+//	Console::Run(argc,argv);
 }
 
 void testPNG(int argc,char* argv[])
 {
 	Png* png = new Png(argv[1]);
-	Space* spaceHide = png->GetFreeSpace();
+	Space* spaceHide = png->Load();
 	Message msg(argv[2]);
 	Message msgOut(argv[3]);
 	png->Hide(spaceHide,&msg);
@@ -754,12 +752,12 @@ void testInsertValueInt(){
 
 int main(int argc, char *argv[])
 {
-	//testPass(argc,argv);
+	testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
-	testArbol();
-
+	//testArbol();
+//	testConsole(argc, argv);
 
 	return EXIT_SUCCESS;
 }

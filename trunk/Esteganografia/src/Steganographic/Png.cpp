@@ -12,7 +12,7 @@ Png::Png(const char* filePath) : Image(filePath)
 {
 }
 /*---------------------------------------------------------------------------*/
-Space* Png::GetFreeSpace()
+Space* Png::Load()
 {
 	long initialPosition=0;
 	SetPngInfo(this->GetFilePath());

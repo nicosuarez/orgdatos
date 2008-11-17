@@ -18,7 +18,6 @@ ImageManager* ImageManager:: instance = NULL;
 
 
 ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate),
-							  orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_FILE),
 							  orgNamesDir(PATH_NAMES_DIR_FILE),
@@ -51,8 +50,29 @@ void ImageManager::DeleteImage(Image* image){
 /* -------------------------------------------------------------------------- */
 
 
-ID_type ImageManager::AddImage(Image* image){
+ID_type ImageManager::AddImage(const char* imagePath){
 
+	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
+	Image* image = ImageFactory::GetImage(imagePath);
+	if(image != NULL)
+	{
+		ImgRegistry imgReg;
+		Space* space = image->Load();
+		//Se crea el espacio libre.
+		ID_type id = fsManager->AddFreeSpace(space);
+		//Asignar los punteros al espacio libre.
+		imgReg.setIDFirstFreeSpace(id);
+		imgReg.setIDLastFreeSpace(id);
+		//Asignar lista de mensajes
+		imgReg.setPtrMsgList(NULL);
+		//Asignar tamano de espacio libre.
+		imgReg.setSizeMaxFreeSpace(space->GetSize());
+		orgImages.WriteRegistry(imgReg);
+		
+		//Actualizo el arbol de imagenes.
+		
+	}
+	
 	return 1;
 }
 /* -------------------------------------------------------------------------- */
@@ -60,7 +80,8 @@ ID_type ImageManager::AddImage(Image* image){
  * Agrega todos los directorios y imagenes al arbol imgTree
  * Agrega agrega todas las imagenes al imgFile
  */
-void ImageManager::AddDirectory(const char* dirPath){
+void ImageManager::AddDirectory(const char* dirPath)
+{
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
@@ -68,14 +89,16 @@ void ImageManager::AddDirectory(const char* dirPath){
 	imgTree.insert(kDir,vDir);
 	for(size_t i=0; i<fileList.size();i++){
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
-		if((tokensFile.size()-tokensDir.size())%2==0){
+		if((tokensFile.size()-tokensDir.size())%2==0)
+		{
 			//es una imagen
-			Image img(fileList[i].c_str());
-			ID_type id=AddImage(&img);
+			ID_type id = AddImage(fileList[i].c_str());
 			KeyStr keyImg(fileList[i]);
 			ValueInt valImg(id);
 			this->imgTree.insert(keyImg,valImg);
-		}else{
+		}
+		else
+		{
 			//es un directorio
 			KeyStr kSubDir(dirPath);
 			ValueInt vSubDir(0);
