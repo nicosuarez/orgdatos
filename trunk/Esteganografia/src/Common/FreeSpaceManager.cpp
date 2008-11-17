@@ -5,7 +5,7 @@ FreeSpaceManager* FreeSpaceManager:: instance = NULL;
 
 
 FreeSpaceManager::FreeSpaceManager() :  orgFreeSpaces(PATH_FREE_SPACE_FILE, FreeSpaceRegistry::Create),
-										freeSpacesTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG)
+										freeSpacesTree(512,KeyFreeSpaceFactory(), ValueFreeSpaceFactory(),PATH_TREE_FREE_SPACE)
 {
 	delete instance;
 }
@@ -44,6 +44,18 @@ ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 {
 	FreeSpaceRegistry fsReg;
 	orgFreeSpaces.WriteRegistry(fsReg);
+	
 	return fsReg.GetID();	
 }
 /* -------------------------------------------------------------------------- */
+void FreeSpaceManager::AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
+			ID_type idImg, unsigned long position)
+{
+	KeyFreeSpace keyFs(idFreeSpace, size);
+	ValueFreeSpace valFs(idImg, position);
+	freeSpacesTree.insert(keyFs, valFs);
+	
+	cout << freeSpacesTree << "\n";
+}
+/* -------------------------------------------------------------------------- */
+

@@ -5,12 +5,14 @@
 
 #include "OrgText.h"
 
-OrgText::OrgText(const string &fileName)
+OrgText::OrgText(const string &path,const string &fileName)
 {
   string activeFileName = ("a_" + fileName);
+  activeFileName=path + activeFileName;
   orgActive = new OrgExtensibleRelative(activeFileName, CreateTextRegistry);
 
   string deletedFileName = ("d_" + fileName);
+  deletedFileName=path+deletedFileName;
   orgDeleted = new OrgExtensibleRelative(deletedFileName, CreateTextRegistry);
 
   OpenStream(fileName);

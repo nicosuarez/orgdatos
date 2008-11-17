@@ -31,7 +31,7 @@ bool PasswordManager::ValidatePassword(){
 	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	fImg.Open(ExtensibleRelativeFile::READ);
 	ImgRegistry* reg=(ImgRegistry*)fImg.Read(1);
-	if (reg->getDate()==datePass){
+	if (reg->GetDate()==datePass){
 		delete reg;
 		ans=true;
 	}else{
@@ -81,7 +81,7 @@ void PasswordManager::CreatePass(const Message& msg){
 	ImgRegistry reg;
 	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	Date datePass=Date::getDate(PATH_PASS_FILE);
-	reg.setDate(datePass);
+	reg.SetDate(datePass);
 	fImg.Open(ExtensibleRelativeFile::WRITE);
 	fImg.Write(reg);
 	fImg.Close();

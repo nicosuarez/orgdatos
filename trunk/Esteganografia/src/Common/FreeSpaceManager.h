@@ -28,6 +28,10 @@ public:
 	 * se puede almacenar un mensaje de tamaño "size" */
 	tListSpaces* GetFreeSpaces(unsigned long size);
 	
+	/* Agrega un espacio libre al arbol */
+	void AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
+			ID_type idImg, unsigned long position);
+	
 	/* Destructor */
 	virtual ~FreeSpaceManager();
 	
