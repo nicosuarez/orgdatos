@@ -4,15 +4,11 @@
 #include "Constant.h"
 #include <fstream.h>
 #include "Exception/eBrokenProgram.h"
-#include "MessageManager.h"
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "PasswordManager.h"
 
-
 using namespace std;
-
-const string Console::temporaryFile="../Files/temporaryFileConsole.txt";
 
 int Console::Run(int argc,char* argv[])
 {
@@ -43,32 +39,6 @@ int Console::Run(int argc,char* argv[])
 }
 
 /**
- * Devuelve true si ya se ha seteado un password
- * Si la el passesta corrompida tira excepcion
- */
-/*bool Console::ExistPassword(){
-	bool ans=false;
-	std::ifstream fpImg(PATH_IMG_FILE,std::ios::in);
-	if(!fpImg.good())
-		return false;
-	fpImg.close();
-	//Extraigo fecha
-	struct tm* clock;				// create a time structure
-	struct stat attrib;			// create a file attribute structure
-	stat(PATH_PASS_FILE, &attrib);		// get the attributes of afile.txt
-	clock = gmtime(&(attrib.st_mtime));	// Get the last modified time and put it into the time structure
-	Date datePass(clock->tm_year,clock->tm_mon,clock->tm_mday,clock->tm_hour,clock->tm_min,clock->tm_sec);
-	//COMPARAR!! la fecha con el archivo
-	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	fImg.Open(ExtensibleRelativeFile::READ);
-	ImgRegistry* reg=(ImgRegistry*)fImg.Read(1);
-	if (reg->getDate()==datePass)
-		ans=true;
-	delete reg;
-	return ans;
-}*/
-
-/**
  * Obtiene una lista de todos los cmd disponibles en la consola.
  */
 tVecStr Console::GetAllCommands()
@@ -85,28 +55,6 @@ tVecStr Console::GetAllCommands()
 	vecCmd.push_back(CMD_CHANGE_PASSWORD);
 	return vecCmd;
 }
-
-/**
- * Devuelve si el pass ingresado(st) es igual al original
- */
-/*bool Console::IsCorrectPass(const string& st){
-	Message message(PATH_PASS_FILE);
-	Message truePass=MessageManager::GetInstance()->Extract(message);
-	ifstream fp(truePass.GetFilePath(), ios::in);
-	unsigned long begin, end, size;
-	begin = fp.tellg();
-	fp.seekg(0, ios::end);
-	end = fp.tellg();
-	size = end - begin;
-	fp.seekg(0, ios::beg);
-	char* pass=new char[size+1];
-	fp.get(pass,sizeof(char)*(size+1));
-	string aux=pass;
-	pass[size]='\0';
-	aux=pass;
-	return (!strcmp(pass,st.c_str()));
-}*/
-
 
 /**
  * Pide el nuevo password y su confirmacion. Devuelve un true si fue ingresado correctamente
@@ -133,8 +81,8 @@ bool Console::InsertNewPassword(Message& msg){
 	}
 	if (!esValido)
 		return false;
-	msg.SetFilePath(Console::temporaryFile.c_str());
-
+	msg.SetFilePath(CONSOLE_TEMPORARY_FILE);
+	PasswordManager::InsertNewPassword(pass1,msg);
 	return true;
 }
 

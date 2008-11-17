@@ -11,8 +11,11 @@ Message::Message(string filePath)
 {
 	this->filePath = filePath;
 	this->hiddenSize = 0;
-	tVecStr strings = StrToken::getStrTokens(filePath,"/");
-	this->name = strings[strings.size()-1];
+	//tVecStr strings = StrToken::getStrTokens(filePath,"/");
+	//No anda puede ver si el tVectSting es traido correctamente
+	//this->name=strings.back();
+	//this->name = strings[strings.size()-1];
+
 }
 
 Message::Message(){
@@ -75,7 +78,7 @@ unsigned long Message::GetSize() const
 	std::ifstream fin(this->filePath.c_str());
 	if(fin)
 	{
-	   fin.seekg(0, std::ios::end); 
+	   fin.seekg(0, std::ios::end);
 	   pos = fin.tellg();
 	}
 	fin.close();

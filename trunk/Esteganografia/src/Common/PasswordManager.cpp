@@ -7,7 +7,8 @@
 #include "Exception/eBrokenProgram.h"
 #include "MessageManager.h"
 #include "Resource.h"
-#include "Constant.h"
+#include "EncriptationManager.h"
+#include "CompressionManager.h"
 
 using namespace std;
 
@@ -48,7 +49,7 @@ void PasswordManager::InsertNewPassword(string pass,Message msg){
 
 bool PasswordManager::IsCorrectPass(const std::string& st){
 	Message message(PATH_PASS_FILE);
-	Message truePass=MessageManager::GetInstance()->Extract(message);
+	Message truePass=PasswordManager::Extract(message);
 	ifstream fp(truePass.GetFilePath(), ios::in);
 	unsigned long begin, end, size;
 	begin = fp.tellg();
@@ -62,4 +63,26 @@ bool PasswordManager::IsCorrectPass(const std::string& st){
 	pass[size]='\0';
 	aux=pass;
 	return (!strcmp(pass,st.c_str()));
+}
+
+Message PasswordManager::Extract(Message msg,Message msgTarget){
+	Message m1=EncriptationManager::Decrypt(msg);
+	CompressionManager::Decompress(m1,msgTarget);
+	return msgTarget;
+}
+
+void PasswordManager::Hide(Message msg,Message msgTarget){
+	Message m1=CompressionManager::Compress(msg);
+	EncriptationManager::Encrypt(m1,msgTarget);
+}
+
+void PasswordManager::CreatePass(const Message& msg){
+	PasswordManager::Hide(msg,Message(PATH_PASS_FILE));
+	ImgRegistry reg;
+	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	Date datePass=Date::getDate(PATH_PASS_FILE);
+	reg.setDate(datePass);
+	fImg.Open(ExtensibleRelativeFile::WRITE);
+	fImg.Write(reg);
+	fImg.Close();
 }

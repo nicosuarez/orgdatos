@@ -28,12 +28,6 @@ private:
 	    /* Gets the extension from the file name (string). */
 		static std::string getFileExt (const std::string& );
 
-		/**
-		 * Crea el archivo de password
-		 * Lanza ex de eFile
-		 */
-		static void CreatePass(const Message& msg);
-
 public:
 	/* Returns true if the image extension is supported otherwise
 	 * returns false. */

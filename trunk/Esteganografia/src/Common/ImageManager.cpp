@@ -18,9 +18,10 @@ ImageManager* ImageManager:: instance = NULL;
 
 
 ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate),
+							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
-							  orgNamesImages(PATH_NAMES_IMG_FILE),
-							  orgNamesDir(PATH_NAMES_DIR_FILE),
+							 // orgNamesImages(PATH_NAMES_IMG_FILE),
+							  //orgNamesDir(PATH_NAMES_DIR_FILE),
 							  imgTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG)
 {
 
@@ -50,29 +51,8 @@ void ImageManager::DeleteImage(Image* image){
 /* -------------------------------------------------------------------------- */
 
 
-ID_type ImageManager::AddImage(const char* imagePath){
+ID_type ImageManager::AddImage(Image* image){
 
-	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
-	Image* image = ImageFactory::GetImage(imagePath);
-	if(image != NULL)
-	{
-		ImgRegistry imgReg;
-		Space* space = image->Load();
-		//Se crea el espacio libre.
-		ID_type id = fsManager->AddFreeSpace(space);
-		//Asignar los punteros al espacio libre.
-		imgReg.setIDFirstFreeSpace(id);
-		imgReg.setIDLastFreeSpace(id);
-		//Asignar lista de mensajes
-		imgReg.setPtrMsgList(NULL);
-		//Asignar tamano de espacio libre.
-		imgReg.setSizeMaxFreeSpace(space->GetSize());
-		orgImages.WriteRegistry(imgReg);
-		
-		//Actualizo el arbol de imagenes.
-		
-	}
-	
 	return 1;
 }
 /* -------------------------------------------------------------------------- */
@@ -80,50 +60,78 @@ ID_type ImageManager::AddImage(const char* imagePath){
  * Agrega todos los directorios y imagenes al arbol imgTree
  * Agrega agrega todas las imagenes al imgFile
  */
-void ImageManager::AddDirectory(const char* dirPath)
-{
+void ImageManager::AddDirectory(const char* dirPath){
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
-	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
+	//tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	ValueInt vDir(0);
 	imgTree.insert(kDir,vDir);
 	for(size_t i=0; i<fileList.size();i++){
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
-		if((tokensFile.size()-tokensDir.size())%2==0)
-		{
-			//es una imagen
-			ID_type id = AddImage(fileList[i].c_str());
-			KeyStr keyImg(fileList[i]);
-			ValueInt valImg(id);
-			this->imgTree.insert(keyImg,valImg);
-		}
-		else
-		{
-			//es un directorio
-			KeyStr kSubDir(dirPath);
-			ValueInt vSubDir(0);
-			imgTree.insert(kSubDir,vSubDir);
-		}
+		string strFile=string(dirPath)+ fileList[i];
+		Image img(strFile.c_str());
+		ID_type id=AddImage(&img);
+		KeyStr keyImg(strFile.c_str());
+		ValueInt valImg(id);
+		this->imgTree.insert(keyImg,valImg);
+	}
+	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
+	for(size_t j=0; j<dirList.size();j++){
+		string strdir=string(dirPath)+dirList[j];
+		KeyStr kSubDir(dirPath);
+		ValueInt vSubDir(0);
+		imgTree.insert(kSubDir,vSubDir);
 	}
 }
 /* -------------------------------------------------------------------------- */
 
 void ImageManager::DeleteDirectory(const char* dirPath){
+	bool end=false;
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	TreeIterator& it = imgTree.iterator(kDir);
-	while (!it.end()){
+	while ((!it.end())&&(end==false)){
 		KeyStr* kStr=(KeyStr*)it.getKey();
 		tVecStr tokens=StrToken::getStrTokens(kStr->getKey(),"/");
-		if (!(tokens.size()>tokensDir.size()+1)){
+		if (((tokens.size()-tokensDir.size())%2==0)&&(tokens.size()-tokensDir.size()>0)){
+			ValueInt* vInt=(ValueInt*)it.getValue();
+			DeleteImage(vInt->getValue());
+			imgTree.remove(*kStr);
+			delete vInt;
+		}else if (tokens.size()-tokensDir.size()>0)
+			imgTree.remove(*kStr);
+		else
+			end=true;
 
 		delete kStr;
-
-		}
 		++it;
 	}
+}
 
+/*void ImageManager::TestDirectory(const char* dirPath){
+	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
+	KeyStr kDir(dirPath);
+}*/
+
+/* -------------------------------------------------------------------------- */
+void ImageManager::DeleteImage(ID_type id){
+
+}
+
+/* -------------------------------------------------------------------------- */
+ID_type ImageManager::getId(const char* path){
+	ID_type ans;
+	KeyStr key(path);
+	TreeIterator& it = imgTree.iterator(key);
+	if(!it.end()){
+		ValueInt* vInt=(ValueInt*)it.getValue();
+		ans=vInt->getValue();
+		delete vInt;
+	}else
+		ans=0;
+	return ans;
 }
 
 /* -------------------------------------------------------------------------- */

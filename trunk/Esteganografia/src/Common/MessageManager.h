@@ -56,7 +56,7 @@ private:
 
 	OrgExtensibleRelative orgMsg;
 	OrgList orgListImages;
-	OrgText orgNamesMsg;
+	//OrgText orgNamesMsg;
 
 	/*Constructor privado*/
 	MessageManager();

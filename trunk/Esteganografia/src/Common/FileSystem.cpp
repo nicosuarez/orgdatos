@@ -5,6 +5,7 @@
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
 #include "Constant.h"
+#include "PasswordManager.h"
 
 using namespace std;
 
@@ -133,29 +134,12 @@ bool FileSystem::IsValidStructure(){
 
 /* -------------------------------------------------------------------------- */
 
-void FileSystem::CreatePass(const Message& msg){
-	MessageManager::GetInstance()->Hide(msg,Message(PATH_PASS_FILE));
-	ImgRegistry reg;
-	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	struct tm* clock;				// create a time structure
-	struct stat attrib;			// create a file attribute structure
-	stat(PATH_PASS_FILE, &attrib);		// get the attributes of PassFile
-	clock = gmtime(&(attrib.st_mtime));	// Get the last modified time and put it into the time structure
-	Date d(clock->tm_year,clock->tm_mon,clock->tm_mday,clock->tm_hour,clock->tm_min,clock->tm_sec);
-	reg.setDate(d);
-	fImg.Open(ExtensibleRelativeFile::WRITE);
-	fImg.Write(reg);
-	fImg.Close();
-}
-
-/* -------------------------------------------------------------------------- */
-
 void FileSystem::CreateStruture(const Message& pass){
 	ImgRegistry reg;
 	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	fImg.Create(reg.GetSize());
 
-	FileSystem::CreatePass(pass);
+	PasswordManager::CreatePass(pass);
 }
 /* -------------------------------------------------------------------------- */
 
