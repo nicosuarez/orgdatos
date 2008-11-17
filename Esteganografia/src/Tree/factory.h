@@ -42,6 +42,33 @@ class ValueInt : public Register{
 		}
 };
 
+class ValueNull : public Register{
+	public:
+		ValueNull(){}
+
+		~ValueNull(){
+		}
+
+		virtual Register* duplicate() const{ return new ValueNull(*this); }
+
+		void getValue()const{}
+
+		void setFields(const Register& b2){}
+
+		unsigned int getSize()const{
+			return (0);
+		}
+
+		bool operator <(const Register& r2)const{
+			return true;// No se comparan values
+		}
+
+		virtual std::ostream& toOstream(std::ostream& out)const{
+			//out << "\tValue = " << this->value << "\n";
+			return out;
+		}
+};
+
 class KeyStr : public Register{
 	protected:
 		std::string key;
@@ -128,4 +155,19 @@ class ValueIntFactory : public RegisterFactory{
 		}
 };
 
+class ValueNullFactory : public RegisterFactory{
+	public:
+		ValueNullFactory(){}
+		~ValueNullFactory(){}
+
+		RegisterFactory* duplicate()const{ return new ValueNullFactory(); }
+
+		char* operator()(Register& reg,char* data){
+			return data;
+		}
+
+		Register* operator()(char* data){
+			return new ValueNull();
+		}
+};
 #endif /* __FACTORY_H__ */
