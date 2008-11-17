@@ -17,27 +17,6 @@ ImageFactory::~ImageFactory(){
 
 }
 
-/**
- * Retorna la imagen segun el formato del espacio.
- */
-bool ImageFactory::SupportedFormats(const char* filePath)
-{
-	string path(filePath);
-	string ext;
-	string::size_type extPos = path.find_last_of(".");
-	cout << "Path:" << filePath << "\n";
-	if ( extPos != string::npos)
-	{
-		ext = path.substr(extPos,5);
-		StrToken::toLowerString(ext);
-		cout << ext << "\n";
-		if(ext == EXT_BMP || ext == EXT_JPG || 
-			ext == EXT_JPEG || ext == EXT_PNG || ext == EXT_GIF)
-			return true;
-	}
-	return false;
-}
-
 Image* ImageFactory::GetBmp(const char* filePath)
 {
 	Image* image = NULL;

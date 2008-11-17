@@ -25,7 +25,7 @@ public:
 
 	static Image* GetImage(Space* space);
 	static Image* GetImage(const char* filePath);
-	static bool SupportedFormats(const char* filePath);
+	
 private:
 	static Image* GetPng(const char* filePath);
 	static Image* GetBmp(const char* filePath);

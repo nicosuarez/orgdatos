@@ -109,7 +109,7 @@ public:
 	/**
 	 * Obtiene un bloque con el espacio disponible para almacenar informacion.
 	 */
-	Space* GetFreeSpace();
+	Space* Load();
 
 	/**
 	 * Metodos templates, para poder utilizar forrmatos de png de 8 como de 

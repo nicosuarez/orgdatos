@@ -31,30 +31,8 @@ void AddDirectory::ShowHelpCommand()
 bool AddDirectory::InternalProcess(tVecStr params)
 {
 	string path = params[1];
-	tVecStr fileList = FileSystem::GetFiles(path.c_str(), File);
-	string dirPath(path);
-	string fullPath(path);
-	Image* image = NULL;
-
-
-	for(size_t i=0; i < fileList.size(); i++)
-	{
-		cout << fileList[i] << "\n";
-		fullPath.append(fileList[i]);
-		cout << fullPath << "\n";
-		if(ImageFactory::SupportedFormats(fullPath.c_str()))
-		{
-			image = ImageFactory::GetImage(fullPath.c_str());
-			if(image != NULL)
-			{
-				image->Load();
-			}
-			ImageManager* iManager=ImageManager::GetInstance();
-			iManager->AddDirectory(path.c_str());
-			//ID_type id=iManager->AddImage(image);
-		}
-
-		fullPath = dirPath;
-	}
+	tVecStr fileList = FileSystem::GetFiles(path.c_str(), File);	
+	ImageManager* iManager=ImageManager::GetInstance();
+	iManager->AddDirectory(path.c_str());
 	return true;
 }

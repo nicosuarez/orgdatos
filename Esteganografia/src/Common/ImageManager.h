@@ -17,11 +17,12 @@
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "../DataAccess/Registries/ListImgRegistry.h"
 #include "../DataAccess/Registries/ListMsgRegistry.h"
-#include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
 #include "Constant.h"
 #include "../Tree/factory.h"
 #include "../Tree/BppTree/bpptree.h"
 #include "FileSystem.h"
+#include "FreeSpaceManager.h"
+#include "../Steganographic/ImageFactory.h"
 
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
@@ -29,7 +30,6 @@
  */
 class ImageManager
 {
-
 
 	public:
 
@@ -43,7 +43,7 @@ class ImageManager
 	void DeleteImage(Image* image);
 
 	/* Almacena una imagen en la organizacion de archivos*/
-	ID_type AddImage(Image* image);
+	ID_type AddImage(const char* imagePath);
 
 	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */
@@ -72,7 +72,7 @@ private:
 	static ImageManager *instance;
 
 	OrgExtensibleRelative orgImages;
-	OrgList orgListFreeSpaces, orgListMsgs;
+	OrgList orgListMsgs;
 	OrgText orgNamesImages, orgNamesDir;
 
 	BppTree imgTree;
