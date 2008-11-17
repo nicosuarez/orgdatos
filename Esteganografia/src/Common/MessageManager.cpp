@@ -12,8 +12,8 @@ MessageManager* MessageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 MessageManager::MessageManager(): orgMsg(PATH_MESSAGE_FILE, MsgRegistry::Create),
-								  orgListImages(PATH_IMG_LIST_FILE, ListImgRegistry::Create),
-								  orgNamesMsg(PATH_NAMES_MSG_FILE)
+								  orgListImages(PATH_IMG_LIST_FILE, ListImgRegistry::Create)//,
+								  //orgNamesMsg(PATH_NAMES_MSG_FILE) Comente porq tira error
 {
 
 }
@@ -59,11 +59,11 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 //	orgListImages.CreateList()
 //	for(it; it != spaces.end(); it++)
 //	{
-//		
+//
 //		ListImgRegistry reg(space->)
 //		orgListImages.AddToListLast()
 //	}
-	
+
 	EncriptationManager::Encrypt(m1, msgTarget);
 	if( remove( m1.GetFilePath()) != 0 )
 		perror( "Error deleting file" );

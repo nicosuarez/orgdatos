@@ -43,7 +43,7 @@ class ImageManager
 	void DeleteImage(Image* image);
 
 	/* Almacena una imagen en la organizacion de archivos*/
-	ID_type AddImage(const char* imagePath);
+	ID_type AddImage(Image* image);
 
 	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */
@@ -57,6 +57,11 @@ class ImageManager
 	 * libres para almacenarlo*/
 	list<Space> GetSpacesToStore(unsigned long sizeMsg);
 
+	/**
+	 * Devuelve el IdImage del archivo pasado como parametro
+	 */
+	ID_type getId(const char* path);
+
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
 
@@ -64,6 +69,11 @@ class ImageManager
 	virtual ~ImageManager();
 
 private:
+	//Borra la imagen y sus mensajes
+	void DeleteImage(ID_type id);
+
+	//Agrega al Arbol el dir y ademas todo los subdir
+	void AddSubDirectory(const char* dir);
 
 	/*Espacio libre total para almacenar mensajes*/
 	static unsigned long totalFreeSize;
@@ -73,7 +83,7 @@ private:
 
 	OrgExtensibleRelative orgImages;
 	OrgList orgListMsgs;
-	OrgText orgNamesImages, orgNamesDir;
+	//OrgText orgNamesImages, orgNamesDir;
 
 	BppTree imgTree;
 

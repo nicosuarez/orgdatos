@@ -24,7 +24,8 @@
 /*----------------TREE--------------*/
 #define PATH_TREE_IMG "./Files/treeImg.dat"
 
-
+/*----------------CONSOLE--------------*/
+#define CONSOLE_TEMPORARY_FILE "./Files/temporaryFileConsole.txt"
 
 #endif /*__CONSTANT__H_*/
 

@@ -743,11 +743,15 @@ void testInsertValueInt(){
 
 }
 
+void TestAddDirectory(){
+	ImageManager* imMan=ImageManager::GetInstance();
+	imMan->AddDirectory("/home/malcha/Escritorio/Datos/Eclipse/Estegno/Stegno/Images");
+}
 
  void testArbol()
  {
-	 testInsertValueInt();
-
+	 //testInsertValueInt();
+	 TestAddDirectory();
  }
 
 int main(int argc, char *argv[])
