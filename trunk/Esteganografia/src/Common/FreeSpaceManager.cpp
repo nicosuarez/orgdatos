@@ -28,7 +28,11 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long size)
 {
 	
 	//TreeIterator& it = freeSpacesTree.iterator();
-		return  NULL;
+	tListSpaces * lista = new tListSpaces();
+	Image * image = ImageFactory::GetImage("./Images/BMP256Colores.bmp");
+	lista->push_front(image->Load());
+	delete image;
+	return lista;
 }
 /* -------------------------------------------------------------------------- */
 ID_type AddFreeSpaces(tListSpaces* space)

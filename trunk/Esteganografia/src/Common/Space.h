@@ -18,23 +18,23 @@ class Space
 {
 
 public:
-	Space(string filePath, string format, long initialPosition, long size);
+	Space(string filePath, string format, unsigned long initialPosition, unsigned long size);
 	Space(string filePath);
 	virtual ~Space();
 
 	const char* GetFilePath() const;
 	string GetFormat() const;
-	long GetInitialPosition() const;
-	long GetSize() const;
-	long GetTotalSize() const;
-	void SetSize(long size);
-	void SetInitialPosition(long position);
+	unsigned long GetInitialPosition() const;
+	unsigned long GetSize() const;
+	unsigned long GetTotalSize() const;
+	void SetSize(unsigned long size);
+	void SetInitialPosition(unsigned long position);
 
 private:
 	string filePath;
 	string format;
-	long initialPosition;
-	long size;
+	unsigned long initialPosition;
+	unsigned long size;
 
 };
 #endif // !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)

@@ -64,6 +64,9 @@ class ImageManager
 
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
+	
+	
+	ID_type GetIDImage(std::string pathImg);
 
 	/* Destructor*/
 	virtual ~ImageManager();

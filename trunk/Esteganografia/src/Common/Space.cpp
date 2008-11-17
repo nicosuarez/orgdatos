@@ -8,7 +8,7 @@
 #include "Space.h"
 
 
-Space::Space(string filePath, string format, long initialPosition, long size)
+Space::Space(string filePath, string format, unsigned long initialPosition, unsigned long size)
 {
 	this->filePath = filePath;
 	this->format = format;
@@ -51,7 +51,7 @@ string Space::GetFormat() const
 /**
  * Apunta al comienzo de la posicion del espacio dentro del archivo.
  */
-long Space::GetInitialPosition() const 
+unsigned long Space::GetInitialPosition() const 
 {
 	return this->initialPosition;
 }
@@ -60,9 +60,9 @@ long Space::GetInitialPosition() const
 /**
  * Tamano total en bytes del archivo donde esta contenido el espacio.
  */
-long Space::GetTotalSize() const
+unsigned long Space::GetTotalSize() const
 {
-	long pos = 0;
+	unsigned long pos = 0;
 	ifstream fin(this->filePath.c_str());
 	if(fin)
 	{
@@ -76,7 +76,7 @@ long Space::GetTotalSize() const
 /**
  * Tamano total en bytes de lo que ocupa el espacio en el archivo.
  */
-long Space::GetSize() const
+unsigned long Space::GetSize() const
 {
 	return this->size;
 }
@@ -84,7 +84,7 @@ long Space::GetSize() const
 /**
  * Tamano total en bytes de lo que ocupa el espacio en el archivo.
  */
-void Space::SetSize(long size)
+void Space::SetSize(unsigned long size)
 {
 	this->size = size;
 }
@@ -92,7 +92,7 @@ void Space::SetSize(long size)
 /**
  * Apunta al comienzo de la posicion del espacio dentro del archivo.
  */
-void Space::SetInitialPosition(long position)
+void Space::SetInitialPosition(unsigned long position)
 {
 	this->initialPosition = position;
 }
