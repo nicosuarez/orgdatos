@@ -7,81 +7,48 @@
 		return new ImgRegistry();
 	}
 
-    ID_type ImgRegistry::getIDFirstFreeSpace() const
+    ID_type ImgRegistry::GetIDImagePath() const
     {
-        return idFirstFreeSpace;
+        return idImgPath;
     }
 
-    void ImgRegistry::setIDFirstFreeSpace(ID_type idFirstFreeSpace)
+    void ImgRegistry::SetIDImagePath(ID_type idImgPath)
     {
-        this->idFirstFreeSpace = idFirstFreeSpace;
+        this->idImgPath = idImgPath;
     }
 
-    ID_type ImgRegistry::getIDLastFreeSpace() const
-    {
-        return idLastFreeSpace;
-    }
-
-    void ImgRegistry::setIDLastFreeSpace(ID_type idLastFreeSpace)
-    {
-        this->idLastFreeSpace = idLastFreeSpace;
-    }
-
-    ID_type ImgRegistry::getPtrMsgList() const
+    ID_type ImgRegistry::GetPtrMsgList() const
     {
         return ptrMsgList;
     }
 
-    void ImgRegistry::setPtrMsgList(ID_type ptrMsgList)
+    void ImgRegistry::SetPtrMsgList(ID_type ptrMsgList)
     {
         this->ptrMsgList = ptrMsgList;
     }
 
-    unsigned long ImgRegistry::getSizeMaxFreeSpace() const
-    {
-        return sizeMaxFreeSpace;
-    }
-
-    void ImgRegistry::setSizeMaxFreeSpace(unsigned long  sizeMaxFreeSpace)
-    {
-        this->sizeMaxFreeSpace = sizeMaxFreeSpace;
-    }
-
-    Date ImgRegistry::getDate() const
+    Date ImgRegistry::GetDate() const
     {
         return date;
     }
 
-    void ImgRegistry::setDate(Date& date)
+    void ImgRegistry::SetDate(Date& date)
     {
         this->date = date;
     }
 
-    unsigned long ImgRegistry::getTotalFreeSpace() const
-    {
-    	return totalFreeSpace;
-    }
-    		
-    void ImgRegistry::setTotalFreeSpace(unsigned long totalFreeSapce)
-    {
-    	this->totalFreeSpace = totalFreeSpace; 
-    }
-    
     unsigned int ImgRegistry::GetSize() const
     {
     	size_t extRel=ExtensibleRelativeRegistry::GetSize();
-    	return (extRel + sizeof(idFirstFreeSpace)+sizeof(idLastFreeSpace)+
-    			sizeof(ptrMsgList) + sizeof(sizeMaxFreeSpace)+date.getSize());
+    	return (extRel + sizeof(idImgPath)+ sizeof(ptrMsgList) +date.getSize());
     }
 
     char* ImgRegistry::Serialize() const
     {
     	char *buffer=ExtensibleRelativeRegistry::Serialize();
     	unsigned int pos = ExtensibleRelativeRegistry::GetSize();
-    	AddToSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
-		pos += sizeof(this->idFirstFreeSpace);
-		AddToSerialization(buffer, &idLastFreeSpace, pos, sizeof(idLastFreeSpace));
-		pos += sizeof(this->idLastFreeSpace);
+    	AddToSerialization(buffer, &idImgPath, pos, sizeof(this->idImgPath));
+		pos += sizeof(this->idImgPath);
 		AddToSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
 		pos+=sizeof(this->ptrMsgList);
 		unsigned int year=date.getYear();
@@ -102,8 +69,6 @@
 		pos+=sizeof(this->date.getMin());
 		AddToSerialization(buffer, &seg, pos, sizeof(this->date.getSeg()));
 		pos += sizeof(this->date.getSeg());
-		AddToSerialization(buffer, &totalFreeSpace, pos, sizeof(this->totalFreeSpace));
-		pos += sizeof(this->totalFreeSpace);
 		return buffer;
     }
 
@@ -111,10 +76,8 @@
           ExtensibleRelativeRegistry::Deserialize(buffer, length);
 
           unsigned int pos = ExtensibleRelativeRegistry::GetSize();
-          GetFromSerialization(buffer, &idFirstFreeSpace, pos, sizeof(this->idFirstFreeSpace));
-          pos += sizeof(this->idFirstFreeSpace);
-          GetFromSerialization(buffer, &idLastFreeSpace, pos, sizeof(idLastFreeSpace));
-          pos += sizeof(this->idLastFreeSpace);
+          GetFromSerialization(buffer, &idImgPath, pos, sizeof(this->idImgPath));
+          pos += sizeof(this->idImgPath);
           GetFromSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
           pos+=sizeof(this->ptrMsgList);
           unsigned int year=date.getYear();
@@ -137,7 +100,6 @@
           Date d(year,month,day,hour,min,seg);
           this->date=d;
           pos += sizeof(this->date.getSeg());
-          GetFromSerialization(buffer, &totalFreeSpace, pos, sizeof(this->totalFreeSpace));
           
     }
 

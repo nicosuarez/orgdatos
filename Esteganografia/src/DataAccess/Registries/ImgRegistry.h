@@ -18,27 +18,16 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 
 		static ExtensibleRelativeRegistry* RegCreate();
 
-		ID_type getIDFirstFreeSpace() const;
-		void setIDFirstFreeSpace(ID_type idFirstFreeSpace);
+		ID_type GetIDImagePath() const;
+		void SetIDImagePath(ID_type idImgPath);
 
-		ID_type getIDLastFreeSpace() const;
-		void setIDLastFreeSpace(ID_type idLastFreeSpace);
+		ID_type GetPtrMsgList() const;
 
-		ID_type getPtrMsgList() const;
+		void SetPtrMsgList(ID_type ptrMsgList);
 
-		void setPtrMsgList(ID_type ptrMsgList);
-
-		unsigned long getSizeMaxFreeSpace() const;
-
-		void setSizeMaxFreeSpace(unsigned long  sizeMaxFreeSpace);
-
-		Date getDate() const;
+		Date GetDate() const;
 		
-		unsigned long getTotalFreeSpace() const;
-		
-		void setTotalFreeSpace(unsigned long totalFreeSapce);
-		
-		void setDate(Date& date);
+		void SetDate(Date& date);
 
 		unsigned int GetSize() const;
 
@@ -47,13 +36,9 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 		void Deserialize(const char* buffer, unsigned int length);
 
   private:
-
-    ID_type idFirstFreeSpace;
-    ID_type idLastFreeSpace;
-    ID_type ptrMsgList;
-    unsigned long sizeMaxFreeSpace;
-    unsigned long totalFreeSpace;
-    Date date;
+	    ID_type idImgPath;
+	    ID_type ptrMsgList;
+	    Date date;
 };
 
 

@@ -70,7 +70,7 @@ class ImageManager
 	 * Devuelve el IdImage del archivo pasado como parametro
 	 * Devuelve 0 si no existe ese path en el imgTree
 	 */
-	ID_type getId(const char* path);
+	ID_type GetIDImage(const char* path);
 
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
@@ -79,8 +79,7 @@ class ImageManager
 	 * devuelve la lista de todos los directorios
 	 */
 	tVecStr GetAllDirectories();
-
-	ID_type GetIDImage(std::string pathImg);
+	
 
 	/* Destructor*/
 	virtual ~ImageManager();
@@ -104,7 +103,7 @@ private:
 
 	OrgExtensibleRelative orgImages;
 	OrgList orgListMsgs;
-	//OrgText orgNamesImages, orgNamesDir;
+	OrgText orgNamesImages;//, orgNamesDir;
 
 	BppTree imgTree;
 	BppTree dirTree;

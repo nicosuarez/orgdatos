@@ -757,7 +757,7 @@ void TestAddDirectory(){
 
 int main(int argc, char *argv[])
 {
-//	testPass(argc,argv);
+	testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);

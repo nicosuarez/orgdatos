@@ -20,10 +20,10 @@ ImageManager* ImageManager:: instance = NULL;
 ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate),
 							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
-							 // orgNamesImages(PATH_NAMES_IMG_FILE),
-							  //orgNamesDir(PATH_NAMES_DIR_FILE),
+							  orgNamesImages(PATH_NAMES_IMG_PATHFILE, PATH_NAMES_IMG_FILE),
+//							  orgNamesDir(PATH_NAMES_DIR_FILE),
 							  imgTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG),
-							  dirTree(512,KeyStrFactory(), ValueNullFactory(),PATH_TREE_IMG)
+							  dirTree(512,KeyStrFactory(), ValueNullFactory(),PATH_TREE_DIR)
 {
 
 }
@@ -56,26 +56,32 @@ ID_type ImageManager::AddImage(const char* imagePath){
 
 	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
 	Image* image = ImageFactory::GetImage(imagePath);
+	ImgRegistry imgReg;
 	if(image != NULL)
 	{
-		ImgRegistry imgReg;
 		Space* space = image->Load();
 		//Se crea el espacio libre.
-		ID_type id = fsManager->AddFreeSpace(space);
-		//Asignar los punteros al espacio libre.
-		imgReg.setIDFirstFreeSpace(id);
-		imgReg.setIDLastFreeSpace(id);
+		ID_type idFreeSpace = fsManager->AddFreeSpace(space);
+
+		//Guardo el path completo de la imagen.
+		ID_type idPath = orgNamesImages.WriteText(space->GetFilePath());
+		
 		//Asignar lista de mensajes
-		imgReg.setPtrMsgList(NULL);
-		//Asignar tamano de espacio libre.
-		imgReg.setSizeMaxFreeSpace(space->GetSize());
+		imgReg.SetPtrMsgList(NULL);
+		imgReg.SetIDImagePath(idPath);
+		Date date = Date::getDate(space->GetFilePath());
+		imgReg.SetDate(date);
+		
+		//Guardar Imagen
 		orgImages.WriteRegistry(imgReg);
-
+		
 		//Actualizo el arbol de imagenes.
-
+		fsManager->AddFreeSpaceTree(idFreeSpace,space->GetSize(),imgReg.GetID(),
+								space->GetInitialPosition());
+		
 	}
 
-	return 1;
+	return imgReg.GetID();
 }
 /* -------------------------------------------------------------------------- */
 /*
@@ -99,7 +105,8 @@ void ImageManager::AddDirectory(const char* dirPath){
 		if((tokensFile.size()-tokensDir.size())%2==0)
 		{
 			//es una imagen
-			ID_type id =0; //AddImage(fullPath.c_str());
+			ID_type id =0; 
+			AddImage(fullPath.c_str());
 			KeyStr keyImg(fullPath);
 			ValueInt valImg(id);
 			this->imgTree.insert(keyImg,valImg);
@@ -226,7 +233,7 @@ void ImageManager::DeleteImage(ID_type id){
 }
 
 /* -------------------------------------------------------------------------- */
-ID_type ImageManager::getId(const char* path){
+ID_type ImageManager::GetIDImage(const char* path){
 	ID_type ans;
 	KeyStr key(path);
 	if (imgTree.exists(key))
@@ -268,9 +275,4 @@ list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
 {
 	list<Space> lista;
 	return lista;
-}
-
-ID_type ImageManager::GetIDImage(std::string pathImg)
-{
-	return 0;
 }

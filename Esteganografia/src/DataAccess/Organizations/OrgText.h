@@ -20,7 +20,7 @@ class OrgText
   public:
     /* Constructor. 
      * filename: Name of the file that the organization uses. */
-    OrgText(const string &fileName);
+    OrgText(const string &path, const string &fileName);
 
     /* Destructor. */ 
     virtual ~OrgText();
