@@ -4,7 +4,7 @@ FreeSpaceManager* FreeSpaceManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-FreeSpaceManager::FreeSpaceManager() :  orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
+FreeSpaceManager::FreeSpaceManager() :  orgFreeSpaces(PATH_FREE_SPACE_FILE, FreeSpaceRegistry::Create),
 										freeSpacesTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG)
 {
 	delete instance;
@@ -38,10 +38,8 @@ ID_type AddFreeSpaces(tListSpaces* space)
 /* -------------------------------------------------------------------------- */
 ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 {
-	ListFreeSpaceRegistry fsReg;
-	fsReg.SetOffsetImage(space->GetInitialPosition());
-	fsReg.SetSizeFreeSpace(space->GetSize());
-	orgListFreeSpaces.CreateList(fsReg);
+	FreeSpaceRegistry fsReg;
+	orgFreeSpaces.WriteRegistry(fsReg);
 	return fsReg.GetID();	
 }
 /* -------------------------------------------------------------------------- */

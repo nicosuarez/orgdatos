@@ -67,12 +67,14 @@ void CommandFactory::ShowCommandNotExistMsg()
 
 Command* CommandFactory::CreateCommand(string cmd)
 {
-	string cmdName;
-	StrToken::toLowerString(cmd);
+	string cmdName = EMPTY;
 	tVecStr params = StrToken::getStrTokens(cmd," ");
 	if(params.size() > 0)
+	{
 		cmdName = params[0];
-		
+		StrToken::toLowerString(cmdName);
+	}
+	
 	if (CommandFactory::IsAddDirectoryCommand(cmdName))
 		return new AddDirectory(cmd);
 	else if (CommandFactory::IsRemoveDirectoryCommand(cmdName))

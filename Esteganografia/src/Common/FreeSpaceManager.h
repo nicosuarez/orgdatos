@@ -4,8 +4,8 @@
 #include "Constant.h"
 #include "../Tree/factory.h"
 #include "../Tree/BppTree/bpptree.h"
-#include "../DataAccess/Organizations/OrgList.h"
-#include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
+#include "../DataAccess/Organizations/OrgExtensibleRelative.h"
+#include "../DataAccess/Registries/FreeSpaceRegistry.h"
 #include <list.h>
 
 typedef std::list<Space*> tListSpaces;
@@ -37,7 +37,7 @@ public:
 
 private:
 	
-	OrgList orgListFreeSpaces;
+	OrgExtensibleRelative orgFreeSpaces;
 	BppTree freeSpacesTree;
 	
 	/*Puntero a la unica instancia del FreeSpaceManager*/

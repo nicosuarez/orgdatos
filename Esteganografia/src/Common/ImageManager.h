@@ -43,7 +43,7 @@ class ImageManager
 	void DeleteImage(Image* image);
 
 	/* Almacena una imagen en la organizacion de archivos*/
-	ID_type AddImage(Image* image);
+	ID_type AddImage(const char* imagePath);
 
 	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */

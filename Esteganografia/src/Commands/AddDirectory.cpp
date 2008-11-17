@@ -30,8 +30,7 @@ void AddDirectory::ShowHelpCommand()
  */
 bool AddDirectory::InternalProcess(tVecStr params)
 {
-	string path = params[1];
-	tVecStr fileList = FileSystem::GetFiles(path.c_str(), File);	
+	string path = params[1];	
 	ImageManager* iManager=ImageManager::GetInstance();
 	iManager->AddDirectory(path.c_str());
 	return true;
