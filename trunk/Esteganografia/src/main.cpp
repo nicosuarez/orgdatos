@@ -522,27 +522,27 @@ void TestListImgRegistry()
 //		delete reg;
 //	}
 
-	OrgList org("mesajesList.dat", ListFreeSpaceRegistry::Create);
-
-	ListFreeSpaceRegistry reg1(1, 10);
-	ListFreeSpaceRegistry reg2(2, 15);
-	ListFreeSpaceRegistry reg3(3, 100);
-	ListFreeSpaceRegistry reg4(4, 200);
-	ListFreeSpaceRegistry *reg;
-
-	org.CreateList(reg1);
-	org.AddToListLast(reg2, reg1.GetID());
-	org.AddToListLast(reg3, reg2.GetID());
-	org.AddToListLast(reg4, reg3.GetID());
-	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
-	list<ListRegistry*>::iterator it;
-
-	for( it= lista->begin(); it != lista->end(); it++)
-	{
-		reg = dynamic_cast<ListFreeSpaceRegistry*>( (*it) );
-		cout << "Reg: " << reg->GetID() <<" - offsetImg: " << reg->GetOffsetImage() << " - sizeFreeSpace: " << reg->GetSizeFreeSpace() <<  " - Next: " << reg->GetNextID()<< endl;
-		delete reg;
-	}
+//	OrgList org("mesajesList.dat", ListFreeSpaceRegistry::Create);
+//
+//	ListFreeSpaceRegistry reg1(1, 10);
+//	ListFreeSpaceRegistry reg2(2, 15);
+//	ListFreeSpaceRegistry reg3(3, 100);
+//	ListFreeSpaceRegistry reg4(4, 200);
+//	ListFreeSpaceRegistry *reg;
+//
+//	org.CreateList(reg1);
+//	org.AddToListLast(reg2, reg1.GetID());
+//	org.AddToListLast(reg3, reg2.GetID());
+//	org.AddToListLast(reg4, reg3.GetID());
+//	list<ListRegistry*> *lista = org.GetList(reg1.GetID());
+//	list<ListRegistry*>::iterator it;
+//
+//	for( it= lista->begin(); it != lista->end(); it++)
+//	{
+//		reg = dynamic_cast<ListFreeSpaceRegistry*>( (*it) );
+//		cout << "Reg: " << reg->GetID() <<" - offsetImg: " << reg->GetOffsetImage() << " - sizeFreeSpace: " << reg->GetSizeFreeSpace() <<  " - Next: " << reg->GetNextID()<< endl;
+//		delete reg;
+//	}
 
 }
 

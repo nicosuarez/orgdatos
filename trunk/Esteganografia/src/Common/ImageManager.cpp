@@ -51,8 +51,29 @@ void ImageManager::DeleteImage(Image* image){
 /* -------------------------------------------------------------------------- */
 
 
-ID_type ImageManager::AddImage(Image* image){
+ID_type ImageManager::AddImage(const char* imagePath){
 
+	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
+	Image* image = ImageFactory::GetImage(imagePath);
+	if(image != NULL)
+	{
+		ImgRegistry imgReg;
+		Space* space = image->Load();
+		//Se crea el espacio libre.
+		ID_type id = fsManager->AddFreeSpace(space);
+		//Asignar los punteros al espacio libre.
+		imgReg.setIDFirstFreeSpace(id);
+		imgReg.setIDLastFreeSpace(id);
+		//Asignar lista de mensajes
+		imgReg.setPtrMsgList(NULL);
+		//Asignar tamano de espacio libre.
+		imgReg.setSizeMaxFreeSpace(space->GetSize());
+		orgImages.WriteRegistry(imgReg);
+		
+		//Actualizo el arbol de imagenes.
+		
+	}
+	
 	return 1;
 }
 /* -------------------------------------------------------------------------- */
@@ -62,18 +83,28 @@ ID_type ImageManager::AddImage(Image* image){
  */
 void ImageManager::AddDirectory(const char* dirPath){
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
-	//tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
+	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	ValueInt vDir(0);
 	imgTree.insert(kDir,vDir);
 	for(size_t i=0; i<fileList.size();i++){
+		string fullPath = fileList[i];
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
-		string strFile=string(dirPath)+ fileList[i];
-		Image img(strFile.c_str());
-		ID_type id=AddImage(&img);
-		KeyStr keyImg(strFile.c_str());
-		ValueInt valImg(id);
-		this->imgTree.insert(keyImg,valImg);
+		if((tokensFile.size()-tokensDir.size())%2==0)
+		{
+			//es una imagen
+			ID_type id = AddImage(fullPath.c_str());
+			KeyStr keyImg(fileList[i]);
+			ValueInt valImg(id);
+			this->imgTree.insert(keyImg,valImg);
+		}
+		else
+		{
+			//es un directorio
+			KeyStr kSubDir(dirPath);
+			ValueInt vSubDir(0);
+			imgTree.insert(kSubDir,vSubDir);
+		}
 	}
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
 	for(size_t j=0; j<dirList.size();j++){

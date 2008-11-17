@@ -55,7 +55,6 @@ bool Command::Run(string cmd)
 {
 	if(Validate(cmd))
 	{
-		StrToken::toLowerString(cmd);
 		tVecStr params = StrToken::getStrTokens(cmd," ");
 		return InternalProcess(params);
 	}
