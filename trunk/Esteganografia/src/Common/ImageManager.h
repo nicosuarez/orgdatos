@@ -36,7 +36,16 @@ class ImageManager
 	/* Devuelve la unica instancia de ImageManager (clase singleton)*/
 	static ImageManager* GetInstance();
 
+	/**
+	 * Cargar el imgtree y el dirTree con todos los subdirectorios
+	 * y los archivos aceptados por el programa
+	 */
 	void AddDirectory(const char* dirPath);
+
+	/**
+	 * da de baja en el imgtree y el dirTree de todos los subdirectorios
+	 * y los archivos aceptados por el programa
+	 */
 	void DeleteDirectory(const char* dirPath);
 
 	/* Elimina una imagen de la organizacion de archivos*/
@@ -59,17 +68,26 @@ class ImageManager
 
 	/**
 	 * Devuelve el IdImage del archivo pasado como parametro
+	 * Devuelve 0 si no existe ese path en el imgTree
 	 */
 	ID_type getId(const char* path);
 
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
-	
-	
+
+	/*
+	 * devuelve la lista de todos los directorios
+	 */
+	tVecStr GetAllDirectories();
+
 	ID_type GetIDImage(std::string pathImg);
 
 	/* Destructor*/
 	virtual ~ImageManager();
+
+	void RecorreElArbol();
+
+	void TestDirectory(const char* dirPath);
 
 private:
 	//Borra la imagen y sus mensajes
@@ -89,7 +107,7 @@ private:
 	//OrgText orgNamesImages, orgNamesDir;
 
 	BppTree imgTree;
-
+	BppTree dirTree;
 	/*Constructor privado*/
 	ImageManager();
 
