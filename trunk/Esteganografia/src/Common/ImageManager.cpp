@@ -21,7 +21,7 @@ ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreat
 							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_PATHFILE, PATH_NAMES_IMG_FILE),
-//							  orgNamesDir(PATH_NAMES_DIR_FILE),
+							  //orgNamesDir(PATH_NAMES_DIR_FILE),
 							  imgTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG),
 							  dirTree(512,KeyStrFactory(), ValueNullFactory(),PATH_TREE_DIR)
 {
@@ -64,23 +64,23 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		ID_type idFreeSpace = fsManager->AddFreeSpace(space);
 
 		//Guardo el path completo de la imagen.
-		ID_type idPath = orgNamesImages.WriteText(space->GetFilePath());
-		
+		ID_type idPath =1;// orgNamesImages.WriteText(space->GetFilePath()); 	prueba de TESTTTTT!!
+
 		//Asignar lista de mensajes
 		imgReg.SetPtrMsgList(NULL);
 		imgReg.SetIDImagePath(idPath);
 		Date date = Date::getDate(space->GetFilePath());
 		imgReg.SetDate(date);
-		
+
 		//Guardar Imagen
 		orgImages.WriteRegistry(imgReg);
-		
+
 		//Actualizo el arbol de imagenes.
 		fsManager->AddFreeSpaceTree(idFreeSpace,space->GetSize(),imgReg.GetID(),
 								space->GetInitialPosition());
-		
+
 		fsManager->GetFreeSpaces(300);
-		
+
 	}
 
 	return imgReg.GetID();
@@ -90,52 +90,46 @@ ID_type ImageManager::AddImage(const char* imagePath){
  * Agrega todos los directorios y imagenes al arbol imgTree
  * Agrega agrega todas las imagenes al imgFile
  */
-void ImageManager::AddDirectory(const char* dirPath){
+tVecStr ImageManager::AddDirectory(const char* dirPath){
+	tVecStr ans;
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string strdir=string(dirPath)+ "/";
+	KeyStr kDirDir(strdir);
 	strdir=strdir+".@";
 	KeyStr kDir(strdir);
 	ValueInt vDir(0);
 	ValueNull vNull;
-	dirTree.insert(kDir,vNull);
+	dirTree.insert(kDirDir,vNull);
 	imgTree.insert(kDir,vDir);
 	for(size_t i=0; i<fileList.size();i++){
 		string fullPath =string(dirPath)+ "/";
 		fullPath= fullPath + fileList[i];
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
-		if((tokensFile.size()-tokensDir.size())%2==0)
-		{
-			//es una imagen
-			ID_type id =0; 
-			AddImage(fullPath.c_str());
-			KeyStr keyImg(fullPath);
-			ValueInt valImg(id);
-			this->imgTree.insert(keyImg,valImg);
-			std::cout << fullPath << std::endl;
-		}
-		else
-		{
-			//es un directorio
-			std::cout << fullPath << std::endl;
-			KeyStr kSubDir(fullPath);
-			ValueInt vSubDir(0);
-			imgTree.insert(kSubDir,vSubDir);
-			ValueNull vNull;
-			dirTree.insert(kSubDir,vNull);
-		}
+		//es una imagen
+		ID_type id =0;
+		//AddImage(fullPath.c_str());
+		KeyStr keyImg(fullPath);
+		ValueInt valImg(id);
+		this->imgTree.insert(keyImg,valImg);
+		std::cout << fullPath << std::endl;
 	}
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
 	for(size_t j=0; j<dirList.size();j++){
 		string strdir=string(dirPath)+"/";
 		strdir= strdir + dirList[j];
+		ans.push_back(strdir);
 		strdir= strdir+"/";
+		KeyStr kSubDirTreeDir(strdir);
 		strdir= strdir+".@";
 		std::cout << strdir << std::endl;
 		KeyStr kSubDir(strdir);
 		ValueInt vSubDir(0);
 		imgTree.insert(kSubDir,vSubDir);
+		ValueNull vNull;
+		dirTree.insert(kSubDirTreeDir,vNull);
 	}
+	return ans;
 
 	/*KeyStr other("/home/malcha/Escritorio/Datos/Eclipse/AuxStegno/Estegno/Stegno/Imb");
 	ValueInt vother(2);
@@ -155,7 +149,7 @@ const char* ImageManager::GetPathImage(ID_type idImg)
 /* -------------------------------------------------------------------------- */
 void ImageManager::RecorreElArbol(){
 	KeyStr kDir("");
-	TreeIterator& it = imgTree.iterator(kDir);
+	TreeIterator& it = dirTree.iterator(kDir);
 	while (!it.end()){
 		KeyStr* kStr=(KeyStr*)it.getKey();
 		string pathFile=(kStr->getKey());
@@ -166,20 +160,20 @@ void ImageManager::RecorreElArbol(){
 }
 /* -------------------------------------------------------------------------- */
 
-void ImageManager::DeleteDirectory(const char* dirPath){
+tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	vector<KeyStr> vkStr;
 	vector<KeyStr> vkDir;
+	tVecStr ans;
 	if (imgTree.empty())
-		return;
+		return ans;
 	TreeIterator& it = imgTree.iterator(kDir);
 	while ((!it.end())&&(end==false)){
 		KeyStr* kStr=(KeyStr*)it.getKey();
 		string pathFile=(kStr->getKey());
-		cout<<pathFile<<endl;
 		tVecStr tokens=StrToken::getStrTokens(pathFile,"/");
 		if (!(strcmp(tokens[tokens.size()-1].c_str(),".@")) ){
 			ValueInt* vInt=(ValueInt*)it.getValue();
@@ -187,7 +181,7 @@ void ImageManager::DeleteDirectory(const char* dirPath){
 			vkStr.push_back(*kStr);
 			delete vInt;
 		}else if ((tokens.size()-tokensDir.size()>0)||(strcmp(dirPath,pathFile.c_str())==0)){
-			//vkStr.push_back(*kStr);
+			ans.push_back(kStr->getKey());
 			vkDir.push_back(*kStr);
 		}
 		else
@@ -202,8 +196,8 @@ void ImageManager::DeleteDirectory(const char* dirPath){
 		imgTree.remove(vkDir[u]);
 		dirTree.remove(vkDir[u]);
 	}
-	cout<<"Ahora los q faltan eliminar"<<endl;
-	TestDirectory(dirPath);
+	//TestDirectory(dirPath);
+	return ans;
 }
 
 void ImageManager::TestDirectory(const char* dirPath){
@@ -231,6 +225,7 @@ tVecStr ImageManager::GetAllDirectories(){
 			KeyStr* key=dynamic_cast<KeyStr*>(it.getKey());
 			ans.push_back(key->getKey());
 			delete key;
+			++it;
 		}
 		dirTree.deleteIterator(it);
 	}
@@ -294,7 +289,7 @@ void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 	ImgRegistry *imgRegistry = dynamic_cast<ImgRegistry*>(this->orgImages.GetRegistry(idImage));
 	ID_type firstList = imgRegistry->GetPtrMsgList();
 	ListMsgRegistry msgRegistry(idMessage);
-	
+
 	//Si la lista esta vacia, la creo
 	if( firstList == 0 )
 	{
@@ -302,12 +297,12 @@ void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 	}
 	else //Si no esta vacia, agrego el nuevo registro al principio
 	{
-		
-		this->orgListMsgs.AddToListFirst(msgRegistry, firstList);	
+
+		this->orgListMsgs.AddToListFirst(msgRegistry, firstList);
 	}
-	
-	//Actualizo el PtrMsgList del registro imagen 
+
+	//Actualizo el PtrMsgList del registro imagen
 	imgRegistry->SetPtrMsgList(msgRegistry.GetID());
-	
+
 	delete imgRegistry;
 }

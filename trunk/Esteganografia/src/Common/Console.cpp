@@ -12,9 +12,22 @@ using namespace std;
 
 int Console::Run(int argc,char* argv[])
 {
+	bool isUser=false;
 	string cmd;
 	if (PasswordManager::ValidatePassword()){
 		if(ValidatePassword())
+			isUser=true;
+	}else{
+		/*PEDIR PASS Y CREAR TODAS LAS ESTRUCTURAS*/
+		Message pass;
+		bool isOk=Console::InsertNewPassword(pass);
+		if(isOk){
+			FileSystem::CreateStruture(pass);
+			isUser=true;
+		}
+	}
+	if (isUser){
+
 		{
 			ShowInitialMessage();
 			while(!CommandFactory::IsQuitCommand(cmd))
@@ -28,12 +41,6 @@ int Console::Run(int argc,char* argv[])
 				}
 			}
 		}
-	}else{
-		/*PEDIR PASS Y CREAR TODAS LAS ESTRUCTURAS*/
-		Message pass;
-		bool val=Console::InsertNewPassword(pass);
-		if(val)
-			FileSystem::CreateStruture(pass);
 	}
 	return 0;
 }

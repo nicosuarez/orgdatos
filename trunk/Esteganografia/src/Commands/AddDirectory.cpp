@@ -30,8 +30,12 @@ void AddDirectory::ShowHelpCommand()
  */
 bool AddDirectory::InternalProcess(tVecStr params)
 {
-	string path = params[1];	
+	string path = params[1];
 	ImageManager* iManager=ImageManager::GetInstance();
-	iManager->AddDirectory(path.c_str());
+	tVecStr vec =iManager->AddDirectory(path.c_str());
+	if (vec.size()!=0)
+		cout<<FIRST_MSG_ADD_DIRECTORY<< "\n";
+	for (unsigned int i=0;i<vec.size();i++)
+		cout<<vec[vec.size()-1-i]<< "\n";
 	return true;
 }

@@ -40,13 +40,14 @@ class ImageManager
 	 * Cargar el imgtree y el dirTree con todos los subdirectorios
 	 * y los archivos aceptados por el programa
 	 */
-	void AddDirectory(const char* dirPath);
+	tVecStr AddDirectory(const char* dirPath);
 
 	/**
 	 * da de baja en el imgtree y el dirTree de todos los subdirectorios
 	 * y los archivos aceptados por el programa
+	 * Devuelve la lista de imagenes borradas
 	 */
-	void DeleteDirectory(const char* dirPath);
+	tVecStr DeleteDirectory(const char* dirPath);
 
 	/* Elimina una imagen de la organizacion de archivos*/
 	void DeleteImage(Image* image);
@@ -86,7 +87,7 @@ class ImageManager
 	 * devuelve la lista de todos los directorios
 	 */
 	tVecStr GetAllDirectories();
-	
+
 	/* Destructor*/
 	virtual ~ImageManager();
 

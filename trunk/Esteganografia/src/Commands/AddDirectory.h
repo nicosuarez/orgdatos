@@ -23,7 +23,7 @@ public:
 	unsigned int GetNumParams(){return numParams;};
 	bool InternalProcess(tVecStr params);
 	void ShowHelpCommand();
-	
+
 	static std::string GetName(){return CMD_ADD_DIRECTORY;}
 };
 
