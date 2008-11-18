@@ -80,7 +80,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	
 	if(it.end())
 	{
-		throw ERR_INSUFFICIENT_SPACE;
+		//throw ERR_INSUFFICIENT_SPACE;
 	}
 	freeSpacesTree.deleteIterator(it);
 
