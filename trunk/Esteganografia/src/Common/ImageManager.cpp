@@ -15,7 +15,7 @@ ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-ImageManager::ImageManager(): orgImages(PATH_MESSAGE_FILE, ImgRegistry::RegCreate),
+ImageManager::ImageManager(): orgImages(PATH_IMG_FILE, ImgRegistry::RegCreate),
 							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_PATHFILE, PATH_NAMES_IMG_FILE),
@@ -139,6 +139,8 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 const char* ImageManager::GetPathImage(ID_type idImg)
 {
 	ImgRegistry* imgReg = (ImgRegistry*)orgImages.GetRegistry(idImg);
+	if(imgReg == NULL )
+		return NULL;
 	string path = orgNamesImages.GetText(imgReg->GetIDImagePath());
 	return path.c_str();
 }
@@ -390,3 +392,4 @@ void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 
 	delete imgRegistry;
 }
+/* -------------------------------------------------------------------------- */
