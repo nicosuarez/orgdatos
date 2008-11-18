@@ -40,12 +40,11 @@ class ImageManager
 	 * Cargar el imgtree y el dirTree con todos los subdirectorios
 	 * y los archivos aceptados por el programa
 	 */
-	tVecStr AddDirectory(const char* dirPath);
+	tVecStr	AddDirectory(const char* dirPath);
 
 	/**
 	 * da de baja en el imgtree y el dirTree de todos los subdirectorios
 	 * y los archivos aceptados por el programa
-	 * Devuelve la lista de imagenes borradas
 	 */
 	tVecStr DeleteDirectory(const char* dirPath);
 
@@ -54,9 +53,6 @@ class ImageManager
 
 	/* Almacena una imagen en la organizacion de archivos*/
 	ID_type AddImage(const char* imagePath);
-	
-	/*Agrega un nodo a la lista de mensajes de una imagen*/
-	void AddMessageToImage( ID_type idImage, ID_type idMessage);
 
 	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */
@@ -76,10 +72,6 @@ class ImageManager
 	 */
 	ID_type GetIDImage(const char* path);
 
-	
-	/*Dado el id de una imagen, devuelve el path de la misma */
-	const char* GetPathImage(ID_type idImg); 
-	
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
 
@@ -87,6 +79,21 @@ class ImageManager
 	 * devuelve la lista de todos los directorios
 	 */
 	tVecStr GetAllDirectories();
+
+	/*
+	 *  Returns a list of image files stored in the BppTree that
+	 *  have been recently removed from a specific directory.
+	 *
+	 *  path: path of the directory, without '/' as the last character.
+	 */
+	tVecStr GetImageErasedList ( const std::string & path );
+
+	/*
+	 *  Returns a list of image files stored in the BppTree that
+	 *  have been recently removed from all the directories.
+	 */
+	tVecStr GetImageErasedFromDirectories();
+
 
 	/* Destructor*/
 	virtual ~ImageManager();
