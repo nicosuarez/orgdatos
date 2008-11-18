@@ -1,4 +1,6 @@
 #include "RemoveDirectory.h"
+#include "../Common/ImageManager.h"
+#include "../Common/Resource.h"
 
 using namespace std;
 
@@ -29,5 +31,12 @@ void RemoveDirectory::ShowHelpCommand()
  */
 bool RemoveDirectory::InternalProcess(tVecStr params)
 {
+	ImageManager* img=ImageManager::GetInstance();
+	tVecStr lDir=img->DeleteDirectory(cmd.c_str());
+	if (lDir.size()>0)
+		cout<<FIRST_MSG_REMOVE_DIRECTORY<<"\n";
+	for (unsigned int i=0;i<lDir.size();i++){
+		cout<<lDir[i]<<"\n";
+	}
 	return true;
 }

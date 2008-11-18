@@ -69,6 +69,10 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 	●   removeDirectory <directorio> \n \t \
 	Quita un directorio de imágenes del ocultador."
 
+#define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente."
+
+#define FIRST_MSG_ADD_DIRECTORY "Los siguientes Directorios han sido dados de alta exitosamente."
+
 #define HLP_ADD_FILE "\
 	●   addFile <nombre_archivo> \n \t \
 	Oculta un archivo de texto en el ocultador."

@@ -646,7 +646,7 @@ void testAddDirectory(int argc, char *argv[])
 
 void testConsole(int argc, char *argv[])
 {
-//	Console::Run(argc,argv);
+	Console::Run(argc,argv);
 }
 
 void testPNG(int argc,char* argv[])
@@ -752,17 +752,19 @@ void TestAddDirectory(){
  void testArbol()
  {
 	 //testInsertValueInt();
-	 TestAddDirectory();
+	 //TestAddDirectory();
+	 ImageManager*im=ImageManager::GetInstance();
+	 im->RecorreElArbol();
  }
 
 int main(int argc, char *argv[])
 {
-	testPass(argc,argv);
+	//testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-//	testConsole(argc, argv);
+	testConsole(argc, argv);
 
 	return EXIT_SUCCESS;
 }

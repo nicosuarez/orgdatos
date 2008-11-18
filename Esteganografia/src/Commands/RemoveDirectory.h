@@ -13,7 +13,7 @@ class RemoveDirectory : public Command
 {
 private:
 	static const int numParams = 2;
-	
+
 public:
 	RemoveDirectory(std::string cmd);
 	RemoveDirectory();
@@ -22,7 +22,7 @@ public:
 	unsigned int GetNumParams(){return numParams;};
 	bool InternalProcess(tVecStr params);
 	void ShowHelpCommand();
-	
+
 	static std::string GetName(){return CMD_REMOVE_DIRECTORY;}
 };
 
