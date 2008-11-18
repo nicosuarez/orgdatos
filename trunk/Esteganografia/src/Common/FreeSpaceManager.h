@@ -2,6 +2,7 @@
 #define FREESPACEMANAGER_H_
 #include "Space.h"
 #include "Constant.h"
+#include "ImageManager.h"
 #include "../Tree/factory.h"
 #include "../Tree/BppTree/bpptree.h"
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
@@ -48,6 +49,8 @@ private:
 	
 	/*Puntero a la unica instancia del FreeSpaceManager*/
 	static FreeSpaceManager* instance;
+	
+	void PrintIteratorValue(TreeIterator& it);
 	
 	/* Constructor privado */
 	FreeSpaceManager();
