@@ -16,6 +16,13 @@ Space::Space(string filePath, string format, unsigned long initialPosition, unsi
 	this->size = size;
 }
 
+Space::Space(string filePath, unsigned long initialPosition, unsigned long size)
+{
+	this->filePath = filePath;
+	this->initialPosition = initialPosition;
+	this->size = size;
+}
+
 Space::Space(string filePath)
 {
 	this->filePath = filePath;

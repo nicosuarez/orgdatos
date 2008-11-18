@@ -53,6 +53,9 @@ class ImageManager
 
 	/* Almacena una imagen en la organizacion de archivos*/
 	ID_type AddImage(const char* imagePath);
+	
+	/*Agrega un nodo a la lista de mensajes de una imagen*/
+	void AddMessageToImage( ID_type idImage, ID_type idMessage);
 
 	/* Devuelve una lista con los IDs de los mensajes que estan
 	 * ocultos en la imagen parámetro */
@@ -72,6 +75,10 @@ class ImageManager
 	 */
 	ID_type GetIDImage(const char* path);
 
+	
+	/*Dado el id de una imagen, devuelve el path de la misma */
+	const char* GetPathImage(ID_type idImg); 
+	
 	/*Devuelve el espacio libre total en toda la organizacion*/
 	unsigned long GetTotalFreeSize() const;
 
@@ -80,7 +87,6 @@ class ImageManager
 	 */
 	tVecStr GetAllDirectories();
 	
-
 	/* Destructor*/
 	virtual ~ImageManager();
 

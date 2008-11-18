@@ -19,6 +19,7 @@ class Space
 
 public:
 	Space(string filePath, string format, unsigned long initialPosition, unsigned long size);
+	Space(string filePath, unsigned long initialPosition, unsigned long size);
 	Space(string filePath);
 	virtual ~Space();
 

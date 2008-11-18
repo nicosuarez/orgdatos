@@ -276,3 +276,29 @@ list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
 	list<Space> lista;
 	return lista;
 }
+
+/* -------------------------------------------------------------------------- */
+
+void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
+{
+	//Leo el registro imagen para obtener el id del primer registro de la lista de msgs.
+	ImgRegistry *imgRegistry = dynamic_cast<ImgRegistry*>(this->orgImages.GetRegistry(idImage));
+	ID_type firstList = imgRegistry->GetPtrMsgList();
+	ListMsgRegistry msgRegistry(idMessage);
+	
+	//Si la lista esta vacia, la creo
+	if( firstList == 0 )
+	{
+		this->orgListMsgs.CreateList( msgRegistry);
+	}
+	else //Si no esta vacia, agrego el nuevo registro al principio
+	{
+		
+		this->orgListMsgs.AddToListFirst(msgRegistry, firstList);	
+	}
+	
+	//Actualizo el PtrMsgList del registro imagen 
+	imgRegistry->SetPtrMsgList(msgRegistry.GetID());
+	
+	delete imgRegistry;
+}

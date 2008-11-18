@@ -85,8 +85,6 @@ bool Jpg::ValidateFormat(const char *filePath)
 	if(fin.good())
 	{
 		fin >> format;
-		cout << format << "\n";
-		cout << header << "\n";
 		if(format.compare(0,4,header) == 0)
 		{
 			cout << "Formato JPG/JPEG Correcto.\n";
