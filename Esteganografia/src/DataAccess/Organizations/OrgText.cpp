@@ -15,7 +15,7 @@ OrgText::OrgText(const string &path,const string &fileName)
   deletedFileName=path+deletedFileName;
   orgDeleted = new OrgExtensibleRelative(deletedFileName, CreateTextRegistry);
 
-  OpenStream(fileName);
+  OpenStream(path + fileName);
 }
 
 /* -------------------------------------------------------------------------- */
