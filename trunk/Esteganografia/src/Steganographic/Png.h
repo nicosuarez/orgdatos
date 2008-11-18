@@ -18,7 +18,7 @@ class Png : public Image
 private:
 	
 	static const int HighBitDepth = 16;
-	static const int BitsLSB = 2;
+	static const unsigned int BitsLSB = 2;
 	
 	// Informacion general del png
 	png_uint_32  Width;
@@ -83,6 +83,10 @@ public:
     {
     	return this->ColorType;
     };
+    
+    unsigned int GetBitsLsb() const{
+		return BitsLSB;
+	}
 	
 	/**
 	 * Valida el formato png. 

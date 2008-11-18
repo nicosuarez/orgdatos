@@ -12,6 +12,7 @@
 #include <list.h>
 
 typedef std::list<Space*> tListSpaces;
+typedef std::list<Space*>::iterator itListSpaces;
 
 /**
  * Clase que se encarga de buscar dado un mensaje los mejores espacios libres
@@ -40,7 +41,7 @@ public:
 	ID_type AddFreeSpace(Space* space);
 	
 	/* Agrega una lista de espacios disponible */
-	ID_type AddFreeSpaces(tListSpaces* space);
+	void AddFreeSpaces(tListSpaces* spacesList);
 
 private:
 	

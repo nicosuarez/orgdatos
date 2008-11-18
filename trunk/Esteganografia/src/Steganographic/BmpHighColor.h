@@ -16,7 +16,9 @@
  */
 class BmpHighColor : public Bmp
 {
-
+private:
+	static const unsigned int BitsLsb = 2;
+	
 public:
 	BmpHighColor(const char* filePath);
 	virtual ~BmpHighColor();
@@ -24,6 +26,10 @@ public:
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
 	
-
+	/* Cantidad de informacion (bits) que se pueden ocultar por cada bytes 
+	 * de la imagen */
+	unsigned int GetBitsLsb() const{
+		return BitsLsb;
+	}
 };
 #endif // !defined(EA_24C1EC30_9C7C_11dd_B49B_001B2425640C__INCLUDED_)
