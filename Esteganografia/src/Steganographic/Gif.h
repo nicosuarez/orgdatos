@@ -66,9 +66,17 @@ public:
 	 * por el parametro space.*/
 	void Hide(Space* space, Message* msg);
 	
+	/* Cantidad de informacion (bits) que se pueden ocultar por cada bytes 
+	 * de la imagen */
+	unsigned int GetBitsLsb() const{
+		return BitsLsb;
+	}
+	
 private:
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
+
+	static const unsigned int BitsLsb = 4;
 	
 };
 #endif // !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)

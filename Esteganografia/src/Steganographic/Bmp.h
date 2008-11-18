@@ -55,7 +55,9 @@ typedef struct BmpInfoHeader
  */
 class Bmp : public Image
 {
-
+private:
+	static const unsigned int BitsLsb = 1;
+	
 public:
 	Bmp(const char* filePath);
 	virtual ~Bmp();
@@ -67,6 +69,12 @@ public:
 	virtual void LsbHide(UBYTE dataByte,fstream& fin);
 	virtual long LsbExtract(fstream& fin, fstream& fdata);
 	static ImageColor ImageInfo(const char* filePath);
+	
+	/* Cantidad de informacion (bits) que se pueden ocultar por cada bytes 
+	 * de la imagen */
+	unsigned int GetBitsLsb() const{
+		return BitsLsb;
+	}
 
 };
 #endif // !defined(EA_B2D82F06_98EA_11dd_B49B_001B2425640C__INCLUDED_)

@@ -58,6 +58,12 @@ public:
 		return filePath;
 	}
 	
+	/* Cantidad de informacion (bits) que se pueden ocultar por cada bytes 
+	* de la imagen */
+	virtual unsigned int GetBitsLsb() const{
+		return BitsLsb; //No hay lsb
+	}
+	
 	/* Capacidad de la imagen para almacenar información 
 	 * (expresado en bytes) */
 	unsigned long GetSpaceTotal() const{
@@ -83,6 +89,9 @@ protected:
 	unsigned long maxFreeSpaceSize;
 	unsigned long spaceTotal;
 	unsigned long freeSpaceTotal;
+	
+private:
+	static const unsigned int BitsLsb = 8; //No hay LSB
 
 };
 #endif // !defined(EA_B4E5CF88_98EA_11dd_B49B_001B2425640C__INCLUDED_)

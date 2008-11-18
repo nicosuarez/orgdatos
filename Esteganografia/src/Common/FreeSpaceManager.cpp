@@ -41,11 +41,10 @@ void FreeSpaceManager::PrintIteratorValue(TreeIterator& it){
 /* -------------------------------------------------------------------------- */
 tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 {
-	unsigned long acumSize=0, position=0, spaceSize=0;
+	unsigned long acumSize=0, position=0, spaceSize=0, newFreeSize=imgSize;
 	ID_type imgID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
-	
 	
 	TreeIterator& it = freeSpacesTree.first();
 	
@@ -63,34 +62,61 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		spaceSize = keyPair.second;
 		position = valPair.second;
 		const char* pathImg = iManager->GetPathImage(imgID);
-		
-		
+
 		Space * space = new Space(pathImg,EMPTY,position,spaceSize);
 		freeSpaceLst->push_front(space);
+		acumSize += spaceSize;
 		
-		//Dar de baja el espacio libre, y de alta el espacio libre sobante.
-	
+		//Dar de baja el espacio libre, y dar de alta el nuevo espacio libre sobrante.
+		freeSpacesTree.remove(*key);
+		
+		if(acumSize <= imgSize)
+		{
+			//Tamano del nuevo espacio libre generado.
+			newFreeSize -= spaceSize;
+		}
+		else
+		{
+			//Dar de alta el espacio libre nuevo.
+			unsigned long newSize = spaceSize - newFreeSize;
+			Image* image = ImageFactory::GetImage(pathImg);
+			unsigned int bitsLsb = image->GetBitsLsb(); 
+			unsigned long newPosition = position + newFreeSize * (8/bitsLsb);
+			Space * space = new Space(pathImg,EMPTY,newPosition,newSize);
+			AddFreeSpace(space);
+			delete space;
+		}
+			
 		PrintIteratorValue(it);
 		++it;
-		acumSize += spaceSize;
 		
 		delete key;
 		delete val;
 	}
 	
-	if(it.end())
+	if(it.end() && (acumSize < imgSize))
 	{
-		//throw ERR_INSUFFICIENT_SPACE;
+		throw ERR_INSUFFICIENT_SPACE;
 	}
 	freeSpacesTree.deleteIterator(it);
-
 	
 	return freeSpaceLst;
 }
 /* -------------------------------------------------------------------------- */
-ID_type AddFreeSpaces(tListSpaces* space)
+void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 {
-	return 1;
+	//TODO: Ver de obtener el idImg o pasarlo por parametro!!!.
+	ID_type idImg = 0;
+	
+	itListSpaces it = spacesList->begin();
+	for(it = spacesList->begin(); it != spacesList->end(); it++ ) 
+	{
+		Space* space = *it;
+		ID_type idFreeSpace = AddFreeSpace(space);
+		AddFreeSpaceTree(idFreeSpace, space->GetSize(), idImg ,space->GetInitialPosition());
+		
+    }  
+
 }
 /* -------------------------------------------------------------------------- */
 ID_type FreeSpaceManager::AddFreeSpace(Space* space)

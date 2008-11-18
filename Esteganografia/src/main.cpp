@@ -799,7 +799,7 @@ int main(int argc, char *argv[])
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-//	testConsole(argc, argv);
+	testConsole(argc, argv);
 //	TestCheckErasedImagesFromPath();
 //	TestCheckErasedImagesFromAllDirectories();
 	return EXIT_SUCCESS;

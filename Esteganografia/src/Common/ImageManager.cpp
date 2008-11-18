@@ -62,10 +62,10 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		ID_type idFreeSpace = fsManager->AddFreeSpace(space);
 
 		//Guardo el path completo de la imagen.
-		ID_type idPath =1;// orgNamesImages.WriteText(space->GetFilePath()); 	prueba de TESTTTTT!!
+		ID_type idPath = orgNamesImages.WriteText(space->GetFilePath());
 
 		//Asignar lista de mensajes
-//		imgReg.SetPtrMsgList(NULL);
+		imgReg.SetPtrMsgList(NULL);
 		imgReg.SetIDImagePath(idPath);
 		Date date = Date::getDate(space->GetFilePath());
 		imgReg.SetDate(date);
@@ -76,8 +76,6 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		//Actualizo el arbol de imagenes.
 		fsManager->AddFreeSpaceTree(idFreeSpace,space->GetSize(),imgReg.GetID(),
 								space->GetInitialPosition());
-
-		fsManager->GetFreeSpaces(300);
 
 	}
 
@@ -106,7 +104,7 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
 		//es una imagen
 		ID_type id =0;
-		//AddImage(fullPath.c_str());
+		AddImage(fullPath.c_str());
 		KeyStr keyImg(fullPath);
 		ValueInt valImg(id);
 		this->imgTree.insert(keyImg,valImg);

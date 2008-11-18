@@ -36,6 +36,9 @@ class ImageManager
 	/* Devuelve la unica instancia de ImageManager (clase singleton)*/
 	static ImageManager* GetInstance();
 
+	/* Devuelve el path de la imagen */
+	const char* GetPathImage(ID_type idImg);
+	
 	/**
 	 * Cargar el imgtree y el dirTree con todos los subdirectorios
 	 * y los archivos aceptados por el programa
@@ -94,6 +97,7 @@ class ImageManager
 	 */
 	tVecStr GetImageErasedFromDirectories();
 
+	void AddMessageToImage( ID_type idImage, ID_type idMessage);
 
 	/* Destructor*/
 	virtual ~ImageManager();
