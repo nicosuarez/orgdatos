@@ -26,12 +26,52 @@ MessageManager::~MessageManager(){
 }
 /* -------------------------------------------------------------------------- */
 
-Message MessageManager::Extract(Message msg,Message msgTarget){
+void MessageManager::Extract(Message msg,Message msgTarget){
+	
+	//Busco en el arbol el id del mensaje.
+	ID_type idMsg;
+	KeyStr key(msg.GetName());
+	TreeIterator& itTree = this->treeMsg.iterator(key);
+	if( itTree.end() )
+	{
+		perror( ERR_NOT_EXIST);
+		return;
+	}
+	ValueInt* vInt=dynamic_cast<ValueInt*>(itTree.getValue());
+	idMsg = vInt->getValue();
+	delete vInt;
+	
+	ImgRegistry *imgRegistry = dynamic_cast<ImgRegistry*>(this->orgMsg.GetRegistry( idMsg));
+	ID_type idFirstList = imgRegistry->GetPtrMsgList();
+	
+	//Obtengo la lista de espacios de las imagenes en donde esta oculto el mensaje
+	std::list<ListRegistry*> *listSpacesImg = this->orgListImages.GetList(idFirstList);
+	std::list<ListRegistry*>::iterator it;
+	
+	ListImgRegistry* listImgRegistry;
+	Space *space;
+	Image *image;
+	ImageManager *imageManager = ImageManager::GetInstance();
+	
+	//Por cada elemento de la lista, instancio un Space, una imagen y extraigo la particion del mensaje
+	for( it = listSpacesImg->begin(); it != listSpacesImg->end(); it++ )
+	{
+		listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
+		ID_type idImg = listImgRegistry->GetIDImage();
+		unsigned long offsetImg = listImgRegistry->GetOffsetImg();
+		unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg();
+		const char *pathImg = imageManager->GetPathImage(idImg);
+		space = new Space(pathImg, offsetImg, sizePartitionMsg);
+		image = ImageFactory::GetImage(pathImg);
+		image->Extract(space, &msgTarget);
+		delete image;
+		delete (*it);
+	}
+	delete listSpacesImg;
 	Message m1=EncriptationManager::Decrypt(msg);
 	CompressionManager::Decompress(m1,msgTarget);
 	if( remove( m1.GetFilePath()) != 0 )
 		perror( ERR_FILE_DELETE );
-	return msgTarget;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -117,6 +157,18 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		//Guardo el registro en el arbol
 		ValueInt v(regMsg.GetID());
 		this->treeMsg.insert(k,v);
+		
+		//Actualizo la lista de mensajes que tiene cada registro en el archivo de imagenes
+		std::list<ListRegistry*> *listImages = this->orgListImages.GetList( regMsg.GetPtrImgList());
+		std::list<ListRegistry*>::iterator itListImg;
+		for( itListImg=listImages->begin(); itListImg != listImages->end(); itListImg++ )
+		{
+			ListImgRegistry* reg = dynamic_cast<ListImgRegistry*>(*itListImg);
+			imageManager->AddMessageToImage( idImage, reg->GetIDImage());
+			delete reg;
+			delete *itListImg;
+		}
+		delete listImages;
 		
 		//Elimino la lista de espacios libres para liberar memoria
 		for(it = spaces->begin(); it != spaces->end(); it++)

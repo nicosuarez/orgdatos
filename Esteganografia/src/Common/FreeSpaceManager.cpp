@@ -28,11 +28,22 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long size)
 {
 	
 	//TreeIterator& it = freeSpacesTree.iterator();
+	
+	/*codigo de prueba*/
 	tListSpaces * lista = new tListSpaces();
-	Image * image = ImageFactory::GetImage("./Images/BMP256Colores.bmp");
-	lista->push_front(image->Load());
+	Image * image = ImageFactory::GetImage("./Images/GIF_87a.gif");
+	Space *space = image->Load();
+	cout << "Tamaño del espacio: " << space->GetSize() << endl;
+	lista->push_front(space);
+	delete image;
+	
+	image = ImageFactory::GetImage("./Images/GIF_boxe06.gif");
+	space = image->Load();
+	cout << "Tamaño del espacio: " << space->GetSize() << endl;
+	lista->push_back(space);
 	delete image;
 	return lista;
+	/*fin de codigo de prueba*/
 }
 /* -------------------------------------------------------------------------- */
 ID_type AddFreeSpaces(tListSpaces* space)

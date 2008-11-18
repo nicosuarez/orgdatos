@@ -32,7 +32,7 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	Message Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
+	void Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
 
 	/*Oculta un mensaje*/
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
