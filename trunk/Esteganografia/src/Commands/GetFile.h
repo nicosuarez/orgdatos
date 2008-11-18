@@ -5,6 +5,7 @@
 #include "../Steganographic/ImageFactory.h"
 #include "../Common/ImageManager.h"
 #include "../Common/FileSystem.h"
+#include "../Common/MessageManager.h"
 
 /**
  * Obtiene el mensaje oculto.
@@ -12,7 +13,7 @@
 class GetFile : public Command
 {
 private:
-	static const int numParams = 2;
+	static const int numParams = 3;
 	
 public:
 	GetFile(std::string cmd);

@@ -29,5 +29,8 @@ void GetFile::ShowHelpCommand()
  */
 bool GetFile::InternalProcess(tVecStr params)
 {
+	std::string pathMessage = params[1];
+	MessageManager *messageManager = MessageManager::GetInstance();
+	messageManager->Extract(pathMessage);
 	return true;
 }

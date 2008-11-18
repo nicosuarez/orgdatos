@@ -5,6 +5,7 @@
 #include "../Steganographic/ImageFactory.h"
 #include "../Common/ImageManager.h"
 #include "../Common/FileSystem.h"
+#include "../Common/MessageManager.h"
 
 /**
  * Agrega un mensaje ocultandolo.
