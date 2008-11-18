@@ -29,5 +29,8 @@ void AddFile::ShowHelpCommand()
  */
 bool AddFile::InternalProcess(tVecStr params)
 {
+	std::string pathMessage = params[1];
+	MessageManager *messageManager = MessageManager::GetInstance();
+	messageManager->Hide(pathMessage);
 	return true;
 }
