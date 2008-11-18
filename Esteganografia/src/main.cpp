@@ -757,15 +757,51 @@ void TestAddDirectory(){
 	 im->RecorreElArbol();
  }
 
+ void TestCheckErasedImagesFromPath(){
+ 	ImageManager* imMan=ImageManager::GetInstance();
+ 	std::string path ("/home/nicolas/Programacion/workspace/Esteganografia/Images");
+
+ 	std::cout<< "Imagenes en el árbol B:\n\n";
+ 	imMan->TestDirectory( path.c_str() );
+
+ 	std::cout<< "\nImagenes en el path:\n";
+ 	std::cout<< path << "\n\n";
+ 	tVecStr fileList=FileSystem::GetFiles( path.c_str() ,File);
+
+     for ( unsigned int i = 0; i < fileList.size() ; i++)
+     	std::cout<< path << "/" <<fileList[i] <<std::endl;
+
+     fileList.clear();
+
+     tVecStr erasedImgList = imMan->GetImageErasedList ( path.c_str() );
+
+     std::cout<< "\nImagenes borradas del path:\n";
+     std::cout<< path << "\n\n";
+     for ( unsigned int i = 0; i < erasedImgList.size() ; i++)
+     	std::cout<< path << "/" << erasedImgList[i] <<std::endl;
+ }
+
+ void TestCheckErasedImagesFromAllDirectories(){
+ 	ImageManager* imMan=ImageManager::GetInstance();
+     tVecStr erasedImgList = imMan->GetImageErasedFromDirectories();
+
+     std::cout<< "\nImagenes borradas de los directorios: \n";
+
+     for ( unsigned int i = 0; i < erasedImgList.size() ; i++)
+     	std::cout << erasedImgList[i] << std::endl;
+ }
+
+
 int main(int argc, char *argv[])
 {
-	//testPass(argc,argv);
+//	testPass(argc,argv);
 	//testCompresion();
 //	testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-	testConsole(argc, argv);
-
+//	testConsole(argc, argv);
+//	TestCheckErasedImagesFromPath();
+//	TestCheckErasedImagesFromAllDirectories();
 	return EXIT_SUCCESS;
 }
 

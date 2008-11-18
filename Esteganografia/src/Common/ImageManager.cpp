@@ -10,8 +10,6 @@
 #include "../Tree/factory.h"
 #include <string>
 
-using namespace std;
-
 unsigned long ImageManager:: totalFreeSize = 0;
 ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
@@ -67,7 +65,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		ID_type idPath =1;// orgNamesImages.WriteText(space->GetFilePath()); 	prueba de TESTTTTT!!
 
 		//Asignar lista de mensajes
-		imgReg.SetPtrMsgList(NULL);
+//		imgReg.SetPtrMsgList(NULL);
 		imgReg.SetIDImagePath(idPath);
 		Date date = Date::getDate(space->GetFilePath());
 		imgReg.SetDate(date);
@@ -92,7 +90,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
  */
 tVecStr ImageManager::AddDirectory(const char* dirPath){
 	tVecStr ans;
-	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string strdir=string(dirPath)+ "/";
 	KeyStr kDirDir(strdir);
@@ -162,7 +160,7 @@ void ImageManager::RecorreElArbol(){
 
 tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
-	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	vector<KeyStr> vkStr;
@@ -201,7 +199,7 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 }
 
 void ImageManager::TestDirectory(const char* dirPath){
-	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	KeyStr kDir(dirPath);
 	if (imgTree.empty())
@@ -221,16 +219,104 @@ tVecStr ImageManager::GetAllDirectories(){
 	tVecStr ans;
 	if (!dirTree.empty()){
 		TreeIterator& it = dirTree.first();
+		std::list <std::string> dirList;
+
+		/*
+		 * Se obtiene un list (dirList) que contiene los directorios
+		 * almacenados en el árbol B.
+		 */
 		while (!it.end()){
 			KeyStr* key=dynamic_cast<KeyStr*>(it.getKey());
-			ans.push_back(key->getKey());
+			size_t i = key->getKey().rfind('/', key->getKey().length());
+			dirList.push_back ( key->getKey().substr( 0, i ) );
 			delete key;
 			++it;
 		}
 		dirTree.deleteIterator(it);
+		//dirList.sort();
+		/*
+		 * Se eliminan los directorios repetidos
+		 */
+		dirList.unique();
+
+		std::list <std::string> ::iterator itList;
+		for ( itList = dirList.begin() ; itList != dirList.end(); itList++ )
+			ans.push_back ( *itList );
+
+		dirList.clear();
 	}
 	return ans;
 }
+
+/* -------------------------------------------------------------------------- */
+tVecStr ImageManager::GetImageErasedList( const std::string & path )
+{
+	tVecStr  erasedList;
+
+	if ( !imgTree.empty() )
+	{
+		KeyStr kDir( path ); tVecStr tmpList;
+		/*
+		 * Se obtiene una lista de nombres de imagenes que se encuentran
+		 * en el path en disco.
+		 */
+		tVecStr imgList = FileSystem::GetFiles( path.c_str() , File);
+		TreeIterator& it = imgTree.iterator(kDir);
+
+		/*
+		 * Se recorre el imgTree generando una lista (tmpList) de imagenes
+		 * de acuerdo a el path.
+		 */
+		while (  !it.end() )
+		{
+			KeyStr* key = (KeyStr*)it.getKey();
+			size_t i = key->getKey().rfind('/', key->getKey().length());
+			if ( ( i != std::string::npos ) &&
+				 ( path == key->getKey().substr( 0, i) ) )
+				tmpList.push_back( key->getKey().substr( i+1, key->getKey().length()-i));
+			delete key;
+			++it;
+		}
+		imgTree.deleteIterator(it);
+		/*
+		 * Se ordena la lista imgList.
+		 */
+		sort ( imgList.begin() , imgList.end() );
+
+		for ( unsigned int j = 0; j < tmpList.size() ; j++ )
+		{
+			/*
+			 * Se busca en imgList los archivos cuyo nombre coinciden con los
+			 * de tmpList, en el caso de no coincidir se los considera como
+			 * recientemente borrados.
+			 */
+			if ( ! binary_search ( imgList.begin(), imgList.end(), tmpList[j] ) )
+				erasedList.push_back( tmpList[j] );
+		}
+		imgList.clear();
+		tmpList.clear();
+	}
+	return erasedList;
+}
+
+/* -------------------------------------------------------------------------- */
+tVecStr ImageManager::GetImageErasedFromDirectories()
+{
+	tVecStr erasedImg;
+	tVecStr allDirs = GetAllDirectories();
+	for ( unsigned int i = 0; i < allDirs.size(); i++ )
+	{
+		tVecStr tmpList = GetImageErasedList( allDirs[i] );
+		std::string path = allDirs[i] + "/";
+		for ( unsigned int i = 0; i < tmpList.size(); i++ )
+			erasedImg.push_back( path + tmpList.at(i) );
+		tmpList.clear();
+	}
+	allDirs.clear();
+
+	return erasedImg;
+}
+
 /* -------------------------------------------------------------------------- */
 void ImageManager::DeleteImage(ID_type id){
 

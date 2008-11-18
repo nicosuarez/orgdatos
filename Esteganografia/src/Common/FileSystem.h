@@ -12,7 +12,7 @@
 #include "Message.h"
 #include "Resource.h"
 
-typedef enum FSMode {File=0 , Dir=1 } FSMode;
+typedef enum FSMode {File=0 , Dir=1 ,All=3} FSMode;
 
 typedef std::vector<std::string> tVecStr;
 /**

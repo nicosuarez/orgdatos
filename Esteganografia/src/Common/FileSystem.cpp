@@ -82,7 +82,7 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 		  /* The file or directory is not hidden. */
 		  if ( !isHide(pent->d_name) )
 		  {
-		  	if ( S_ISREG(stFileInfo.st_mode) && ( mode == File ) )
+		  	if ( S_ISREG(stFileInfo.st_mode) && ( mode == All || mode == File ) )
 		  	{
 		  	  /* The entity is a file. */
 		  	  if ( isASupportedImage(pent->d_name) )
@@ -92,7 +92,7 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 		  	  }
 		  	}
 
-		  	if ( S_ISDIR(stFileInfo.st_mode) && (mode == File || mode == Dir ) )
+		  	if ( S_ISDIR(stFileInfo.st_mode) && (mode == All || mode == Dir ) )
   		  	{
   		  	  /* The entity is a directory. */
   		  	  if ( ( strcmp (pent->d_name,".") != 0 ) &&
