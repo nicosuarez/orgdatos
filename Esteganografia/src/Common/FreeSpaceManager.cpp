@@ -24,26 +24,68 @@ FreeSpaceManager::~FreeSpaceManager()
 
 }
 /* -------------------------------------------------------------------------- */
-tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long size)
+void FreeSpaceManager::PrintIteratorValue(TreeIterator& it){
+	std::pair<Register*,Register*>keyval= *it;
+
+	if(keyval.first){
+		keyval.first->toOstream(std::cout);
+		delete keyval.first;
+	}
+
+
+	if(keyval.second){
+		keyval.second->toOstream(std::cout);
+		delete keyval.second;
+	}
+}
+/* -------------------------------------------------------------------------- */
+tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 {
+	unsigned long acumSize=0, position=0, spaceSize=0;
+	ID_type imgID=0;
+	tListSpaces * freeSpaceLst = new tListSpaces();
+	ImageManager* iManager=ImageManager::GetInstance();
 	
-	//TreeIterator& it = freeSpacesTree.iterator();
 	
-	/*codigo de prueba*/
-	tListSpaces * lista = new tListSpaces();
-	Image * image = ImageFactory::GetImage("./Images/GIF_87a.gif");
-	Space *space = image->Load();
-	cout << "Tamaño del espacio: " << space->GetSize() << endl;
-	lista->push_front(space);
-	delete image;
+	TreeIterator& it = freeSpacesTree.first();
 	
-	image = ImageFactory::GetImage("./Images/GIF_boxe06.gif");
-	space = image->Load();
-	cout << "Tamaño del espacio: " << space->GetSize() << endl;
-	lista->push_back(space);
-	delete image;
-	return lista;
-	/*fin de codigo de prueba*/
+	while(!it.end() && (acumSize < imgSize))
+	{
+		std::pair<Register*,Register*>keyval= *it;
+
+		KeyFreeSpace* key = dynamic_cast<KeyFreeSpace*>(keyval.first);
+		ValueFreeSpace* val = dynamic_cast<ValueFreeSpace*>(keyval.second);
+		
+		std::pair<ID_type,unsigned long> keyPair = key->GetKey();
+		std::pair<ID_type,unsigned long> valPair = val->GetValue();
+		
+		imgID = valPair.first;
+		spaceSize = keyPair.second;
+		position = valPair.second;
+		const char* pathImg = iManager->GetPathImage(imgID);
+		
+		
+		Space * space = new Space(pathImg,EMPTY,position,spaceSize);
+		freeSpaceLst->push_front(space);
+		
+		//Dar de baja el espacio libre, y de alta el espacio libre sobante.
+	
+		PrintIteratorValue(it);
+		++it;
+		acumSize += spaceSize;
+		
+		delete key;
+		delete val;
+	}
+	
+	if(it.end())
+	{
+		throw ERR_INSUFFICIENT_SPACE;
+	}
+	freeSpacesTree.deleteIterator(it);
+
+	
+	return freeSpaceLst;
 }
 /* -------------------------------------------------------------------------- */
 ID_type AddFreeSpaces(tListSpaces* space)

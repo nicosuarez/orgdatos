@@ -27,7 +27,7 @@ typedef unsigned int ID_type;
 #define ERR_CREATE_PNG_STRUCT_WRITE "No se pudo crear la estructura del png para escritura\n"
 #define ERR_CREATE_PNG_STRUCT_READ "No se pudo crear la estructura del png para lectura\n"
 
-
+#define ERR_INSUFFICIENT_SPACE "No hay espacio suficiente para almacenar el mensaje\n";
 #define ERR_IMAGE_NOT_SUPPORT "Imagen no reconocida "
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "

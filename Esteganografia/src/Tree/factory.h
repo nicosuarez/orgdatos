@@ -90,7 +90,7 @@ class KeyFreeSpace : public Register{
 		
 		virtual Register* duplicate() const{ return new KeyFreeSpace(*this); }
 
-		std::pair<ID_type,unsigned long> getKey()const
+		std::pair<ID_type,unsigned long> GetKey()const
 		{
 			return this->key; 
 		}
@@ -105,7 +105,19 @@ class KeyFreeSpace : public Register{
 
 		bool operator <(const Register& r2)const
 		{
-			return key.second > ((const KeyFreeSpace&)r2).key.second;
+			bool compare = false;
+			if(key.second > ((const KeyFreeSpace&)r2).key.second)
+			{
+				compare = true;
+			}
+			else
+			{
+				if(key.second == ((const KeyFreeSpace&)r2).key.second)
+				{
+					compare = (key.first > ((const KeyFreeSpace&)r2).key.first);
+				}
+			}
+			return compare;
 		}
 
 		virtual std::ostream& toOstream(std::ostream& out)const{
@@ -125,7 +137,7 @@ class KeyFreeSpaceFactory : public RegisterFactory{
 
 		char* operator()(Register& reg,char* data){
 			KeyFreeSpace& akey = dynamic_cast<KeyFreeSpace&>(reg);
-			std::pair<ID_type,unsigned long> key =akey.getKey();
+			std::pair<ID_type,unsigned long> key =akey.GetKey();
 			
 			memcpy(data,(char*)&key, akey.getSize());
 			data+=akey.getSize();
@@ -138,26 +150,47 @@ class KeyFreeSpaceFactory : public RegisterFactory{
 		}
 };
 
-class ValueFreeSpace : public KeyFreeSpace{
+class ValueFreeSpace : public Register{
+
+	protected:
+		std::pair<ID_type,unsigned long> value;
 
 	public:
 		
 		Register* duplicate() const{ return new ValueFreeSpace(*this); }
 		
-		ValueFreeSpace(ID_type imgId, unsigned long position) : KeyFreeSpace(imgId, position){
+		ValueFreeSpace(ID_type imgId, unsigned long position) : value(imgId,position){
 		}
 		
-		ValueFreeSpace(std::pair<ID_type,unsigned long> key ) : KeyFreeSpace(key){
+		ValueFreeSpace(std::pair<ID_type,unsigned long> value ) : value(value){
 			
 		}
-
+		
 		virtual ~ValueFreeSpace(){
 		}
 
+		std::pair<ID_type,unsigned long> GetValue()const
+		{
+			return this->value; 
+		}
+			
+		void setFields(const Register& b2){
+			this->value = ((ValueFreeSpace&)b2).value;
+		}
+
+		unsigned int getSize()const{
+			return (sizeof(std::pair <ID_type,unsigned long>));
+		}
+
+		bool operator <(const Register& r2)const
+		{
+			return true; //No se comparan values.
+		}
+	
 		std::ostream& toOstream(std::ostream& out)const{
 			ValueFreeSpace* k = (ValueFreeSpace*)this;
-			out << "\tImgID = " << k->key.first<< "\n";
-			out << "\tPosition = " << k->key.second<< "\n";
+			out << "\tImgID = " << k->value.first<< "\n";
+			out << "\tPosition = " << k->value.second<< "\n";
 			return out;
 		}
 };
@@ -169,6 +202,16 @@ public:
 		~ValueFreeSpaceFactory(){}
 
 		RegisterFactory* duplicate()const{ return new ValueFreeSpaceFactory(); }
+		
+		char* operator()(Register& reg,char* data){
+			ValueFreeSpace& aVal = dynamic_cast<ValueFreeSpace&>(reg);
+			std::pair<ID_type,unsigned long> val =aVal.GetValue();
+			
+			memcpy(data,(char*)&val, aVal.getSize());
+			data+=aVal.getSize();
+
+			return data;
+		}
 		
 		virtual Register* operator()(char* data){
 			return new ValueFreeSpace(*((std::pair<ID_type,unsigned long>*)data));

@@ -79,6 +79,8 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		fsManager->AddFreeSpaceTree(idFreeSpace,space->GetSize(),imgReg.GetID(),
 								space->GetInitialPosition());
 		
+		fsManager->GetFreeSpaces(300);
+		
 	}
 
 	return imgReg.GetID();
@@ -142,6 +144,13 @@ void ImageManager::AddDirectory(const char* dirPath){
 	RecorreElArbol();
 	cout<<"Ahora empiezo a borrar"<<endl;
 	DeleteDirectory(dirPath);*/
+}
+/* -------------------------------------------------------------------------- */
+const char* ImageManager::GetPathImage(ID_type idImg)
+{
+	ImgRegistry* imgReg = (ImgRegistry*)orgImages.GetRegistry(idImg);
+	string path = orgNamesImages.GetText(imgReg->GetIDImagePath());
+	return path.c_str();
 }
 /* -------------------------------------------------------------------------- */
 void ImageManager::RecorreElArbol(){
