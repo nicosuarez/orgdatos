@@ -29,6 +29,7 @@ typedef unsigned int ID_type;
 
 #define ERR_INSUFFICIENT_SPACE "No hay espacio suficiente para almacenar el mensaje\n";
 #define ERR_IMAGE_NOT_SUPPORT "Imagen no reconocida "
+#define ERR_IMAGE_WITHOUT_CAPACITY "La imagen no tiene capacidad para ocultar un mensaje"
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "
 #define ERR_PATH_NOT_EXIST "El directorio no exite: "
@@ -41,7 +42,7 @@ typedef unsigned int ID_type;
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
 #define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe"
-#define ERR_NOT_EXIST "El mensaje que desea desocultar NO EXISTE"
+#define ERR_MSG_NOT_EXIST "No existe el mensaje"
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
