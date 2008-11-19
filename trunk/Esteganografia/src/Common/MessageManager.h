@@ -38,7 +38,7 @@ public:
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
 
 	/*Elimina un mensaje oculto*/
-	void DeleteMessage(unsigned long messageId);
+	void DeleteMessage(std::string nameMessage);
 
 	/*Devuelve una lista con los distintos espacios en los
 	 * cuales el mensaje esta oculto */

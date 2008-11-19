@@ -29,5 +29,8 @@ void RemoveFile::ShowHelpCommand()
  */
 bool RemoveFile::InternalProcess(tVecStr params)
 {
+	std::string nameMessage = std::string(params[1]);
+	MessageManager *messageManager = MessageManager::GetInstance();
+	messageManager->DeleteMessage(nameMessage);
 	return true;
 }
