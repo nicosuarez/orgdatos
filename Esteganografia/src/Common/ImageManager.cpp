@@ -63,10 +63,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
 			std::cout << ERR_IMAGE_WITHOUT_CAPACITY << ": " << imagePath << std::endl;
 			return 0;
 		}
-		//Se crea el espacio libre.
-		ID_type idFreeSpace = fsManager->AddFreeSpace(space);
-
-		//Guardo el path completo de la imagen.
+				//Guardo el path completo de la imagen.
 		ID_type idPath = orgNamesImages.WriteText(space->GetFilePath());
 
 		//Asignar lista de mensajes
@@ -78,10 +75,9 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		//Guardar Imagen
 		orgImages.WriteRegistry(imgReg);
 
-		//Actualizo el arbol de imagenes.
-		fsManager->AddFreeSpaceTree(idFreeSpace,space->GetSize(),imgReg.GetID(),
-								space->GetInitialPosition());
-
+		//Se crea el espacio libre.
+		space->SetIDImage(imgReg.GetID());
+		fsManager->AddFreeSpace(space);
 	}
 
 	return imgReg.GetID();

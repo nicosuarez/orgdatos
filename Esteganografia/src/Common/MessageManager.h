@@ -32,7 +32,7 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	void Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
+	bool Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
 
 	/*Oculta un mensaje*/
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
@@ -57,7 +57,7 @@ private:
 
 	/*Arbol de Mensajes*/
 	BppTree treeMsg;
-	
+
 	/*Constructor privado*/
 	MessageManager();
 
