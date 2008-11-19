@@ -58,6 +58,11 @@ ID_type ImageManager::AddImage(const char* imagePath){
 	if(image != NULL)
 	{
 		Space* space = image->Load();
+		if( space == NULL )
+		{
+			std::cout << ERR_IMAGE_WITHOUT_CAPACITY << ": " << imagePath << std::endl;
+			return 0;
+		}
 		//Se crea el espacio libre.
 		ID_type idFreeSpace = fsManager->AddFreeSpace(space);
 
@@ -103,8 +108,9 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 		fullPath= fullPath + fileList[i];
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
 		//es una imagen
-		ID_type id =0;
-		AddImage(fullPath.c_str());
+		ID_type id = AddImage(fullPath.c_str());
+		if( id == 0 ) //No se puede agregar la imagen
+			continue;
 		KeyStr keyImg(fullPath);
 		ValueInt valImg(id);
 		this->imgTree.insert(keyImg,valImg);
@@ -326,7 +332,7 @@ void ImageManager::DeleteImage(ID_type id){
 ID_type ImageManager::GetIDImage(const char* path){
 	ID_type ans;
 	KeyStr key(path);
-	if (imgTree.exists(key))
+	if (!imgTree.exists(key))
 		return 0;
 	TreeIterator& it = imgTree.iterator(key);
 	if(!it.end()){

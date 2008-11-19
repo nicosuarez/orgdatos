@@ -23,6 +23,13 @@ Space::Space(string filePath, unsigned long initialPosition, unsigned long size)
 	this->size = size;
 }
 
+Space::Space(ID_type idImg, unsigned long initialPosition, unsigned long size)
+{
+	this->idImg = idImg;
+	this->initialPosition = initialPosition;
+	this->size = size;
+}
+
 Space::Space(string filePath)
 {
 	this->filePath = filePath;
@@ -104,3 +111,18 @@ void Space::SetInitialPosition(unsigned long position)
 	this->initialPosition = position;
 }
 
+/*
+ * Devuelve el id de la imagen a la que pertenece el space
+ */
+ID_type Space::GetIDImage() const
+{
+	return this->idImg;
+}
+
+/*
+ * Setea el id de la imagen a la que pertenece el space
+ */
+void Space::SetIDImage(ID_type idImg)
+{
+	this->idImg = idImg;
+}

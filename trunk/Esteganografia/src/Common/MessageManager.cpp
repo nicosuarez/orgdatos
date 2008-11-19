@@ -34,15 +34,20 @@ void MessageManager::Extract(Message msg,Message msgTarget){
 	TreeIterator& itTree = this->treeMsg.iterator(key);
 	if( itTree.end() )
 	{
-		perror( ERR_NOT_EXIST);
+		perror( ERR_MSG_NOT_EXIST);
 		return;
 	}
 	ValueInt* vInt=dynamic_cast<ValueInt*>(itTree.getValue());
 	idMsg = vInt->getValue();
 	delete vInt;
 	
-	ImgRegistry *imgRegistry = dynamic_cast<ImgRegistry*>(this->orgMsg.GetRegistry( idMsg));
-	ID_type idFirstList = imgRegistry->GetPtrMsgList();
+	MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(this->orgMsg.GetRegistry( idMsg));
+	if( msgRegistry == NULL)
+	{
+		cout << "ERROR, NO SE PUDO LEVANTAR EL REGISTRO" << endl;
+		return;
+	}
+	ID_type idFirstList = msgRegistry->GetPtrImgList();
 	
 	//Obtengo la lista de espacios de las imagenes en donde esta oculto el mensaje
 	std::list<ListRegistry*> *listSpacesImg = this->orgListImages.GetList(idFirstList);
@@ -68,8 +73,8 @@ void MessageManager::Extract(Message msg,Message msgTarget){
 		delete (*it);
 	}
 	delete listSpacesImg;
-	Message m1=EncriptationManager::Decrypt(msg);
-	CompressionManager::Decompress(m1,msgTarget);
+	Message m1=EncriptationManager::Decrypt(msgTarget);
+	CompressionManager::Decompress(m1,msg);
 	if( remove( m1.GetFilePath()) != 0 )
 		perror( ERR_FILE_DELETE );
 }
@@ -77,7 +82,7 @@ void MessageManager::Extract(Message msg,Message msgTarget){
 
 void MessageManager::Hide(Message msg,Message msgTarget){
 	
-	KeyStr k( msgTarget.GetName());
+	KeyStr k( msg.GetName());
 	if( !this->treeMsg.empty() )
 		if( this->treeMsg.exists(k) )
 		{
@@ -164,9 +169,8 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		for( itListImg=listImages->begin(); itListImg != listImages->end(); itListImg++ )
 		{
 			ListImgRegistry* reg = dynamic_cast<ListImgRegistry*>(*itListImg);
-			imageManager->AddMessageToImage( idImage, reg->GetIDImage());
+			imageManager->AddMessageToImage( reg->GetIDImage(), regMsg.GetID());
 			delete reg;
-			delete *itListImg;
 		}
 		delete listImages;
 		
@@ -189,13 +193,42 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 	{
 		cout << e.what() << endl;
 	}
-	
+	cout << this->treeMsg;
 }
 /* -------------------------------------------------------------------------- */
 
 void MessageManager::DeleteMessage(unsigned long messageId)
 {
-
+	MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(orgMsg.GetRegistry(messageId));
+	if( msgRegistry == NULL )
+	{
+		std::cout << ERR_MSG_NOT_EXIST << ": " << messageId << std::endl;
+		return;
+	}
+	//obtengo la lista de imagenes
+	ID_type idFirstList = msgRegistry->GetPtrImgList();
+	std::list<ListRegistry*> *listImg = orgListImages.GetList(idFirstList);
+	std::list<ListRegistry*>::iterator it;
+	ListImgRegistry* listImgRegistry;
+	tListSpaces* listSpaces = new tListSpaces;
+	for( it=listImg->begin(); it != listImg->end(); it++)
+	{
+		listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
+		ID_type idImg = listImgRegistry->GetIDImage();
+		unsigned long offsetImg = listImgRegistry->GetOffsetImg();
+		unsigned long size = listImgRegistry->GetSizePartitionMsg();
+		listSpaces->push_back(new Space(idImg, offsetImg, size));
+		delete (*it);
+	}
+	//Elimino los registros
+	orgListImages.DeleteList(idFirstList);
+	orgMsg.DeleteRegistry(messageId);
+	
+	//Doy de alta los nuevos espacios libres
+	FreeSpaceManager::GetInstance()->AddFreeSpaces(listSpaces);
+	
+	delete msgRegistry;
+	delete listImg;
 }
 /* -------------------------------------------------------------------------- */
 
