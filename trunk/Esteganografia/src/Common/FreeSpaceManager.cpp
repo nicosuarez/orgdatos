@@ -99,6 +99,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	}
 	if(it.end() && (acumSize < imgSize))
 	{
+		freeSpacesTree.deleteIterator(it);
 		throw eFile(ERR_INSUFFICIENT_SPACE);
 	}
 	freeSpacesTree.deleteIterator(it);
