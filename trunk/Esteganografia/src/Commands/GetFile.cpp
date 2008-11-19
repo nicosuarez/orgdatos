@@ -31,6 +31,8 @@ bool GetFile::InternalProcess(tVecStr params)
 {
 	std::string pathMessage = std::string(params[2] + "/" + params[1]);
 	MessageManager *messageManager = MessageManager::GetInstance();
-	messageManager->Extract(pathMessage);
+	bool isOk=messageManager->Extract(pathMessage);
+	if(!isOk)
+		cout<<ERR_MSG_NOT_EXIST;
 	return true;
 }

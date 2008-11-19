@@ -26,21 +26,25 @@ MessageManager::~MessageManager(){
 }
 /* -------------------------------------------------------------------------- */
 
-void MessageManager::Extract(Message msg,Message msgTarget){
+bool MessageManager::Extract(Message msg,Message msgTarget){
 
 	//Busco en el arbol el id del mensaje.
 	if( this->treeMsg.empty() )
 	{
-		std::cout << ERR_MSG_NOT_EXIST << std::endl;
-		return;
+		//std::cout << ERR_MSG_NOT_EXIST << std::endl;
+		return false;
 	}
 	ID_type idMsg;
 	KeyStr key(msg.GetName());
+	if(!treeMsg.exists(key)){
+		//cout <<ERR_MSG_NOT_EXIST;
+		return false;
+	}
 	TreeIterator& itTree = this->treeMsg.iterator(key);
 	if( itTree.end() )
 	{
-		perror( ERR_MSG_NOT_EXIST);
-		return;
+		//perror( ERR_MSG_NOT_EXIST);
+		return false;
 	}
 	ValueInt* vInt=dynamic_cast<ValueInt*>(itTree.getValue());
 	idMsg = vInt->getValue();
@@ -49,8 +53,8 @@ void MessageManager::Extract(Message msg,Message msgTarget){
 	MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(this->orgMsg.GetRegistry( idMsg));
 	if( msgRegistry == NULL)
 	{
-		cout << "ERROR, NO SE PUDO LEVANTAR EL REGISTRO" << endl;
-		return;
+		//cout << "ERROR, NO SE PUDO LEVANTAR EL REGISTRO" << endl;
+		return false;
 	}
 	ID_type idFirstList = msgRegistry->GetPtrImgList();
 
@@ -74,14 +78,16 @@ void MessageManager::Extract(Message msg,Message msgTarget){
 		space = new Space(pathImg, offsetImg, sizePartitionMsg);
 		image = ImageFactory::GetImage(pathImg.c_str());
 		image->Extract(space, &msgTarget);
+		cout<<"listaaaaa"<<endl<<idImg<<"  "<<offsetImg<<"  "<<sizePartitionMsg<<"  "<<sizePartitionMsg<<endl;
 		delete image;
 		delete (*it);
 	}
 	delete listSpacesImg;
 	Message m1=EncriptationManager::Decrypt(msgTarget);
 	CompressionManager::Decompress(m1,msg);
-	if( remove( m1.GetFilePath()) != 0 )
-		perror( ERR_FILE_DELETE );
+	m1.Delete();
+	msgTarget.Delete();
+	return true;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -131,23 +137,24 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 			image->Hide(space, &msgTarget);
 
 			//Obtengo los datos para alamcenar el registro
-			sizeSpace = msgTarget.GetHiddenSize();
+			sizeSpace = space->GetSize();
 			sizeHidden += sizeSpace;
 			idImage = imageManager->GetIDImage(space->GetFilePath());
 
 			//Si el space es el primero de la lista, debo crear una lista en la organizacion lista
 			if( it == spaces->begin() )
 			{
-				ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace );
+				ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize() );
 				this->orgListImages.CreateList(regList);
 				idFirstList = regList.GetID();
 				it++;
 			}
 			else
 			{
-				it++;
+
 				/*Verifico si el ultimo space de la lista fue ocupado por completo.
 				 * Si no se ocupo por completo, calculo el espacio usado*/
+				it++;
 				if( (it == spaces->end()) && (sizeHidden > msgTarget.GetSize()) )
 				{
 					sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize());
@@ -157,6 +164,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 				ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace );
 				this->orgListImages.AddToListLast(regList,idFirstList);
 			}
+			//it++;
 			delete image;
 		}
 
@@ -175,8 +183,12 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		{
 			ListImgRegistry* reg = dynamic_cast<ListImgRegistry*>(*itListImg);
 			imageManager->AddMessageToImage( reg->GetIDImage(), regMsg.GetID());
+			cout<<"Imprimimo registr"<<endl;
+			cout<<reg->GetIDImage()<<" "<<reg->GetOffsetImg()<<" "<<reg->GetSizePartitionMsg()<<endl;
 			delete reg;
 		}
+
+
 		delete listImages;
 
 		//Elimino la lista de espacios libres para liberar memoria
@@ -189,7 +201,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		//Elimino los archivos de mensajes
 		m1.Delete();
 		msgTarget.Delete();
-		//msg.Delete(); TODO: DECOMENTAR CUANDO SE HAYA TERMINADO DE PROBRAR
+		msg.Delete();
 	}
 	catch( eFile &e)
 	{

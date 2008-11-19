@@ -27,7 +27,7 @@ typedef unsigned int ID_type;
 #define ERR_CREATE_PNG_STRUCT_WRITE "No se pudo crear la estructura del png para escritura\n"
 #define ERR_CREATE_PNG_STRUCT_READ "No se pudo crear la estructura del png para lectura\n"
 
-#define ERR_INSUFFICIENT_SPACE "No hay espacio suficiente para almacenar el mensaje\n";
+#define ERR_INSUFFICIENT_SPACE "No hay espacio suficiente para almacenar el mensaje\n"
 #define ERR_IMAGE_NOT_SUPPORT "Imagen no reconocida "
 #define ERR_IMAGE_WITHOUT_CAPACITY "La imagen no tiene capacidad para ocultar un mensaje"
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
@@ -42,7 +42,7 @@ typedef unsigned int ID_type;
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
 #define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe"
-#define ERR_MSG_NOT_EXIST "No existe el mensaje"
+#define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."

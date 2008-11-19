@@ -45,8 +45,10 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	ID_type imgID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
-
+	cout<<freeSpacesTree<< "\n";
 	TreeIterator& it = freeSpacesTree.first();
+	tVecKFreeSpace deleteKeys;
+	tVecNewFreeSpaces addSpaceKeys;
 
 	while(!it.end() && (acumSize < imgSize))
 	{
@@ -68,8 +70,8 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		acumSize += spaceSize;
 
 		//Dar de baja el espacio libre, y dar de alta el nuevo espacio libre sobrante.
-		freeSpacesTree.remove(*key);
-
+		//freeSpacesTree.remove(*key);
+		deleteKeys.push_back(key);
 		if(acumSize <= imgSize)
 		{
 			//Tamano del nuevo espacio libre generado.
@@ -82,38 +84,50 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 			Image* image = ImageFactory::GetImage(pathImg.c_str());
 			unsigned int bitsLsb = image->GetBitsLsb();
 			unsigned long newPosition = position + newFreeSize * (8/bitsLsb);
-			Space * space = new Space(pathImg,EMPTY,newPosition,newSize);
-			AddFreeSpace(space);
-			delete space;
+			Space * newSpace = new Space(pathImg,EMPTY,newPosition,newSize);
+			newSpace->SetIDImage(imgID);
+			addSpaceKeys.push_back(newSpace);
+			//AddFreeSpace(space);
+			//delete space;
 		}
 
 		PrintIteratorValue(it);
 		++it;
 
-		delete key;
+		//delete key;
 		delete val;
 	}
-
 	if(it.end() && (acumSize < imgSize))
 	{
-		throw ERR_INSUFFICIENT_SPACE;
+		throw eFile(ERR_INSUFFICIENT_SPACE);
 	}
 	freeSpacesTree.deleteIterator(it);
+
+	for(unsigned int i=0; i<deleteKeys.size();i++){
+		freeSpacesTree.remove(*(deleteKeys[i]));
+		delete deleteKeys[i];
+	}
+
+	for(unsigned int j=0; j<addSpaceKeys.size();j++){
+		AddFreeSpace(addSpaceKeys[j]);
+		delete addSpaceKeys[j];
+	}
+
 
 	return freeSpaceLst;
 }
 /* -------------------------------------------------------------------------- */
 void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 {
-	//TODO: Ver de obtener el idImg o pasarlo por parametro!!!.
-	ID_type idImg = 0;
+	//TODO: Ver de obtener el idImg o pasarlo por parametro!!!. Setearselo
+	//ID_type idImg = 0;
 
 	itListSpaces it = spacesList->begin();
 	for(it = spacesList->begin(); it != spacesList->end(); it++ )
 	{
 		Space* space = *it;
-		ID_type idFreeSpace = AddFreeSpace(space);
-		AddFreeSpaceTree(idFreeSpace, space->GetSize(), idImg ,space->GetInitialPosition());
+		AddFreeSpace(space);
+		//AddFreeSpaceTree(idFreeSpace, space->GetSize(), idImg ,space->GetInitialPosition());
 
     }
 
@@ -123,11 +137,14 @@ ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 {
 	FreeSpaceRegistry fsReg;
 	orgFreeSpaces.WriteRegistry(fsReg);
+	KeyFreeSpace keyFs(fsReg.GetID(), space->GetSize());
+	ValueFreeSpace valFs(space->GetIDImage(), space->GetInitialPosition());
+	freeSpacesTree.insert(keyFs, valFs);
 
 	return fsReg.GetID();
 }
 /* -------------------------------------------------------------------------- */
-void FreeSpaceManager::AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
+/*void FreeSpaceManager::AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
 			ID_type idImg, unsigned long position)
 {
 	KeyFreeSpace keyFs(idFreeSpace, size);
@@ -135,6 +152,6 @@ void FreeSpaceManager::AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
 	freeSpacesTree.insert(keyFs, valFs);
 
 	cout << freeSpacesTree << "\n";
-}
+}*/
 /* -------------------------------------------------------------------------- */
 
