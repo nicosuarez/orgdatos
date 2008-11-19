@@ -3,7 +3,7 @@
 
 #include "Command.h"
 #include "../Steganographic/ImageFactory.h"
-#include "../Common/ImageManager.h"
+#include "../Common/MessageManager.h"
 #include "../Common/FileSystem.h"
 
 /**

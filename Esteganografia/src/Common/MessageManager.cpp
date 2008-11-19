@@ -29,6 +29,11 @@ MessageManager::~MessageManager(){
 void MessageManager::Extract(Message msg,Message msgTarget){
 	
 	//Busco en el arbol el id del mensaje.
+	if( this->treeMsg.empty() )
+	{
+		std::cout << ERR_MSG_NOT_EXIST << std::endl;
+		return;
+	}
 	ID_type idMsg;
 	KeyStr key(msg.GetName());
 	TreeIterator& itTree = this->treeMsg.iterator(key);
@@ -197,8 +202,17 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 }
 /* -------------------------------------------------------------------------- */
 
-void MessageManager::DeleteMessage(unsigned long messageId)
+void MessageManager::DeleteMessage(std::string nameMessage)
 {
+	KeyStr k(nameMessage);
+	ValueInt *regTree = dynamic_cast<ValueInt*>(treeMsg.find(k));
+	if( regTree == NULL )
+	{
+		std::cout << ERR_MSG_NOT_EXIST << ": " << nameMessage << std::endl;
+		return;
+	}
+	ID_type messageId = regTree->getValue();
+	delete regTree;
 	MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(orgMsg.GetRegistry(messageId));
 	if( msgRegistry == NULL )
 	{
@@ -223,7 +237,8 @@ void MessageManager::DeleteMessage(unsigned long messageId)
 	//Elimino los registros
 	orgListImages.DeleteList(idFirstList);
 	orgMsg.DeleteRegistry(messageId);
-	
+	treeMsg.remove(k);
+	cout << treeMsg << endl;
 	//Doy de alta los nuevos espacios libres
 	FreeSpaceManager::GetInstance()->AddFreeSpaces(listSpaces);
 	
