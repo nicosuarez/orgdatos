@@ -26,13 +26,14 @@ Space* Bmp::Load()
 	Space *space = NULL;
 	if( file.bad() )
 	{
-		cout << ERR_FILE_OPEN << this->filePath << endl; 
+		cout << ERR_FILE_OPEN << this->filePath << endl;
 		return NULL;
 	}
 	file.seekg(14);
 	file.read((char*)&bmpInfoHeader,sizeof(bmpInfoHeader));
 	file.seekg(0, ios::end);
 	spaceTotal = file.tellg();
+	spaceTotal-=STARTBYTE;
 	switch( bmpInfoHeader.biBitCount)
 	{
 		case 1:
@@ -62,7 +63,7 @@ Space* Bmp::Load()
 	if( spaceTotal > 0)
 		space = new Space(filePath, BmpFileType, STARTBYTE, spaceTotal);
 	file.close();
-	return space;	
+	return space;
 }
 
 /**
@@ -71,18 +72,18 @@ Space* Bmp::Load()
  */
 void Bmp::Extract(Space* space, Message* msg)
 {
-	long spaceSize = space->GetSize(); 
+	long spaceSize = space->GetSize();
 	fstream fin(space->GetFilePath(), ios::in | ios::binary);
 	fstream fdata(msg->GetFilePath(),ios::out | ios::binary | ios::app);
 	long extractBytes = 0;
 
 	fin.seekg(space->GetInitialPosition());
-	
+
 	while(extractBytes < spaceSize)
 	{
 		extractBytes += this->LsbExtract(fin, fdata);
 	}
-	
+
 	fin.close();
 	fdata.close();
 }
@@ -90,16 +91,16 @@ void Bmp::Extract(Space* space, Message* msg)
 long Bmp::LsbExtract(fstream& fin, fstream& fdata)
 {
 	UBYTE imgByte, dataByte;
-	
+
 	//Se utiliza LSB de 1 bit.
 	for(int k=0;k<8;k++)
 	{
 		fin.read(&imgByte,sizeof(UBYTE));
 		dataByte = (dataByte & ~ (1<<(7-k))) | ((imgByte & 1)<<(7-k));
 	}
-	fdata.write(&dataByte,sizeof(UBYTE));	
-	
-	return 8;
+	fdata.write(&dataByte,sizeof(UBYTE));
+
+	return 1;
 }
 
 ImageColor Bmp::ImageInfo(const char* filePath)
@@ -107,7 +108,7 @@ ImageColor Bmp::ImageInfo(const char* filePath)
 	BmpInfoHeader bmpInfoHeader;
 	fstream fin(filePath);
 	ImageColor color = LowColor;
-	
+
 	if(fin.bad())
 	{
 		cout << ERR_FILE_OPEN << filePath << "\n";
@@ -116,7 +117,7 @@ ImageColor Bmp::ImageInfo(const char* filePath)
 
 	fin.seekg(14);
 	fin.read((char*)&bmpInfoHeader,sizeof(bmpInfoHeader));
-	
+
 	cout << "Size of " << filePath << " = " << bmpInfoHeader.biSizeImage/1024 << "KB\n";
 	cout << "Width of Bitmap File = " << bmpInfoHeader.biWidth << "\n";
 	cout << "Height of Bitmap File = " << bmpInfoHeader.biHeight << "\n";
@@ -147,12 +148,12 @@ ImageColor Bmp::ImageInfo(const char* filePath)
 			break;
 		}
 	}
-	
+
 	if(bmpInfoHeader.biCompression != 0)
 		cout << "BitMap File <"<< filePath << "> is Compressed\n";
 	else
 		cout << "BitMap File <"<< filePath << "> is UnCompressed\n";
-	
+
 	fin.close();
 	return color;
 }
@@ -163,7 +164,7 @@ bool Bmp::ValidateFormat(const char *filePath)
 	string format;
 	string header(BmpFileType);
 	bool isValid = false;
-    
+
 	if(fin.good())
 	{
 		fin >> format;
@@ -187,15 +188,15 @@ bool Bmp::ValidateFormat(const char *filePath)
  */
 void Bmp::Hide(Space* space, Message* msg)
 {
-	long spaceSize = space->GetSize(); 
-	fstream fin(space->GetFilePath(), ios::binary | ios::in | ios::out ); 
+	long spaceSize = space->GetSize();
+	fstream fin(space->GetFilePath(), ios::binary | ios::in | ios::out );
 	fstream fdata(msg->GetFilePath() , ios::binary | ios::in);
 	UBYTE dataByte;
-	long hideBytes = 0;
-	
+	long hideBytes = -1;
+
 	fdata.seekg(msg->GetHiddenSize());
 	fin.seekg(space->GetInitialPosition());
-	
+
 	while(!fdata.eof() && (hideBytes < spaceSize))
 	{
 		fdata.read(&dataByte,sizeof(UBYTE));
@@ -203,7 +204,7 @@ void Bmp::Hide(Space* space, Message* msg)
 		hideBytes++;
 	}
 	msg->IncHiddenSize(hideBytes);
-	
+
 	fin.close();
 	fdata.close();
 }
@@ -212,7 +213,7 @@ void Bmp::LsbHide(UBYTE dataByte,fstream& fin)
 {
 	long pos = 0;
 	UBYTE imgByte;
-	
+
 	//Se utiliza LSB de 1 bit.
 	for(int k=0;k<8;k++)
 	{
@@ -220,6 +221,6 @@ void Bmp::LsbHide(UBYTE dataByte,fstream& fin)
 		fin.read(&imgByte,sizeof(UBYTE));
 		imgByte = (imgByte & ~1) | ((dataByte>>(7-k))&1);
 		fin.seekp(pos);
-		fin.write(&imgByte,sizeof(UBYTE));			
+		fin.write(&imgByte,sizeof(UBYTE));
 	}
 }

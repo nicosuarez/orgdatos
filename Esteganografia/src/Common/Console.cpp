@@ -15,8 +15,11 @@ int Console::Run(int argc,char* argv[])
 	bool isUser=false;
 	string cmd;
 	if (PasswordManager::ValidatePassword()){
-		if(ValidatePassword())
+		pair<bool, tVecStr> valPass=ValidatePassword();
+		if(valPass.first)
 			isUser=true;
+		else
+			PasswordManager::writeIntruder(valPass.second);
 	}else{
 		/*PEDIR PASS Y CREAR TODAS LAS ESTRUCTURAS*/
 		Message pass;
@@ -89,19 +92,21 @@ bool Console::InsertNewPassword(Message& msg){
 	if (!esValido)
 		return false;
 	msg.SetFilePath(CONSOLE_TEMPORARY_FILE);
-	PasswordManager::InsertNewPassword(pass1,msg);
+	PasswordManager::stringToMsg(pass1,msg);
 	return true;
 }
 
 /**
  * Se valida el pass ingresado, tiene tantos intentos como la variables
  * cantIntentosPass indique.
+ * Devuel si true si ingreso el pass correcto sino false y ademas los intentos hechos
  */
-bool Console::ValidatePassword()
+pair<bool,tVecStr> Console::ValidatePassword()
 {
-	bool esValido=false;
+	pair<bool,tVecStr> ans;
+	ans.first=false;
 	int intentos=0;
-	while(!esValido && intentos < cantIntentosPass)
+	while(!ans.first && intentos < cantIntentosPass)
 	{
 		string pass;
 		cout << MSG_INPUT_PASSWORD << "(" << (intentos+1) << "/"<< cantIntentosPass << ")\n" << flush;
@@ -109,12 +114,14 @@ bool Console::ValidatePassword()
 
 		//TODO: LLAMAR A LA VALIDACION POSTA.
 		if (PasswordManager::IsCorrectPass(pass))
-			esValido=true;
-		else
+			ans.first=true;
+		else{
 			cout << ERR_INCORRECT_PASSWORD << "\n" << flush;
+			(ans.second).push_back(pass);
+		}
 		intentos++;
 	}
-	return esValido;
+	return ans;
 }
 
 

@@ -1,4 +1,6 @@
 #include "ChangePassword.h"
+#include "../Common/Console.h"
+#include "../Common/PasswordManager.h"
 
 using namespace std;
 
@@ -29,5 +31,12 @@ void ChangePassword::ShowHelpCommand()
  */
 bool ChangePassword::InternalProcess(tVecStr params)
 {
+	string oldPass=params[1];
+	string newPass=params[2];
+	bool isOk=PasswordManager::ChangePass(oldPass,newPass);
+	if (!isOk)
+		cout<<CHANGE_PASS_WRONG_PASS<< "\n";
+	else
+		cout<<CHANGE_PASS_ACCEPTED<< "\n";
 	return true;
 }

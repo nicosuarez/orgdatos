@@ -28,9 +28,10 @@ bool PasswordManager::ValidatePassword(){
 		return false; //Si no existe devuelve false
 	fpImg.close();
 	Date datePass=Date::getDate(PATH_PASS_FILE);
-	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	fImg.Open(ExtensibleRelativeFile::READ);
-	ImgRegistry* reg=(ImgRegistry*)fImg.Read(1);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	//fImg.Open(ExtensibleRelativeFile::READ);
+	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
+	//fImg.close();
 	if (reg->GetDate()==datePass){
 		delete reg;
 		ans=true;
@@ -41,7 +42,7 @@ bool PasswordManager::ValidatePassword(){
 	return ans;
 }
 
-void PasswordManager::InsertNewPassword(string pass,Message msg){
+void PasswordManager::stringToMsg(string pass,Message msg){
 	ofstream fp(msg.GetFilePath(),ios::out|ios::trunc);
 	fp.write(pass.c_str(),sizeof(char)*pass.length());
 	fp.close();
@@ -62,27 +63,86 @@ bool PasswordManager::IsCorrectPass(const std::string& st){
 	string aux=pass;
 	pass[size]='\0';
 	aux=pass;
+	if( remove( truePass.GetFilePath()) != 0 )
+		    perror( "Error deleting file" );
 	return (!strcmp(pass,st.c_str()));
 }
 
-Message PasswordManager::Extract(Message msg,Message msgTarget){
+Message PasswordManager::Extract(const Message& msg,const Message& msgTarget){
 	Message m1=EncriptationManager::Decrypt(msg);
 	CompressionManager::Decompress(m1,msgTarget);
 	return msgTarget;
 }
 
-void PasswordManager::Hide(Message msg,Message msgTarget){
+void PasswordManager::Hide(const Message& msg,const Message& msgTarget){
 	Message m1=CompressionManager::Compress(msg);
 	EncriptationManager::Encrypt(m1,msgTarget);
 }
 
-void PasswordManager::CreatePass(const Message& msg){
+void PasswordManager::CreatePass(const Message& msg,short mode){
 	PasswordManager::Hide(msg,Message(PATH_PASS_FILE));
-	ImgRegistry reg;
-	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	ImgRegistry* reg;
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	//fImg.Open(ExtensibleRelativeFile::READ_WRITE);
 	Date datePass=Date::getDate(PATH_PASS_FILE);
-	reg.SetDate(datePass);
-	fImg.Open(ExtensibleRelativeFile::WRITE);
-	fImg.Write(reg);
-	fImg.Close();
+	if (mode==PasswordManager::CHANGE){
+		reg=dynamic_cast<ImgRegistry*>(fImg.GetRegistry(1));
+		reg->SetDate(datePass);
+		reg->SetIDImagePath(0);
+		fImg.UpdateRegistry(*reg);
+	}else{
+		reg=new ImgRegistry;
+		reg->SetDate(datePass);
+		fImg.WriteRegistry(*reg);
+	}
+//	fImg.Close();
+	delete reg;
+}
+
+void PasswordManager::writeIntruder(tVecStr vStr){
+	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
+	string aux="basura";
+	Message msg(PATH_PASS_TEMP);
+	stringToMsg(aux,msg);
+	Date date=Date::getDate(msg.GetFilePath());
+	msg.Delete();
+	string toWrite=date.toString();
+	for(unsigned int i=0;i<vStr.size();i++)
+		toWrite=toWrite+vStr[i];
+	text.WriteText(toWrite);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	//fImg.Open(ExtensibleRelativeFile::READ_WRITE);
+	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
+	reg->SetIDImagePath(reg->GetIDImagePath()+1);
+	fImg.UpdateRegistry(*reg);
+
+	delete reg;
+	//fImg.close();
+}
+
+tVecStr PasswordManager::getIntruders(){
+	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
+	tVecStr ans;
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
+	for(unsigned int i=1;i<=reg->GetIDImagePath();i++)
+		ans.push_back(text.GetText(i) );
+	reg->SetIDImagePath(0);
+	fImg.WriteRegistry(*reg);
+	text.Destroy();
+	delete reg;
+	return ans;
+}
+
+bool PasswordManager::ChangePass(const string& oldPass,const string& newPass){
+	bool ans=false;
+	bool isOk=IsCorrectPass(oldPass);
+	if (isOk){
+		Message msg(PATH_PASS_TEMP);
+		stringToMsg(newPass,msg);
+		CreatePass(msg,PasswordManager::CHANGE);
+		msg.Delete();
+		ans=true;
+	}
+	return ans;
 }
