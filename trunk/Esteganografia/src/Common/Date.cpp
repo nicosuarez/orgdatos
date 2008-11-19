@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
+using namespace std;
 Date::Date(unsigned int  year,unsigned int month,unsigned int day,unsigned int hour,
 		unsigned int min,unsigned int seg){
 	this->year=year;
@@ -29,6 +30,14 @@ unsigned int Date::getHour() const{return this->hour;}
 unsigned int Date::getMin() const{return this->min;}
 unsigned int Date::getSeg() const{return this->seg;}
 unsigned int Date::getSize() const{return (sizeof(unsigned int)*6);}
+string Date::toString() const{
+	string ans=string(reinterpret_cast<char*>(this->year))+string(reinterpret_cast<char*>(this->month));
+	ans=ans+string(reinterpret_cast<char*>(this->day));
+	ans=ans+string(reinterpret_cast<char*>(this->hour));
+	ans=ans+string(reinterpret_cast<char*>(this->min));
+	ans=ans+string(reinterpret_cast<char*>(this->seg));
+	return ans;
+}
 
 Date Date::getDate(const char* file){
 	//Extraigo fecha

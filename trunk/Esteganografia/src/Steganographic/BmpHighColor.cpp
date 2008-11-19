@@ -24,16 +24,16 @@ BmpHighColor::~BmpHighColor(){
 long BmpHighColor::LsbExtract(fstream& fin, fstream& fdata)
 {
 	UBYTE imgByte, dataByte;
-		
+
 	//Se utiliza LSB de 2 bits.
 	for(int k=0;k<4;k++)
 	{
 		fin.read(&imgByte,sizeof(UBYTE));
 		dataByte = (dataByte & ~ (3<<(6-(2*k)))) | ((imgByte & 3)<<(6-(2*k)));
 	}
-	fdata.write(&dataByte,sizeof(UBYTE));	
-	
-	return 4;
+	fdata.write(&dataByte,sizeof(UBYTE));
+
+	return 1;
 }
 
 
@@ -45,7 +45,7 @@ void BmpHighColor::LsbHide(UBYTE dataByte,fstream& fin)
 {
 	long pos = 0;
 	UBYTE imgByte;
-	
+
 	//Se utiliza LSB de 2 bits.
 	for(int k=0;k<4;k++)
 	{
@@ -53,6 +53,6 @@ void BmpHighColor::LsbHide(UBYTE dataByte,fstream& fin)
 		fin.read(&imgByte,sizeof(UBYTE));
 		imgByte = (imgByte & ~3) | ((dataByte>>(6-2*k))&3);
 		fin.seekp(pos);
-		fin.write(&imgByte,sizeof(UBYTE));			
+		fin.write(&imgByte,sizeof(UBYTE));
 	}
 }

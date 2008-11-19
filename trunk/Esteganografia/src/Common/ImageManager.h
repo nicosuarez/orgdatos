@@ -11,6 +11,7 @@
 #include "CImg.h"
 #include "../Steganographic/Image.h"
 #include <list>
+#include <string>
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
 #include "../DataAccess/Organizations/OrgList.h"
 #include "../DataAccess/Organizations/OrgText.h"
@@ -37,8 +38,8 @@ class ImageManager
 	static ImageManager* GetInstance();
 
 	/* Devuelve el path de la imagen */
-	const char* GetPathImage(ID_type idImg);
-	
+	std::string GetPathImage(ID_type idImg);
+
 	/**
 	 * Cargar el imgtree y el dirTree con todos los subdirectorios
 	 * y los archivos aceptados por el programa

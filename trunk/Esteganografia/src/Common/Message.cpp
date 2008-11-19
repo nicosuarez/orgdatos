@@ -93,3 +93,8 @@ unsigned long Message:: GetId() const
 {
 	return this->messageID;
 }
+
+void Message::Delete(){
+	if( remove( filePath.c_str()) != 0 )
+		perror( "Error deleting file" );
+}

@@ -14,12 +14,16 @@
 #define PATH_NAMES_IMG_PATHFILE "./Files/"
 #define PATH_NAMES_MSG_FILE "./Files/NamesMsg.dat"
 
+/*----------------Password--------------*/
+#define PATH_INTRUDER "./Files/"
+#define FILE_INTRUDER "intruders.dat"
+
 /*----------------CompresionManager--------------*/
-#define PATH_TARGET_DESCOMPRESS_CM "./Files/rchTemp2.dat"
-#define PATH_TARGET_COMPRESS_CM "./Files/ans.txt"
+#define PATH_TARGET_DESCOMPRESS_CM "./Files/rchTemp2.txt"
+#define PATH_TARGET_COMPRESS_CM "./Files/ans.dat"
 /*---------------------------------------------------*/
 /*----------------ENCRIPTERMANAGER--------------*/
-#define PATH_TARGET_ENCRYPT_EM "./Files/ansEncrypt.txt"
+#define PATH_TARGET_ENCRYPT_EM "./Files/ansEncrypt.dat"
 #define PATH_TARGET_DECRYPT_EM "./Files/ansDecrypt.dat"
 
 /*----------------TREE--------------*/
@@ -30,6 +34,9 @@
 
 /*----------------CONSOLE--------------*/
 #define CONSOLE_TEMPORARY_FILE "./Files/temporaryFileConsole.txt"
+
+/*----------------IMAGEMANAGER--------------*/
+#define END_DIRECTORY "._@"
 
 #endif /*__CONSTANT__H_*/
 

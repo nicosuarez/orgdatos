@@ -93,11 +93,11 @@ ID_type ImageManager::AddImage(const char* imagePath){
  */
 tVecStr ImageManager::AddDirectory(const char* dirPath){
 	tVecStr ans;
-	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string strdir=string(dirPath)+ "/";
 	KeyStr kDirDir(strdir);
-	strdir=strdir+".@";
+	strdir=strdir+END_DIRECTORY;
 	KeyStr kDir(strdir);
 	ValueInt vDir(0);
 	ValueNull vNull;
@@ -114,7 +114,7 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 		KeyStr keyImg(fullPath);
 		ValueInt valImg(id);
 		this->imgTree.insert(keyImg,valImg);
-		std::cout << fullPath << std::endl;
+		//std::cout << fullPath << std::endl;
 	}
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
 	for(size_t j=0; j<dirList.size();j++){
@@ -123,8 +123,8 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 		ans.push_back(strdir);
 		strdir= strdir+"/";
 		KeyStr kSubDirTreeDir(strdir);
-		strdir= strdir+".@";
-		std::cout << strdir << std::endl;
+		strdir= strdir+END_DIRECTORY;
+		//std::cout << strdir << std::endl;
 		KeyStr kSubDir(strdir);
 		ValueInt vSubDir(0);
 		imgTree.insert(kSubDir,vSubDir);
@@ -142,18 +142,18 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 	DeleteDirectory(dirPath);*/
 }
 /* -------------------------------------------------------------------------- */
-const char* ImageManager::GetPathImage(ID_type idImg)
+string ImageManager::GetPathImage(ID_type idImg)
 {
 	ImgRegistry* imgReg = (ImgRegistry*)orgImages.GetRegistry(idImg);
 	if(imgReg == NULL )
 		return NULL;
 	string path = orgNamesImages.GetText(imgReg->GetIDImagePath());
-	return path.c_str();
+	return path;
 }
 /* -------------------------------------------------------------------------- */
 void ImageManager::RecorreElArbol(){
 	KeyStr kDir("");
-	TreeIterator& it = dirTree.iterator(kDir);
+	TreeIterator& it = imgTree.first();
 	while (!it.end()){
 		KeyStr* kStr=(KeyStr*)it.getKey();
 		string pathFile=(kStr->getKey());
@@ -166,41 +166,50 @@ void ImageManager::RecorreElArbol(){
 
 tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
-	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
-	KeyStr kDir(dirPath);
-	vector<KeyStr> vkStr;
-	vector<KeyStr> vkDir;
+	string dir=string (dirPath) +"/";
+	KeyStr kDirDir(dir);
+	dir=dir+END_DIRECTORY;
+	KeyStr kDir(dir.c_str());
+	vector<string> vkFile;
+	vector<string> vkDir;
 	tVecStr ans;
-	if (imgTree.empty())
+	if ( (dirTree.empty()) || (!dirTree.exists(kDirDir)))
 		return ans;
+	RecorreElArbol();
 	TreeIterator& it = imgTree.iterator(kDir);
 	while ((!it.end())&&(end==false)){
-		KeyStr* kStr=(KeyStr*)it.getKey();
+		KeyStr* kStr=dynamic_cast<KeyStr*>(it.getKey());
 		string pathFile=(kStr->getKey());
 		tVecStr tokens=StrToken::getStrTokens(pathFile,"/");
-		if (!(strcmp(tokens[tokens.size()-1].c_str(),".@")) ){
+		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) ){
 			ValueInt* vInt=(ValueInt*)it.getValue();
 			DeleteImage(vInt->getValue());
-			vkStr.push_back(*kStr);
+			vkFile.push_back(kStr->getKey());
 			delete vInt;
 		}else if ((tokens.size()-tokensDir.size()>0)||(strcmp(dirPath,pathFile.c_str())==0)){
 			ans.push_back(kStr->getKey());
-			vkDir.push_back(*kStr);
+			vkDir.push_back(kStr->getKey());
 		}
 		else
 			end=true;
-
 		delete kStr;
 		++it;
 	}
-	for(unsigned int u=0;u<vkStr.size();u++)
-		imgTree.remove(vkStr[u]);
 	for(unsigned int u=0;u<vkDir.size();u++){
-		imgTree.remove(vkDir[u]);
-		dirTree.remove(vkDir[u]);
+		KeyStr key(vkDir[u]);
+		string dirImg=vkDir[u]+END_DIRECTORY;
+		KeyStr keyImg(dirImg);
+		imgTree.remove(keyImg);
+		dirTree.remove(key);
 	}
-	//TestDirectory(dirPath);
+	for(unsigned int u=0;u<vkFile.size();u++){
+		string k=vkFile[u];
+		KeyStr key(k);
+		imgTree.remove(key);
+	}
+
 	return ans;
 }
 

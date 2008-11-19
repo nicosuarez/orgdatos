@@ -12,8 +12,8 @@
 class ChangePassword : public Command
 {
 private:
-	static const int numParams = 2;
-	
+	static const int numParams = 3;
+
 public:
 	ChangePassword(std::string cmd);
 	ChangePassword();
@@ -22,7 +22,7 @@ public:
 	unsigned int GetNumParams(){return numParams;};
 	bool InternalProcess(tVecStr params);
 	void ShowHelpCommand();
-	
+
 	static std::string GetName(){return CMD_CHANGE_PASSWORD;}
 };
 

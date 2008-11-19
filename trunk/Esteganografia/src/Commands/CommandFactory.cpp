@@ -8,7 +8,7 @@ bool CommandFactory::IsQuitCommand(string cmd)
 	tVecStr params = StrToken::getStrTokens(cmd," ");
 
 	if(params.size()==1)
-	{	
+	{
 		if(params[0] == CMD_QUIT)
 			return true;
 	}
@@ -57,7 +57,7 @@ bool CommandFactory::IsShowDirectoriesCommand(string cmd)
 
 bool CommandFactory::IsChangePasswordCommand(string cmd)
 {
-	return (cmd == CMD_SHOW_DIRECTORIES);
+	return (cmd == CMD_CHANGE_PASSWORD);
 }
 
 void CommandFactory::ShowCommandNotExistMsg()
@@ -74,7 +74,7 @@ Command* CommandFactory::CreateCommand(string cmd)
 		cmdName = params[0];
 		StrToken::toLowerString(cmdName);
 	}
-	
+
 	if (CommandFactory::IsAddDirectoryCommand(cmdName))
 		return new AddDirectory(cmd);
 	else if (CommandFactory::IsRemoveDirectoryCommand(cmdName))
@@ -97,7 +97,7 @@ Command* CommandFactory::CreateCommand(string cmd)
 		return NULL;
 	else
 		ShowCommandNotExistMsg();
-		
+
 	return NULL;
 }
 

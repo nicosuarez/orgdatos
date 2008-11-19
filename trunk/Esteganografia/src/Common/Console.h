@@ -17,11 +17,11 @@ static const int cantIntentosPass = 3;
 
 public:
 	static int Run(int argc,char* argv[]);
-
+	static bool InsertNewPassword(Message& msg);
 private:
 	//static bool ExistPassword();
 	//static bool IsCorrectPass(const std::string& st);
-	static bool ValidatePassword();
+	static pair<bool,tVecStr> ValidatePassword();
 	static std::string GetInputPassword();
 	static void ShowInitialMessage();
 	static void ReadCommand(std::string& cmd);
@@ -29,7 +29,6 @@ private:
 	static char* Generator(const char* text, int state) ;
 	static tVecStr GetAllCommands();
 	static char * StrToChar (std::string str);
-	static bool InsertNewPassword(Message& msg);
 //	static void *Xmalloc (int);
 	static const string temporaryFile;
 

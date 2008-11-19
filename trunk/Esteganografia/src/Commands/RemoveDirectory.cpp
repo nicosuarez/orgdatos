@@ -31,8 +31,9 @@ void RemoveDirectory::ShowHelpCommand()
  */
 bool RemoveDirectory::InternalProcess(tVecStr params)
 {
+	string path = params[1];
 	ImageManager* img=ImageManager::GetInstance();
-	tVecStr lDir=img->DeleteDirectory(cmd.c_str());
+	tVecStr lDir=img->DeleteDirectory(path.c_str());
 	if (lDir.size()>0)
 		cout<<FIRST_MSG_REMOVE_DIRECTORY<<"\n";
 	for (unsigned int i=0;i<lDir.size();i++){

@@ -72,6 +72,8 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente."
 
+#define FAIL_MSG_REMOVE_DIRECTORY "El directorio no existe."
+
 #define FIRST_MSG_ADD_DIRECTORY "Los siguientes Directorios han sido dados de alta exitosamente."
 
 #define HLP_ADD_FILE "\
@@ -100,6 +102,10 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 	Modifica el password de ingreso."
 
 #define MSGCORRUPT_PASS "Password corrupta"
+
+#define CHANGE_PASS_ACCEPTED "La password ha sido modificada correctamente"
+
+#define CHANGE_PASS_WRONG_PASS "la password vieja no es correcta"
 
 
 

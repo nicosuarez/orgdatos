@@ -31,7 +31,7 @@ public:
 
 	/*Devuelve el id del mensaje*/
 	unsigned long GetId() const;
-	
+
 	/*Devuelve el nombre del mensaje*/
 	const char* GetName() const;
 
@@ -48,6 +48,9 @@ public:
 
 	/*Setea un nuevo id al mensaje*/
 	void SetId(unsigned long newId);
+
+	/*Elimina el mensaje*/
+	void Delete();
 
 
 private:

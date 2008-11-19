@@ -139,7 +139,7 @@ void FileSystem::CreateStruture(const Message& pass){
 	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
 	fImg.Create(reg.GetSize());
 
-	PasswordManager::CreatePass(pass);
+	PasswordManager::CreatePass(pass,PasswordManager::NEW);
 }
 /* -------------------------------------------------------------------------- */
 
