@@ -111,6 +111,9 @@ private:
 	//Borra la imagen y sus mensajes
 	void DeleteImage(ID_type id);
 
+	//Le quita al string lo que la identica como directorio
+	void TransformKeyImgToKeyDir(std::string& str);
+
 	//Agrega al Arbol el dir y ademas todo los subdir
 	void AddSubDirectory(const char* dir);
 
