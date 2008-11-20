@@ -41,9 +41,9 @@ int Console::Run(int argc,char* argv[])
 			ReadCommand(cmd);
 			Command* command = CommandFactory::CreateCommand(cmd);
 			if(command != NULL)
-			{
-			command->Run(cmd);
-			delete command;
+			{ 
+				command->Run(cmd);
+				delete command;
 			}
 		}
 	}

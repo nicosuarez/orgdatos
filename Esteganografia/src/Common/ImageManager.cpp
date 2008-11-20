@@ -39,7 +39,7 @@ ImageManager* ImageManager::GetInstance()
 
 ImageManager::~ImageManager()
 {
-	delete instance;
+//	delete instance;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -244,7 +244,6 @@ tVecStr ImageManager::GetAllDirectories(){
 			delete key;
 			++it;
 		}
-		dirTree.deleteIterator(it);
 		//dirList.sort();
 		/*
 		 * Se eliminan los directorios repetidos
@@ -256,6 +255,7 @@ tVecStr ImageManager::GetAllDirectories(){
 			ans.push_back ( *itList );
 
 		dirList.clear();
+		dirTree.deleteIterator(it);
 	}
 	return ans;
 }

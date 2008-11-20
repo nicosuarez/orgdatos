@@ -34,5 +34,7 @@ bool GetFile::InternalProcess(tVecStr params)
 	bool isOk=messageManager->Extract(pathMessage);
 	if(!isOk)
 		cout<<ERR_MSG_NOT_EXIST;
+	else
+		cout<< MSG_EXTARCT_SUCCESS;
 	return true;
 }
