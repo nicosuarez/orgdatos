@@ -201,7 +201,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		//Elimino los archivos de mensajes
 		m1.Delete();
 		msgTarget.Delete();
-		msg.Delete();
+//		msg.Delete();
 	}
 	catch( eFile &e)
 	{
@@ -262,3 +262,24 @@ list<Space> MessageManager::GetFullSpaces(unsigned long messageId)
 	return lista;
 }
 /* -------------------------------------------------------------------------- */
+
+void MessageManager::ShowMessage()
+{
+	if(treeMsg.empty())
+	{
+		std::cout << ERR_MSG_EMPTY;
+		return;
+	}
+	TreeIterator &it = treeMsg.first();
+	
+	std::cout << std::endl; 
+	while( !it.end() )
+	{
+		std::pair<Register*,Register*>keyval= *it;
+		KeyStr* key = dynamic_cast<KeyStr*>(keyval.first);
+		std::cout << CIRCLE << " " << key->getKey() << std::endl;
+		delete key;
+		++it;
+	}
+	treeMsg.deleteIterator(it);
+}

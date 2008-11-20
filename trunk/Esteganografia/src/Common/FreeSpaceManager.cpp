@@ -45,7 +45,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	ID_type imgID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
-	cout<<freeSpacesTree<< "\n";
+//	cout<<freeSpacesTree<< "\n";
 	TreeIterator& it = freeSpacesTree.first();
 	tVecKFreeSpace deleteKeys;
 	tVecNewFreeSpaces addSpaceKeys;
@@ -91,7 +91,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 			//delete space;
 		}
 
-		PrintIteratorValue(it);
+//		PrintIteratorValue(it);
 		++it;
 
 		//delete key;

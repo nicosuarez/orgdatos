@@ -9,6 +9,7 @@ typedef unsigned int ID_type;
 #define EXT_PNG ".png"
 #define EXT_GIF ".gif"
 
+
 #define CMD_QUIT "quit"
 #define CMD_ADD_DIRECTORY "adddirectory"
 #define CMD_REMOVE_DIRECTORY "removedirectory"
@@ -20,6 +21,7 @@ typedef unsigned int ID_type;
 #define CMD_SHOW_DIRECTORIES "showdirectories"
 #define CMD_CHANGE_PASSWORD "changepassword"
 
+#define ADDING_FILE "Agregando... "
 #define ERR_INCORRECT_FORMAT_PNG "Formato PNG incorrecto.\n"
 #define ERR_CREATE_IMAGE_PNG "No se pudo almacenar los datos de la imagen.\n"
 #define ERR_VALIDATE_PNG_FORMAT "El formato png produjo un error del tipo de entrada/salida.\n"
@@ -43,12 +45,13 @@ typedef unsigned int ID_type;
 #define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe"
 #define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
+#define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
 #define MSG_INITIAL_PROGRAM "\n\
 //////////////////////////////////////////////////////////////////////\n\
-//                  Bienvenido a Esteganografia v1.0                //\n\
+//                    Bienvenido a DataSafe v1.0                    //\n\
 //////////////////////////////////////////////////////////////////////\n\
 \nIngrese un comando: (Para la ayuda ingrese: help)\n"
 #define ERR_PARAMS_SIZE_INCORRECT "\
@@ -80,7 +83,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define FAIL_MSG_REMOVE_DIRECTORY "El directorio no existe."
 
-#define FIRST_MSG_ADD_DIRECTORY "Los siguientes Directorios han sido dados de alta exitosamente."
+#define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
 
 #define HLP_ADD_FILE "\
 	●   addFile <nombre_archivo> \n \t \

@@ -784,11 +784,11 @@ void TestAddDirectory(){
 
 int main(int argc, char *argv[])
 {
-	testCompresion();
+	//testCompresion();
 	//testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-//	testConsole(argc, argv);
+	testConsole(argc, argv);
 //	TestCheckErasedImagesFromPath();
 //	TestCheckErasedImagesFromAllDirectories();
 	return EXIT_SUCCESS;

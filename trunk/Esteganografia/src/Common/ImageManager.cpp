@@ -89,7 +89,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
  */
 tVecStr ImageManager::AddDirectory(const char* dirPath){
 	tVecStr ans;
-	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
+	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string strdir=string(dirPath)+ "/";
 	KeyStr kDirDir(strdir);
@@ -99,18 +99,19 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 	ValueNull vNull;
 	dirTree.insert(kDirDir,vNull);
 	imgTree.insert(kDir,vDir);
+	std::cout << std::endl;
 	for(size_t i=0; i<fileList.size();i++){
 		string fullPath =string(dirPath)+ "/";
 		fullPath= fullPath + fileList[i];
 		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
 		//es una imagen
+		std::cout << ADDING_FILE << fullPath << std::endl;
 		ID_type id = AddImage(fullPath.c_str());
 		if( id == 0 ) //No se puede agregar la imagen
 			continue;
 		KeyStr keyImg(fullPath);
 		ValueInt valImg(id);
 		this->imgTree.insert(keyImg,valImg);
-		//std::cout << fullPath << std::endl;
 	}
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
 	for(size_t j=0; j<dirList.size();j++){
