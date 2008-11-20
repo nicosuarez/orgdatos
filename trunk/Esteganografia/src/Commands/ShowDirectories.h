@@ -13,7 +13,7 @@
 class ShowDirectories : public Command
 {
 private:
-	static const int numParams = 2;
+	static const int numParams = 1;
 	
 public:
 	ShowDirectories(std::string cmd);
