@@ -87,7 +87,7 @@ bool Jpg::ValidateFormat(const char *filePath)
 		fin >> format;
 		if(format.compare(0,4,header) == 0)
 		{
-			cout << "Formato JPG/JPEG Correcto.\n";
+//			cout << "Formato JPG/JPEG Correcto.\n";
 			isValid = true;
 		}
 		fin.close();
@@ -149,7 +149,7 @@ int Jpg::SearchBestCompression(){
 Space* Jpg::Load()
 {
 	long sizeComp=0, freeSpace=0;
-	Space *space;
+	Space *space = NULL;
 	long sizeOrig = this->GetTotalSize();
 
 	//Se busca la mejor compresion.
@@ -168,7 +168,7 @@ Space* Jpg::Load()
 	}
 	else
 	{
-		std::cout << "La imagen no se puede comprimir mas.\n";
+//		std::cout << "La imagen no se puede comprimir mas.\n";
 	}
 	return space;
 }
@@ -190,12 +190,12 @@ long Jpg::CompressImage(int quality, const char* outFile)
 {
 	Jpg jpg(outFile);
 	long sizeOrig = this->GetTotalSize();
-	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
+//	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
 	cimg_library::CImg<unsigned char> image(this->GetFilePath());
 	image.save_jpeg(outFile, quality);
-	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de " << quality <<  "\n";
+//	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de " << quality <<  "\n";
 	long sizeComp = jpg.GetTotalSize();
-	cout << "Load Path: "<< jpg.GetTotalSize() << " SizeComp: " << sizeComp << "\n";
+//	cout << "Load Path: "<< jpg.GetTotalSize() << " SizeComp: " << sizeComp << "\n";
 	return sizeComp;
 }
 /* -------------------------------------------------------------------------- */

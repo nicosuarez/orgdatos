@@ -170,7 +170,7 @@ bool Bmp::ValidateFormat(const char *filePath)
 		fin >> format;
 		if(format.compare(0,2,header) == 0)
 		{
-			cout << "Formato BMP correcto.\n";
+//			cout << "Formato BMP correcto.\n";
 			isValid = true;
 		}
 		fin.close();
