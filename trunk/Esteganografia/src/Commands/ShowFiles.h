@@ -12,7 +12,7 @@
 class ShowFiles : public Command
 {
 private:
-	static const int numParams = 2;
+	static const int numParams = 1;
 	
 public:
 	ShowFiles(std::string cmd);

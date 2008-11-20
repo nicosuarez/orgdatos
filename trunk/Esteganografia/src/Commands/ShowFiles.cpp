@@ -1,5 +1,5 @@
 #include "ShowFiles.h"
-
+#include "../Common/MessageManager.h"
 using namespace std;
 
 ShowFiles::ShowFiles(string cmd) : Command(cmd)
@@ -29,5 +29,7 @@ void ShowFiles::ShowHelpCommand()
  */
 bool ShowFiles::InternalProcess(tVecStr params)
 {
+	MessageManager* messageManager = MessageManager::GetInstance();
+	messageManager->ShowMessage();
 	return true;
 }
