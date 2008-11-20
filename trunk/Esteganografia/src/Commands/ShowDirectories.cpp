@@ -39,5 +39,6 @@ bool ShowDirectories::InternalProcess(tVecStr params)
 		cout<<vec[vec.size()-1-i]<< "\n";
 	}
 	vec.clear();
+	path.clear();
 	return true;
 }
