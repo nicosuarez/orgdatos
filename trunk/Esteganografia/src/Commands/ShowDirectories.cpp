@@ -35,6 +35,9 @@ bool ShowDirectories::InternalProcess(tVecStr params)
 	if (vec.size()!=0)
 		cout<<FIRST_MSG_ADD_DIRECTORY<< "\n";
 	for (unsigned int i=0;i<vec.size();i++)
+	{
 		cout<<vec[vec.size()-1-i]<< "\n";
+	}
+	vec.clear();
 	return true;
 }

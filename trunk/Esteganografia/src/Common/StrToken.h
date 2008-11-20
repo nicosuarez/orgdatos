@@ -37,7 +37,7 @@ sexo='M'
 using std::string;
 using std::vector;
 
-typedef  vector<string> tVecStr;
+typedef std::vector<std::string> tVecStr;
 
 class StrToken
 {
