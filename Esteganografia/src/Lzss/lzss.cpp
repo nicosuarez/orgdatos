@@ -23,7 +23,7 @@ void Lzss::compress(const char* toCompress, const char* temporaryFile)  {
 	this->buffer.clear();
 	unsigned int posMatch, longMatch;
 	unsigned char lastChar=0x00;
-	ifstream fpOrigin(toCompress,ios::in);
+	ifstream fpOrigin(toCompress,ios::in | ios::binary);
 	if(!fpOrigin.good())
 		throw eFile(toCompress);
 	ofstream fpTarget(temporaryFile, ios::binary| ios::out| ios::trunc);
