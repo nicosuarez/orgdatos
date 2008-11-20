@@ -117,7 +117,9 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 			std::cout <<  ERR_NOT_SPACE;
 			return;
 		}
-
+		
+		std::cout << PROCESS_COMMAND;
+		
 		//Encripto el mensaje
 		EncriptationManager::Encrypt(m1, msgTarget);
 
