@@ -159,6 +159,15 @@ void ImageManager::RecorreElArbol(){
 		++it;
 	}
 }
+
+/* -------------------------------------------------------------------------- */
+
+void ImageManager::TransformKeyImgToKeyDir(string& st){
+	tVecStr vStr=StrToken::getStrTokens(st,"/");
+	string staux="";
+	staux.append(st.c_str(),st.length()-3);
+	st=staux;
+}
 /* -------------------------------------------------------------------------- */
 
 tVecStr ImageManager::DeleteDirectory(const char* dirPath){
@@ -167,40 +176,50 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string dir=string (dirPath) +"/";
 	KeyStr kDirDir(dir);
-	dir=dir+END_DIRECTORY;
+	dir.append(END_DIRECTORY);
 	KeyStr kDir(dir.c_str());
 	vector<string> vkFile;
 	vector<string> vkDir;
 	tVecStr ans;
 	if ( (dirTree.empty()) || (!dirTree.exists(kDirDir)))
 		return ans;
-	RecorreElArbol();
 	TreeIterator& it = imgTree.iterator(kDir);
 	while ((!it.end())&&(end==false)){
 		KeyStr* kStr=dynamic_cast<KeyStr*>(it.getKey());
-		string pathFile=(kStr->getKey());
-		tVecStr tokens=StrToken::getStrTokens(pathFile,"/");
+		//string pathFile=(kStr->getKey());
+		tVecStr tokens=StrToken::getStrTokens(kStr->getKey(),"/");
 		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) ){
 			ValueInt* vInt=(ValueInt*)it.getValue();
 			DeleteImage(vInt->getValue());
+			string pathFile=(kStr->getKey());
 			vkFile.push_back(kStr->getKey());
 			delete vInt;
-		}else if ((tokens.size()-tokensDir.size()>0)||(strcmp(dirPath,pathFile.c_str())==0)){
-			ans.push_back(kStr->getKey());
-			vkDir.push_back(kStr->getKey());
+		}else if ((tokens.size()-tokensDir.size()>0)||(strcmp(dirPath,(kStr->getKey()).c_str())==0)){
+			string strDir=kStr->getKey();
+			TransformKeyImgToKeyDir(strDir);
+			ans.push_back(strDir);
+			vkDir.push_back(strDir);
 		}
 		else
 			end=true;
-		delete kStr;
+		//delete kStr;
 		++it;
 	}
+	imgTree.deleteIterator(it);
+	RecorreElArbol();
 	for(unsigned int u=0;u<vkDir.size();u++){
-		KeyStr key(vkDir[u]);
-		string dirImg=vkDir[u]+END_DIRECTORY;
-		KeyStr keyImg(dirImg);
-		imgTree.remove(keyImg);
-		dirTree.remove(key);
+		KeyStr* keyDir=new KeyStr(vkDir[u]);
+		//string dirImg=vkDir[u]+END_DIRECTORY;
+		//KeyStr keyImg(dirImg);
+		string strImg=vkDir[u];
+		strImg.append(END_DIRECTORY);
+		KeyStr* keyImg=new KeyStr(strImg);
+		imgTree.remove(*keyImg);
+		dirTree.remove(*keyDir);
+		delete keyImg;
+		delete keyDir;
 	}
+	RecorreElArbol();
 	for(unsigned int u=0;u<vkFile.size();u++){
 		string k=vkFile[u];
 		KeyStr key(k);
@@ -239,8 +258,11 @@ tVecStr ImageManager::GetAllDirectories(){
 		 */
 		while (!it.end()){
 			KeyStr* key=dynamic_cast<KeyStr*>(it.getKey());
-			size_t i = key->getKey().rfind('/', key->getKey().length());
-			dirList.push_back ( key->getKey().substr( 0, i ) );
+			//size_t i = key->getKey().rfind('/', key->getKey().length());
+			string str="";
+			str.append( (key->getKey()).size(),(key->getKey()).length()-1);
+			//dirList.push_back ( key->getKey().substr( 0, i ) );
+			dirList.push_back (str);
 			delete key;
 			++it;
 		}
