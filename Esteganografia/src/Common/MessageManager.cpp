@@ -46,6 +46,7 @@ bool MessageManager::Extract(Message msg,Message msgTarget){
 		//perror( ERR_MSG_NOT_EXIST);
 		return false;
 	}
+	std::cout << PROCESS_COMMAND;
 	ValueInt* vInt=dynamic_cast<ValueInt*>(itTree.getValue());
 	idMsg = vInt->getValue();
 	delete vInt;
@@ -78,7 +79,7 @@ bool MessageManager::Extract(Message msg,Message msgTarget){
 		space = new Space(pathImg, offsetImg, sizePartitionMsg);
 		image = ImageFactory::GetImage(pathImg.c_str());
 		image->Extract(space, &msgTarget);
-		cout<<"listaaaaa"<<endl<<idImg<<"  "<<offsetImg<<"  "<<sizePartitionMsg<<"  "<<sizePartitionMsg<<endl;
+//		cout<<"listaaaaa"<<endl<<idImg<<"  "<<offsetImg<<"  "<<sizePartitionMsg<<"  "<<sizePartitionMsg<<endl;
 		delete image;
 		delete (*it);
 	}
@@ -97,7 +98,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 	if( !this->treeMsg.empty() )
 		if( this->treeMsg.exists(k) )
 		{
-			perror( ERR_ALREADY_EXIST );
+			std::cout <<  ERR_ALREADY_EXIST;
 			return;
 		}
 
@@ -113,7 +114,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		//Si la lista es NULL, no hay espacio disponible
 		if( spaces == NULL )
 		{
-			perror( ERR_NOT_SPACE );
+			std::cout <<  ERR_NOT_SPACE;
 			return;
 		}
 
@@ -124,7 +125,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		ImageManager *imageManager = ImageManager::GetInstance();
 		Space *space;
 		Image *image;
-		ID_type idImage, idFirstList;
+		ID_type idImage=0, idFirstList=0;
 		unsigned long sizeHidden = 0, sizeSpace;
 		tListSpaces::iterator it = spaces->begin();
 
@@ -183,8 +184,6 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		{
 			ListImgRegistry* reg = dynamic_cast<ListImgRegistry*>(*itListImg);
 			imageManager->AddMessageToImage( reg->GetIDImage(), regMsg.GetID());
-			cout<<"Imprimimo registr"<<endl;
-			cout<<reg->GetIDImage()<<" "<<reg->GetOffsetImg()<<" "<<reg->GetSizePartitionMsg()<<endl;
 			delete reg;
 		}
 
@@ -201,13 +200,14 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		//Elimino los archivos de mensajes
 		m1.Delete();
 		msgTarget.Delete();
+		std::cout << MSG_HIDE_SUCCESS;
 //		msg.Delete();
 	}
 	catch( eFile &e)
 	{
 		cout << e.what() << endl;
 	}
-	cout << this->treeMsg;
+//	cout << this->treeMsg;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -247,7 +247,7 @@ void MessageManager::DeleteMessage(std::string nameMessage)
 	orgListImages.DeleteList(idFirstList);
 	orgMsg.DeleteRegistry(messageId);
 	treeMsg.remove(k);
-	cout << treeMsg << endl;
+//	cout << treeMsg << endl;
 	//Doy de alta los nuevos espacios libres
 	FreeSpaceManager::GetInstance()->AddFreeSpaces(listSpaces);
 
