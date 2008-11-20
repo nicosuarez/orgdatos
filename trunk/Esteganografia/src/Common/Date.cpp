@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
+#include "StrToken.h"
 
 using namespace std;
 Date::Date(unsigned int  year,unsigned int month,unsigned int day,unsigned int hour,
@@ -31,11 +32,24 @@ unsigned int Date::getMin() const{return this->min;}
 unsigned int Date::getSeg() const{return this->seg;}
 unsigned int Date::getSize() const{return (sizeof(unsigned int)*6);}
 string Date::toString() const{
-	string ans=string(reinterpret_cast<char*>(this->year))+string(reinterpret_cast<char*>(this->month));
-	ans=ans+string(reinterpret_cast<char*>(this->day));
-	ans=ans+string(reinterpret_cast<char*>(this->hour));
-	ans=ans+string(reinterpret_cast<char*>(this->min));
-	ans=ans+string(reinterpret_cast<char*>(this->seg));
+	string year=StrToken::intToString(this->year);
+	string month=StrToken::intToString(this->month);
+	string day=StrToken::intToString(this->day);
+	string hour=StrToken::intToString(this->hour);
+	string min=StrToken::intToString(this->min);
+	string seg=StrToken::intToString(this->seg);
+	string ans=year;
+	ans=ans.append("/");
+	ans=ans.append(month.c_str());
+	ans=ans.append("/");
+	ans=ans.append(day.c_str());
+	ans=ans.append("/");
+	ans=ans.append(hour.c_str());
+	ans=ans.append("/");
+	ans=ans.append(min.c_str());
+	ans=ans.append("/");
+	ans=ans.append(seg.c_str());
+	ans=ans.append("/");
 	return ans;
 }
 

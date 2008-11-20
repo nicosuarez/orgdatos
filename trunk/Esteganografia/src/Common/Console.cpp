@@ -7,6 +7,7 @@
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "PasswordManager.h"
+#include "IntrudersManager.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ int Console::Run(int argc,char* argv[])
 		if(valPass.first)
 			isUser=true;
 		else
-			PasswordManager::writeIntruder(valPass.second);
+			IntrudersManager::writeIntruder(valPass.second);
 	}else{
 		/*PEDIR PASS Y CREAR TODAS LAS ESTRUCTURAS*/
 		Message pass;
@@ -28,20 +29,21 @@ int Console::Run(int argc,char* argv[])
 			FileSystem::CreateStruture(pass);
 			isUser=true;
 		}
+		pass.Delete();
 	}
 	if (isUser){
-
+		ShowInitialMessage();
+		if (IntrudersManager::ExistNewIntruder() ){
+			Console::ShowIntruderMessage();
+		}
+		while(!CommandFactory::IsQuitCommand(cmd))
 		{
-			ShowInitialMessage();
-			while(!CommandFactory::IsQuitCommand(cmd))
+			ReadCommand(cmd);
+			Command* command = CommandFactory::CreateCommand(cmd);
+			if(command != NULL)
 			{
-				ReadCommand(cmd);
-				Command* command = CommandFactory::CreateCommand(cmd);
-				if(command != NULL)
-				{
-					command->Run(cmd);
-					delete command;
-				}
+			command->Run(cmd);
+			delete command;
 			}
 		}
 	}
@@ -64,6 +66,21 @@ tVecStr Console::GetAllCommands()
 	vecCmd.push_back(CMD_SHOW_FILES);
 	vecCmd.push_back(CMD_CHANGE_PASSWORD);
 	return vecCmd;
+}
+
+/**
+ * Muestra todos los intrusos que intentaron entrar y sus passwords
+ */
+void Console::ShowIntruderMessage(){
+	tVecinstrud vecIntr=IntrudersManager::getIntruders();
+	cout << MSG_INTRUDERS1 <<vecIntr.size();
+	if (vecIntr.size()==1)
+		cout<<MSG_INTRUDERS2<< "\n";
+	else
+		cout<<MSG_INTRUDERS3<< "\n";
+	for (unsigned int i=0; i<vecIntr.size();i++)
+		vecIntr[i].toOstream();
+	cout<< "\n";
 }
 
 /**

@@ -16,7 +16,7 @@
 
 /*----------------Password--------------*/
 #define PATH_INTRUDER "./Files/"
-#define FILE_INTRUDER "intruders.dat"
+#define FILE_INTRUDER "intruder.dat"
 
 /*----------------CompresionManager--------------*/
 #define PATH_TARGET_DESCOMPRESS_CM "./Files/rchTemp2.txt"

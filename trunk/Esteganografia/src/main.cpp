@@ -552,12 +552,12 @@ void TestListImgRegistry()
 
 void testCompresion()
 {
-	Message msg("./Files/data.txt");
+	Message msg("./Files/dato2.dat");
 	Message msg2=CompressionManager::Compress(msg);
-	Message msg3("./Files/data.dat");
+	Message msg3("./Files/dataAuxiliary.dat");
 	EncriptationManager::Encrypt(msg2,msg3);
 	Message msg4=EncriptationManager::Decrypt(msg3);
-	Message msg5("./Files/dataAns.txt");
+	Message msg5("./Files/dataAnswer.dat");
 	CompressionManager::Decompress(msg4,msg5);
 	msg2.Delete();
 	msg3.Delete();
@@ -784,11 +784,11 @@ void TestAddDirectory(){
 
 int main(int argc, char *argv[])
 {
-	//testCompresion();
+	testCompresion();
 	//testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-	testConsole(argc, argv);
+//	testConsole(argc, argv);
 //	TestCheckErasedImagesFromPath();
 //	TestCheckErasedImagesFromAllDirectories();
 	return EXIT_SUCCESS;

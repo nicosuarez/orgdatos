@@ -111,27 +111,10 @@ void PasswordManager::writeIntruder(tVecStr vStr){
 		toWrite=toWrite+vStr[i];
 	text.WriteText(toWrite);
 	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	//fImg.Open(ExtensibleRelativeFile::READ_WRITE);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
 	reg->SetIDImagePath(reg->GetIDImagePath()+1);
 	fImg.UpdateRegistry(*reg);
-
 	delete reg;
-	//fImg.close();
-}
-
-tVecStr PasswordManager::getIntruders(){
-	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
-	tVecStr ans;
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
-	for(unsigned int i=1;i<=reg->GetIDImagePath();i++)
-		ans.push_back(text.GetText(i) );
-	reg->SetIDImagePath(0);
-	fImg.WriteRegistry(*reg);
-	text.Destroy();
-	delete reg;
-	return ans;
 }
 
 bool PasswordManager::ChangePass(const string& oldPass,const string& newPass){
