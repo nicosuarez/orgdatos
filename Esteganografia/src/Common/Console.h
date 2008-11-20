@@ -17,10 +17,11 @@ static const int cantIntentosPass = 3;
 
 public:
 	static int Run(int argc,char* argv[]);
-	static bool InsertNewPassword(Message& msg);
 private:
+	static bool InsertNewPassword(Message& msg);
 	//static bool ExistPassword();
 	//static bool IsCorrectPass(const std::string& st);
+	static void ShowIntruderMessage();
 	static pair<bool,tVecStr> ValidatePassword();
 	static std::string GetInputPassword();
 	static void ShowInitialMessage();

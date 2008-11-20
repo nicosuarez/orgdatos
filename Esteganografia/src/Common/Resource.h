@@ -55,6 +55,12 @@ typedef unsigned int ID_type;
 La cantidad de parametros es incorrecta.\n\
 Por favor respete la siguiente sintaxis para el comando:\n"
 
+#define MSG_INTRUDERS1 "Han sido detectados que "
+#define MSG_INTRUDERS2 "intruso intento entrar: \n "
+#define MSG_INTRUDERS3 " intrusos intentaron entrar: \n "
+#define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introduciodos por el intruso: \n "
+
+
 #define HLP_HELP "\
 	●   help \n \t \
 	Lista la ayuda para todos los comandos disponibles."
@@ -107,6 +113,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define CHANGE_PASS_WRONG_PASS "la password vieja no es correcta"
 
-
+#define CIRCLE "\
+	●   "
 
 #endif /*RESOURCE_H_*/
