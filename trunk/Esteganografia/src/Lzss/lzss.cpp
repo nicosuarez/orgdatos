@@ -23,7 +23,7 @@ void Lzss::compress(const char* toCompress, const char* temporaryFile)  {
 	this->buffer.clear();
 	unsigned int posMatch, longMatch;
 	unsigned char lastChar=0x00;
-	ifstream fpOrigin(toCompress,ios::in | ios::binary);
+	ifstream fpOrigin(toCompress,ios::in|ios::binary);
 	if(!fpOrigin.good())
 		throw eFile(toCompress);
 	ofstream fpTarget(temporaryFile, ios::binary| ios::out| ios::trunc);
@@ -278,8 +278,8 @@ unsigned int Lzss::getPosLong (ifstream* fpOrigin,ofstream* fpTarget,
 }
 
 void Lzss::readFile(ifstream& fp, unsigned int cant) {
-	char* read = new char[cant+1];
-	fp.get(read, (cant+1) * sizeof(char), EOF);
+	unsigned char* read = new unsigned char[cant+1];
+	fp.read((char*)read, (cant+1) * sizeof(char));//, EOF); ERROR DE CARACTERES
 	unsigned int countChar = fp.gcount();
 	for (int i = 0; i < (int) countChar; i++)
 		this->windows.push_back(read[i]);
