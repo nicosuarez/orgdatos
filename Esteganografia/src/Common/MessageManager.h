@@ -19,6 +19,8 @@
 #include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
 #include "../Tree/BppTree/bpptree.h"
 #include "../Tree/factory.h"
+#include "../Tree/BppTree/treeIterator.h"
+#include "Resource.h"
 
 /**
  * Clase que maneja el comportamiento de los mensajes, ocultandolos y extrayendolos
@@ -43,6 +45,8 @@ public:
 	/*Devuelve una lista con los distintos espacios en los
 	 * cuales el mensaje esta oculto */
 	list<Space> GetFullSpaces(unsigned long messageId);
+	
+	void ShowMessage();
 
 	/*Destructor*/
 	virtual ~MessageManager();
