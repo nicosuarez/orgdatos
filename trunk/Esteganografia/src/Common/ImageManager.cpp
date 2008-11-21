@@ -90,9 +90,13 @@ ID_type ImageManager::AddImage(const char* imagePath){
 tVecStr ImageManager::AddDirectory(const char* dirPath){
 	tVecStr ans;
 	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
-	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
+	//tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string strdir=string(dirPath)+ "/";
 	KeyStr kDirDir(strdir);
+	if (!dirTree.empty())
+		if (dirTree.exists(kDirDir))
+			return ans;
+	ans.push_back(strdir);
 	strdir=strdir+END_DIRECTORY;
 	KeyStr kDir(strdir);
 	ValueInt vDir(0);
@@ -159,7 +163,18 @@ void ImageManager::RecorreElArbol(){
 		++it;
 	}
 }
-
+/* -------------------------------------------------------------------------- */
+void ImageManager::RecorreElArbolDir(){
+	KeyStr kDir("");
+	TreeIterator& it = dirTree.first();
+	while (!it.end()){
+		KeyStr* kStr=(KeyStr*)it.getKey();
+		string pathFile=(kStr->getKey());
+		cout<<pathFile<<endl;
+		delete kStr;
+		++it;
+	}
+}
 /* -------------------------------------------------------------------------- */
 
 void ImageManager::TransformKeyImgToKeyDir(string& st){
@@ -184,9 +199,12 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	if ( (dirTree.empty()) || (!dirTree.exists(kDirDir)))
 		return ans;
 	TreeIterator& it = imgTree.iterator(kDir);
+	RecorreElArbol();
+	cout<<endl;
+	cout<<kDir.getKey()<<endl;
 	while ((!it.end())&&(end==false)){
 		KeyStr* kStr=dynamic_cast<KeyStr*>(it.getKey());
-		//string pathFile=(kStr->getKey());
+		string pathFile=(kStr->getKey());
 		tVecStr tokens=StrToken::getStrTokens(kStr->getKey(),"/");
 		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) ){
 			ValueInt* vInt=(ValueInt*)it.getValue();
@@ -194,7 +212,7 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 			string pathFile=(kStr->getKey());
 			vkFile.push_back(kStr->getKey());
 			delete vInt;
-		}else if ((tokens.size()-tokensDir.size()>0)||(strcmp(dirPath,(kStr->getKey()).c_str())==0)){
+		}else if (isSubDirectoryOrSubFile(&tokensDir,&tokens)||(!strcmp(dir.c_str(),(kStr->getKey()).c_str()))){
 			string strDir=kStr->getKey();
 			TransformKeyImgToKeyDir(strDir);
 			ans.push_back(strDir);
@@ -202,22 +220,23 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		}
 		else
 			end=true;
-		//delete kStr;
+		delete kStr;
 		++it;
 	}
 	imgTree.deleteIterator(it);
+	cout<<vkDir.size()<<endl;
 	RecorreElArbol();
+	RecorreElArbolDir();
 	for(unsigned int u=0;u<vkDir.size();u++){
-		KeyStr* keyDir=new KeyStr(vkDir[u]);
+		string path=vkDir[u];
+		KeyStr keyDir(path);
 		//string dirImg=vkDir[u]+END_DIRECTORY;
 		//KeyStr keyImg(dirImg);
-		string strImg=vkDir[u];
-		strImg.append(END_DIRECTORY);
-		KeyStr* keyImg=new KeyStr(strImg);
-		imgTree.remove(*keyImg);
-		dirTree.remove(*keyDir);
-		delete keyImg;
-		delete keyDir;
+		//string strImg=vkDir[u];
+		string pathDi=path +END_DIRECTORY;
+		KeyStr keyImg(pathDi);
+		imgTree.remove(keyImg);
+		dirTree.remove(keyDir);
 	}
 	RecorreElArbol();
 	for(unsigned int u=0;u<vkFile.size();u++){
@@ -229,6 +248,20 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	return ans;
 }
 
+/* -------------------------------------------------------------------------- */
+bool ImageManager::isSubDirectoryOrSubFile(tVecStr* dir,tVecStr* unknow){
+	if (unknow->size()-dir->size()==1){
+		if (!strcmp(((*unknow)[unknow->size()-1]).c_str(),END_DIRECTORY))
+			return false;
+		else
+			return true;
+	}else if (unknow->size()-dir->size()>1)
+		return true;
+	else
+		return false;
+}
+
+/* -------------------------------------------------------------------------- */
 void ImageManager::TestDirectory(const char* dirPath){
 	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
@@ -258,19 +291,19 @@ tVecStr ImageManager::GetAllDirectories(){
 		 */
 		while (!it.end()){
 			KeyStr* key=dynamic_cast<KeyStr*>(it.getKey());
-			//size_t i = key->getKey().rfind('/', key->getKey().length());
-			string str="";
-			str.append( (key->getKey()).size(),(key->getKey()).length()-1);
-			//dirList.push_back ( key->getKey().substr( 0, i ) );
-			dirList.push_back (str);
+			size_t i = key->getKey().rfind('/', key->getKey().length());
+			//string str;
+			//str.append( (key->getKey()).size(),(key->getKey()).length()-1);
+			dirList.push_back ( key->getKey().substr( 0, i ) );
+			//dirList.push_back (str);
 			delete key;
 			++it;
 		}
-		//dirList.sort();
+		dirList.sort();
 		/*
 		 * Se eliminan los directorios repetidos
 		 */
-		dirList.unique();
+		//dirList.unique();
 
 		std::list <std::string> ::iterator itList;
 		for ( itList = dirList.begin() ; itList != dirList.end(); itList++ )
