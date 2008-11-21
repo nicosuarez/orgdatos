@@ -87,6 +87,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 #define FAIL_MSG_REMOVE_DIRECTORY "El directorio no existe."
 
 #define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
+#define WRONG_MSG_ADD_DIRECTORY "\nEl directorio ha sido agregado previamente a la base de datos"
 
 #define HLP_ADD_FILE "\
 	●   addFile <nombre_archivo> \n \t \

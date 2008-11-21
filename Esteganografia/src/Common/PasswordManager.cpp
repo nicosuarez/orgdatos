@@ -99,23 +99,23 @@ void PasswordManager::CreatePass(const Message& msg,short mode){
 	delete reg;
 }
 
-void PasswordManager::writeIntruder(tVecStr vStr){
-	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
-	string aux="basura";
-	Message msg(PATH_PASS_TEMP);
-	stringToMsg(aux,msg);
-	Date date=Date::getDate(msg.GetFilePath());
-	msg.Delete();
-	string toWrite=date.toString();
-	for(unsigned int i=0;i<vStr.size();i++)
-		toWrite=toWrite+vStr[i];
-	text.WriteText(toWrite);
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
-	reg->SetIDImagePath(reg->GetIDImagePath()+1);
-	fImg.UpdateRegistry(*reg);
-	delete reg;
-}
+//void PasswordManager::writeIntruder(tVecStr vStr){
+//	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
+//	string aux="basura";
+//	Message msg(PATH_PASS_TEMP);
+//	stringToMsg(aux,msg);
+//	Date date=Date::getDate(msg.GetFilePath());
+//	msg.Delete();
+//	string toWrite=date.toString();
+//	for(unsigned int i=0;i<vStr.size();i++)
+//		toWrite=toWrite+vStr[i];
+//	text.WriteText(toWrite);
+//	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+//	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
+//	reg->SetIDImagePath(reg->GetIDImagePath()+1);
+//	fImg.UpdateRegistry(*reg);
+//	delete reg;
+//}
 
 bool PasswordManager::ChangePass(const string& oldPass,const string& newPass){
 	bool ans=false;

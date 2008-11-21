@@ -45,10 +45,10 @@ public:
 	/**
 	 * Graba en un archivo los string de vStr y  su Date
 	 */
-	static void writeIntruder(tVecStr vStr);
+//	static void writeIntruder(tVecStr vStr);
 
 	/*devuelve un vector con todos los intrusos y luego elimina el archivo intrusos*/
-	static tVecStr getIntruders();
+//	static tVecStr getIntruders();
 
 	/**
 	 * Setea el nuevo password

@@ -105,6 +105,8 @@ class ImageManager
 
 	void RecorreElArbol();
 
+	void RecorreElArbolDir();
+
 	void TestDirectory(const char* dirPath);
 
 private:
@@ -114,8 +116,8 @@ private:
 	//Le quita al string lo que la identica como directorio
 	void TransformKeyImgToKeyDir(std::string& str);
 
-	//Agrega al Arbol el dir y ademas todo los subdir
-	void AddSubDirectory(const char* dir);
+	//devuelve true si el unknow es un archivo dentro del directorio o una subcarpeta dentro del mismo
+	bool isSubDirectoryOrSubFile(tVecStr* dir,tVecStr* unknow);
 
 	/*Espacio libre total para almacenar mensajes*/
 	static unsigned long totalFreeSize;
