@@ -39,7 +39,7 @@ ImageManager* ImageManager::GetInstance()
 
 ImageManager::~ImageManager()
 {
-//	delete instance;
+	delete instance;
 }
 /* -------------------------------------------------------------------------- */
 

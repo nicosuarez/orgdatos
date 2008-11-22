@@ -45,7 +45,7 @@ typedef unsigned int ID_type;
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
 #define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje\n"
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe\n"
-#define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
+#define ERR_MSG_NOT_EXIST "No existe el mensaje"
 #define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
 #define MSG_HIDE_SUCCESS "El mensaje se ha ocultado exitosamente\n"
 #define MSG_EXTARCT_SUCCESS "El mensaje se ha extraido exitosamente\n"
@@ -62,8 +62,8 @@ typedef unsigned int ID_type;
 La cantidad de parametros es incorrecta.\n\
 Por favor respete la siguiente sintaxis para el comando:\n"
 
-#define MSG_INTRUDERS1 "Han sido detectados que "
-#define MSG_INTRUDERS2 "intruso intento entrar: \n "
+#define MSG_INTRUDERS1 "Han sido detectado que "
+#define MSG_INTRUDERS2 " intruso intento entrar: \n "
 #define MSG_INTRUDERS3 " intrusos intentaron entrar: \n "
 #define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introduciodos por el intruso: \n "
 
