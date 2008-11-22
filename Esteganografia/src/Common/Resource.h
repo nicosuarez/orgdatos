@@ -85,7 +85,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente."
 
-#define FAIL_MSG_REMOVE_DIRECTORY "El directorio no existe."
+#define ERR_MSG_REMOVE_DIRECTORY "El directorio que quiere borrar no existe."
 
 #define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
 #define WRONG_MSG_ADD_DIRECTORY "\nEl directorio ha sido agregado previamente a la base de datos"
@@ -123,5 +123,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define CIRCLE "\
 	●   "
+
+#define EXC_EFILE "Hubo un error, el usuario borro el siguiente archivo "
 
 #endif /*RESOURCE_H_*/

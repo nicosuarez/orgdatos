@@ -279,7 +279,7 @@ unsigned int Lzss::getPosLong (ifstream* fpOrigin,ofstream* fpTarget,
 
 void Lzss::readFile(ifstream& fp, unsigned int cant) {
 	unsigned char* read = new unsigned char[cant+1];
-	fp.read((char*)read, (cant+1) * sizeof(char));//, EOF); ERROR DE CARACTERES
+	fp.read((char*)read, (cant) * sizeof(char));//, EOF); ERROR DE CARACTERES tenia un +1!!!
 	unsigned int countChar = fp.gcount();
 	for (int i = 0; i < (int) countChar; i++)
 		this->windows.push_back(read[i]);
@@ -318,7 +318,7 @@ void Lzss::writeVarLong(ifstream* fp, ofstream* fpTarget) {
 	end = fp->tellg();
 	size = end - begin;
 	fp->seekg(0, ios::beg);
-	fpTarget->write((char*)&size,sizeof(long));
+	fpTarget->write(reinterpret_cast<char*>(&size),sizeof(long));
 	/*unsigned char masc1=0x80;
 	unsigned char masc3=0x7F;
 	unsigned long long begin, end, size;

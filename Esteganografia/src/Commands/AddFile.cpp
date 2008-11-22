@@ -31,6 +31,10 @@ bool AddFile::InternalProcess(tVecStr params)
 {
 	std::string pathMessage = params[1];
 	MessageManager *messageManager = MessageManager::GetInstance();
-	messageManager->Hide(pathMessage);
+	try{
+		messageManager->Hide(pathMessage);
+	}catch(eFile e){
+		cout<< EXC_EFILE<<e.what() << "\n";
+	}
 	return true;
 }
