@@ -124,7 +124,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		tListSpaces *spaces = freeSpaceManager->GetFreeSpaces(m1.GetSize());
 
 		//Si la lista es NULL, no hay espacio disponible
-		if( spaces == NULL )
+		if( spaces == NULL || spaces->empty() )
 		{
 			std::cout <<  ERR_NOT_SPACE;
 			return;
