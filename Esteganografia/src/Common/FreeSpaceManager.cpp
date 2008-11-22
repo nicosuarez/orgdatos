@@ -41,6 +41,11 @@ void FreeSpaceManager::PrintIteratorValue(TreeIterator& it){
 /* -------------------------------------------------------------------------- */
 tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 {
+	//Chequeo si hay espacios libres en el arbol
+	if( freeSpacesTree.empty() )
+	{
+		return NULL;
+	}
 	unsigned long acumSize=0, position=0, spaceSize=0, newFreeSize=imgSize;
 	ID_type imgID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
