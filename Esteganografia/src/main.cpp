@@ -784,6 +784,8 @@ void TestAddDirectory(){
 
 int main(int argc, char *argv[])
 {
+	try
+	{
 	//testCompresion();
 	//testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
@@ -791,6 +793,11 @@ int main(int argc, char *argv[])
 	testConsole(argc, argv);
 //	TestCheckErasedImagesFromPath();
 //	TestCheckErasedImagesFromAllDirectories();
+	}
+	catch(char* error)
+    {
+		std::cout << error << std::endl;
+    }
 	return EXIT_SUCCESS;
 }
 

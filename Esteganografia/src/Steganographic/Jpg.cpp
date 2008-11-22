@@ -189,7 +189,7 @@ void Jpg::FillImage(long freeSpace)
 long Jpg::CompressImage(int quality, const char* outFile)
 {
 	Jpg jpg(outFile);
-	long sizeOrig = this->GetTotalSize();
+//	long sizeOrig = this->GetTotalSize();
 //	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
 	cimg_library::CImg<unsigned char> image(this->GetFilePath());
 	image.save_jpeg(outFile, quality);
