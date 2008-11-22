@@ -83,6 +83,19 @@ ID_type ImageManager::AddImage(const char* imagePath){
 	return imgReg.GetID();
 }
 /* -------------------------------------------------------------------------- */
+void ImageManager::DeleteImage(ID_type id){
+
+	ImgRegistry* img=dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(id));
+
+	string path=orgNamesImages.GetText(img->GetIDImagePath());
+	orgNamesImages.DeleteText(img->GetIDImagePath());
+	KeyStr kImgTree(path.c_str());
+	if (imgTree.empty())
+		if (imgTree.exists(kImgTree))
+			imgTree.remove(kImgTree);
+
+}
+/* -------------------------------------------------------------------------- */
 /*
  * Agrega todos los directorios y imagenes al arbol imgTree
  * Agrega agrega todas las imagenes al imgFile
@@ -230,13 +243,12 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	for(unsigned int u=0;u<vkDir.size();u++){
 		string path=vkDir[u];
 		KeyStr keyDir(path);
-		//string dirImg=vkDir[u]+END_DIRECTORY;
-		//KeyStr keyImg(dirImg);
-		//string strImg=vkDir[u];
 		string pathDi=path +END_DIRECTORY;
 		KeyStr keyImg(pathDi);
-		imgTree.remove(keyImg);
+
 		dirTree.remove(keyDir);
+		if (imgTree.exists(keyImg)) //Esto para debuggear
+			imgTree.remove(keyImg);
 	}
 	RecorreElArbol();
 	for(unsigned int u=0;u<vkFile.size();u++){
@@ -382,11 +394,6 @@ tVecStr ImageManager::GetImageErasedFromDirectories()
 	allDirs.clear();
 
 	return erasedImg;
-}
-
-/* -------------------------------------------------------------------------- */
-void ImageManager::DeleteImage(ID_type id){
-
 }
 
 /* -------------------------------------------------------------------------- */

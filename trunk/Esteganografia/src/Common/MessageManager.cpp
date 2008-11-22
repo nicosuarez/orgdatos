@@ -27,7 +27,7 @@ MessageManager::~MessageManager(){
 /* -------------------------------------------------------------------------- */
 
 bool MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message msgTarget){
-	
+
 	if( !FileSystem::ExistDirectory(pathMsg.c_str()) )
 	{
 		std::cerr << ERR_PATH_NOT_EXIST << "\"" << pathMsg << "\"" << "\n" << std::flush;
@@ -43,7 +43,9 @@ bool MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message m
 	}
 	ID_type idMsg;
 	KeyStr key(msg.GetName());
-	if(!treeMsg.exists(key)){
+	if (treeMsg.empty())
+		return false;
+	else if(!treeMsg.exists(key)){
 		//cout <<ERR_MSG_NOT_EXIST;
 		return false;
 	}
@@ -111,9 +113,9 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 
 	try
 	{
-		
+
 		std::cout << PROCESS_COMMAND;
-		
+
 		//Comprimo el mensaje
 		Message m1=CompressionManager::Compress(msg);
 
@@ -127,7 +129,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 			std::cout <<  ERR_NOT_SPACE;
 			return;
 		}
-				
+
 		//Encripto el mensaje
 		EncriptationManager::Encrypt(m1, msgTarget);
 
@@ -280,8 +282,8 @@ void MessageManager::ShowMessage()
 		return;
 	}
 	TreeIterator &it = treeMsg.first();
-	
-	std::cout << std::endl; 
+
+	std::cout << std::endl;
 	while( !it.end() )
 	{
 		std::pair<Register*,Register*>keyval= *it;

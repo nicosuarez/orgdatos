@@ -28,8 +28,8 @@ int Console::Run(int argc,char* argv[])
 		if(isOk){
 			FileSystem::CreateStruture(pass);
 			isUser=true;
+			pass.Delete();
 		}
-		pass.Delete();
 	}
 	if (isUser){
 		ShowInitialMessage();
@@ -41,7 +41,7 @@ int Console::Run(int argc,char* argv[])
 			ReadCommand(cmd);
 			Command* command = CommandFactory::CreateCommand(cmd);
 			if(command != NULL)
-			{ 
+			{
 				command->Run(cmd);
 				delete command;
 			}
