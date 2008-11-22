@@ -203,7 +203,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 		m1.Delete();
 		msgTarget.Delete();
 		std::cout << MSG_HIDE_SUCCESS;
-//		msg.Delete();
+		msg.Delete();
 	}
 	catch( eFile &e)
 	{
@@ -267,9 +267,10 @@ list<Space> MessageManager::GetFullSpaces(unsigned long messageId)
 
 void MessageManager::ShowMessage()
 {
+	int hiddenSize = 0;
 	if(treeMsg.empty())
 	{
-		std::cout << ERR_MSG_EMPTY;
+		std::cout << std::endl << ERR_MSG_EMPTY;
 		return;
 	}
 	TreeIterator &it = treeMsg.first();
@@ -282,6 +283,9 @@ void MessageManager::ShowMessage()
 		std::cout << CIRCLE << " " << key->getKey() << std::endl;
 		delete key;
 		++it;
+		hiddenSize++;
 	}
+	std::cout << std::endl;
+	std::cout << LBL_HIDDEN_MSG_SIZE << hiddenSize << std::endl;
 	treeMsg.deleteIterator(it);
 }

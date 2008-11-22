@@ -21,6 +21,7 @@ typedef unsigned int ID_type;
 #define CMD_SHOW_DIRECTORIES "showdirectories"
 #define CMD_CHANGE_PASSWORD "changepassword"
 
+#define LBL_HIDDEN_MSG_SIZE "Cantidad total de mensajes ocultos: "
 #define ADDING_FILE "Agregando... "
 #define ERR_INCORRECT_FORMAT_PNG "Formato PNG incorrecto.\n"
 #define ERR_CREATE_IMAGE_PNG "No se pudo almacenar los datos de la imagen.\n"
