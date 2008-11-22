@@ -45,7 +45,6 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	ID_type imgID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
-//	cout<<freeSpacesTree<< "\n";
 	TreeIterator& it = freeSpacesTree.first();
 	tVecKFreeSpace deleteKeys;
 	tVecNewFreeSpaces addSpaceKeys;
@@ -113,16 +112,11 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		AddFreeSpace(addSpaceKeys[j]);
 		delete addSpaceKeys[j];
 	}
-
-
 	return freeSpaceLst;
 }
 /* -------------------------------------------------------------------------- */
 void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 {
-	//TODO: Ver de obtener el idImg o pasarlo por parametro!!!. Setearselo
-	//ID_type idImg = 0;
-
 	itListSpaces it = spacesList->begin();
 	for(it = spacesList->begin(); it != spacesList->end(); it++ )
 	{
@@ -130,8 +124,7 @@ void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 		AddFreeSpace(space);
 		//AddFreeSpaceTree(idFreeSpace, space->GetSize(), idImg ,space->GetInitialPosition());
 
-    }
-
+    };
 }
 /* -------------------------------------------------------------------------- */
 ID_type FreeSpaceManager::AddFreeSpace(Space* space)

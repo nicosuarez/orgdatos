@@ -26,8 +26,15 @@ MessageManager::~MessageManager(){
 }
 /* -------------------------------------------------------------------------- */
 
-bool MessageManager::Extract(Message msg,Message msgTarget){
-
+bool MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message msgTarget){
+	
+	if( !FileSystem::ExistDirectory(pathMsg.c_str()) )
+	{
+		std::cerr << ERR_PATH_NOT_EXIST << "\"" << pathMsg << "\"" << "\n" << std::flush;
+		return false;
+	}
+	std::string fullPath(pathMsg + "/" + nameMsg);
+	Message msg(fullPath);
 	//Busco en el arbol el id del mensaje.
 	if( this->treeMsg.empty() )
 	{
@@ -104,6 +111,9 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 
 	try
 	{
+		
+		std::cout << PROCESS_COMMAND;
+		
 		//Comprimo el mensaje
 		Message m1=CompressionManager::Compress(msg);
 
@@ -117,9 +127,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 			std::cout <<  ERR_NOT_SPACE;
 			return;
 		}
-		
-		std::cout << PROCESS_COMMAND;
-		
+				
 		//Encripto el mensaje
 		EncriptationManager::Encrypt(m1, msgTarget);
 
@@ -167,7 +175,6 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 				ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace );
 				this->orgListImages.AddToListLast(regList,idFirstList);
 			}
-			//it++;
 			delete image;
 		}
 
@@ -209,7 +216,6 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 	{
 		cout << e.what() << endl;
 	}
-//	cout << this->treeMsg;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -249,7 +255,7 @@ void MessageManager::DeleteMessage(std::string nameMessage)
 	orgListImages.DeleteList(idFirstList);
 	orgMsg.DeleteRegistry(messageId);
 	treeMsg.remove(k);
-//	cout << treeMsg << endl;
+
 	//Doy de alta los nuevos espacios libres
 	FreeSpaceManager::GetInstance()->AddFreeSpaces(listSpaces);
 
@@ -289,3 +295,4 @@ void MessageManager::ShowMessage()
 	std::cout << LBL_HIDDEN_MSG_SIZE << hiddenSize << std::endl;
 	treeMsg.deleteIterator(it);
 }
+

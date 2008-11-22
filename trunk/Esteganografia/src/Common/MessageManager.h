@@ -34,7 +34,7 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	bool Extract(Message msg,Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
+	bool Extract(std::string nameMsg, std::string pathMsg, Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
 
 	/*Oculta un mensaje*/
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));

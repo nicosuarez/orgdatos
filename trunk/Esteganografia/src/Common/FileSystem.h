@@ -42,12 +42,15 @@ public:
 	 * Devuelve true si la estructura es valida
 	 */
 	static bool IsValidStructure();
-
+	
 	/**
 	 * Crea toda la estructura de archivo incluyendo el password (con el mensaje de paramtro)
 	 * lanza ex de eFile
 	 */
 	static void CreateStruture(const Message& pass);
+	
+	/*Devuelve true si existe el directorio pasado por parametro*/
+	static bool ExistDirectory(const char *path);
 
 };
 

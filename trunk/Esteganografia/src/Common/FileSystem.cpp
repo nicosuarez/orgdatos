@@ -143,3 +143,12 @@ void FileSystem::CreateStruture(const Message& pass){
 }
 /* -------------------------------------------------------------------------- */
 
+
+bool FileSystem:: ExistDirectory(const char *path)
+{
+	 DIR *pdir = opendir( path );
+	 if (!pdir)
+		 return false;
+	 else
+		 return true;
+}
