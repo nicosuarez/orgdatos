@@ -20,7 +20,7 @@ IntrudersManager::~IntrudersManager() {}
 tVecinstrud IntrudersManager::getIntruders(){
 	OrgText text(PATH_INTRUDER,FILE_INTRUDER);
 	tVecinstrud intruders;
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
 	for(unsigned int i=1;i<=reg->GetIDImagePath();i++){
 		Intruder intrud;
@@ -35,7 +35,7 @@ tVecinstrud IntrudersManager::getIntruders(){
 }
 
 bool IntrudersManager::ExistNewIntruder(){
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
 	return ( (reg->GetIDImagePath())>0);
 }
@@ -53,7 +53,7 @@ void IntrudersManager::writeIntruder(tVecStr vStr){
 		toWrite=toWrite+"/";
 	}
 	text.WriteText(toWrite);
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
 	reg->SetIDImagePath(reg->GetIDImagePath()+1);
 	fImg.UpdateRegistry(*reg);
