@@ -447,20 +447,21 @@ void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 {
 	//Leo el registro imagen para obtener el id del primer registro de la lista de msgs.
 	ImgRegistry *imgRegistry = dynamic_cast<ImgRegistry*>(this->orgImages.GetRegistry(idImage));
+	if( imgRegistry == NULL )
+		throw eFile(PATH_IMG_FILE);
 	ID_type firstList = imgRegistry->GetPtrMsgList();
 	ListMsgRegistry msgRegistry(idMessage);
-
-	//Si la lista esta vacia, la creo
-	if( firstList == 0 )
+	try
 	{
-		this->orgListMsgs.CreateList( msgRegistry);
+		//Si la lista esta vacia, la creo
+		if( firstList == 0 )
+			this->orgListMsgs.CreateList( msgRegistry);
+		else //Si no esta vacia, agrego el nuevo registro al principio
+			this->orgListMsgs.AddToListFirst(msgRegistry, firstList);
 	}
-	else //Si no esta vacia, agrego el nuevo registro al principio
-	{
-
-		this->orgListMsgs.AddToListFirst(msgRegistry, firstList);
+	catch(char * error){
+		throw eFile(PATH_MSG_LIST_FILE);
 	}
-
 	//Actualizo el PtrMsgList del registro imagen
 	imgRegistry->SetPtrMsgList(msgRegistry.GetID());
 

@@ -1,20 +1,21 @@
-#ifndef EFILE_H_
-#define EFILE_H_
+#ifndef ENOTEXIST_H_
+#define ENOTEXIST_H_
+
 #include <string>
 #include <exception>
 
 using std::exception;
 
-class eFile: public exception{
+class eNotExist: public exception{
     protected:
         std::string message;
 
     public:
-        eFile(const std::string& amessage): exception(), message(amessage)
+        eNotExist(const std::string& amessage): exception(), message(amessage)
         {
         }
         
-        ~eFile()throw()
+        ~eNotExist()throw()
         {
         }
 
@@ -24,4 +25,4 @@ class eFile: public exception{
         }
 };
 
-#endif /* EFILE_H_ */
+#endif /*ENOTEXIST_H_*/

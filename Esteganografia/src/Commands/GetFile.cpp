@@ -1,6 +1,5 @@
 #include "GetFile.h"
-
-using namespace std;
+using std::string;
 
 GetFile::GetFile(string cmd) : Command(cmd)
 {
@@ -21,7 +20,7 @@ GetFile::~GetFile()
  */
 void GetFile::ShowHelpCommand()
 {
-	cout << HLP_GET_FILE << "\n";
+	std::cout << HLP_GET_FILE << "\n";
 }
 
 /**
@@ -29,17 +28,21 @@ void GetFile::ShowHelpCommand()
  */
 bool GetFile::InternalProcess(tVecStr params)
 {
-	std::string nameMessage = std::string(params[1]);
-	std::string pathMessage = std::string(params[2]);
+	string nameMessage = string(params[1]);
+	string pathMessage = string(params[2]);
 	MessageManager *messageManager = MessageManager::GetInstance();
-	try{
-		bool isOk=messageManager->Extract(nameMessage, pathMessage);
-		if(!isOk)
-			cout<<ERR_MSG_NOT_EXIST;
-		else
-			cout<< MSG_EXTARCT_SUCCESS;
-	}catch(eFile e){
-		cout<< EXC_EFILE<<e.what() << "\n";
+	try
+	{
+		std::cout << PROCESS_COMMAND;
+		messageManager->Extract(nameMessage, pathMessage);
+		std::cout << MSG_EXTARCT_SUCCESS;
+	}
+	catch(eFile &e){
+		std::cout << EXC_EFILE << e.what() << "\n";
+	}
+	catch(eNotExist &e)
+	{
+		std::cout << e.what() << "\n"; 
 	}
 	return true;
 }

@@ -475,30 +475,6 @@ void TestOrgExtensibleRelative()
   org.Destroy();
 }
 
-void TestMsgRegistry()
-{
-	OrgExtensibleRelative org("mesajes.dat", MsgRegistry::Create);
-	MsgRegistry reg1(10);
-	MsgRegistry reg2(15);
-	MsgRegistry reg3(100);
-	MsgRegistry *reg;
-
-	org.WriteRegistry(reg1);
-	org.WriteRegistry(reg2);
-	org.WriteRegistry(reg3);
-
-	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg1.GetID()));
-	cout << " - ptrImg: " << reg->GetPtrImgList() << endl;
-	delete reg;
-	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg2.GetID()));
-	cout << " - ptrImg: " << reg->GetPtrImgList() << endl;
-	delete reg;
-	reg = dynamic_cast<MsgRegistry*>( org.GetRegistry(reg3.GetID()));
-	cout << " - ptrImg: " << reg->GetPtrImgList() << endl;
-	delete reg;
-}
-
-
 void TestListImgRegistry()
 {
 //	OrgList org("mesajesList.dat", ListImgRegistry::Create);

@@ -1,20 +1,21 @@
-#ifndef EFILE_H_
-#define EFILE_H_
+#ifndef ENOTSPACE_H_
+#define ENOTSPACE_H_
+
 #include <string>
 #include <exception>
 
 using std::exception;
 
-class eFile: public exception{
+class eNotSpace: public exception{
     protected:
         std::string message;
 
     public:
-        eFile(const std::string& amessage): exception(), message(amessage)
+    	eNotSpace(const std::string& amessage): exception(), message(amessage)
         {
         }
         
-        ~eFile()throw()
+        ~eNotSpace()throw()
         {
         }
 
@@ -24,4 +25,4 @@ class eFile: public exception{
         }
 };
 
-#endif /* EFILE_H_ */
+#endif /*ENOTSPACE_H_*/

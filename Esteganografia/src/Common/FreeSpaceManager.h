@@ -10,6 +10,7 @@
 #include "../Steganographic/Image.h"
 #include "../Steganographic/ImageFactory.h"
 #include "Exception/eFile.h"
+#include "Exception/eNotSpace.h"
 #include <list.h>
 
 typedef std::list<Space*> tListSpaces;
