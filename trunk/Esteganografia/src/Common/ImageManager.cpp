@@ -94,16 +94,20 @@ void ImageManager::DeleteImage(ID_type idImg){
 	string path=orgNamesImages.GetText(img->GetIDImagePath());
 	orgNamesImages.DeleteText(img->GetIDImagePath());
 
-	//Obtener la lista de mensajes.
-	tRegisterList* msgList = this->orgListMsgs.GetList(img->GetPtrMsgList());
-	itRegisterList it = msgList->begin();
-	
-	//Eliminar mensajes asociados.
-	while(it != msgList->end())
+	if( img->GetPtrMsgList() > 0 )
 	{
-		ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it); 
-		msgManager->DeleteMessage(msgReg->GetIDImage(),false);
-		it++;
+		//Obtener la lista de mensajes.
+		tRegisterList* msgList = this->orgListMsgs.GetList(img->GetPtrMsgList());
+		itRegisterList it = msgList->begin();
+	
+	
+		//Eliminar mensajes asociados.
+		while(it != msgList->end())
+		{
+			ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it); 
+			msgManager->DeleteMessage(msgReg->GetIDImage(),false);
+			it++;
+		}
 	}
 	
 	//Eliminar el espacio libre disponible.
