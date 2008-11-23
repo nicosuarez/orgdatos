@@ -11,9 +11,12 @@
 #include "Constant.h"
 #include "StrToken.h"
 #include "Exception/eFile.h"
+#include "Exception/eNotExist.h"
+#include "Exception/eExist.h"
 #include "../Steganographic/ImageFactory.h"
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
 #include "../DataAccess/Organizations/OrgList.h"
+#include "../DataAccess/Organizations/OrgText.h"
 #include "../DataAccess/Registries/MsgRegistry.h"
 #include "../DataAccess/Registries/ListImgRegistry.h"
 #include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
@@ -21,6 +24,7 @@
 #include "../Tree/factory.h"
 #include "../Tree/BppTree/treeIterator.h"
 #include "Resource.h"
+
 
 /**
  * Clase que maneja el comportamiento de los mensajes, ocultandolos y extrayendolos
@@ -34,18 +38,18 @@ public:
 	static MessageManager* GetInstance();
 
 	/*Extrae el mensaje oculto y lo devuelve como un nuevo mensaje*/
-	bool Extract(std::string nameMsg, std::string pathMsg, Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
+	void Extract(std::string nameMsg, std::string pathMsg, Message msgTar=Message(PATH_TARGET_DESCOMPRESS_CM));
 
 	/*Oculta un mensaje*/
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
 
 	/*Elimina un mensaje oculto*/
-	void DeleteMessage(std::string nameMessage);
-
-	/*Devuelve una lista con los distintos espacios en los
-	 * cuales el mensaje esta oculto */
-	list<Space> GetFullSpaces(unsigned long messageId);
+	void DeleteMessage(ID_type idMsg, bool addFreeSpace);
 	
+	void DeleteMessage(std::string nameMessage, bool addFreeSpace);
+	
+	void DeleteMessages(list<ID_type> *listImg);
+
 	void ShowMessage();
 
 	/*Destructor*/
@@ -58,6 +62,7 @@ private:
 
 	OrgExtensibleRelative orgMsg;
 	OrgList orgListImages;
+	OrgText orgNames;
 
 	/*Arbol de Mensajes*/
 	BppTree treeMsg;
@@ -65,6 +70,14 @@ private:
 	/*Constructor privado*/
 	MessageManager();
 
+	ID_type HideMessage(tListSpaces *spaces, Message &msgTarget);
+	
+	void UpdateListMessage(MsgRegistry &regMsg);
+	
+	void ExtractMessage(ID_type idFirstList, Message &msgTarget);
+	
+	void AddFreeSpaces(std::list<ListRegistry*> *listImg);
+	
 	/*Constructor de copia y operador = privados para evitar errores*/
     MessageManager(const MessageManager &manager);
     MessageManager& operator=(const MessageManager &manager);

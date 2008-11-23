@@ -12,7 +12,8 @@
 #define PATH_NAMES_IMG_FILE_FULLPATH "./Files/NamesImg.dat"
 #define PATH_NAMES_IMG_FILE "NamesImg.dat"
 #define PATH_NAMES_IMG_PATHFILE "./Files/"
-#define PATH_NAMES_MSG_FILE "./Files/NamesMsg.dat"
+#define PATH_NAMES_MSG_FILE "NamesMsg.dat"
+#define PATH_NAMES_MSG_PATHFILE "./Files/"
 
 /*----------------Password--------------*/
 #define PATH_INTRUDER "./Files/"

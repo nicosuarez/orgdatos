@@ -67,7 +67,13 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		imgID = valPair.first;
 		spaceSize = keyPair.second;
 		position = valPair.second;
-		string pathImg = iManager->GetPathImage(imgID);
+		string pathImg; 
+		try{
+			pathImg= iManager->GetPathImage(imgID);
+		}
+		catch(char *error){
+			throw eFile(PATH_IMG_FILE);
+		}
 
 		Space * space = new Space(pathImg,EMPTY,position,spaceSize);
 		freeSpaceLst->push_front(space);
@@ -104,7 +110,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	if(it.end() && (acumSize < imgSize))
 	{
 		freeSpacesTree.deleteIterator(it);
-		throw eFile(ERR_INSUFFICIENT_SPACE);
+		throw eNotSpace(ERR_INSUFFICIENT_SPACE);
 	}
 	freeSpacesTree.deleteIterator(it);
 

@@ -1,20 +1,21 @@
-#ifndef EFILE_H_
-#define EFILE_H_
+#ifndef EEXIST_H_
+#define EEXIST_H_
+
 #include <string>
 #include <exception>
 
 using std::exception;
 
-class eFile: public exception{
+class eExist: public exception{
     protected:
         std::string message;
 
     public:
-        eFile(const std::string& amessage): exception(), message(amessage)
+        eExist(const std::string& amessage): exception(), message(amessage)
         {
         }
         
-        ~eFile()throw()
+        ~eExist()throw()
         {
         }
 
@@ -24,4 +25,4 @@ class eFile: public exception{
         }
 };
 
-#endif /* EFILE_H_ */
+#endif /*EEXIST_H_*/

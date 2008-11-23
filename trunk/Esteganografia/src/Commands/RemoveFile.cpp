@@ -31,6 +31,18 @@ bool RemoveFile::InternalProcess(tVecStr params)
 {
 	std::string nameMessage = std::string(params[1]);
 	MessageManager *messageManager = MessageManager::GetInstance();
-	messageManager->DeleteMessage(nameMessage);
+	try
+	{
+		messageManager->DeleteMessage(nameMessage, true);
+		cout << MSG_DELETE_SUCCESS << endl;
+	}
+	catch(eFile &e)
+	{
+		cout << EXC_EFILE << e.what() << "\n";
+	}
+	catch(eNotExist &e)
+	{
+		cout << e.what() << "\n";
+	}
 	return true;
 }

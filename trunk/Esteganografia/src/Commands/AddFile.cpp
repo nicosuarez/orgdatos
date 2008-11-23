@@ -1,6 +1,6 @@
 #include "AddFile.h"
 
-using namespace std;
+using std::cout;
 
 AddFile::AddFile(string cmd) : Command(cmd)
 {
@@ -31,10 +31,17 @@ bool AddFile::InternalProcess(tVecStr params)
 {
 	std::string pathMessage = params[1];
 	MessageManager *messageManager = MessageManager::GetInstance();
-	try{
+	try
+	{
+		std::cout << PROCESS_COMMAND;
 		messageManager->Hide(pathMessage);
-	}catch(eFile e){
-		cout<< EXC_EFILE<<e.what() << "\n";
+		std::cout << MSG_HIDE_SUCCESS;
+	}
+	catch(eFile &e){
+		cout << EXC_EFILE << e.what() << "\n";
+	}
+	catch(exception &e){
+		cout << e.what() << "\n";
 	}
 	return true;
 }
