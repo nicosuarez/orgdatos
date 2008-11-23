@@ -16,9 +16,10 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 		ImgRegistry();
 		~ImgRegistry();
 
-		static ExtensibleRelativeRegistry* RegCreate();
+		static ExtensibleRelativeRegistry* Create();
 
 		ID_type GetIDImagePath() const;
+		
 		void SetIDImagePath(ID_type idImgPath);
 
 		ID_type GetPtrMsgList() const;

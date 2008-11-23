@@ -9,7 +9,8 @@
 	
 	ImgRegistry::ImgRegistry():ExtensibleRelativeRegistry(){};
 
-	ExtensibleRelativeRegistry* ImgRegistry::RegCreate(){
+	ExtensibleRelativeRegistry* ImgRegistry::Create()
+	{
 		return new ImgRegistry();
 	}
 
@@ -95,7 +96,7 @@
           ExtensibleRelativeRegistry::Deserialize(buffer, length);
 
           unsigned int pos = ExtensibleRelativeRegistry::GetSize();
-          GetFromSerialization(buffer, &idImgPath, pos, sizeof(this->idImgPath));
+          GetFromSerialization(buffer, &idImgPath, pos, sizeof(idImgPath));
           pos += sizeof(this->idImgPath);
           GetFromSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
           pos+=sizeof(this->ptrMsgList);

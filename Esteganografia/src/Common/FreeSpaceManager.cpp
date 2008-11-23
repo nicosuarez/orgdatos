@@ -40,21 +40,23 @@ void FreeSpaceManager::PrintIteratorValue(TreeIterator& it){
 	}
 }
 /* -------------------------------------------------------------------------- */
-tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
+tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long msgSize)
 {
 	//Chequeo si hay espacios libres en el arbol
 	if( freeSpacesTree.empty() )
 	{
 		return NULL;
 	}
-	unsigned long acumSize=0, position=0, spaceSize=0, newFreeSize=imgSize;
+	unsigned long acumSize=0, position=0, spaceSize=0, newFreeSize=msgSize;
 	ID_type imgID=0, freeSpaceID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
 	TreeIterator& it = freeSpacesTree.first();
 	tVecFreeSpace deleteKeys, addSpaceKeys;
+	
+	std::cout << freeSpacesTree;
 
-	while(!it.end() && (acumSize < imgSize))
+	while(!it.end() && (acumSize < msgSize))
 	{
 		std::pair<Register*,Register*>keyval= *it;
 
@@ -83,7 +85,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		//Dar de baja el espacio libre, y dar de alta el nuevo espacio libre sobrante.
 		deleteKeys.push_back(space);
 		
-		if(acumSize <= imgSize)
+		if(acumSize <= msgSize)
 		{
 			//Tamano del nuevo espacio libre generado.
 			newFreeSize -= spaceSize;
@@ -106,7 +108,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		//delete key;
 		delete val;
 	}
-	if(it.end() && (acumSize < imgSize))
+	if(it.end() && (acumSize < msgSize))
 	{
 		freeSpacesTree.deleteIterator(it);
 		throw eNotSpace(ERR_INSUFFICIENT_SPACE);
@@ -158,17 +160,31 @@ void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
 	ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
 	ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
 	
-	//Eliminar de la lista de la imagen.
+	//Eliminar de la lista de la imagen el espacio libre.
 	tRegisterList* freeSpaceList = this->orgListFreeSpaces.GetList(firstList);
 	itRegisterList it = freeSpaceList->begin();
-		
+	
 	//Si la lista no esta vacia, asigno el puntero al nuevo espacio libre
 	if( freeSpaceList->size() > 1 )
 	{
-		it++;
-		it++;
-		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
-		imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
+//		it++;
+//		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+//		imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
+		
+		//Busco el nuevo primer espacio libre de la lista. 
+		while(it != freeSpaceList->end())
+		{
+			ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+			ID_type freeSpacesID = fsReg->GetID();
+			if(freeSpacesID != freeSpace->GetIDSpace())
+			{
+				imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
+				break;
+			}
+			
+			it++;
+		}
+		
 	}
 	else //Si esta vacia, apunta a NULL
 	{
@@ -192,6 +208,8 @@ void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
 	//Eliminar del arbol
 	KeyFreeSpace key(freeSpace->GetIDSpace(), freeSpace->GetSize());
 	freeSpacesTree.remove(key);
+	
+	std::cout << freeSpacesTree;
 
 }
 /* -------------------------------------------------------------------------- */
@@ -246,6 +264,8 @@ ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 	ValueFreeSpace valFs(idImage, space->GetInitialPosition());
 	freeSpacesTree.insert(keyFs, valFs);
 
+	std::cout << freeSpacesTree;
+	
 	return fsReg.GetID();
 }
 /* -------------------------------------------------------------------------- */

@@ -169,6 +169,8 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 		ValueNull vNull;
 		dirTree.insert(kSubDirTreeDir,vNull);
 	}
+	cout << dirTree;
+	
 	return ans;
 
 	/*KeyStr other("/home/malcha/Escritorio/Datos/Eclipse/AuxStegno/Estegno/Stegno/Imb");
@@ -190,6 +192,9 @@ string ImageManager::GetPathImage(ID_type idImg)
 }
 /* -------------------------------------------------------------------------- */
 void ImageManager::RecorreElArbol(){
+	if(imgTree.empty())
+		return;
+	
 	KeyStr kDir("");
 	TreeIterator& it = imgTree.first();
 	while (!it.end()){
@@ -199,9 +204,13 @@ void ImageManager::RecorreElArbol(){
 		delete kStr;
 		++it;
 	}
+	imgTree.deleteIterator(it);
+	
 }
 /* -------------------------------------------------------------------------- */
 void ImageManager::RecorreElArbolDir(){
+	if(dirTree.empty())
+			return;
 	KeyStr kDir("");
 	TreeIterator& it = dirTree.first();
 	while (!it.end()){
@@ -211,6 +220,7 @@ void ImageManager::RecorreElArbolDir(){
 		delete kStr;
 		++it;
 	}
+	dirTree.deleteIterator(it);
 }
 /* -------------------------------------------------------------------------- */
 
@@ -224,6 +234,9 @@ void ImageManager::TransformKeyImgToKeyDir(string& st){
 
 tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
+	
+	cout << dirTree;
+	
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
 	string dir=string (dirPath) +"/";
@@ -271,6 +284,9 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		KeyStr keyImg(pathDi);
 
 		dirTree.remove(keyDir);
+		
+		cout << dirTree;
+		
 		if (imgTree.exists(keyImg)) //Esto para debuggear
 			imgTree.remove(keyImg);
 	}
@@ -317,6 +333,9 @@ void ImageManager::TestDirectory(const char* dirPath){
 /* -------------------------------------------------------------------------- */
 tVecStr ImageManager::GetAllDirectories(){
 	tVecStr ans;
+	
+	cout << dirTree;
+	
 	if (!dirTree.empty()){
 		TreeIterator& it = dirTree.first();
 		std::list <std::string> dirList;
@@ -347,6 +366,10 @@ tVecStr ImageManager::GetAllDirectories(){
 
 		dirList.clear();
 		dirTree.deleteIterator(it);
+	}
+	else
+	{
+		cout << MSG_NOT_EXIST_DIRECTORIES << std::endl;
 	}
 	return ans;
 }
