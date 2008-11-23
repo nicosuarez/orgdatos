@@ -28,7 +28,7 @@ bool PasswordManager::ValidatePassword(){
 		return false; //Si no existe devuelve false
 	fpImg.close();
 	Date datePass=Date::getDate(PATH_PASS_FILE);
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	//fImg.Open(ExtensibleRelativeFile::READ);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
 	//fImg.close();
@@ -82,7 +82,7 @@ void PasswordManager::Hide(const Message& msg,const Message& msgTarget){
 void PasswordManager::CreatePass(const Message& msg,short mode){
 	PasswordManager::Hide(msg,Message(PATH_PASS_FILE));
 	ImgRegistry* reg;
-	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	//fImg.Open(ExtensibleRelativeFile::READ_WRITE);
 	Date datePass=Date::getDate(PATH_PASS_FILE);
 	if (mode==PasswordManager::CHANGE){

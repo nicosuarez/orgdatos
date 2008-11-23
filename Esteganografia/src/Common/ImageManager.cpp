@@ -15,7 +15,7 @@ ImageManager* ImageManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-ImageManager::ImageManager(): orgImages(PATH_IMG_FILE, ImgRegistry::RegCreate),
+ImageManager::ImageManager(): orgImages(PATH_IMG_FILE, ImgRegistry::Create),
 							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_PATHFILE, PATH_NAMES_IMG_FILE),

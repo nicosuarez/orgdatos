@@ -134,11 +134,9 @@ bool FileSystem::IsValidStructure(){
 
 /* -------------------------------------------------------------------------- */
 
-void FileSystem::CreateStruture(const Message& pass){
-	ImgRegistry reg;
-	ExtensibleRelativeFile fImg(PATH_IMG_FILE, ImgRegistry::RegCreate);
-	fImg.Create(reg.GetSize());
-
+void FileSystem::CreateStruture(const Message& pass)
+{
+	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	PasswordManager::CreatePass(pass,PasswordManager::NEW);
 }
 /* -------------------------------------------------------------------------- */
