@@ -32,7 +32,7 @@ OrgList::~OrgList()
 
 /* -------------------------------------------------------------------------- */
 
-std::list<ListRegistry*>* OrgList::GetList(ID_type first)
+tRegisterList* OrgList::GetList(ID_type first)
 {
   ListRegistry *reg = dynamic_cast<ListRegistry*>(file->Read(first));
   AssertFirstReg(*reg);

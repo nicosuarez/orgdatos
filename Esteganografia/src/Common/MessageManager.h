@@ -25,6 +25,9 @@
 #include "../Tree/BppTree/treeIterator.h"
 #include "Resource.h"
 
+typedef std::list<Space*> tListSpaces;
+typedef std::list<Space*>::iterator itListSpaces;
+typedef std::vector< Space* > tVecFreeSpace;
 
 /**
  * Clase que maneja el comportamiento de los mensajes, ocultandolos y extrayendolos

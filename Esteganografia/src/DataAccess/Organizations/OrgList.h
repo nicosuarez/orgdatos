@@ -11,6 +11,9 @@
 #include "../Files/ExtensibleRelativeFile.h"
 #include "../Registries/ListRegistry.h"
 
+typedef std::list<ListRegistry*> tRegisterList;
+typedef std::list<ListRegistry*>::iterator itRegisterList;
+
 /* This class handles the ExtensibleRelativeFile as an organization of 
  * linked registries, building a list. */
 class OrgList
@@ -27,7 +30,7 @@ class OrgList
     
     /* Gets the entire list. The caller must free the allocated memory.
      * first: The ID of the first registry in the list. */
-    std::list<ListRegistry*>* GetList(ID_type first);
+    tRegisterList* GetList(ID_type first);
     
     /* Starts a new list.
      * firstReg: The first registry of the new list. */

@@ -24,6 +24,10 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
 		ID_type GetPtrMsgList() const;
 
 		void SetPtrMsgList(ID_type ptrMsgList);
+		
+		ID_type GetPtrFreeSpaceList() const;
+
+		void SetPtrFreeSpaceList(ID_type ptrFreeSpaceList);
 
 		Date GetDate() const;
 		
@@ -38,6 +42,7 @@ class ImgRegistry:public ExtensibleRelativeRegistry{
   private:
 	    ID_type idImgPath;
 	    ID_type ptrMsgList;
+	    ID_type ptrFreeSpaceList;
 	    Date date;
 };
 

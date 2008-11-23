@@ -19,10 +19,12 @@ class Space
 {
 
 public:
+	Space(ID_type idSpace, ID_type idImg , string filePath, unsigned long initialPosition, unsigned long size);
 	Space(string filePath, string format, unsigned long initialPosition, unsigned long size);
 	Space(string filePath, unsigned long initialPosition, unsigned long size);
 	Space(ID_type idImg, unsigned long initialPosition, unsigned long size);
 	Space(string filePath);
+	Space(ID_type idSpace, ID_type idImg);
 	virtual ~Space();
 
 	const char* GetFilePath() const;
@@ -34,13 +36,16 @@ public:
 	void SetInitialPosition(unsigned long position);
 	ID_type GetIDImage() const;
 	void SetIDImage(ID_type idImg);
+	ID_type GetIDSpace() const;
+	void SetIDSpace(ID_type spaceId);
 
-private:
+protected:
 	string filePath;
 	string format;
 	unsigned long initialPosition;
 	unsigned long size;
 	ID_type idImg;
+	ID_type idSpace;
 
 };
 #endif // !defined(EA_B792C72C_98EA_11dd_B49B_001B2425640C__INCLUDED_)

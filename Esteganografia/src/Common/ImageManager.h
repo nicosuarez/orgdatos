@@ -23,6 +23,7 @@
 #include "../Tree/BppTree/bpptree.h"
 #include "FileSystem.h"
 #include "FreeSpaceManager.h"
+#include "MessageManager.h"
 #include "../Steganographic/ImageFactory.h"
 
 /**
@@ -98,7 +99,14 @@ class ImageManager
 	 */
 	tVecStr GetImageErasedFromDirectories();
 
+	/* Agrega un mensaje a la imagen */
 	void AddMessageToImage( ID_type idImage, ID_type idMessage);
+	
+	/* Obtiene un registro imagen */
+	ImgRegistry* GetImageRegistry( ID_type idImage);
+	
+	/* Actualiza un registro imagen */
+	void UpdateImageRegistry(ImgRegistry* modifiedImgReg);
 
 	/* Destructor*/
 	virtual ~ImageManager();

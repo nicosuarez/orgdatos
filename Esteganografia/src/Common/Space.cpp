@@ -8,12 +8,33 @@
 #include "Space.h"
 
 
+Space::Space(ID_type idSpace, ID_type idImg , string filePath, unsigned long initialPosition, unsigned long size)
+{
+	this->filePath = filePath;
+	this->format = "";
+	this->initialPosition = initialPosition;
+	this->size = size;
+	this->idSpace = idSpace;
+	this->idImg = idImg;
+}
+
+Space::Space(ID_type idSpace, ID_type idImg)
+{
+	this->filePath = "";
+	this->format = "";
+	this->initialPosition = 0;
+	this->size = 0;
+	this->idImg = idImg;
+	this->idSpace = idSpace;
+}
+
 Space::Space(string filePath, string format, unsigned long initialPosition, unsigned long size)
 {
 	this->filePath = filePath;
 	this->format = format;
 	this->initialPosition = initialPosition;
 	this->size = size;
+	this->idSpace = 0;
 }
 
 Space::Space(string filePath, unsigned long initialPosition, unsigned long size)
@@ -21,6 +42,7 @@ Space::Space(string filePath, unsigned long initialPosition, unsigned long size)
 	this->filePath = filePath;
 	this->initialPosition = initialPosition;
 	this->size = size;
+	this->idSpace = 0;
 }
 
 Space::Space(ID_type idImg, unsigned long initialPosition, unsigned long size)
@@ -28,6 +50,7 @@ Space::Space(ID_type idImg, unsigned long initialPosition, unsigned long size)
 	this->idImg = idImg;
 	this->initialPosition = initialPosition;
 	this->size = size;
+	this->idSpace = 0;
 }
 
 Space::Space(string filePath)
@@ -36,6 +59,7 @@ Space::Space(string filePath)
 	this->format = "";
 	this->initialPosition = 0;
 	this->size = 0;
+	this->idSpace = 0;
 }
 
 
@@ -126,3 +150,21 @@ void Space::SetIDImage(ID_type idImg)
 {
 	this->idImg = idImg;
 }
+
+/*
+ * Devuelve el id del espacio.
+ */
+ID_type Space::GetIDSpace() const
+{
+	return idSpace;
+}
+
+/*
+ * Setea el id al espacio
+ */
+void Space::SetIDSpace(ID_type spaceId)
+{
+	this->idSpace = spaceId;
+}
+
+

@@ -1,6 +1,12 @@
 	#include "ImgRegistry.h"
 
-	ImgRegistry::~ImgRegistry(){}
+	ImgRegistry::~ImgRegistry()
+	{
+		this->idImgPath = 0;
+	    this->ptrMsgList = NULL;
+	    this->ptrFreeSpaceList = NULL;
+	}
+	
 	ImgRegistry::ImgRegistry():ExtensibleRelativeRegistry(){};
 
 	ExtensibleRelativeRegistry* ImgRegistry::RegCreate(){
@@ -17,6 +23,16 @@
         this->idImgPath = idImgPath;
     }
 
+    ID_type ImgRegistry::GetPtrFreeSpaceList() const
+    {
+        return ptrFreeSpaceList;
+    }
+
+    void ImgRegistry::SetPtrFreeSpaceList(ID_type ptrFreeSpaceList)
+    {
+        this->ptrFreeSpaceList = ptrFreeSpaceList;
+    }
+    
     ID_type ImgRegistry::GetPtrMsgList() const
     {
         return ptrMsgList;
@@ -40,7 +56,8 @@
     unsigned int ImgRegistry::GetSize() const
     {
     	size_t extRel=ExtensibleRelativeRegistry::GetSize();
-    	return (extRel + sizeof(idImgPath)+ sizeof(ptrMsgList) +date.getSize());
+    	return (extRel + sizeof(idImgPath) + sizeof(ptrMsgList) +
+    			sizeof(ptrFreeSpaceList) + date.getSize());
     }
 
     char* ImgRegistry::Serialize() const
@@ -51,6 +68,8 @@
 		pos += sizeof(this->idImgPath);
 		AddToSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
 		pos+=sizeof(this->ptrMsgList);
+		AddToSerialization(buffer, &ptrFreeSpaceList, pos, sizeof(ptrFreeSpaceList));
+		pos+=sizeof(this->ptrFreeSpaceList);
 		unsigned int year=date.getYear();
 		unsigned int month=date.getMonth();
 		unsigned int day=date.getDay();
@@ -80,6 +99,8 @@
           pos += sizeof(this->idImgPath);
           GetFromSerialization(buffer, &ptrMsgList, pos, sizeof(ptrMsgList));
           pos+=sizeof(this->ptrMsgList);
+          GetFromSerialization(buffer, &ptrFreeSpaceList, pos, sizeof(ptrFreeSpaceList));
+          pos+=sizeof(this->ptrFreeSpaceList);
           unsigned int year=date.getYear();
           unsigned int month=date.getMonth();
           unsigned int day=date.getDay();
