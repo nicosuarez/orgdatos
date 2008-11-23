@@ -4,7 +4,8 @@ FreeSpaceManager* FreeSpaceManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */
 
 
-FreeSpaceManager::FreeSpaceManager() :  orgFreeSpaces(PATH_FREE_SPACE_FILE, FreeSpaceRegistry::Create),
+FreeSpaceManager::FreeSpaceManager() :  //orgFreeSpaces(PATH_FREE_SPACE_FILE, FreeSpaceRegistry::Create),
+	 									orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 										freeSpacesTree(512,KeyFreeSpaceFactory(), ValueFreeSpaceFactory(),PATH_TREE_FREE_SPACE)
 {
 	delete instance;
@@ -47,12 +48,11 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		return NULL;
 	}
 	unsigned long acumSize=0, position=0, spaceSize=0, newFreeSize=imgSize;
-	ID_type imgID=0;
+	ID_type imgID=0, freeSpaceID=0;
 	tListSpaces * freeSpaceLst = new tListSpaces();
 	ImageManager* iManager=ImageManager::GetInstance();
 	TreeIterator& it = freeSpacesTree.first();
-	tVecKFreeSpace deleteKeys;
-	tVecNewFreeSpaces addSpaceKeys;
+	tVecFreeSpace deleteKeys, addSpaceKeys;
 
 	while(!it.end() && (acumSize < imgSize))
 	{
@@ -65,6 +65,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 		std::pair<ID_type,unsigned long> valPair = val->GetValue();
 
 		imgID = valPair.first;
+		freeSpaceID = keyPair.first;
 		spaceSize = keyPair.second;
 		position = valPair.second;
 		string pathImg; 
@@ -75,13 +76,13 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 			throw eFile(PATH_IMG_FILE);
 		}
 
-		Space * space = new Space(pathImg,EMPTY,position,spaceSize);
+		Space* space = new Space(freeSpaceID, imgID, pathImg, position, spaceSize);
 		freeSpaceLst->push_front(space);
 		acumSize += spaceSize;
 
 		//Dar de baja el espacio libre, y dar de alta el nuevo espacio libre sobrante.
-		//freeSpacesTree.remove(*key);
-		deleteKeys.push_back(key);
+		deleteKeys.push_back(space);
+		
 		if(acumSize <= imgSize)
 		{
 			//Tamano del nuevo espacio libre generado.
@@ -94,11 +95,9 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 			Image* image = ImageFactory::GetImage(pathImg.c_str());
 			unsigned int bitsLsb = image->GetBitsLsb();
 			unsigned long newPosition = position + newFreeSize * (8/bitsLsb);
-			Space * newSpace = new Space(pathImg,EMPTY,newPosition,newSize);
+			Space* newSpace = new Space(pathImg,newPosition,newSize);
 			newSpace->SetIDImage(imgID);
 			addSpaceKeys.push_back(newSpace);
-			//AddFreeSpace(space);
-			//delete space;
 		}
 
 //		PrintIteratorValue(it);
@@ -114,16 +113,92 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long imgSize)
 	}
 	freeSpacesTree.deleteIterator(it);
 
-	for(unsigned int i=0; i<deleteKeys.size();i++){
-		freeSpacesTree.remove(*(deleteKeys[i]));
-		delete deleteKeys[i];
-	}
+	RemoveFreeSpace(deleteKeys);
 
 	for(unsigned int j=0; j<addSpaceKeys.size();j++){
-		AddFreeSpace(addSpaceKeys[j]);
-		delete addSpaceKeys[j];
+		Space* space = addSpaceKeys[j];
+		AddFreeSpace(space);
+		delete space;
 	}
 	return freeSpaceLst;
+
+}
+/* -------------------------------------------------------------------------- */
+void FreeSpaceManager::RemoveFreeSpace(tVecFreeSpace& freeSpaceList)
+{
+	for(size_t i=0; i<freeSpaceList.size();i++)
+	{
+		Space* space = freeSpaceList[i];
+		RemoveFreeSpace(space);
+	}
+}
+/* -------------------------------------------------------------------------- */
+void FreeSpaceManager::RemoveFreeSpaceList(ID_type ptrFreeSpace)
+{
+	tRegisterList* freeSpaceList = GetFreeSpacesList(ptrFreeSpace);
+	
+	itRegisterList it = freeSpaceList->begin();
+	while(it != freeSpaceList->end())
+	{
+		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+		Space* space = new Space(fsReg->GetID(),fsReg->GetIdImage());
+		RemoveFreeSpace(space);
+		it++;
+	}
+}
+/* -------------------------------------------------------------------------- */
+void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
+{
+	ImageManager* iManager=ImageManager::GetInstance();
+
+	ID_type idImage = freeSpace->GetIDImage();
+	
+	//Leo el registro imagen para obtener el id del primer registro de la 
+	//lista de espacios libres.
+	ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
+	ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
+	
+	//Eliminar de la lista de la imagen.
+	tRegisterList* freeSpaceList = this->orgListFreeSpaces.GetList(firstList);
+	itRegisterList it = freeSpaceList->begin();
+		
+	//Si la lista no esta vacia, asigno el puntero al nuevo espacio libre
+	if( freeSpaceList->size() > 1 )
+	{
+		it++;
+		it++;
+		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+		imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
+	}
+	else //Si esta vacia, apunta a NULL
+	{
+		imgRegistry->SetPtrFreeSpaceList(NULL); 
+	}
+
+	this->orgListFreeSpaces.DeleteFromList(freeSpace->GetIDSpace());
+	
+	iManager->UpdateImageRegistry(imgRegistry);
+
+	delete imgRegistry;
+
+	itRegisterList itDel = freeSpaceList->begin();
+	while(itDel != freeSpaceList->end())
+	{
+		delete (*itDel);
+		itDel++;
+	}
+	delete freeSpaceList;
+
+	//Eliminar del arbol
+	KeyFreeSpace key(freeSpace->GetIDSpace(), freeSpace->GetSize());
+	freeSpacesTree.remove(key);
+
+}
+/* -------------------------------------------------------------------------- */
+tRegisterList* FreeSpaceManager::GetFreeSpacesList(ID_type ptrFreeSpace)
+{
+	tRegisterList* fsList = this->orgListFreeSpaces.GetList(ptrFreeSpace);
+	return fsList;
 }
 /* -------------------------------------------------------------------------- */
 void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
@@ -133,17 +208,42 @@ void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 	{
 		Space* space = *it;
 		AddFreeSpace(space);
-		//AddFreeSpaceTree(idFreeSpace, space->GetSize(), idImg ,space->GetInitialPosition());
-
-    };
+    }
 }
 /* -------------------------------------------------------------------------- */
 ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 {
-	FreeSpaceRegistry fsReg;
-	orgFreeSpaces.WriteRegistry(fsReg);
+	//Obtengo el imageManager
+	ImageManager* iManager=ImageManager::GetInstance();
+
+	ID_type idImage = space->GetIDImage();
+
+	//Leo el registro imagen para obtener el id del primer registro de la 
+	//lista de espacios libres.
+	ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
+	ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
+	ListFreeSpaceRegistry fsReg(idImage);
+	
+	//Si la lista esta vacia, la creo
+	if( firstList == 0 )
+	{
+		this->orgListFreeSpaces.CreateList(fsReg);
+	}
+	else //Si no esta vacia, agrego el nuevo registro al principio
+	{
+
+		this->orgListFreeSpaces.AddToListFirst(fsReg, firstList);
+	}
+
+	//Actualizo el PtrFreeSpaceList del registro imagen
+	imgRegistry->SetPtrFreeSpaceList(fsReg.GetID());
+	iManager->UpdateImageRegistry(imgRegistry);
+
+	delete imgRegistry;
+	
+	//Actualizo el arbol de espacios libres.
 	KeyFreeSpace keyFs(fsReg.GetID(), space->GetSize());
-	ValueFreeSpace valFs(space->GetIDImage(), space->GetInitialPosition());
+	ValueFreeSpace valFs(idImage, space->GetInitialPosition());
 	freeSpacesTree.insert(keyFs, valFs);
 
 	return fsReg.GetID();

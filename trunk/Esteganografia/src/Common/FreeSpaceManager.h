@@ -5,8 +5,8 @@
 #include "ImageManager.h"
 #include "../Tree/factory.h"
 #include "../Tree/BppTree/bpptree.h"
-#include "../DataAccess/Organizations/OrgExtensibleRelative.h"
-#include "../DataAccess/Registries/FreeSpaceRegistry.h"
+#include "../DataAccess/Organizations/OrgList.h"
+#include "../DataAccess/Registries/ListFreeSpaceRegistry.h"
 #include "../Steganographic/Image.h"
 #include "../Steganographic/ImageFactory.h"
 #include "Exception/eFile.h"
@@ -15,8 +15,7 @@
 
 typedef std::list<Space*> tListSpaces;
 typedef std::list<Space*>::iterator itListSpaces;
-typedef std::vector<KeyFreeSpace*> tVecKFreeSpace;
-typedef std::vector<Space*> tVecNewFreeSpaces;
+typedef std::vector< Space* > tVecFreeSpace;
 
 /**
  * Clase que se encarga de buscar dado un mensaje los mejores espacios libres
@@ -34,9 +33,8 @@ public:
 	 * se puede almacenar un mensaje de tamaño "size" */
 	tListSpaces* GetFreeSpaces(unsigned long size);
 
-	/* Agrega un espacio libre al arbol */
-//	void AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
-//			ID_type idImg, unsigned long position);
+	/* Elimina un espacio libre de una imagen */
+	void RemoveFreeSpace(Space* freeSpace);
 
 	/* Destructor */
 	virtual ~FreeSpaceManager();
@@ -46,10 +44,19 @@ public:
 
 	/* Agrega una lista de espacios disponible */
 	void AddFreeSpaces(tListSpaces* spacesList);
+	
+	/* Elimina una lista de espacios libres */
+	void RemoveFreeSpace(tVecFreeSpace& freeSpaceList);
+	
+	/* Elimina una lista espacios libres de una imagen */
+	void RemoveFreeSpaceList(ID_type ptrFreeSpace);
+	
+	/* Obtiene la lista de espacios libres de una imagen */
+	tRegisterList* GetFreeSpacesList(ID_type ptrFreeSpace);
 
 private:
 
-	OrgExtensibleRelative orgFreeSpaces;
+	OrgList orgListFreeSpaces;
 	BppTree freeSpacesTree;
 
 	/*Puntero a la unica instancia del FreeSpaceManager*/

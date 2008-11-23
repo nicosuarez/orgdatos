@@ -8,21 +8,17 @@ class ListFreeSpaceRegistry : public ListRegistry
 public:
 	ListFreeSpaceRegistry();
 	
-	ListFreeSpaceRegistry(unsigned long offsetImage, unsigned long sizeFreeSpace);
+	ListFreeSpaceRegistry(ID_type idImg);
 	
 	virtual ~ListFreeSpaceRegistry();
 	
 	static ExtensibleRelativeRegistry* Create();
 	
-	unsigned long GetOffsetImage() const;
-	
-	unsigned long GetSizeFreeSpace() const;
+	ID_type GetIdImage() const;
 	
 	unsigned int GetSize() const;
 	
-	void SetOffsetImage(unsigned long offsetImage);
-	
-	void SetSizeFreeSpace(unsigned long sizeFreeSpace);
+	void SetIdImage(ID_type idImg);
 	
 	char* Serialize() const;
 	
@@ -30,8 +26,7 @@ public:
 		
 private:
 	
-	unsigned long offsetImage;
-	unsigned long sizeFreeSpace;
+	unsigned long idImage;
 	
     /* Allocation and copy constructor are private to prevent errors. */
 	ListFreeSpaceRegistry(const ListFreeSpaceRegistry &Reg);
