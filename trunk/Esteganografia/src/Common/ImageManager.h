@@ -26,6 +26,7 @@
 #include "MessageManager.h"
 #include "../Steganographic/ImageFactory.h"
 
+typedef enum IMMode {Erased=0 , Added=1 } IMMode;
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
  * Implementa el patron Singleton
@@ -81,11 +82,6 @@ class ImageManager
 	unsigned long GetTotalFreeSize() const;
 
 	/*
-	 * devuelve la lista de todos los directorios
-	 */
-	tVecStr GetAllDirectories();
-
-	/*
 	 *  Returns a list of image files stored in the BppTree that
 	 *  have been recently removed from a specific directory.
 	 *
@@ -101,10 +97,10 @@ class ImageManager
 
 	/* Agrega un mensaje a la imagen */
 	void AddMessageToImage( ID_type idImage, ID_type idMessage);
-	
+
 	/* Obtiene un registro imagen */
 	ImgRegistry* GetImageRegistry( ID_type idImage);
-	
+
 	/* Actualiza un registro imagen */
 	void UpdateImageRegistry(ImgRegistry* modifiedImgReg);
 
@@ -116,6 +112,17 @@ class ImageManager
 	void RecorreElArbolDir();
 
 	void TestDirectory(const char* dirPath);
+
+	/*
+	* devuelve la lista de todos los directorios
+	*/
+	tVecStr GetAllDirectories();
+
+	/*
+	 * Devuelve una lista de imagenes borradas o nuevas de
+	 * los directorios.
+	 */
+	tVecStr GetUpdatedList( IMMode );
 
 private:
 	//Borra la imagen y sus mensajes
@@ -145,6 +152,17 @@ private:
 	/*Constructor de copia y operador = privados para evitar errores*/
     ImageManager(const ImageManager &manager);
     ImageManager& operator=(const ImageManager &manager);
+
+    /*
+	 * Devuelve una lista con las imagenes que no figuran
+	 * en 2 Trees (compara solo por nombre).
+	 */
+	tVecStr GetMergedList( BppTree & , BppTree &);
+
+	/*
+	 * Filtra la lista obtenida por GetMergedList por date
+	 */
+	tVecStr filterByDate ( tVecStr );
 
 };
 #endif /* IMAGEMANAGER_H */
