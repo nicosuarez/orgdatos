@@ -143,7 +143,7 @@ void FreeSpaceManager::RemoveFreeSpaceList(ID_type ptrFreeSpace)
 	while(it != freeSpaceList->end())
 	{
 		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
-		Space* space = new Space(fsReg->GetID(),fsReg->GetIdImage());
+		Space* space = new Space(fsReg->GetID(),fsReg->GetIdImage(), fsReg->GetSpaceSize());
 		RemoveFreeSpace(space);
 		it++;
 	}
@@ -235,12 +235,13 @@ ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 	ImageManager* iManager=ImageManager::GetInstance();
 
 	ID_type idImage = space->GetIDImage();
+	unsigned long spaceSize = space->GetSize();
 
 	//Leo el registro imagen para obtener el id del primer registro de la 
 	//lista de espacios libres.
 	ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
 	ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
-	ListFreeSpaceRegistry fsReg(idImage);
+	ListFreeSpaceRegistry fsReg(idImage, spaceSize);
 	
 	//Si la lista esta vacia, la creo
 	if( firstList == 0 )

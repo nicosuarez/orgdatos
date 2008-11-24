@@ -3,11 +3,19 @@
 ListFreeSpaceRegistry::ListFreeSpaceRegistry():ListRegistry()
 {
 	this->idImage = 0;
+	this->size = 0;
 }
 
-ListFreeSpaceRegistry:: ListFreeSpaceRegistry( ID_type idImage) : ListRegistry()
+ListFreeSpaceRegistry:: ListFreeSpaceRegistry(ID_type idImage) : ListRegistry()
 {
 	this->idImage = idImage;
+	this->size = 0;
+}
+
+ListFreeSpaceRegistry:: ListFreeSpaceRegistry(ID_type idImage, unsigned long size) : ListRegistry()
+{
+	this->idImage = idImage;
+	this->size = size;
 }
 
 ListFreeSpaceRegistry::~ListFreeSpaceRegistry()
@@ -31,7 +39,17 @@ void ListFreeSpaceRegistry::SetIdImage(ID_type idImage)
 
 unsigned int ListFreeSpaceRegistry::GetSize() const
 {
-	return (ListRegistry::GetSize() + sizeof(idImage));
+	return (ListRegistry::GetSize() + sizeof(idImage) + sizeof(size));
+}
+
+unsigned long ListFreeSpaceRegistry::GetSpaceSize() const
+{
+	return this->size;
+}
+
+void ListFreeSpaceRegistry::SetSpaceSize(unsigned long size)
+{
+	this->size = size;
 }
 
 char* ListFreeSpaceRegistry::Serialize() const
@@ -41,6 +59,8 @@ char* ListFreeSpaceRegistry::Serialize() const
 	
 	AddToSerialization(buffer, &idImage, pos, sizeof(idImage));
 	pos += sizeof(idImage);
+	AddToSerialization(buffer, &size, pos, sizeof(size));
+	pos += sizeof(size);
 	
 	return buffer;
 }
@@ -52,6 +72,8 @@ void ListFreeSpaceRegistry::Deserialize(const char* buffer, unsigned int length)
 	
 	GetFromSerialization(buffer, &idImage, pos, sizeof(idImage));
 	pos += sizeof(idImage);
+	GetFromSerialization(buffer, &size, pos, sizeof(size));
+	pos += sizeof(size);
 	
 }
 

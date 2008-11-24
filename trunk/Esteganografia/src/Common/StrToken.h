@@ -51,6 +51,7 @@ public:
     static void toLowerString(std::string& str);
     static string intToString( int entero );
     static void Trim(std::string& str);
+    static void FormatPath(std::string& str, std::string del = std::string("/"));
 };
 
 #endif
