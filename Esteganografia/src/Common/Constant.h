@@ -39,6 +39,9 @@
 /*----------------IMAGEMANAGER--------------*/
 #define END_DIRECTORY "._@"
 
+#define PATH_TREE_DIR "./Files/treeDir.dat"
+#define PATH_TREE_TMP "./Files/treeTmp.dat"
+
 #endif /*__CONSTANT__H_*/
 
 

@@ -528,12 +528,12 @@ void TestListImgRegistry()
 
 void testCompresion()
 {
-	Message msg("./Files/dato2.dat");
+	Message msg("./Files/Stegno");
 	Message msg2=CompressionManager::Compress(msg);
 	Message msg3("./Files/dataAuxiliary.dat");
 	EncriptationManager::Encrypt(msg2,msg3);
 	Message msg4=EncriptationManager::Decrypt(msg3);
-	Message msg5("./Files/dataAnswer.dat");
+	Message msg5("./Files/StegAns");
 	CompressionManager::Decompress(msg4,msg5);
 	msg2.Delete();
 	msg3.Delete();
@@ -757,6 +757,22 @@ void TestAddDirectory(){
      	std::cout << erasedImgList[i] << std::endl;
  }
 
+ void TestCheckImagesFromAllDirectories(){
+ 	ImageManager* imMan=ImageManager::GetInstance();
+
+    tVecStr erasedImgList = imMan->GetUpdatedList( Erased );
+
+     std::cout<< "\nImagenes borradas de los directorios:\n";
+     for ( unsigned int i = 0; i < erasedImgList.size() ; i++)
+     	std::cout<< erasedImgList[i] <<std::endl;
+
+    tVecStr addedImgList = imMan->GetUpdatedList( Added );
+
+    std::cout<< "\nImagenes agregadas en los directorios:\n";
+    for ( unsigned int i = 0; i < addedImgList.size() ; i++)
+     	std::cout<< addedImgList[i] << std::endl;
+ }
+
 
 int main(int argc, char *argv[])
 {
@@ -766,9 +782,11 @@ int main(int argc, char *argv[])
 	//testStenographic(argc, argv);
 	//testDataAccess(argc, argv);
 	//testArbol();
-	testConsole(argc, argv);
+	//testConsole(argc, argv);
 //	TestCheckErasedImagesFromPath();
 //	TestCheckErasedImagesFromAllDirectories();
+	TestCheckImagesFromAllDirectories();
+	cout<<"FIN"<<endl;
 	}
 	catch(char* error)
     {
