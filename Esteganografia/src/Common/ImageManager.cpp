@@ -94,13 +94,13 @@ void ImageManager::DeleteImage(ID_type idImg){
 	string path=orgNamesImages.GetText(img->GetIDImagePath());
 	orgNamesImages.DeleteText(img->GetIDImagePath());
 
+	//Obtener la lista de mensajes.
+	
 	if( img->GetPtrMsgList() > 0 )
 	{
-		//Obtener la lista de mensajes.
 		tRegisterList* msgList = this->orgListMsgs.GetList(img->GetPtrMsgList());
 		itRegisterList it = msgList->begin();
-	
-	
+		
 		//Eliminar mensajes asociados.
 		while(it != msgList->end())
 		{
@@ -128,15 +128,23 @@ void ImageManager::DeleteImage(ID_type idImg){
  * Agrega todos los directorios y imagenes al arbol imgTree
  * Agrega agrega todas las imagenes al imgFile
  */
-tVecStr ImageManager::AddDirectory(const char* dirPath){
+tVecStr ImageManager::AddDirectory(const char* dirPath)
+{
 	tVecStr ans;
 	tVecStr fileList=FileSystem::GetFiles(dirPath,All);
-	//tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
-	string strdir=string(dirPath)+ "/";
+	
+	string strdir(dirPath);
+	StrToken::FormatPath(strdir);
+	string dirPathStr = strdir;
+	
 	KeyStr kDirDir(strdir);
+	
+	//Si el directorio existe no lo agrego.
 	if (!dirTree.empty())
 		if (dirTree.exists(kDirDir))
 			return ans;
+	
+	
 	ans.push_back(strdir);
 	strdir=strdir+END_DIRECTORY;
 	KeyStr kDir(strdir);
@@ -145,45 +153,51 @@ tVecStr ImageManager::AddDirectory(const char* dirPath){
 	dirTree.insert(kDirDir,vNull);
 	imgTree.insert(kDir,vDir);
 	std::cout << std::endl;
-	for(size_t i=0; i<fileList.size();i++){
-		string fullPath =string(dirPath)+ "/";
-		fullPath= fullPath + fileList[i];
-		tVecStr tokensFile=StrToken::getStrTokens(fileList[i].c_str(),"/");
-		//es una imagen
-		std::cout << ADDING_FILE << fullPath << std::endl;
-		ID_type id = AddImage(fullPath.c_str());
-		if( id == 0 ) //No se puede agregar la imagen
-			continue;
+	
+	for(size_t i=0; i<fileList.size();i++)
+	{
+		string fullPath= dirPathStr + fileList[i];
 		KeyStr keyImg(fullPath);
-		ValueInt valImg(id);
-		this->imgTree.insert(keyImg,valImg);
+		//Es una imagen
+		if(!imgTree.exists(keyImg))
+		{
+			std::cout << ADDING_FILE << fullPath << std::endl;
+			ID_type id = AddImage(fullPath.c_str());
+			if( id == 0 ) //No se puede agregar la imagen
+				continue;
+			
+			ValueInt valImg(id);
+			this->imgTree.insert(keyImg,valImg);
+		}
 	}
+	
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);
-	for(size_t j=0; j<dirList.size();j++){
-		string strdir=string(dirPath)+"/";
-		strdir= strdir + dirList[j];
-		ans.push_back(strdir);
-		strdir= strdir+"/";
-		KeyStr kSubDirTreeDir(strdir);
-		strdir= strdir+END_DIRECTORY;
-		//std::cout << strdir << std::endl;
-		KeyStr kSubDir(strdir);
+	
+	for(size_t j=0; j<dirList.size();j++)
+	{
+		string strDir= dirPathStr + dirList[j];
+		string strNewSubDir = strDir;
+		strDir= strDir+"/";
+		KeyStr kSubDirTreeDir(strDir);
+		strDir= strDir+END_DIRECTORY;
+		
+		KeyStr kSubDir(strDir);
 		ValueInt vSubDir(0);
-		imgTree.insert(kSubDir,vSubDir);
-		ValueNull vNull;
-		dirTree.insert(kSubDirTreeDir,vNull);
+		if(!imgTree.exists(kSubDir))
+		{
+			imgTree.insert(kSubDir,vSubDir);
+		}
+		if(!dirTree.exists(kSubDirTreeDir))
+		{
+			ans.push_back(strNewSubDir);
+			ValueNull vNull;
+			dirTree.insert(kSubDirTreeDir,vNull);
+		}
 	}
 	cout << dirTree;
+	cout << imgTree;
 	
 	return ans;
-
-	/*KeyStr other("/home/malcha/Escritorio/Datos/Eclipse/AuxStegno/Estegno/Stegno/Imb");
-	ValueInt vother(2);
-	imgTree.insert(other,vother);
-	cout<<"Recorro el arbol"<<endl;
-	RecorreElArbol();
-	cout<<"Ahora empiezo a borrar"<<endl;
-	DeleteDirectory(dirPath);*/
 }
 /* -------------------------------------------------------------------------- */
 string ImageManager::GetPathImage(ID_type idImg)
@@ -240,40 +254,49 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
 	
 	cout << dirTree;
-	
+	string dir=string (dirPath);
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
-	string dir=string (dirPath) +"/";
+	StrToken::FormatPath(dir);
+	
 	KeyStr kDirDir(dir);
 	dir.append(END_DIRECTORY);
 	KeyStr kDir(dir.c_str());
 	vector<string> vkFile;
 	vector<string> vkDir;
 	tVecStr ans;
+	
 	if ( (dirTree.empty()) || (!dirTree.exists(kDirDir)))
 		return ans;
+	
 	TreeIterator& it = imgTree.iterator(kDir);
 	RecorreElArbol();
 	cout<<endl;
 	cout<<kDir.getKey()<<endl;
-	while ((!it.end())&&(end==false)){
+	while ( (!it.end()) && (end==false) )
+	{
 		KeyStr* kStr=dynamic_cast<KeyStr*>(it.getKey());
 		string pathFile=(kStr->getKey());
 		tVecStr tokens=StrToken::getStrTokens(kStr->getKey(),"/");
-		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) ){
+		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) )
+		{
 			ValueInt* vInt=(ValueInt*)it.getValue();
 			DeleteImage(vInt->getValue());
 			string pathFile=(kStr->getKey());
 			vkFile.push_back(kStr->getKey());
 			delete vInt;
-		}else if (isSubDirectoryOrSubFile(&tokensDir,&tokens)||(!strcmp(dir.c_str(),(kStr->getKey()).c_str()))){
+		}
+		else if (isSubDirectoryOrSubFile(&tokensDir,&tokens)||(!strcmp(dir.c_str(),(kStr->getKey()).c_str())))
+		{
 			string strDir=kStr->getKey();
 			TransformKeyImgToKeyDir(strDir);
 			ans.push_back(strDir);
 			vkDir.push_back(strDir);
 		}
 		else
+		{
 			end=true;
+		}
 		delete kStr;
 		++it;
 	}
@@ -281,7 +304,8 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	cout<<vkDir.size()<<endl;
 	RecorreElArbol();
 	RecorreElArbolDir();
-	for(unsigned int u=0;u<vkDir.size();u++){
+	for(unsigned int u=0;u<vkDir.size();u++)
+	{
 		string path=vkDir[u];
 		KeyStr keyDir(path);
 		string pathDi=path +END_DIRECTORY;
@@ -295,12 +319,16 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 			imgTree.remove(keyImg);
 	}
 	RecorreElArbol();
-	for(unsigned int u=0;u<vkFile.size();u++){
+	for(unsigned int u=0;u<vkFile.size();u++)
+	{
 		string k=vkFile[u];
 		KeyStr key(k);
 		imgTree.remove(key);
 	}
 
+	cout << dirTree;
+	cout << imgTree;
+	
 	return ans;
 }
 

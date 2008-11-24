@@ -110,4 +110,15 @@ void StrToken::Trim(std::string& str)
 	}
 	else str.erase(str.begin(), str.end());
 }
+/*----------------------------------------------------------------------------*/
+void StrToken::FormatPath(std::string& str, string del)
+{
+	tVecStr pathTok = getStrTokens(str,del);
+	std::string tmp=del;
+	for(size_t i=0;i<pathTok.size();i++)
+	{
+		tmp += pathTok[i] + "/";
+	}
+	str=tmp;
+}
 
