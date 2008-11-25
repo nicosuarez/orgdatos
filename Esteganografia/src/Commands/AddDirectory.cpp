@@ -1,5 +1,6 @@
 #include "AddDirectory.h"
 #include "../Common/ImageManager.h"
+#include "../Common/Exception/eNotExist.h"
 
 using namespace std;
 
@@ -32,18 +33,15 @@ bool AddDirectory::InternalProcess(tVecStr params)
 {
 	string path = params[1];
 	ImageManager* iManager=ImageManager::GetInstance();
-	tVecStr vec =iManager->AddDirectory(path.c_str());
-	if (vec.size()!=0)
-	{
+	try{
+		tVecStr vec =iManager->AddDirectory(path.c_str());
 		cout<<FIRST_MSG_ADD_DIRECTORY<< "\n";
 		for (unsigned int i=0;i<vec.size();i++)
 		{
 			cout<< CIRCLE << "\t" << vec[vec.size()-1-i]<< "\n";
 		}
-	}
-	else
-	{
-		cout<<WRONG_MSG_ADD_DIRECTORY<< "\n";
-	}
+	}catch(eNotExist e){
+		cout<<e.what()<< "\n";
+	}	
 	return true;
 }

@@ -27,6 +27,7 @@
 #include "../Steganographic/ImageFactory.h"
 
 typedef enum IMMode {Erased=0 , Added=1 } IMMode;
+typedef std::pair<tVecStr*,tVecStr*> pListUpdate;
 /**
  * Clase que se encarga de eliminar/agregar una imagen al ocultador.
  * Implementa el patron Singleton
@@ -36,6 +37,9 @@ class ImageManager
 
 	public:
 
+	/* Actualiza las imagenes nuevas y viejas */	
+	pListUpdate UpdateImages();
+		
 	/* Devuelve la unica instancia de ImageManager (clase singleton)*/
 	static ImageManager* GetInstance();
 
@@ -55,7 +59,7 @@ class ImageManager
 	tVecStr DeleteDirectory(const char* dirPath);
 
 	/* Elimina una imagen de la organizacion de archivos*/
-	void DeleteImage(Image* image);
+	void DeleteImage(std::string path);
 
 	/* Almacena una imagen en la organizacion de archivos*/
 	ID_type AddImage(const char* imagePath);
@@ -124,7 +128,7 @@ class ImageManager
 	 * Devuelve una lista de imagenes borradas o nuevas de
 	 * los directorios.
 	 */
-	tVecStr GetUpdatedList( IMMode );
+	tVecStr* GetUpdatedList( IMMode );
 
 private:
 	//Borra la imagen y sus mensajes
@@ -164,7 +168,7 @@ private:
 	/*
 	 * Filtra la lista obtenida por GetMergedList por date
 	 */
-	tVecStr filterByDate ( tVecStr );
+	tVecStr filterByDate ( tVecStr list , BppTree & tree );
 
 };
 #endif /* IMAGEMANAGER_H */

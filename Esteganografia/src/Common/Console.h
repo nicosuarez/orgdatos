@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include "../Commands/CommandFactory.h"
+#include "ImageManager.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -32,6 +33,7 @@ private:
 	static char * StrToChar (std::string str);
 //	static void *Xmalloc (int);
 	static const string temporaryFile;
+	static void UpdatesImage();
 
 };
 

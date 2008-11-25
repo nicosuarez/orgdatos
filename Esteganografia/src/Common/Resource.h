@@ -56,6 +56,8 @@ typedef unsigned int ID_type;
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
+#define MSG_ADDED_DIRECTORIES "Los siguientes archivos han sido dado de alta\n"
+#define MSG_DELETED_DIRECTORIES "Los siguientes archivos han sido eliminados\n"
 #define MSG_INITIAL_PROGRAM "\n\
 //////////////////////////////////////////////////////////////////////\n\
 //                    Bienvenido a DataSafe v1.0                    //\n\
@@ -128,5 +130,6 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 	●   "
 
 #define EXC_EFILE "Hubo un error, el usuario borro el siguiente archivo "
+
 
 #endif /*RESOURCE_H_*/
