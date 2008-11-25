@@ -23,6 +23,7 @@ public:
 	Space(string filePath, string format, unsigned long initialPosition, unsigned long size);
 	Space(string filePath, unsigned long initialPosition, unsigned long size);
 	Space(ID_type idImg, unsigned long initialPosition, unsigned long size);
+	Space(ID_type idSpace, ID_type idImg, unsigned long initialPosition, unsigned long size);
 	Space(string filePath);
 	Space(ID_type idSpace, ID_type idImg, unsigned long size);
 	virtual ~Space();
