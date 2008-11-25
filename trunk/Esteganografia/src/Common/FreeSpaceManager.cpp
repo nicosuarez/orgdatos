@@ -8,7 +8,6 @@ FreeSpaceManager::FreeSpaceManager() :  //orgFreeSpaces(PATH_FREE_SPACE_FILE, Fr
 	 									orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 										freeSpacesTree(512,KeyFreeSpaceFactory(), ValueFreeSpaceFactory(),PATH_TREE_FREE_SPACE)
 {
-	delete instance;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -231,45 +230,138 @@ void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 /* -------------------------------------------------------------------------- */
 ID_type FreeSpaceManager::AddFreeSpace(Space* space)
 {
-	//Obtengo el imageManager
-	ImageManager* iManager=ImageManager::GetInstance();
+		//Obtengo el imageManager
+        ImageManager* iManager=ImageManager::GetInstance();
 
-	ID_type idImage = space->GetIDImage();
-	unsigned long spaceSize = space->GetSize();
+        ID_type idImage = space->GetIDImage();
+        unsigned long spaceSize = space->GetSize();
+        unsigned long newPosition = 0;
+        unsigned long newSpaceSize = 0;
 
-	//Leo el registro imagen para obtener el id del primer registro de la 
-	//lista de espacios libres.
-	ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
-	ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
-	ListFreeSpaceRegistry fsReg(idImage, spaceSize);
-	
-	//Si la lista esta vacia, la creo
-	if( firstList == 0 )
-	{
-		this->orgListFreeSpaces.CreateList(fsReg);
-	}
-	else //Si no esta vacia, agrego el nuevo registro al principio
-	{
+        //Leo el registro imagen para obtener el id del primer registro de la
+        //lista de espacios libres.
+        ImgRegistry *imgRegistry = iManager->GetImageRegistry(idImage);
+        ID_type firstList = imgRegistry->GetPtrFreeSpaceList();
+        ListFreeSpaceRegistry *fsReg = NULL;
+       
+        //Si la lista esta vacia, la creo
+        if( firstList == 0 )
+        {
+                newSpaceSize = spaceSize;
+                newPosition = space->GetInitialPosition();
+                fsReg = new ListFreeSpaceRegistry(idImage, newSpaceSize);
+                this->orgListFreeSpaces.CreateList((*fsReg));
+        }
+        else //Si no esta vacia, agrego el espacio al principio
+        {
+			  tRegisterList* freeSpaceList = this->orgListFreeSpaces.GetList(firstList);
+    		  
+			  //busco si hay espacios consecutivos al que quiero agregar
+			  fsReg = FindSpaceConsecutive( freeSpaceList, space, newPosition, newSpaceSize);
+			  
+			  //Vuelvo a leer el registro imagen para ver si cambio el campo PtrFreeSpaceList
+			  delete imgRegistry;
+			  imgRegistry = iManager->GetImageRegistry(idImage);
+        	  firstList = imgRegistry->GetPtrFreeSpaceList();
+        	  if( firstList == 0 )
+        		  this->orgListFreeSpaces.CreateList((*fsReg));
+        	  else
+        		  this->orgListFreeSpaces.AddToListFirst((*fsReg), firstList);
+        }
+        //Actualizo el PtrFreeSpaceList del registro imagen
+        imgRegistry->SetPtrFreeSpaceList(fsReg->GetID());
+        iManager->UpdateImageRegistry(imgRegistry);
+        delete imgRegistry;
+       
+        //Actualizo el arbol de espacios libres.
+        KeyFreeSpace keyFs(fsReg->GetID(), newSpaceSize);
+        ValueFreeSpace valFs(idImage, newPosition);
+        freeSpacesTree.insert(keyFs, valFs);
 
-		this->orgListFreeSpaces.AddToListFirst(fsReg, firstList);
-	}
+        std::cout << freeSpacesTree;
 
-	//Actualizo el PtrFreeSpaceList del registro imagen
-	imgRegistry->SetPtrFreeSpaceList(fsReg.GetID());
-	iManager->UpdateImageRegistry(imgRegistry);
-
-	delete imgRegistry;
-	
-	//Actualizo el arbol de espacios libres.
-	KeyFreeSpace keyFs(fsReg.GetID(), space->GetSize());
-	ValueFreeSpace valFs(idImage, space->GetInitialPosition());
-	freeSpacesTree.insert(keyFs, valFs);
-
-	std::cout << freeSpacesTree;
-	
-	return fsReg.GetID();
+	   ID_type idSpace = fsReg->GetID();
+       delete fsReg;        
+       return idSpace;
 }
 /* -------------------------------------------------------------------------- */
+
+
+ListFreeSpaceRegistry* FreeSpaceManager::FindSpaceConsecutive(tRegisterList* freeSpaceList, Space* space, unsigned long &newPosition, unsigned long &newSpaceSize)
+{
+      itRegisterList it = freeSpaceList->begin();
+	  Space *before=NULL, *after=NULL;
+	  ListFreeSpaceRegistry *fsReg;
+      unsigned long idImage = 0;
+      unsigned long spaceSize = 0;
+      unsigned long position = 0;
+	  for(it = freeSpaceList->begin(); it != freeSpaceList->end(); it++)
+	  {
+		  	fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+		  	ID_type fsId = fsReg->GetID();
+		  	KeyFreeSpace keyFind( fsId, fsReg->GetSpaceSize() );
+			delete fsReg;
+		  	TreeIterator& it = freeSpacesTree.iterator(keyFind);
+		  	std::pair<Register*,Register*>keyval= *it;
+
+            KeyFreeSpace* key = dynamic_cast<KeyFreeSpace*>(keyval.first);
+            ValueFreeSpace* val = dynamic_cast<ValueFreeSpace*>(keyval.second);
+
+            std::pair<ID_type,unsigned long> keyPair = key->GetKey();
+            std::pair<ID_type,unsigned long> valPair = val->GetValue();
+
+            idImage = valPair.first;
+            spaceSize = keyPair.second;
+            position = valPair.second;
+		  	
+	  		if( position + spaceSize == space->GetInitialPosition() )
+	  		{
+	  			before = new Space(fsId, idImage, position, spaceSize);
+	  		}
+		  	else if( position == space->GetInitialPosition()  + space->GetSize() )
+		  	{
+	  			after = new Space( fsId, idImage, position, spaceSize);
+		  	}						
+	 		if( (before != NULL) && (after != NULL) )
+	 			break;
+	  }
+	  if( (before != NULL) && (after != NULL) ) //Hay espacios consecutivos anterior y posterior
+	  {
+			newPosition = before->GetInitialPosition();
+			newSpaceSize = before->GetSize() + after->GetSize() + space->GetSize(); 
+			fsReg = new ListFreeSpaceRegistry(idImage, newSpaceSize);
+			RemoveFreeSpace(before);
+	  		RemoveFreeSpace(after);
+	  		delete before;
+	  		delete after;
+	  }
+	  else if( (before != NULL) && (after == NULL) ) //Hay espacio consecutivo anterior
+	  {
+			newPosition = before->GetInitialPosition();
+			newSpaceSize = before->GetSize() + space->GetSize(); 
+			fsReg = new ListFreeSpaceRegistry(idImage, newSpaceSize);
+			RemoveFreeSpace(before);
+	  		delete before;
+	  }
+	  else if( (after != NULL) && (before == NULL) ) //Hay espacio consecutivo posterior
+	  {
+			newPosition = space->GetInitialPosition();
+			newSpaceSize = after->GetSize() + space->GetSize(); 
+			fsReg = new ListFreeSpaceRegistry(idImage, newSpaceSize);
+	  		RemoveFreeSpace(after);
+	  		delete after;
+	  }
+	  else //No hay espacios libres consecutivos
+	  {
+			newPosition = space->GetInitialPosition();
+			newSpaceSize = space->GetSize(); 
+			fsReg = new ListFreeSpaceRegistry(idImage, newSpaceSize);
+	  }
+	  return fsReg;
+}
+/* -------------------------------------------------------------------------- */
+
+
 /*void FreeSpaceManager::AddFreeSpaceTree(ID_type idFreeSpace, unsigned long size,
 			ID_type idImg, unsigned long position)
 {

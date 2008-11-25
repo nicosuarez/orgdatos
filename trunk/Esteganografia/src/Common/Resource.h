@@ -51,6 +51,7 @@ typedef unsigned int ID_type;
 #define MSG_EXTARCT_SUCCESS "El mensaje se ha extraido exitosamente\n\n"
 #define MSG_DELETE_SUCCESS "El mensaje se ha eliminado correctamente\n\n"
 #define MSG_NOT_EXIST_DIRECTORIES "No se agrego ningun directorio.\n"
+#define MSG_NOT_MSG "No se pudo abrir el archivo.\n"
 #define PROCESS_COMMAND "Procesando comando...\n"
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."

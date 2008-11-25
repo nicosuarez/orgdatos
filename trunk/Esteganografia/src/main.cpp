@@ -10,6 +10,7 @@
 #include "Commands/AddDirectory.h"
 #include "Common/Console.h"
 #include "Common/MessageManager.h"
+#include "Common/ImageManager.h"
 #include "DataAccess/Files/ExtensibleRelativeFile.h"
 #include "DataAccess/Registries/ExtensibleRelativeRegistry.h"
 #include "DataAccess/Organizations/OrgExtensibleRelative.h"

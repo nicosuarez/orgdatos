@@ -63,6 +63,8 @@ private:
 	static FreeSpaceManager* instance;
 
 	void PrintIteratorValue(TreeIterator& it);
+	
+	ListFreeSpaceRegistry* FindSpaceConsecutive(tRegisterList* freeSpaceList, Space* space, unsigned long &newPosition, unsigned long &newSpaceSize);
 
 	/* Constructor privado */
 	FreeSpaceManager();

@@ -51,6 +51,9 @@ public:
 	
 	/*Devuelve true si existe el directorio pasado por parametro*/
 	static bool ExistDirectory(const char *path);
+	
+	/*Verifica si el path completo es un directorio o una imagen*/
+	static bool IsDirectory(const char *path);
 
 };
 

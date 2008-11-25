@@ -53,6 +53,14 @@ Space::Space(ID_type idImg, unsigned long initialPosition, unsigned long size)
 	this->idSpace = 0;
 }
 
+Space::Space(ID_type idSpace, ID_type idImg, unsigned long initialPosition, unsigned long size)
+{
+	this->idImg = idImg;
+	this->initialPosition = initialPosition;
+	this->size = size;
+	this->idSpace = idSpace;
+}
+
 Space::Space(string filePath)
 {
 	this->filePath = filePath;

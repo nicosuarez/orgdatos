@@ -39,7 +39,7 @@ ImageManager* ImageManager::GetInstance()
 
 ImageManager::~ImageManager()
 {
-	delete instance;
+
 }
 /* -------------------------------------------------------------------------- */
 
@@ -651,7 +651,13 @@ void ImageManager::UpdateImageRegistry(ImgRegistry* modifiedImgReg)
 }
 /* -------------------------------------------------------------------------- */
 
-
+unsigned int ImageManager::GetBitsLsb(const char* filePath)
+{
+	Image* image = ImageFactory::GetImage(filePath);
+	unsigned int bitsLsb = image->GetBitsLsb();
+	delete image;
+	return bitsLsb;
+}
 
 
 

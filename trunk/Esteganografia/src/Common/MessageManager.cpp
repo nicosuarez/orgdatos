@@ -22,7 +22,6 @@ MessageManager* MessageManager::GetInstance()
 /* -------------------------------------------------------------------------- */
 
 MessageManager::~MessageManager(){
-	delete instance;
 
 }
 /* -------------------------------------------------------------------------- */
@@ -179,6 +178,7 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 	Space *space;
 	Image *image;
 	ID_type idImage=0, idFirstList=0;
+	unsigned int bitsLsb=0;
 	unsigned long sizeHidden = 0, sizeSpace;
 	tListSpaces::iterator it = spaces->begin();
 
@@ -194,11 +194,12 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 		sizeSpace = space->GetSize();
 		sizeHidden += sizeSpace;
 		idImage = imageManager->GetIDImage(space->GetFilePath());
+		bitsLsb = imageManager->GetBitsLsb(space->GetFilePath());
 
 		//Si el space es el primero de la lista, debo crear una lista en la organizacion lista
 		if( it == spaces->begin() )
 		{
-			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize() );
+			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize()*(8/bitsLsb) );
 			this->orgListImages.CreateList(regList);
 			idFirstList = regList.GetID();
 			it++;
@@ -212,7 +213,7 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 				sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize());
 
 			//Guardo el registro en la orgListImages
-			ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace );
+			ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace*(8/bitsLsb) );
 			this->orgListImages.AddToListLast(regList,idFirstList);
 		}
 		delete image;

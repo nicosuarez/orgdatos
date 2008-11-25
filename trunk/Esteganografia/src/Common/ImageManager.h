@@ -112,6 +112,8 @@ class ImageManager
 	void RecorreElArbolDir();
 
 	void TestDirectory(const char* dirPath);
+	
+	unsigned int GetBitsLsb(const char* filePath);
 
 	/*
 	* devuelve la lista de todos los directorios

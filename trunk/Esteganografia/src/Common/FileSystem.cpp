@@ -150,3 +150,22 @@ bool FileSystem:: ExistDirectory(const char *path)
 	 else
 		 return true;
 }
+/* -------------------------------------------------------------------------- */
+
+bool FileSystem::IsDirectory(const char *path)
+{
+	struct stat stFileInfo;
+	struct dirent *pent;
+	char szFullName[256];
+	DIR *pdir;
+	pdir = opendir(path);
+	if (!pdir)
+	{
+		return false;
+	}
+	pent = readdir (pdir);
+	sprintf(szFullName, "%s/%s", path, pent->d_name);
+	if (lstat(szFullName, &stFileInfo) < 0)
+		  perror ( szFullName );
+	return !S_ISDIR(stFileInfo.st_mode);
+}
