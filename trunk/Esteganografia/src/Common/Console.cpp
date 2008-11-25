@@ -36,6 +36,7 @@ int Console::Run(int argc,char* argv[])
 		if (IntrudersManager::ExistNewIntruder() ){
 			Console::ShowIntruderMessage();
 		}
+		UpdatesImage();
 		while(!CommandFactory::IsQuitCommand(cmd))
 		{
 			ReadCommand(cmd);
@@ -48,6 +49,35 @@ int Console::Run(int argc,char* argv[])
 		}
 	}
 	return 0;
+}
+
+/**
+ * Se actualizan las imagenes nuevas y las viejas.
+ */
+void Console::UpdatesImage()
+{
+	ImageManager* iManager = ImageManager::GetInstance();
+	pListUpdate listUpdate= iManager->UpdateImages();
+	tVecStr* removeList= listUpdate.first;
+	tVecStr* addList= listUpdate.second;
+	if (removeList->size()!=0)
+	{
+		cout<< MSG_DELETED_DIRECTORIES;
+	}
+	for(unsigned int i=0;i<removeList->size(); i++)
+	{
+		std::cout<<"\t"<<(*removeList)[i]<<"\n";
+	}
+	if (addList->size()!=0)
+	{
+		cout<< MSG_ADDED_DIRECTORIES;
+	}
+	for(unsigned int i=0;i<addList->size(); i++)
+	{
+		std::cout<<"	"<<(*addList)[i]<<"\n";
+	}
+	delete addList;
+	delete removeList;
 }
 
 /**
@@ -129,7 +159,6 @@ pair<bool,tVecStr> Console::ValidatePassword()
 		cout << MSG_INPUT_PASSWORD << "(" << (intentos+1) << "/"<< cantIntentosPass << ")\n" << flush;
 		pass = GetInputPassword();
 
-		//TODO: LLAMAR A LA VALIDACION POSTA.
 		if (PasswordManager::IsCorrectPass(pass))
 			ans.first=true;
 		else{

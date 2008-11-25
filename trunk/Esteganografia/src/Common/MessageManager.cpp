@@ -177,7 +177,7 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 	ImageManager *imageManager = ImageManager::GetInstance();
 	Space *space;
 	Image *image;
-	ID_type idImage=0, idFirstList=0;
+	ID_type idImage=0, idFirstList=0,idLastList=0;
 	unsigned int bitsLsb=0;
 	unsigned long sizeHidden = 0, sizeSpace;
 	tListSpaces::iterator it = spaces->begin();
@@ -189,7 +189,7 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 		//Oculto el mensaje en el esapcio libre
 		image = ImageFactory::GetImage( space->GetFilePath());
 		image->Hide(space, &msgTarget);
-
+		
 		//Obtengo los datos para alamcenar el registro
 		sizeSpace = space->GetSize();
 		sizeHidden += sizeSpace;
@@ -215,7 +215,15 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 			//Guardo el registro en la orgListImages
 			ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace*(8/bitsLsb) );
 			this->orgListImages.AddToListLast(regList,idFirstList);
+			//this->orgListImages.AddToListLast(regList,idLastList);
+			
+			//idLastList== regList.GetID();//TEST ARREGLAMOS ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TODO: ver
 		}
+		ImgRegistry*imgReg= imageManager->GetImageRegistry(idImage);
+		Date date = Date::getDate(space->GetFilePath());
+		imgReg->SetDate(date);
+		imageManager->UpdateImageRegistry(imgReg);
+		delete imgReg;
 		delete image;
 		delete space;
 	}
