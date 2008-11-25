@@ -34,6 +34,8 @@ bool AddFile::InternalProcess(tVecStr params)
 	try
 	{
 		std::cout << PROCESS_COMMAND;
+		if( FileSystem::IsDirectory(pathMessage.c_str()) )
+			throw eNotExist(MSG_NOT_MSG);
 		messageManager->Hide(pathMessage);
 		std::cout << MSG_HIDE_SUCCESS;
 	}
