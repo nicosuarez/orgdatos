@@ -169,7 +169,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 	UpdateListMessage(regMsg);
 
 	//Elimino los archivos de mensajes
-	msg.Delete();
+//	msg.Delete();
 	m1.Delete();
 	msgTarget.Delete();
 }
@@ -364,14 +364,14 @@ void MessageManager::DeleteMessage(std::string nameMessage, bool addFreeSpace,
 	}
 
 	//Actualizo la lista de mensajes de la imagen.
-//	tRegisterList* imageList = orgListImages.GetList(idFirstList);
-//	ImageManager* iManager = ImageManager::GetInstance();
-//	for(itRegisterList it=imageList->begin(); it != imageList->end(); it++)
-//	{
-//		ListImgRegistry* listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
-//		ID_type idImg = listImgRegistry->GetIDImage();
-//		iManager->RemoveMessageToImage(idImg, idMsg);
-//	}
+	tRegisterList* imageList = orgListImages.GetList(idFirstList);
+	ImageManager* iManager = ImageManager::GetInstance();
+	for(itRegisterList it=imageList->begin(); it != imageList->end(); it++)
+	{
+		ListImgRegistry* listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
+		ID_type idImg = listImgRegistry->GetIDImage();
+		iManager->RemoveMessageToImage(idImg, idMsg);
+	}
 
 	//Elimino los registros
 	orgListImages.DeleteList(idFirstList);

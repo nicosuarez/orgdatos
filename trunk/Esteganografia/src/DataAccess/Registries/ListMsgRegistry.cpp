@@ -4,9 +4,9 @@ ListMsgRegistry::ListMsgRegistry():ListRegistry()
 {
 }
 
-ListMsgRegistry::ListMsgRegistry( ID_type idImage):ListRegistry()
+ListMsgRegistry::ListMsgRegistry( ID_type idMsg):ListRegistry()
 {
-	this->idImage = idImage;
+	this->idMsg = idMsg;
 }
 
 ListMsgRegistry::~ListMsgRegistry()
@@ -18,26 +18,26 @@ ExtensibleRelativeRegistry* ListMsgRegistry::Create()
 	return new ListMsgRegistry();
 }
 
-ID_type ListMsgRegistry::GetIDImage() const
+ID_type ListMsgRegistry::GetIDMessage() const
 {
-	return idImage;
+	return idMsg;
 }
 
 unsigned int ListMsgRegistry::GetSize() const
 {
-	return ( ListRegistry::GetSize() + sizeof(idImage) ); 
+	return ( ListRegistry::GetSize() + sizeof(idMsg) ); 
 }
 
-void ListMsgRegistry::SetIDImage(ID_type idImage)
+void ListMsgRegistry::SetIDMessage(ID_type idMsg)
 {
-	this->idImage = idImage;
+	this->idMsg = idMsg;
 }
 
 char* ListMsgRegistry::Serialize() const
 {
 	char *buffer = ListRegistry::Serialize();
 	unsigned int pos = ListRegistry::GetSize();
-	AddToSerialization(buffer, &idImage, pos, sizeof(idImage));
+	AddToSerialization(buffer, &idMsg, pos, sizeof(idMsg));
 	return buffer;
 }
 
@@ -45,5 +45,5 @@ void ListMsgRegistry::Deserialize(const char* buffer, unsigned int length)
 {
 	ListRegistry::Deserialize(buffer, length);
 	unsigned int pos = ListRegistry::GetSize();
-	GetFromSerialization(buffer, &idImage, pos, sizeof(idImage));	
+	GetFromSerialization(buffer, &idMsg, pos, sizeof(idMsg));	
 }

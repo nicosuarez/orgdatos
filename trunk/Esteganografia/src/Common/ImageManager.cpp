@@ -146,9 +146,9 @@ void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filte
 		{
 			ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it);
 			if(filterAll)
-				msgManager->DeleteMessage(msgReg->GetIDImage(),false, imgErasedList);
+				msgManager->DeleteMessage(msgReg->GetIDMessage(),false, imgErasedList);
 			else
-				msgManager->DeleteMessage(msgReg->GetIDImage(),true, imgErasedList);
+				msgManager->DeleteMessage(msgReg->GetIDMessage(),true, imgErasedList);
 			it++;
 		}
 	}
@@ -645,18 +645,25 @@ void ImageManager::RemoveMessageToImage( ID_type idImage, ID_type idMessage)
 		//Eliminar de la lista de mensajes de la imagen, el mensaje especifico.
 		tRegisterList* msgList = this->orgListMsgs.GetList(firstList);
 		itRegisterList it = msgList->begin();
-		
+		ID_type idRegMsgToErase=0;
+		ListMsgRegistry* msgReg=NULL;
 		//Si la lista no esta vacia, asigno el puntero al nuevo mensaje.
 		if( msgList->size() > 1 )
 		{
 			//Busco el nuevo mensaje de la lista. 
 			while(it != msgList->end())
 			{
-				ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it);
-				ID_type msgRegId = msgReg->GetID();
-				if(msgRegId != idMessage)
+				msgReg = dynamic_cast<ListMsgRegistry*>(*it);
+				ID_type msgRegId = msgReg->GetIDMessage();
+
+				if( msgRegId == idMessage )
 				{
-					imgReg->SetPtrMsgList(msgRegId); 
+					idRegMsgToErase = msgReg->GetID();
+					if( msgReg->GetID() == imgReg->GetPtrMsgList())
+					{
+						imgReg->SetPtrMsgList(msgReg->GetNextID());
+						imgReg->SetPtrMsgList(msgReg->GetID());
+					}
 					break;
 				}
 				it++;
@@ -664,10 +671,12 @@ void ImageManager::RemoveMessageToImage( ID_type idImage, ID_type idMessage)
 		}
 		else //Si esta vacia, apunta a NULL
 		{
-			imgReg->SetPtrMsgList(NULL); 
+			msgReg = dynamic_cast<ListMsgRegistry*>(*it);
+			idRegMsgToErase = msgReg->GetID();
+			imgReg->SetPtrMsgList(NULL);
 		}
 
-		this->orgListMsgs.DeleteFromList(idMessage);
+		this->orgListMsgs.DeleteFromList(idRegMsgToErase);
 		UpdateImageRegistry(imgReg);
 		delete imgReg;
 	}
