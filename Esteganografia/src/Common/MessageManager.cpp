@@ -124,6 +124,11 @@ void MessageManager::ExtractMessage(ID_type idFirstList, Message &msgTarget)
 
 void MessageManager::Hide(Message msg,Message msgTarget){
 
+	//Verifico si el mensaje es una imagen del sistema
+	ID_type idImg =  ImageManager::GetInstance()->GetIDImage(msg.GetFilePath()); 
+	if( idImg > 0 )
+		throw eExist(ERR_MSG_IS_IMG);
+	
 	//Verifico si existe un mensaje oculto con el mismo nombre
 	KeyStr k( msg.GetName());
 	if( !this->treeMsg.empty() )

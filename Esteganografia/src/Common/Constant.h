@@ -1,6 +1,7 @@
 #ifndef __CONSTANT__H_
 #define __CONSTANT__H_
 
+#define PATH_DATA_ROOT_DIR "./Files"
 #define PATH_PASS_TEMP "./Files/passTemp.txt"
 #define PATH_IMG_FILE "./Files/img.dat"
 #define PATH_PASS_FILE "./Files/pass.dat"

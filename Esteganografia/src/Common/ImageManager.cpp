@@ -209,7 +209,7 @@ tVecStr ImageManager::AddDirectory(const char* dirPath)
 	{
 		string fullPath= dirPathStr + fileList[i];
 		std::cout << ADDING_FILE << fullPath << std::endl;
-		ID_type id = AddImage(fullPath.c_str());
+		AddImage(fullPath.c_str());
 	}
 
 	tVecStr dirList=FileSystem::GetFiles(dirPath,Dir);

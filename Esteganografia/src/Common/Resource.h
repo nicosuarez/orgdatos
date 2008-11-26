@@ -47,6 +47,7 @@ typedef unsigned int ID_type;
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe\n"
 #define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
 #define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
+#define ERR_MSG_IS_IMG "Esta intentando ocultar una imagen que fue agregada al sistema para ocultar mensajes\n" 
 #define MSG_HIDE_SUCCESS "El mensaje se ha ocultado exitosamente\n\n"
 #define MSG_EXTARCT_SUCCESS "El mensaje se ha extraido exitosamente\n\n"
 #define MSG_DELETE_SUCCESS "El mensaje se ha eliminado correctamente\n\n"
