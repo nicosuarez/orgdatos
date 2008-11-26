@@ -30,7 +30,7 @@ void MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message m
 
 	std::string fullPath(pathMsg + "/" + nameMsg);
 	Message msg(fullPath);
-	
+
 	//Busco en el arbol el id del mensaje.
 	if( this->treeMsg.empty() )
 		throw eNotExist(ERR_MSG_NOT_EXIST);
@@ -52,27 +52,27 @@ void MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message m
 		treeMsg.deleteIterator(itTree);
 		throw eNotExist(ERR_PATH_NOT_EXIST + pathMsg);
 	}
-	
+
 	ValueInt* vInt=dynamic_cast<ValueInt*>(itTree.getValue());
 	idMsg = vInt->getValue();
 	treeMsg.deleteIterator(itTree);
 	delete vInt;
-	
+
 	try
 	{
 		//Leo el registro del archivo mensaje
 		MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(this->orgMsg.GetRegistry( idMsg));
-	
+
 		if( msgRegistry == NULL)
 			throw eFile(PATH_MESSAGE_FILE);
-		
+
 		ID_type idFirstList = msgRegistry->GetPtrImgList();
 		//Extraigo el mensaje de las imagenes
 		ExtractMessage(idFirstList, msgTarget);
 	}
 	catch (char *error)
 	{
-		throw eFile(PATH_MESSAGE_FILE); 
+		throw eFile(PATH_MESSAGE_FILE);
 	}
 	Message m1=EncriptationManager::Decrypt(msgTarget);
 	CompressionManager::Decompress(m1,msg);
@@ -90,13 +90,13 @@ void MessageManager::ExtractMessage(ID_type idFirstList, Message &msgTarget)
 		std::list<ListRegistry*> *listSpacesImg = this->orgListImages.GetList(idFirstList);
 		if( listSpacesImg == NULL)
 			throw eFile(PATH_IMG_LIST_FILE);
-		
+
 		std::list<ListRegistry*>::iterator it;
 		ListImgRegistry* listImgRegistry;
 		Space *space;
 		Image *image;
 		ImageManager *imageManager = ImageManager::GetInstance();
-		
+
 		//Por cada elemento de la lista, instancio un Space, una imagen y extraigo la particion del mensaje
 		for( it = listSpacesImg->begin(); it != listSpacesImg->end(); it++ )
 		{
@@ -122,10 +122,10 @@ void MessageManager::ExtractMessage(ID_type idFirstList, Message &msgTarget)
 void MessageManager::Hide(Message msg,Message msgTarget){
 
 	//Verifico si el mensaje es una imagen del sistema
-	ID_type idImg =  ImageManager::GetInstance()->GetIDImage(msg.GetFilePath()); 
+	ID_type idImg =  ImageManager::GetInstance()->GetIDImage(msg.GetFilePath());
 	if( idImg > 0 )
 		throw eExist(ERR_MSG_IS_IMG);
-	
+
 	//Verifico si existe un mensaje oculto con el mismo nombre
 	KeyStr k( msg.GetName());
 	if( !this->treeMsg.empty() )
@@ -154,9 +154,9 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 
 	//Oculto el mensaje en las imagenes
 	ID_type idFirstList = HideMessage(spaces, msgTarget);
-	
+
 	ID_type idName = orgNames.WriteText( string(msg.GetName()) );
-	
+
 	//Guardo el registro en la orgMsg
 	MsgRegistry regMsg(idName, idFirstList);
 	this->orgMsg.WriteRegistry(regMsg);
@@ -260,7 +260,7 @@ tRegisterList* MessageManager::FilterErasedImages(tRegisterList* imgList,
 		string path = ImageManager::GetInstance()->GetPathImage(idImg);
 		for(size_t i =0; i<imgErasedList->size(); i++)
 		{
-			string erasedPath = (*imgErasedList)[i]; 
+			string erasedPath = (*imgErasedList)[i];
 			if(path!=erasedPath)
 			{
 				addSpaces=true;
@@ -285,12 +285,12 @@ void MessageManager::DeleteMessage(ID_type idMsg, bool addFreeSpace, tVecStr* im
 		throw eFile(PATH_NAMES_MSG_FILE);
 	KeyStr k(nameMsg);
 	ID_type idFirstList = msgRegistry->GetPtrImgList();
-	
+
 	if(addFreeSpace)
 	{
 		tRegisterList* imgList = orgListImages.GetList(idFirstList);
-		//Si hay una lista de borrados, se filtra esas imagenes y no se dan de 
-		//alta los espacios libres. 
+		//Si hay una lista de borrados, se filtra esas imagenes y no se dan de
+		//alta los espacios libres.
 		if(imgErasedList!=NULL)
 		{
 			if(imgErasedList->size() >0 )
@@ -304,16 +304,16 @@ void MessageManager::DeleteMessage(ID_type idMsg, bool addFreeSpace, tVecStr* im
 			AddFreeSpaces(imgList);
 		}
 	}
-	
+
 	//Actualizo la lista de mensajes de la imagen.
-//	tRegisterList* imageList = orgListImages.GetList(idFirstList);
-//	ImageManager* iManager = ImageManager::GetInstance();
-//	for(itRegisterList it=imageList->begin(); it != imageList->end(); it++)
-//	{
-//		ListImgRegistry* listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
-//		ID_type idImg = listImgRegistry->GetIDImage();
-//		iManager->RemoveMessageToImage(idImg, idMsg);
-//	}
+	tRegisterList* imageList = orgListImages.GetList(idFirstList);
+	ImageManager* iManager = ImageManager::GetInstance();
+	for(itRegisterList it=imageList->begin(); it != imageList->end(); it++)
+	{
+		ListImgRegistry* listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
+		ID_type idImg = listImgRegistry->GetIDImage();
+		iManager->RemoveMessageToImage(idImg, idMsg);
+	}
 
 	//Elimino los registros
 	orgListImages.DeleteList(idFirstList);
@@ -343,12 +343,12 @@ void MessageManager::DeleteMessage(std::string nameMessage, bool addFreeSpace,
 		throw eNotExist(ERR_MSG_NOT_EXIST);
 
 	ID_type idFirstList = msgRegistry->GetPtrImgList();
-	
+
 	if(addFreeSpace)
 	{
 		tRegisterList* imgList = orgListImages.GetList(idFirstList);
-		//Si hay una lista de borrados, se filtra esas imagenes y no se dan de 
-		//alta los espacios libres. 
+		//Si hay una lista de borrados, se filtra esas imagenes y no se dan de
+		//alta los espacios libres.
 		if(imgErasedList!=NULL)
 		{
 			if(imgErasedList->size() >0 )
@@ -372,7 +372,7 @@ void MessageManager::DeleteMessage(std::string nameMessage, bool addFreeSpace,
 //		ID_type idImg = listImgRegistry->GetIDImage();
 //		iManager->RemoveMessageToImage(idImg, idMsg);
 //	}
-	
+
 	//Elimino los registros
 	orgListImages.DeleteList(idFirstList);
 	orgNames.DeleteText(msgRegistry->GetIdName());
@@ -383,7 +383,7 @@ void MessageManager::DeleteMessage(std::string nameMessage, bool addFreeSpace,
 /* -------------------------------------------------------------------------- */
 
 
-void MessageManager::DeleteMessages(std::list<ID_type>* listImg) 
+void MessageManager::DeleteMessages(std::list<ID_type>* listImg)
 {
 	std::list<ID_type>::iterator it;
 	for( it = listImg->begin(); it != listImg->end(); it++)
@@ -411,7 +411,7 @@ void MessageManager::AddFreeSpaces(std::list<ListRegistry*> *listImg)
 	}
 	//Doy de alta los nuevos espacios libres
 	FreeSpaceManager::GetInstance()->AddFreeSpaces(listSpaces);
-	
+
 	tListSpaces::iterator itSpaces;
 	for(itSpaces = listSpaces->begin(); itSpaces != listSpaces->end(); itSpaces++ )
 		delete *itSpaces;
