@@ -35,6 +35,7 @@ private:
 	static const string temporaryFile;
 	static void UpdatesImage();
 	static void CreateDirectories();
+	static void Destroy();
 
 };
 

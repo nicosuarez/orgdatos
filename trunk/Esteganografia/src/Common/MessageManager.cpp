@@ -22,7 +22,6 @@ MessageManager* MessageManager::GetInstance()
 /* -------------------------------------------------------------------------- */
 
 MessageManager::~MessageManager(){
-	delete instance;
 
 }
 /* -------------------------------------------------------------------------- */
@@ -105,9 +104,7 @@ void MessageManager::ExtractMessage(ID_type idFirstList, Message &msgTarget)
 			ID_type idImg = listImgRegistry->GetIDImage();
 			string pathImg = imageManager->GetPathImage(idImg);
 			image = ImageFactory::GetImage(pathImg.c_str());
-//			unsigned int bitsLsb = image->GetBitsLsb();
 			unsigned long offsetImg = listImgRegistry->GetOffsetImg();
-//			unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg() / (8/bitsLsb);
 			unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg();
 			space = new Space(pathImg, offsetImg, sizePartitionMsg);
 			image->Extract(space, &msgTarget);
@@ -196,7 +193,7 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 		//Oculto el mensaje en el esapcio libre
 		image = ImageFactory::GetImage( space->GetFilePath());
 		image->Hide(space, &msgTarget);
-//		unsigned int bitsLsb = 8/image->GetBitsLsb();
+
 		//Obtengo los datos para alamcenar el registro
 		sizeSpace = space->GetSize();
 		sizeHidden += sizeSpace;
@@ -205,7 +202,6 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 		//Si el space es el primero de la lista, debo crear una lista en la organizacion lista
 		if( it == spaces->begin() )
 		{
-//			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize()*bitsLsb );
 			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize() );
 			this->orgListImages.CreateList(regList);
 			idFirstList = regList.GetID();
@@ -218,7 +214,6 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 			 * Si no se ocupo por completo, calculo el espacio usado*/
 			it++;
 			if( (it == spaces->end()) && (sizeHidden > msgTarget.GetSize()) )
-//				sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize())*bitsLsb;
 				sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize());
 
 			//Guardo el registro en la orgListImages

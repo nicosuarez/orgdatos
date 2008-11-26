@@ -560,6 +560,8 @@ tVecStr* ImageManager::GetUpdatedList( IMMode mode )
 //}
 /* -------------------------------------------------------------------------- */
 ID_type ImageManager::GetIDImage(const char* path){
+	if(imgTree.empty())
+		return 0;
 	ID_type ans;
 	KeyStr key(path);
 	if (!imgTree.exists(key))
