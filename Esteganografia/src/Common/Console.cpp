@@ -51,6 +51,7 @@ int Console::Run(int argc,char* argv[])
 			}
 		}
 	}
+	Destroy();
 	return 0;
 }
 
@@ -265,3 +266,9 @@ void Console::CreateDirectories()
 		mkdir(PATH_DATA_ROOT_DIR, 0777);
 }
 
+void Console::Destroy()
+{
+	delete MessageManager::GetInstance();
+	delete ImageManager::GetInstance();
+	delete FreeSpaceManager::GetInstance();
+}
