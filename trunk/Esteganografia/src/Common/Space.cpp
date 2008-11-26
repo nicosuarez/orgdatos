@@ -18,6 +18,17 @@ Space::Space(ID_type idSpace, ID_type idImg , string filePath, unsigned long ini
 	this->idImg = idImg;
 }
 
+Space::Space( ID_type idImg, string filePath, unsigned long initialPosition, unsigned long size )
+{
+	this->filePath = filePath;
+	this->format = "";
+	this->initialPosition = initialPosition;
+	this->size = size;
+	this->idSpace = 0;
+	this->idImg = idImg;
+}
+
+
 Space::Space(ID_type idSpace, ID_type idImg, unsigned long size)
 {
 	this->filePath = "";
