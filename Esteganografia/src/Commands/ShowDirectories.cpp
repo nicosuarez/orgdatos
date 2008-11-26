@@ -33,9 +33,12 @@ bool ShowDirectories::InternalProcess(tVecStr params)
 	ImageManager* iManager=ImageManager::GetInstance();
 	tVecStr vec =iManager->GetAllDirectories();
 	if (vec.size()!=0)
-		cout<<FIRST_MSG_ADD_DIRECTORY<< "\n";
+		cout<<FIRST_MSG_SHOW_DIRECTORY<< "\n";
+	else
+		cout<<FIRST_MSG_ANY_DIRECTORY<< "\n";
 	for (unsigned int i=0;i<vec.size();i++)
 	{
+		cout<<"\t"<<CIRCLE;
 		cout<<vec[vec.size()-1-i]<< "\n";
 	}
 	vec.clear();

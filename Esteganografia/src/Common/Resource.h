@@ -47,7 +47,7 @@ typedef unsigned int ID_type;
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe\n"
 #define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
 #define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
-#define ERR_MSG_IS_IMG "Esta intentando ocultar una imagen que fue agregada al sistema para ocultar mensajes\n" 
+#define ERR_MSG_IS_IMG "Esta intentando ocultar una imagen que fue agregada al sistema para ocultar mensajes\n"
 #define MSG_HIDE_SUCCESS "El mensaje se ha ocultado exitosamente\n\n"
 #define MSG_EXTARCT_SUCCESS "El mensaje se ha extraido exitosamente\n\n"
 #define MSG_DELETE_SUCCESS "El mensaje se ha eliminado correctamente\n\n"
@@ -93,6 +93,8 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define ERR_MSG_REMOVE_DIRECTORY "El directorio que quiere borrar no existe."
 
+#define FIRST_MSG_ANY_DIRECTORY "\nNo hay directorios cargados:"
+#define FIRST_MSG_SHOW_DIRECTORY "\nLos directorios cargados son:"
 #define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
 #define WRONG_MSG_ADD_DIRECTORY "\nEl directorio ha sido agregado previamente a la base de datos"
 

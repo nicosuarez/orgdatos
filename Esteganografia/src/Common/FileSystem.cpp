@@ -129,6 +129,12 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 /* -------------------------------------------------------------------------- */
 
 bool FileSystem::IsValidStructure(){
+	ifstream fpOPass(PATH_PASS_FILE,ios::in|ios::binary);
+	if(!fpOPass.good())
+		return false;
+	ifstream fpImg(PATH_IMG_FILE,ios::in|ios::binary);
+	if(!fpImg.good())
+		return false;
 	return true;
 }
 
