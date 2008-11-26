@@ -8,11 +8,14 @@
 #include "../DataAccess/Registries/ImgRegistry.h"
 #include "PasswordManager.h"
 #include "IntrudersManager.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
 int Console::Run(int argc,char* argv[])
 {
+	CreateDirectories();
 	bool isUser=false;
 	string cmd;
 	if (PasswordManager::ValidatePassword()){
@@ -256,4 +259,9 @@ char * Console::StrToChar (string s)
    return (r);
  }
 
+void Console::CreateDirectories()
+{
+	if( !FileSystem::ExistDirectory(PATH_DATA_ROOT_DIR) )
+		mkdir(PATH_DATA_ROOT_DIR, 0777);
+}
 

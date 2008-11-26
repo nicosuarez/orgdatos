@@ -34,6 +34,7 @@ private:
 //	static void *Xmalloc (int);
 	static const string temporaryFile;
 	static void UpdatesImage();
+	static void CreateDirectories();
 
 };
 
