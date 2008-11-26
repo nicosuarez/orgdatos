@@ -78,7 +78,7 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long msgSize)
 		}
 
 		Space* space = new Space(freeSpaceID, imgID, pathImg, position, spaceSize);
-		freeSpaceLst->push_front(space);
+		freeSpaceLst->push_back(space);
 		acumSize += spaceSize;
 
 		//Dar de baja el espacio libre, y dar de alta el nuevo espacio libre sobrante.
@@ -310,15 +310,18 @@ ListFreeSpaceRegistry* FreeSpaceManager::FindSpaceConsecutive(tRegisterList* fre
             std::pair<ID_type,unsigned long> keyPair = key->GetKey();
             std::pair<ID_type,unsigned long> valPair = val->GetValue();
 
+            
             idImage = valPair.first;
             spaceSize = keyPair.second;
             position = valPair.second;
-		  	
-	  		if( position + spaceSize == space->GetInitialPosition() )
+		  	unsigned int bitsLsb = ImageManager::GetInstance()->GetBitsLsb(space->GetFilePath());
+	  		unsigned int beforePosition = position + spaceSize*(8/bitsLsb);
+		  	unsigned int actualPosition = space->GetInitialPosition()  + space->GetSize()*(8/bitsLsb);
+	  		if( beforePosition == space->GetInitialPosition() )
 	  		{
 	  			before = new Space(fsId, idImage, position, spaceSize);
 	  		}
-		  	else if( position == space->GetInitialPosition()  + space->GetSize() )
+		  	else if( position ==  actualPosition)
 		  	{
 	  			after = new Space( fsId, idImage, position, spaceSize);
 		  	}						

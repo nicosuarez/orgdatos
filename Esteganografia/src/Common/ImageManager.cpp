@@ -150,10 +150,13 @@ void ImageManager::DeleteImage(ID_type idImg){
 		while(it != msgList->end())
 		{
 			ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it);
-			msgManager->DeleteMessage(msgReg->GetIDImage(),false);
+			msgManager->DeleteMessage(msgReg->GetIDImage(),true);
 			it++;
 		}
 	}
+	
+	delete img;
+	img = dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(idImg));
 
 	//Eliminar el espacio libre disponible.
 	fsManager->RemoveFreeSpaceList(img->GetPtrFreeSpaceList());

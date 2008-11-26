@@ -22,6 +22,7 @@ MessageManager* MessageManager::GetInstance()
 /* -------------------------------------------------------------------------- */
 
 MessageManager::~MessageManager(){
+	delete instance;
 
 }
 /* -------------------------------------------------------------------------- */
@@ -102,11 +103,13 @@ void MessageManager::ExtractMessage(ID_type idFirstList, Message &msgTarget)
 		{
 			listImgRegistry = dynamic_cast<ListImgRegistry*>(*it);
 			ID_type idImg = listImgRegistry->GetIDImage();
-			unsigned long offsetImg = listImgRegistry->GetOffsetImg();
-			unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg();
 			string pathImg = imageManager->GetPathImage(idImg);
-			space = new Space(pathImg, offsetImg, sizePartitionMsg);
 			image = ImageFactory::GetImage(pathImg.c_str());
+//			unsigned int bitsLsb = image->GetBitsLsb();
+			unsigned long offsetImg = listImgRegistry->GetOffsetImg();
+//			unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg() / (8/bitsLsb);
+			unsigned long sizePartitionMsg = listImgRegistry->GetSizePartitionMsg();
+			space = new Space(pathImg, offsetImg, sizePartitionMsg);
 			image->Extract(space, &msgTarget);
 			delete image;
 			delete (*it);
@@ -178,7 +181,6 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 	Space *space;
 	Image *image;
 	ID_type idImage=0, idFirstList=0,idLastList=0;
-	unsigned int bitsLsb=0;
 	unsigned long sizeHidden = 0, sizeSpace;
 	tListSpaces::iterator it = spaces->begin();
 
@@ -189,19 +191,20 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 		//Oculto el mensaje en el esapcio libre
 		image = ImageFactory::GetImage( space->GetFilePath());
 		image->Hide(space, &msgTarget);
-		
+//		unsigned int bitsLsb = 8/image->GetBitsLsb();
 		//Obtengo los datos para alamcenar el registro
 		sizeSpace = space->GetSize();
 		sizeHidden += sizeSpace;
 		idImage = imageManager->GetIDImage(space->GetFilePath());
-		bitsLsb = imageManager->GetBitsLsb(space->GetFilePath());
 
 		//Si el space es el primero de la lista, debo crear una lista en la organizacion lista
 		if( it == spaces->begin() )
 		{
-			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize()*(8/bitsLsb) );
+//			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize()*bitsLsb );
+			ListImgRegistry regList( idImage, space->GetInitialPosition(), msgTarget.GetHiddenSize() );
 			this->orgListImages.CreateList(regList);
 			idFirstList = regList.GetID();
+			idLastList = idFirstList;
 			it++;
 		}
 		else
@@ -210,14 +213,13 @@ ID_type MessageManager::HideMessage(tListSpaces *spaces, Message &msgTarget)
 			 * Si no se ocupo por completo, calculo el espacio usado*/
 			it++;
 			if( (it == spaces->end()) && (sizeHidden > msgTarget.GetSize()) )
+//				sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize())*bitsLsb;
 				sizeSpace = space->GetSize() - (sizeHidden - msgTarget.GetSize());
 
 			//Guardo el registro en la orgListImages
-			ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace*(8/bitsLsb) );
-			this->orgListImages.AddToListLast(regList,idFirstList);
-			//this->orgListImages.AddToListLast(regList,idLastList);
-			
-			//idLastList== regList.GetID();//TEST ARREGLAMOS ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TODO: ver
+			ListImgRegistry regList( idImage, space->GetInitialPosition(), sizeSpace );
+			this->orgListImages.AddToListLast(regList,idLastList);
+			idLastList = regList.GetID();
 		}
 		ImgRegistry*imgReg= imageManager->GetImageRegistry(idImage);
 		Date date = Date::getDate(space->GetFilePath());
@@ -322,7 +324,8 @@ void MessageManager::AddFreeSpaces(std::list<ListRegistry*> *listImg)
 		ID_type idImg = listImgRegistry->GetIDImage();
 		unsigned long offsetImg = listImgRegistry->GetOffsetImg();
 		unsigned long size = listImgRegistry->GetSizePartitionMsg();
-		listSpaces->push_back(new Space(idImg, offsetImg, size));
+		string path = ImageManager::GetInstance()->GetPathImage(idImg);
+		listSpaces->push_back(new Space(idImg, path, offsetImg, size));
 		delete (*it);
 	}
 	//Doy de alta los nuevos espacios libres

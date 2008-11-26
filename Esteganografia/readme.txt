@@ -2,5 +2,5 @@ Librerias externas que usa el programa:
 
 ImageMagick
 cImg
-readline-dev
+libreadline-dev
 libpng12-dev
