@@ -51,7 +51,7 @@ pListUpdate ImageManager::UpdateImages()
 	for(size_t i=0; i < imgErasedList->size(); i++)
 	{
 		string path = (*imgErasedList)[i];
-		DeleteImage(path);
+		DeleteImage(path,imgErasedList);
 	}
 	
 	tVecStr* imgAddList = GetUpdatedList(Added);
@@ -65,7 +65,7 @@ pListUpdate ImageManager::UpdateImages()
 	return updatesList;
 }
 /* -------------------------------------------------------------------------- */
-void ImageManager::DeleteImage(string imgPath)
+void ImageManager::DeleteImage(string imgPath, tVecStr* imgErasedList, bool filterAll)
 {
 	KeyStr key(imgPath);
 	if(!imgTree.empty())
@@ -73,7 +73,7 @@ void ImageManager::DeleteImage(string imgPath)
 		if(imgTree.exists(key))
 		{
 			ValueInt* vInt = dynamic_cast<ValueInt*>(imgTree.find(key));
-			DeleteImage(vInt->getValue());
+			DeleteImage(vInt->getValue(), imgErasedList, filterAll);
 			delete vInt;
 		}
 	}
@@ -129,18 +129,13 @@ ID_type ImageManager::AddImage(const char* imagePath){
 	return idImg ;
 }
 /* -------------------------------------------------------------------------- */
-void ImageManager::DeleteImage(ID_type idImg){
+void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filterAll){
 
 	ImgRegistry* img=dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(idImg));
 	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
 	MessageManager* msgManager = MessageManager::GetInstance();
-
-	//Eliminar Path
-	string path=orgNamesImages.GetText(img->GetIDImagePath());
-	orgNamesImages.DeleteText(img->GetIDImagePath());
-
+	
 	//Obtener la lista de mensajes.
-
 	if( img->GetPtrMsgList() > 0 )
 	{
 		tRegisterList* msgList = this->orgListMsgs.GetList(img->GetPtrMsgList());
@@ -150,15 +145,21 @@ void ImageManager::DeleteImage(ID_type idImg){
 		while(it != msgList->end())
 		{
 			ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it);
-			msgManager->DeleteMessage(msgReg->GetIDImage(),true);
+			if(filterAll)
+				msgManager->DeleteMessage(msgReg->GetIDImage(),false, imgErasedList);
+			else
+				msgManager->DeleteMessage(msgReg->GetIDImage(),true, imgErasedList);
 			it++;
 		}
 	}
 	
+	//Eliminar Path
+	string path=orgNamesImages.GetText(img->GetIDImagePath());
+	orgNamesImages.DeleteText(img->GetIDImagePath());
+	
+	//Eliminar el espacio libre disponible.
 	delete img;
 	img = dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(idImg));
-
-	//Eliminar el espacio libre disponible.
 	fsManager->RemoveFreeSpaceList(img->GetPtrFreeSpaceList());
 
 	//Eliminar Registro Imagen.
@@ -322,7 +323,7 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) )
 		{
 			ValueInt* vInt=(ValueInt*)it.getValue();
-			DeleteImage(vInt->getValue());
+			DeleteImage(vInt->getValue(),NULL,true);
 			string pathFile=(kStr->getKey());
 			vkFile.push_back(kStr->getKey());
 			delete vInt;
@@ -606,7 +607,6 @@ list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
 }
 
 /* -------------------------------------------------------------------------- */
-
 void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 {
 	//Leo el registro imagen para obtener el id del primer registro de la lista de msgs.
@@ -631,6 +631,49 @@ void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 	this->UpdateImageRegistry(imgRegistry);
 
 	delete imgRegistry;
+}
+/* -------------------------------------------------------------------------- */
+void ImageManager::RemoveMessageToImage( ID_type idImage, ID_type idMessage)
+{
+	//Leo el registro imagen para obtener el id del primer registro de la lista de msgs.
+	ImgRegistry * imgReg = this->GetImageRegistry(idImage);
+	if( imgReg == NULL )
+		throw eFile(PATH_IMG_FILE);
+	ID_type firstList = imgReg->GetPtrMsgList();
+	try
+	{
+		//Eliminar de la lista de mensajes de la imagen, el mensaje especifico.
+		tRegisterList* msgList = this->orgListMsgs.GetList(firstList);
+		itRegisterList it = msgList->begin();
+		
+		//Si la lista no esta vacia, asigno el puntero al nuevo mensaje.
+		if( msgList->size() > 1 )
+		{
+			//Busco el nuevo mensaje de la lista. 
+			while(it != msgList->end())
+			{
+				ListMsgRegistry* msgReg = dynamic_cast<ListMsgRegistry*>(*it);
+				ID_type msgRegId = msgReg->GetID();
+				if(msgRegId != idMessage)
+				{
+					imgReg->SetPtrMsgList(msgRegId); 
+					break;
+				}
+				it++;
+			}
+		}
+		else //Si esta vacia, apunta a NULL
+		{
+			imgReg->SetPtrMsgList(NULL); 
+		}
+
+		this->orgListMsgs.DeleteFromList(idMessage);
+		UpdateImageRegistry(imgReg);
+		delete imgReg;
+	}
+	catch(char * error){
+		throw eFile(PATH_MSG_LIST_FILE);
+	}
 }
 /* -------------------------------------------------------------------------- */
 ImgRegistry* ImageManager::GetImageRegistry( ID_type idImage)

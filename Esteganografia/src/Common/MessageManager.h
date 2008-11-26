@@ -47,9 +47,9 @@ public:
 	void Hide(Message msg,Message msgTar=Message(PATH_TARGET_ENCRYPT_EM));
 
 	/*Elimina un mensaje oculto*/
-	void DeleteMessage(ID_type idMsg, bool addFreeSpace);
+	void DeleteMessage(ID_type idMsg, bool addFreeSpace, tVecStr* imgErasedList=NULL);
 	
-	void DeleteMessage(std::string nameMessage, bool addFreeSpace);
+	void DeleteMessage(std::string nameMessage, bool addFreeSpace, tVecStr* imgErasedList=NULL);
 	
 	void DeleteMessages(list<ID_type> *listImg);
 
@@ -79,7 +79,9 @@ private:
 	
 	void ExtractMessage(ID_type idFirstList, Message &msgTarget);
 	
-	void AddFreeSpaces(std::list<ListRegistry*> *listImg);
+	void AddFreeSpaces(tRegisterList *listImg);
+	
+	tRegisterList* FilterErasedImages(tRegisterList* imgList,tVecStr* imgErasedList);
 	
 	/*Constructor de copia y operador = privados para evitar errores*/
     MessageManager(const MessageManager &manager);

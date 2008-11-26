@@ -214,7 +214,11 @@ void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
 /* -------------------------------------------------------------------------- */
 tRegisterList* FreeSpaceManager::GetFreeSpacesList(ID_type ptrFreeSpace)
 {
-	tRegisterList* fsList = this->orgListFreeSpaces.GetList(ptrFreeSpace);
+	tRegisterList* fsList=new tRegisterList;
+	if(ptrFreeSpace > 0)
+	{
+		fsList = this->orgListFreeSpaces.GetList(ptrFreeSpace);
+	}
 	return fsList;
 }
 /* -------------------------------------------------------------------------- */
