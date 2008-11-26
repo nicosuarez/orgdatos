@@ -161,27 +161,28 @@ void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
 	
 	//Eliminar de la lista de la imagen el espacio libre.
 	tRegisterList* freeSpaceList = this->orgListFreeSpaces.GetList(firstList);
-	itRegisterList it = freeSpaceList->begin();
-	
+		
 	//Si la lista no esta vacia, asigno el puntero al nuevo espacio libre
 	if( freeSpaceList->size() > 1 )
 	{
-//		it++;
-//		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
-//		imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
 		
-		//Busco el nuevo primer espacio libre de la lista. 
-		while(it != freeSpaceList->end())
+//		//Busco el nuevo primer espacio libre de la lista. 
+//		while(it != freeSpaceList->end())
+//		{
+//			ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
+//			ID_type freeSpacesID = fsReg->GetID();
+//			if(freeSpacesID != freeSpace->GetIDSpace())
+//			{
+//				imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
+//				break;
+//			}
+//			
+//			it++;
+//		}
+		ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*freeSpaceList->begin());
+		if( freeSpace->GetIDSpace() == firstList )
 		{
-			ListFreeSpaceRegistry* fsReg = dynamic_cast<ListFreeSpaceRegistry*>(*it);
-			ID_type freeSpacesID = fsReg->GetID();
-			if(freeSpacesID != freeSpace->GetIDSpace())
-			{
-				imgRegistry->SetPtrFreeSpaceList(fsReg->GetID()); 
-				break;
-			}
-			
-			it++;
+			imgRegistry->SetPtrFreeSpaceList(fsReg->GetNextID());
 		}
 		
 	}

@@ -8,24 +8,24 @@ class ListMsgRegistry : public ListRegistry
 public:
 	ListMsgRegistry();
 	
-	ListMsgRegistry( ID_type idImage);
+	ListMsgRegistry( ID_type idMsg);
 	
 	virtual ~ListMsgRegistry();
 	
 	static ExtensibleRelativeRegistry* Create();
 	
-	ID_type GetIDImage() const;
+	ID_type GetIDMessage() const;
 	
 	unsigned int GetSize() const;
 	
-	void SetIDImage(ID_type idImage);
+	void SetIDMessage(ID_type idMsg);
 	
 	char* Serialize() const;
 	
 	void Deserialize(const char* buffer, unsigned int length);
 	
 private:
-	ID_type idImage;
+	ID_type idMsg;
 	
     /* Allocation and copy constructor are private to prevent errors. */
 	ListMsgRegistry(const ListMsgRegistry &Reg);
