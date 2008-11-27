@@ -441,7 +441,7 @@ void MessageManager::ShowMessage()
 		hiddenSize++;
 	}
 	std::cout << std::endl;
-	std::cout << LBL_HIDDEN_MSG_SIZE << hiddenSize << std::endl;
+	std::cout << LBL_HIDDEN_MSG_SIZE << hiddenSize << std::endl << std::endl;
 	treeMsg.deleteIterator(it);
 }
 /* -------------------------------------------------------------------------- */

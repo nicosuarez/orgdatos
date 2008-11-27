@@ -33,6 +33,8 @@
 #define PATH_TREE_MSG "./Files/treeMsg.dat"
 #define PATH_TREE_FREE_SPACE "./Files/treeFreeSpace.dat"
 #define PATH_TREE_DIR "./Files/treeDir.dat"
+#define PATH_TREE_TMP "./Files/treeTmp.dat"
+#define PATH_TREE_TMP_BIG_REGS "./Files/treeTmp.dat-big-regs"
 
 /*----------------CONSOLE--------------*/
 #define CONSOLE_TEMPORARY_FILE "./Files/temporaryFileConsole.txt"
@@ -40,8 +42,6 @@
 /*----------------IMAGEMANAGER--------------*/
 #define END_DIRECTORY "._@"
 
-#define PATH_TREE_DIR "./Files/treeDir.dat"
-#define PATH_TREE_TMP "./Files/treeTmp.dat"
 
 #endif /*__CONSTANT__H_*/
 

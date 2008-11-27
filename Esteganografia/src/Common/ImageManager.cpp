@@ -18,10 +18,8 @@ ImageManager* ImageManager:: instance = NULL;
 
 
 ImageManager::ImageManager(): orgImages(PATH_IMG_FILE, ImgRegistry::Create),
-							 // orgListFreeSpaces(PATH_FREE_SPACE_FILE, ListFreeSpaceRegistry::Create),
 							  orgListMsgs(PATH_MSG_LIST_FILE, ListMsgRegistry::Create),
 							  orgNamesImages(PATH_NAMES_IMG_PATHFILE, PATH_NAMES_IMG_FILE),
-							  //orgNamesDir(PATH_NAMES_DIR_FILE),
 							  imgTree(512,KeyStrFactory(), ValueIntFactory(),PATH_TREE_IMG),
 							  dirTree(512,KeyStrFactory(), ValueNullFactory(),PATH_TREE_DIR)
 {
@@ -117,7 +115,6 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		}
 		idImg=imgReg.GetID();
 		if (idImg!=0){
-			std::cout << ADDING_FILE << imagePath << std::endl;
 			ValueInt valImg(idImg);
 			this->imgTree.insert(keyImg,valImg);
 		}
@@ -305,8 +302,6 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		return ans;
 
 	TreeIterator& it = imgTree.iterator(kDir);
-	cout<<endl;
-	cout<<kDir.getKey()<<endl;
 	while ( (!it.end()) && (end==false) )
 	{
 		KeyStr* kStr=dynamic_cast<KeyStr*>(it.getKey());
@@ -335,9 +330,6 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		++it;
 	}
 	imgTree.deleteIterator(it);
-	cout<<vkDir.size()<<endl;
-	RecorreElArbol();
-	RecorreElArbolDir();
 	for(unsigned int u=0;u<vkDir.size();u++)
 	{
 		string path=vkDir[u];
@@ -348,7 +340,6 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		if (imgTree.exists(keyImg)) //Esto para debuggear
 			imgTree.remove(keyImg);
 	}
-	RecorreElArbol();
 	for(unsigned int u=0;u<vkFile.size();u++)
 	{
 		string k=vkFile[u];
@@ -405,10 +396,8 @@ tVecStr ImageManager::GetAllDirectories(){
 			++it;
 		}
 		dirTree.deleteIterator(it);
-		//dirList.sort();
-		/*
-		 * Se eliminan los nombres repetidos
-		 */
+		
+		// Se eliminan los nombres repetidos
 		dirList.unique();
 
 		std::list <std::string> ::iterator itList;
@@ -518,30 +507,13 @@ tVecStr* ImageManager::GetUpdatedList( IMMode mode )
 		  tmpList.clear();
 		  delete localTree;
 		  remove (PATH_TREE_TMP);
-		  remove ("./Files/treeTmp.dat-big-regs");
+		  remove (PATH_TREE_TMP_BIG_REGS);
 		  allDirs.clear();
 	}
 
 	return updatedList;
 }
-/* -------------------------------------------------------------------------- */
-//tVecStr ImageManager::GetImageErasedFromDirectories()
-//{
-//	tVecStr erasedImg;
-//	tVecStr allDirs = GetAllDirectories();
-//	for ( unsigned int i = 0; i < allDirs.size(); i++ )
-//	{
-//		string str=allDirs[i];
-//		tVecStr tmpList = GetImageErasedList( str );
-//		std::string path = allDirs[i] + "/";
-//		for ( unsigned int i = 0; i < tmpList.size(); i++ )
-//			erasedImg.push_back( path + tmpList.at(i) );
-//		tmpList.clear();
-//	}
-//	allDirs.clear();
-//
-//	return erasedImg;
-//}
+
 /* -------------------------------------------------------------------------- */
 ID_type ImageManager::GetIDImage(const char* path){
 	if(imgTree.empty())

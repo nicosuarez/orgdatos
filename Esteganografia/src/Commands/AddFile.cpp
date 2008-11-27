@@ -33,17 +33,17 @@ bool AddFile::InternalProcess(tVecStr params)
 	MessageManager *messageManager = MessageManager::GetInstance();
 	try
 	{
-		std::cout << PROCESS_COMMAND;
+		std::cout << "\n" << PROCESS_COMMAND;
 		if( FileSystem::IsDirectory(pathMessage.c_str()) )
 			throw eNotExist(MSG_NOT_MSG);
 		messageManager->Hide(pathMessage);
-		std::cout << MSG_HIDE_SUCCESS;
+		std::cout <<  "\n" << MSG_HIDE_SUCCESS;
 	}
 	catch(eFile &e){
-		cout << EXC_EFILE << e.what() << "\n";
+		cout << "\n" <<  EXC_EFILE << e.what() << "\n\n";
 	}
 	catch(exception &e){
-		cout << e.what() << "\n";
+		cout <<  "\n" << e.what() << "\n\n";
 	}
 	return true;
 }

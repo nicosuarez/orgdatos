@@ -41,7 +41,7 @@ bool ShowDirectories::InternalProcess(tVecStr params)
 		cout<<"\t"<<CIRCLE;
 		cout<<vec[vec.size()-1-i]<< "\n";
 	}
+	 cout << "\n";
 	vec.clear();
-	//path.clear();
 	return true;
 }

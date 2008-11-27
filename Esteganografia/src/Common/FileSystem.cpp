@@ -68,7 +68,7 @@ std::vector<std::string> FileSystem::GetFiles(const char* path, FSMode mode)
 	 pdir = opendir(path);
 	 if (!pdir)
 	 {
-		 std::cerr << ERR_PATH_NOT_EXIST << "\"" << path << "\"" << "\n" << std::flush;
+		 std::cerr << "\n" << ERR_PATH_NOT_EXIST << "\"" << path << "\"" << "\n" << std::flush;
 		 return fileList;
 	 }
 	 errno = 0;
