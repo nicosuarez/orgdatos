@@ -44,7 +44,7 @@ typedef unsigned int ID_type;
 #define ERR_INCORRECT_PASSWORD "El password ingresado es incorrecto."
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
 #define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
-#define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe\n"
+#define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe"
 #define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
 #define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
 #define ERR_MSG_IS_IMG "Esta intentando ocultar una imagen que fue agregada al sistema para ocultar mensajes\n"

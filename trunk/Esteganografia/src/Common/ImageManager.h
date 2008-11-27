@@ -59,7 +59,7 @@ class ImageManager
 	tVecStr DeleteDirectory(const char* dirPath);
 
 	/* Elimina una imagen de la organizacion de archivos*/
-	void DeleteImage(std::string path, tVecStr* imgErasedList=NULL,bool filterAll=false);
+	void DeleteImage(std::string path, tVecStr* imgErasedList=NULL,bool filterAll=false, bool removetoTree=true);
 
 	/* Almacena una imagen en la organizacion de archivos*/
 	ID_type AddImage(const char* imagePath);
@@ -118,6 +118,8 @@ class ImageManager
 	void TestDirectory(const char* dirPath);
 	
 	unsigned int GetBitsLsb(const char* filePath);
+	
+	void ShowMessageFromDirectory(const char* dirPath);
 
 	/*
 	* devuelve la lista de todos los directorios
@@ -137,7 +139,7 @@ class ImageManager
 
 private:
 	//Borra la imagen y sus mensajes
-	void DeleteImage(ID_type id, tVecStr* imgErasedList=NULL, bool filterAll=false);
+	void DeleteImage(ID_type id, tVecStr* imgErasedList=NULL, bool filterAll=false, bool removetoTree=true);
 
 	//Le quita al string lo que la identica como directorio
 	void TransformKeyImgToKeyDir(std::string& str);

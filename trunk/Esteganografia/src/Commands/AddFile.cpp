@@ -40,10 +40,10 @@ bool AddFile::InternalProcess(tVecStr params)
 		std::cout << MSG_HIDE_SUCCESS;
 	}
 	catch(eFile &e){
-		cout << "\n" <<  EXC_EFILE << e.what() << "\n\n";
+		cout << "\n" << EXC_EFILE << e.what() << "\n\n";
 	}
 	catch(exception &e){
-		cout <<  "\n" << e.what() << "\n\n";
+		cout << e.what() << "\n\n";
 	}
 	return true;
 }

@@ -20,12 +20,22 @@ MessageManager* MessageManager::GetInstance()
 	return instance;
 }
 /* -------------------------------------------------------------------------- */
-
 MessageManager::~MessageManager(){
 
 }
 /* -------------------------------------------------------------------------- */
+std::string MessageManager::GetNameMessage(ID_type idMsg)
+{
+    MsgRegistry *msgRegistry = dynamic_cast<MsgRegistry*>(orgMsg.GetRegistry(idMsg));
+    if( msgRegistry == NULL )
+            return std::string("");
+    ID_type idNameMsg = msgRegistry->GetIdName();
+    std::string nameMsg = orgNames.GetText(idNameMsg);
+    delete msgRegistry;
+    return nameMsg;
 
+}
+/* -------------------------------------------------------------------------- */
 void MessageManager::Extract(std::string nameMsg, std::string pathMsg, Message msgTarget){
 
 	std::string fullPath(pathMsg + "/" + nameMsg);

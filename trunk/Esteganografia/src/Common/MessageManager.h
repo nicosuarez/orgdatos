@@ -54,6 +54,8 @@ public:
 	void DeleteMessages(list<ID_type> *listImg);
 
 	void ShowMessage();
+	
+	std::string GetNameMessage(ID_type idMsg);
 
 	/*Destructor*/
 	virtual ~MessageManager();
