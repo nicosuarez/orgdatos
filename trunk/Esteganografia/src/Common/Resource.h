@@ -57,12 +57,12 @@ typedef unsigned int ID_type;
 #define MSG_INPUT_PASSWORD "\nPor favor ingrese su password."
 #define MSG_CREATE_PASSWORD "\nPor favor ingrese su nuevo password."
 #define MSG_COMFIRM_PASSWORD "\nPor favor confirme su password."
-#define MSG_ADDED_DIRECTORIES "Los siguientes archivos han sido dado de alta\n"
-#define MSG_DELETED_DIRECTORIES "Los siguientes archivos han sido eliminados\n"
+#define MSG_ADDED_DIRECTORIES "Los siguientes archivos han sido dado de alta:\n"
+#define MSG_DELETED_DIRECTORIES "Los siguientes archivos han sido eliminados:\n"
 #define MSG_INITIAL_PROGRAM "\n\
-//////////////////////////////////////////////////////////////////////\n\
-//                    Bienvenido a DataSafe v1.0                    //\n\
-//////////////////////////////////////////////////////////////////////\n\
+////////////////////////////////////////////////////////////////////////////////\n\
+//                         Bienvenido a DataSafe v1.0                         //\n\
+////////////////////////////////////////////////////////////////////////////////\n\
 \nIngrese un comando: (Para la ayuda ingrese: help)\n"
 #define ERR_PARAMS_SIZE_INCORRECT "\
 La cantidad de parametros es incorrecta.\n\

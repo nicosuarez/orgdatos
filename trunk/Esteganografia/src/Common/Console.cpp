@@ -73,7 +73,7 @@ void Console::UpdatesImage()
 	}
 	for(unsigned int i=0;i<removeList->size(); i++)
 	{
-		std::cout<<"\t"<<(*removeList)[i]<<"\n";
+		std::cout<< "\t" << CIRCLE << (*removeList)[i]<<"\n";
 	}
 	if (addList->size()!=0)
 	{
@@ -81,7 +81,7 @@ void Console::UpdatesImage()
 	}
 	for(unsigned int i=0;i<addList->size(); i++)
 	{
-		std::cout<<"	"<<(*addList)[i]<<"\n";
+		std::cout<< "\t" << CIRCLE << (*addList)[i]<<"\n";
 	}
 	std::cout << "\n";
 	delete addList;
