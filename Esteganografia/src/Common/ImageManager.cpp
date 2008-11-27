@@ -119,9 +119,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
 		if (idImg!=0){
 			std::cout << ADDING_FILE << imagePath << std::endl;
 			ValueInt valImg(idImg);
-			cout<<imgTree;
 			this->imgTree.insert(keyImg,valImg);
-			cout<<imgTree;
 		}
 	}else{
 		return 1;
@@ -169,9 +167,8 @@ void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filte
 	if (!imgTree.empty())
 		if (imgTree.exists(kImgTree))
 			imgTree.remove(kImgTree);
-	cout<<imgTree;
-
 }
+
 /* -------------------------------------------------------------------------- */
 /*
  * Agrega todos los directorios y imagenes al arbol imgTree
@@ -236,9 +233,6 @@ tVecStr ImageManager::AddDirectory(const char* dirPath)
 			dirTree.insert(kSubDirTreeDir,vNull);
 		}
 	}
-	cout << dirTree;
-	cout << imgTree;
-
 	return ans;
 }
 /* -------------------------------------------------------------------------- */
@@ -295,7 +289,6 @@ void ImageManager::TransformKeyImgToKeyDir(string& st){
 tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 	bool end=false;
 
-	cout << dirTree;
 	string dir=string (dirPath);
 	tVecStr fileList=FileSystem::GetFiles(dirPath,File);
 	tVecStr tokensDir=StrToken::getStrTokens(dirPath,"/");
@@ -312,7 +305,6 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		return ans;
 
 	TreeIterator& it = imgTree.iterator(kDir);
-	RecorreElArbol();
 	cout<<endl;
 	cout<<kDir.getKey()<<endl;
 	while ( (!it.end()) && (end==false) )
@@ -352,11 +344,7 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		KeyStr keyDir(path);
 		string pathDi=path +END_DIRECTORY;
 		KeyStr keyImg(pathDi);
-
 		dirTree.remove(keyDir);
-
-		cout << dirTree;
-
 		if (imgTree.exists(keyImg)) //Esto para debuggear
 			imgTree.remove(keyImg);
 	}
@@ -367,10 +355,6 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		KeyStr key(k);
 		imgTree.remove(key);
 	}
-
-	cout << dirTree;
-	cout << imgTree;
-
 	return ans;
 }
 
@@ -442,7 +426,6 @@ tVecStr ImageManager::filterByDate ( tVecStr list , BppTree & tree )
 	while ( !it.end() )
 	{
 		KeyStr* key = dynamic_cast<KeyStr*>(it.getKey());
-		cout<<imgTree;
 		if( imgTree.exists( *key ) )
 		{
 			ValueInt* idImg = dynamic_cast<ValueInt*>( imgTree.find( *key ));
