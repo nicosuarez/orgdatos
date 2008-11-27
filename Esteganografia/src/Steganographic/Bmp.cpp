@@ -1,13 +1,4 @@
-///////////////////////////////////////////////////////////
-//  Bmp.cpp
-//  Implementation of the Class Bmp
-//  Created on:      13-Oct-2008 2:49:28 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #include "Bmp.h"
-
-using namespace std;
 
 Bmp::Bmp(const char* filePath)
 {
@@ -156,7 +147,7 @@ bool Bmp::ValidateFormat(const char *filePath)
 	}
 	else
 	{
-		cerr << ERR_FILE_OPEN << filePath << "\n";
+		cout << ERR_FILE_OPEN << filePath << "\n";
 	}
 	return isValid;
 }

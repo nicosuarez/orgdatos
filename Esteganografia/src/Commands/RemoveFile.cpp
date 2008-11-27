@@ -1,7 +1,5 @@
 #include "RemoveFile.h"
 
-using namespace std;
-
 RemoveFile::RemoveFile(string cmd) : Command(cmd)
 {
 

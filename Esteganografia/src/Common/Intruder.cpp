@@ -4,15 +4,13 @@
 #include <iostream>
 
 
-using namespace std;
+using std::cout;
 
 Intruder::Intruder() {
-	// TODO Auto-generated constructor stub
 
 }
 
 Intruder::~Intruder() {
-	// TODO Auto-generated destructor stub
 }
 
 void Intruder::SetDate(Date date){

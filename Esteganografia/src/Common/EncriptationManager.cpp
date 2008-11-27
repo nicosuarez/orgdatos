@@ -3,7 +3,7 @@
 #include "../Encrypter/transposition.h"
 #include "Constant.h"
 
-using namespace std;
+using std::cout;
 
 Message EncriptationManager::Decrypt(const Message& msg){
 	Message temp("./temp.dat");

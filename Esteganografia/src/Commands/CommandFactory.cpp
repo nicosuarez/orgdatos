@@ -1,7 +1,5 @@
 #include "CommandFactory.h"
 
-using namespace std;
-
 bool CommandFactory::IsQuitCommand(string cmd)
 {
 	StrToken::toLowerString(cmd);

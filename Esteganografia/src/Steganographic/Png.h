@@ -1,15 +1,14 @@
-///////////////////////////////////////////////////////////
-//  Png.h
-//  Implementation of the Class Png
-//  Created on:      13-Oct-2008 2:49:35 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #ifndef PNGRGB_H_
 #define PNGRGB_H_
 
 #include "Image.h"
 #include <png.h>
+
+using std::fstream;
+using std::ios;
+using std::cout;
+using std::endl;
+
 
 #define PngFileType "PNG"
 

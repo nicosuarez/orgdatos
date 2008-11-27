@@ -1,13 +1,6 @@
-///////////////////////////////////////////////////////////
-//  Command.cpp
-//  Implementation of the Class Command
-//  Created on:      13-Oct-2008 2:49:29 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #include "Command.h"
 
-using namespace std;
+using std::cout;
 
 Command::Command(string cmd){
 
@@ -24,7 +17,7 @@ bool Command::InternalProcess(tVecStr params)
  
 void Command::ShowParamsErrMsg()
 {
-	cout << "\n" << ERR_PARAMS_SIZE_INCORRECT << "\n" << flush;
+	cout << "\n" << ERR_PARAMS_SIZE_INCORRECT << "\n" << std::flush;
 }
 
 void Command::ShowHelpCommand()

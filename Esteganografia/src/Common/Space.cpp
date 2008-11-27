@@ -120,10 +120,10 @@ unsigned long Space::GetInitialPosition() const
 unsigned long Space::GetTotalSize() const
 {
 	unsigned long pos = 0;
-	ifstream fin(this->filePath.c_str());
+	std::ifstream fin(this->filePath.c_str());
 	if(fin)
 	{
-	   fin.seekg(0, ios::end); 
+	   fin.seekg(0, std::ios::end); 
 	   pos = fin.tellg();
 	}
 	fin.close();

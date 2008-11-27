@@ -3,8 +3,6 @@
 #include <math.h>
 #include "../Common/Exception/eFile.h"
 
-using namespace std;
-
 Lzss::Lzss() :
 	bitsLong(getCantBitsLong()), bitsPos(getCantBitsPos()) {
 }

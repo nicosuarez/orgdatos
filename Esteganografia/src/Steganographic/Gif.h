@@ -1,10 +1,3 @@
-///////////////////////////////////////////////////////////
-//  Gif.h
-//  Implementation of the Class Gif
-//  Created on:      13-Oct-2008 2:49:31 AM
-//  Original author: Nicolas
-///////////////////////////////////////////////////////////
-
 #if !defined(EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B491B574_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
@@ -12,6 +5,11 @@
 #include "../Common/Resource.h"
 #include <list>
 #include <math.h>
+
+using std::fstream;
+using std::ios;
+using std::cout;
+using std::endl;
 
 #define BLOCK_TERMINATOR 0x00
 #define EXTENSION_INTRODUCER 0x21

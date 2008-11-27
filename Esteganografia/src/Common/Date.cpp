@@ -4,7 +4,7 @@
 #include <time.h>
 #include "StrToken.h"
 
-using namespace std;
+using std::cout;
 Date::Date(unsigned int  year,unsigned int month,unsigned int day,unsigned int hour,
 		unsigned int min,unsigned int seg){
 	this->year=year;

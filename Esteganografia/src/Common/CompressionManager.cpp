@@ -2,7 +2,7 @@
 #include "../Lzss/lzss.h"
 #include "Constant.h"
 
-using namespace std;
+using std::cout;
 
 CompressionManager* CompressionManager:: instance = NULL;
 /* -------------------------------------------------------------------------- */

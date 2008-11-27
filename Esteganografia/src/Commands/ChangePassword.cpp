@@ -2,7 +2,7 @@
 #include "../Common/Console.h"
 #include "../Common/PasswordManager.h"
 
-using namespace std;
+
 
 ChangePassword::ChangePassword(string cmd) : Command(cmd)
 {

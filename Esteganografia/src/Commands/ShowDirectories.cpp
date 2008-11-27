@@ -1,7 +1,5 @@
 #include "ShowDirectories.h"
 
-using namespace std;
-
 ShowDirectories::ShowDirectories(string cmd) : Command(cmd)
 {
 

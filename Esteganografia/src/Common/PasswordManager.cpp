@@ -10,15 +10,12 @@
 #include "EncriptationManager.h"
 #include "CompressionManager.h"
 
-using namespace std;
+using std::cout;
 
 PasswordManager::PasswordManager() {
-	// TODO Auto-generated constructor stub
-
 }
 
 PasswordManager::~PasswordManager() {
-	// TODO Auto-generated destructor stub
 }
 
 bool PasswordManager::ValidatePassword(){

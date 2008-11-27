@@ -1,10 +1,3 @@
-///////////////////////////////////////////////////////////
-//  Bmp.h
-//  Implementation of the Class Bmp
-//  Created on:      13-Oct-2008 2:49:28 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #if !defined(EA_B2D82F06_98EA_11dd_B49B_001B2425640C__INCLUDED_)
 #define EA_B2D82F06_98EA_11dd_B49B_001B2425640C__INCLUDED_
 
@@ -16,6 +9,11 @@
 #define DATASIZE 64
 #define STARTBYTE 64
 #define BmpFileType "BM"
+
+using std::fstream;
+using std::ios;
+using std::cout;
+using std::endl;
 
 typedef enum ImageColor { InvalidColor= -1, HighColor=0, LowColor=1 } ImageColor;
 
