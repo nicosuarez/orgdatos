@@ -7,7 +7,7 @@
 #include "Constant.h"
 #include "PasswordManager.h"
 
-using namespace std;
+using std::cout;
 
 /* -------------------------------------------------------------------------- */
 

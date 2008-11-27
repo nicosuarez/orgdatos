@@ -5,12 +5,12 @@
 #include <iomanip>
 #include "../Common/Exception/eFile.h"
 
-using namespace std;
-
-//BitsInverter::BitsInverter(){}
+using std::ofstream;
+using std::ifstream;
+using std::ios;
 
 void BitsInverter::encrypt(const char* fileOrigin,const char* fileTarget){
-	ifstream fpOrigin(fileOrigin,ios::in|ios::binary);
+	std::ifstream fpOrigin(fileOrigin,ios::in|ios::binary);
 	if (!fpOrigin.good())
 		throw eFile("fallo archivo3");
 	ofstream fpTarget(fileTarget,ios::out|ios::ate|ios::binary);

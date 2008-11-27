@@ -1,6 +1,5 @@
 #include "ShowFiles.h"
 #include "../Common/MessageManager.h"
-using namespace std;
 
 ShowFiles::ShowFiles(string cmd) : Command(cmd)
 {

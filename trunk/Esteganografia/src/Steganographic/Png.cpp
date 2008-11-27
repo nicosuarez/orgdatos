@@ -31,7 +31,7 @@ bool Png::ValidateFormat(const char* filePath)
     FILE *fp = fopen(filePath, "rb");
     if (!fp)
     {
-    	cerr << ERR_FILE_OPEN << filePath <<"\n";
+    	cout << ERR_FILE_OPEN << filePath <<"\n";
         throw EMPTY;
     }
     fread(header, 1, 8, fp);

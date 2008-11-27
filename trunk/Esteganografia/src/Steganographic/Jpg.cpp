@@ -1,13 +1,5 @@
-///////////////////////////////////////////////////////////
-//  Jpg.cpp
-//  Implementation of the Class Jpg
-//  Created on:      13-Oct-2008 2:49:34 AM
-//  Original author: zebas
-///////////////////////////////////////////////////////////
-
 #include "Jpg.h"
 
-using namespace std;
 
 Jpg::Jpg(const char* filePath){
 	this->filePath = filePath;
@@ -26,8 +18,8 @@ Jpg::~Jpg(){
 void Jpg::Extract(Space* space, Message* msg)
 {
 	long spaceSize = space->GetSize(); 
-	ifstream fin(space->GetFilePath(), ios::in | ios::binary);
-	ofstream fdata(msg->GetFilePath(), ios::out | ios::app);
+	std::ifstream fin(space->GetFilePath(), ios::in | ios::binary);
+	std::ofstream fdata(msg->GetFilePath(), ios::out | ios::app);
 	long extractBytes = 0;
 	UBYTE dataByte;
 
@@ -91,7 +83,7 @@ bool Jpg::ValidateFormat(const char *filePath)
 	}
 	else
 	{
-		cerr << ERR_FILE_OPEN << filePath <<"\n";
+		cout << ERR_FILE_OPEN << filePath <<"\n";
 	}
 	return isValid;
 }

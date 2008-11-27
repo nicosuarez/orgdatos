@@ -1,10 +1,3 @@
-///////////////////////////////////////////////////////////
-//  Gif.cpp
-//  Implementation of the Class Gif
-//  Created on:      13-Oct-2008 2:49:31 AM
-//  Original author: Nicolas
-///////////////////////////////////////////////////////////
-
 #include "Gif.h"
 
 
@@ -36,7 +29,7 @@ bool Gif::ValidateFormat(const char* filePath)
 	}
 	else
 	{
-		cerr << ERR_FILE_OPEN << filePath<<"\n";
+		cout << ERR_FILE_OPEN << filePath<<"\n";
 	}
 	return isValid;
 }

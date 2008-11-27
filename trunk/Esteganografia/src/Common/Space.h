@@ -11,7 +11,8 @@
 #include <fstream>
 #include <iostream>
 #include "Resource.h"
-using namespace std;
+using std::cout;
+using std::string;
 /**
  * Unidad de espacio del cual se puede recuperar o almacenar infomacion.
  */

@@ -1,7 +1,5 @@
 #include "Help.h"
 
-using namespace std;
-
 Help::Help(string cmd) : Command(cmd)
 {
 

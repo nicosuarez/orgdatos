@@ -15,6 +15,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+using std::fstream;
+using std::ifstream;
+using std::ofstream;
+using std::ios;
+
 typedef  std::vector<long> tVecLong;
 
 #define JpgFileType "JFIF"

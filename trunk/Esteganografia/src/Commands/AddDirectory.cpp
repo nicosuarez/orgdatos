@@ -2,8 +2,6 @@
 #include "../Common/ImageManager.h"
 #include "../Common/Exception/eNotExist.h"
 
-using namespace std;
-
 AddDirectory::AddDirectory(string cmd) : Command(cmd)
 {
 
@@ -42,7 +40,7 @@ bool AddDirectory::InternalProcess(tVecStr params)
 		}
 		cout << "\n";
 	}catch(eNotExist e){
-		cout<<e.what()<< "\n";
+		cout<<e.what()<< "\n\n";
 	}	
 	return true;
 }

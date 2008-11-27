@@ -3,7 +3,11 @@
 #include <string.h>
 #include <iostream>
 #include <iomanip>
-using namespace std;
+using std::ofstream;
+using std::ifstream;
+using std::ios;
+
+
 Transposition::Transposition(){
 	this->currN=Transposition::N;
 	this->currNmax=Transposition::NMAX;

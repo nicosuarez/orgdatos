@@ -2,8 +2,6 @@
 #include "../Common/ImageManager.h"
 #include "../Common/Resource.h"
 
-using namespace std;
-
 RemoveDirectory::RemoveDirectory(string cmd) : Command(cmd)
 {
 
