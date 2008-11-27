@@ -435,7 +435,7 @@ void MessageManager::ShowMessage()
 	{
 		std::pair<Register*,Register*>keyval= *it;
 		KeyStr* key = dynamic_cast<KeyStr*>(keyval.first);
-		std::cout << CIRCLE << " " << key->getKey() << std::endl;
+		std::cout << "\t" << CIRCLE << key->getKey() << std::endl;
 		delete key;
 		++it;
 		hiddenSize++;

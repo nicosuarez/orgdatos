@@ -43,14 +43,14 @@ typedef unsigned int ID_type;
 #define EMPTY " "
 #define ERR_INCORRECT_PASSWORD "El password ingresado es incorrecto."
 #define ERR_SAME_PASSWORD "La validacion del password es erronea."
-#define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje\n"
+#define ERR_NOT_SPACE "No hay espacio suficiente para ocultar el mensaje"
 #define ERR_ALREADY_EXIST "El mensaje que se desea ocultar ya existe\n"
 #define ERR_MSG_NOT_EXIST "No existe el mensaje\n"
 #define ERR_MSG_EMPTY "No hay ningun mensaje oculto\n"
 #define ERR_MSG_IS_IMG "Esta intentando ocultar una imagen que fue agregada al sistema para ocultar mensajes\n"
 #define MSG_HIDE_SUCCESS "El mensaje se ha ocultado exitosamente\n\n"
 #define MSG_EXTARCT_SUCCESS "El mensaje se ha extraido exitosamente\n\n"
-#define MSG_DELETE_SUCCESS "El mensaje se ha eliminado correctamente\n\n"
+#define MSG_DELETE_SUCCESS "El mensaje se ha eliminado correctamente\n"
 #define MSG_NOT_EXIST_DIRECTORIES "No se agrego ningun directorio.\n"
 #define MSG_NOT_MSG "No se pudo abrir el archivo.\n"
 #define PROCESS_COMMAND "Procesando comando...\n"
@@ -71,7 +71,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 #define MSG_INTRUDERS1 "Han sido detectado que "
 #define MSG_INTRUDERS2 " intruso intento entrar: \n "
 #define MSG_INTRUDERS3 " intrusos intentaron entrar: \n "
-#define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introduciodos por el intruso: \n "
+#define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introduciodos por el intruso: \n"
 
 
 #define HLP_HELP "\
@@ -89,13 +89,13 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 	●   removeDirectory <directorio> \n \t \
 	Quita un directorio de imágenes del ocultador."
 
-#define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente:"
+#define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes directorios han sido eliminados exitosamente:"
 
 #define ERR_MSG_REMOVE_DIRECTORY "El directorio que quiere borrar no existe."
 
-#define FIRST_MSG_ANY_DIRECTORY "\nNo hay directorios cargados\n"
+#define FIRST_MSG_ANY_DIRECTORY "\nNo hay directorios cargados"
 #define FIRST_MSG_SHOW_DIRECTORY "\nLos directorios cargados son:"
-#define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
+#define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes directorios han sido dados de alta exitosamente:"
 #define WRONG_MSG_ADD_DIRECTORY "\nEl directorio ha sido agregado previamente a la base de datos"
 
 #define HLP_ADD_FILE "\
@@ -127,10 +127,9 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 
 #define CHANGE_PASS_ACCEPTED "La password ha sido modificada correctamente"
 
-#define CHANGE_PASS_WRONG_PASS "la password vieja no es correcta"
+#define CHANGE_PASS_WRONG_PASS "La password vieja no es correcta"
 
-#define CIRCLE "\
-	●   "
+#define CIRCLE "●   "
 
 #define EXC_EFILE "Hubo un error, el usuario borro el siguiente archivo "
 
