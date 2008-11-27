@@ -197,7 +197,6 @@ template<typename BitDepthType>
 BitDepthType** Png::CreateImageData()
 {
 	png_uint_32 rowbytes = GetRowBytes();
-//	cout << sizeof(BitDepthType*)*Height << "\n";
 	BitDepthType** imageData=(BitDepthType**)malloc(sizeof(BitDepthType*)*Height);
 	
 	if (!imageData)

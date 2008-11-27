@@ -36,11 +36,10 @@ void Intruder::Deserialize(std::string str){
 		this->strings.push_back(ans[i]);
 }
 
-/*std::ostream&*/ void Intruder::toOstream(/*std::ostream& out*/)const{
+void Intruder::toOstream()const{
 	cout <<"Fecha: "<< this->date.getYear()+1900<<"/"<<this->date.getMonth()<<"/"<<this->date.getDay()<<"		"<<"Hora: "<<this->date.getHour()<<":"<<this->date.getMin()<<":"<<this->date.getSeg()<<"\n";
 	cout<<MSG_INTRUDERS_GETPASS;
 	for(unsigned int i=0;i<this->strings.size();i++)
 		cout<<CIRCLE<<strings[i]<<"\n";
-	//cout<<"\n";
-	//return out;
+
 }

@@ -53,8 +53,6 @@ tListSpaces* FreeSpaceManager::GetFreeSpaces(unsigned long msgSize)
 	TreeIterator& it = freeSpacesTree.first();
 	tVecFreeSpace deleteKeys, addSpaceKeys;
 	
-	std::cout << freeSpacesTree;
-
 	while(!it.end() && (acumSize < msgSize))
 	{
 		std::pair<Register*,Register*>keyval= *it;
@@ -208,11 +206,9 @@ void FreeSpaceManager::RemoveFreeSpace(Space* freeSpace)
 	//Eliminar del arbol
 	KeyFreeSpace key(freeSpace->GetIDSpace(), freeSpace->GetSize());
 	freeSpacesTree.remove(key);
-	
-	std::cout << freeSpacesTree;
-
 }
 /* -------------------------------------------------------------------------- */
+
 tRegisterList* FreeSpaceManager::GetFreeSpacesList(ID_type ptrFreeSpace)
 {
 	tRegisterList* fsList=new tRegisterList;
@@ -223,6 +219,7 @@ tRegisterList* FreeSpaceManager::GetFreeSpacesList(ID_type ptrFreeSpace)
 	return fsList;
 }
 /* -------------------------------------------------------------------------- */
+
 void FreeSpaceManager::AddFreeSpaces(tListSpaces* spacesList)
 {
 	itListSpaces it = spacesList->begin();
@@ -282,8 +279,6 @@ ID_type FreeSpaceManager::AddFreeSpace(Space* space)
         KeyFreeSpace keyFs(fsReg->GetID(), newSpaceSize);
         ValueFreeSpace valFs(idImage, newPosition);
         freeSpacesTree.insert(keyFs, valFs);
-
-        std::cout << freeSpacesTree;
 
 	   ID_type idSpace = fsReg->GetID();
        delete fsReg;        

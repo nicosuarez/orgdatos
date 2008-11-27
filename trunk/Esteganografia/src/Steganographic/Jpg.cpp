@@ -86,10 +86,7 @@ bool Jpg::ValidateFormat(const char *filePath)
 	{
 		fin >> format;
 		if(format.compare(0,4,header) == 0)
-		{
-//			cout << "Formato JPG/JPEG Correcto.\n";
 			isValid = true;
-		}
 		fin.close();
 	}
 	else
@@ -189,13 +186,9 @@ void Jpg::FillImage(long freeSpace)
 long Jpg::CompressImage(int quality, const char* outFile)
 {
 	Jpg jpg(outFile);
-//	long sizeOrig = this->GetTotalSize();
-//	cout << "Load Path: "<< this->GetFilePath() << " SizeOrig: " << sizeOrig << "\n";
 	cimg_library::CImg<unsigned char> image(this->GetFilePath());
 	image.save_jpeg(outFile, quality);
-//	cout << "Se comprime: "<< this->GetFilePath() << ", en un factor de " << quality <<  "\n";
 	long sizeComp = jpg.GetTotalSize();
-//	cout << "Load Path: "<< jpg.GetTotalSize() << " SizeComp: " << sizeComp << "\n";
 	return sizeComp;
 }
 /* -------------------------------------------------------------------------- */

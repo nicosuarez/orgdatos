@@ -291,24 +291,6 @@ unsigned long Lzss::readVarLong(ifstream* fp) {
 	unsigned long ans;
 	fp->read((char*)&ans,sizeof(unsigned long));
 	return ans;
-	/*
-	unsigned long long intaux,valor=0;
-	unsigned char aux=0x00;
-	unsigned char prox;
-	unsigned char masc = 0x7F;
-	int cont = 0;
-	bool last = false;
-	while (last == false) {
-		fp->read((char*)&aux,sizeof(char));
-		prox = aux >> 7;
-		if (prox == 0)
-			last = true;
-		intaux = aux & masc; //le quita el primer bit
-		intaux = intaux << (7 * cont);
-		valor = valor + intaux;
-		cont++;
-	}
-	return valor;*/
 }
 
 void Lzss::writeVarLong(ifstream* fp, ofstream* fpTarget) {
@@ -319,61 +301,6 @@ void Lzss::writeVarLong(ifstream* fp, ofstream* fpTarget) {
 	size = end - begin;
 	fp->seekg(0, ios::beg);
 	fpTarget->write(reinterpret_cast<char*>(&size),sizeof(long));
-	/*unsigned char masc1=0x80;
-	unsigned char masc3=0x7F;
-	unsigned long long begin, end, size;
-	begin = fp->tellg();
-	fp->seekg(0, ios::end);
-	end = fp->tellg();
-	size = end - begin;
-	cout <<"el tamaño a comprimir es: "<<size<<endl; //TESSSSSSSSSSSSST TEST PRUEBA
-//	unsigned char newChar[8];
-	Valor val;
-	val.vlong=size;
-//	newChar=reinterpret_cast<unsigned char*>(&size);
-	int cont=0;
-	bool startNumber=false;
-	for(int pos=7;pos>=0;pos--){
-		if (!startNumber){
-			if (val.st[pos]!=0x00){
-				cont++;
-				startNumber=true;
-			}
-		}else
-			cont++;
-	}
-	unsigned int nbit=0;
-	unsigned char toWrite[9];
-	for(int i=0;i<cont;i++){
-		unsigned char c=0x00;
-		unsigned char c2=0x00;
-		if (i<0)
-			nbit=0;
-		else{
-			nbit=i;
-			//c=newChar[i-1];
-			c=val.st[i-1];
-		}
-
-		c=c>>8-nbit;
-		//c2=newChar[i]<<nbit;
-		c2=val.st[i]<<nbit;
-		//apago el ultimo bit
-		c2=c2&masc3;
-		c2=c2|c;
-		if (i!=cont-1)
-			toWrite[i]=c2|masc1;
-		else
-			toWrite[i]=c2&masc3;
-	}
-	if (cont==8)
-		toWrite[9]=val.st[8]&masc3;
-		//toWrite[9]=newChar[8]&masc3;
-	//delete newChar;
-	for(int i=0;i<cont;i++)
-		cout<<(unsigned int)toWrite[cont];
-	fp->seekg(0, ios::beg);
-	fpTarget->write((char*)toWrite,sizeof(char)*cont);*/
 }
 
 unsigned int Lzss::getCantBitsPos() {
