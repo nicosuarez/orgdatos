@@ -152,7 +152,7 @@ Para poder utilizar DataSafe v1.0, los requerimientos mínimos de hardware son:
 \end{itemize}
 
 \begin{itemize}
- \item 250 Mb. espacio libre en disco
+ \item 20 Mb. espacio libre en disco
 \end{itemize}
 
 \section{Dependencias}
@@ -181,7 +181,7 @@ Las dependencias y librerias que se deben instalar en el sistema operativo son:
 
 \section{Manual de instalación}
 \subsection{Instalación}
-Para instalar la aplicación hay que copiar el directorio DataSafe\_Installer desde el cd-rom a una carpeta en el disco donde se desea instalar el programa. Luego ejecutar el archivo install, ubicado en la carpeta DataSafe\_Installer, el mismo compilará toda los fuentes y dejara la aplicación lista para ejecutarse.
+Para instalar la aplicación hay que copiar el directorio DataSafe\_Installer desde el cd-rom a una carpeta en el disco donde se desea instalar el programa. Luego ejecutar el archivo install, ubicado en la carpeta DataSafe\_Installer, el mismo compilará toda los fuentes y dejará la aplicación lista para ejecutarse.
 \subsection{Ejecución}
 Si la insatalación fue exitosa dentro DataSafe\_Installer se creo un directorio DataSafe. Para ejecutar DataSafe hay que ejecutar el archivo ./DataSafe, ubicado en la carpeta DataSafe.
 
@@ -248,7 +248,7 @@ Si hay 2 o mas comandos que empiezan iguales presionando 2 veces la tecla TAB mo
 \section{Modos de uso}
 
 \subsection{Creacion de password}
-Al iniciar por primera vez DataSafe nos solicitara un password. Este password es muy importante recordarlo ya que cada vez que se inicie el programa el mismo sera solicitado,
+Al iniciar por primera vez DataSafe nos solicitará un password. Este password es muy importante recordarlo ya que cada vez que se inicie el programa el mismo sera solicitado,
 y es la única forma de poder guardar y recuperar los mensajes.
 
 \smallskip
@@ -267,7 +267,7 @@ estos formatos son Jpg,Bmp,Gif y Png.
 En esta etapa se preparan las imágenes y se calcula el espacio disponible para almacenar los mensajes.
 Estos directorios se actualizan cada vez que se inicia el sistema, agregando nuevas imágenes o eliminando imágenes que ya no existen.
 El próximo paso seria ocultar un mensaje para ello se debe utilizar el comando (addfile), el mismo informa si se ha podido guardar
-el mensaje ("El mensaje se ha ocultado exitosamente"), en caso contrario muestra "No hay espacio suficiente para almacenar el mensaje"
+el mensaje 'El mensaje se ha ocultado exitosamente', en caso contrario muestra 'No hay espacio suficiente para almacenar el mensaje' si esto ocurre es aconsejable agregar mas imagenes al programa.
 
 \subsection{Dectector de intrusos}
 Cuando una persona intenta ingresar al programa sin el password correcto (tiene 3 intentos), el sistema almacenara la fecha y los password que ingreso el intruso. Estos se mostraran cuando el usuario correcto ingrese al sistema y así poder identificar al intruso.
@@ -288,7 +288,7 @@ Los puntos siguientes son muy importantes y deben ser leídos para no perder info
 Los directorios no pueden ser cambiados de nombre, si esto sucede lo que DataSafe hará será dar de baja el directorio que se había almacenado y dar de alta el mismo directorio con otro nombre. Esto acarrea que se va a perder todos los mensajes que estaban ocultos en las imágenes que estaban dentro del directorio.
 
 \subsection{NO MODIFICAR IMAGENES}
-Las imágenes agregadas al sistema no deben ser modificadas, si esto sucede DataSafe lo detectara y dará de baja a la imagen y luego dará de alta la misma imagen (ya que al modificar una imagen los datos contenidos en ella no sin los mismo).
+Las imágenes agregadas al sistema no deben ser modificadas, si esto sucede DataSafe lo detectara y dará de baja a la imagen y luego dará de alta la misma imagen (ya que al modificar una imagen los datos contenidos en ella no se conservan).
 
 \subsection{NO CAMBIAR DE NOMBRES A LAS IMAGENES}
 No se les debe cambiar de nombre a las imágenes agregadas al sistema, si esto sucede DataSafe dará de baja la imagen y luego dará de alta la misma imagen cambiada de nombre.
