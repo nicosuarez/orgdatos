@@ -68,6 +68,9 @@ comandos:
 4) Para correr el programa hay que ejecutar dentro del directorio DataSafe
    ./DataSafe.
 
+Atencion: si no se instala bien la libreria imagemagick va a compilar pero 
+cuando se agregue una imagen jpg se puede tener resultados inesperados.
+
 Olvido de Password: En el caso de que se haya olvidado el password la unica 
 forma de volver acceder al sistema es eliminado la carpeta Files o
 reinstalandolo. Obviamente por seguridad no se podra recuperar los datos 
@@ -78,9 +81,9 @@ problema a algunos de los mails que aparecen al final.
 
 Contactos : GRUPO 1
 =========
-Email Grupo 		grupo-datos@googlegroups.com
-Sebastian Camjayi 	scamjayi@gmail.com
+Email Grupo 			grupo-datos@googlegroups.com
+Sebastian Camjayi 		scamjayi@gmail.com
 Leandro Oscar Mencias   leandromencias@gmail.com
-Nicolas Suarez		nicolas.suarez@gmail.com
-Diego Malchinsky	malcha@gmail.com
-Nicolas Ige		igenico@gmail.com
+Nicolas Suarez			nicolas.suarez@gmail.com
+Diego Malchinsky		malcha@gmail.com
+Nicolas Ige				igenico@gmail.com
