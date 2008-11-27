@@ -164,11 +164,11 @@ Linux
 Las dependencias y librerias que se deben instalar en el sistema operativo son:
 
 \begin{itemize}
- \item libreadline5
+ \item libreadline5-dev
 \end{itemize}
 
 \begin{itemize}
- \item libpng
+ \item libpng12-dev
 \end{itemize}
 
 \begin{itemize}
@@ -176,20 +176,14 @@ Las dependencias y librerias que se deben instalar en el sistema operativo son:
 \end{itemize}
 
 \begin{itemize}
- \item CImg
-\end{itemize}
-
-\begin{itemize}
- \item imageMagick
+ \item imagemagick
 \end{itemize}
 
 \section{Manual de instalación}
-\subsection{Instalacion}
-HACERRRRRRRRRRRRRRRRRRRR
-Para instalar la aplicación hay que copiar el directorio BubbleReader desde el cd-rom a una carpeta en el disco donde se desea instalar el programa. Luego ejecutar el archivo setup, ubicado en la carpeta BubbleReader, el mismo compilará toda los fuentes y dejara la aplicación lista para ejecutarse.
+\subsection{Instalación}
+Para instalar la aplicación hay que copiar el directorio DataSafe\_Installer desde el cd-rom a una carpeta en el disco donde se desea instalar el programa. Luego ejecutar el archivo install, ubicado en la carpeta DataSafe\_Installer, el mismo compilará toda los fuentes y dejara la aplicación lista para ejecutarse.
 \subsection{Ejecución}
-HACERRRRRRRRRRRRRRRRRRRRRRR
-Para ejecutar BubbleReader hay que ejecutar el archivo server, ubicado en la carpeta BubbleReader/bin y por último abrir en un explorador el archivo principal.html, ubicado en la carpeta BubbleReader/web/html.
+Si la insatalación fue exitosa dentro DataSafe\_Installer se creo un directorio DataSafe. Para ejecutar DataSafe hay que ejecutar el archivo ./DataSafe, ubicado en la carpeta DataSafe.
 
 \section{Interfaz de usuario}
 
@@ -197,49 +191,50 @@ Para ejecutar BubbleReader hay que ejecutar el archivo server, ubicado en la car
 La siguiente lista son los comandos posibles que podemos ejecutar:
 
 \begin{itemize}
- \item Help: muestra todos los comandos posibles y como ejecutarlos.
+ \item Help : muestra todos los comandos posibles y como ejecutarlos.
 \end{itemize}
 
 \begin{itemize}
- \item addDirectory "directorio": Agrega el directorio y todos los subdirectorios con las imagenes contenidas en ellos y soportadas por el programa a la base de datos.
+ \item addDirectory directorio : Agrega el directorio y todos los subdirectorios con las imagenes contenidas en ellos y soportadas por el programa a la base de datos.
 \end{itemize}
 
 \begin{itemize}
- \item  removeDirectory "directorio": Elimina un directorio y todos sus subdirectorios desvinculando los mensajes asociados en las imagenes de la base de datos.
+ \item  removeDirectory directorio : Elimina un directorio y todos sus subdirectorios desvinculando los mensajes asociados en las imagenes de la base de datos.
 \end{itemize}
 
 \begin{itemize}
- \item  addFile "nombreArchivo": Oculta un mensaje.
+ \item  addFile nombreArchivo : Oculta un mensaje.
 \end{itemize}
 
 \begin{itemize}
- \item  removeFile "nombreArchivo": Elimina un mensaje previamente ocultado.
+ \item  removeFile nombreArchivo : Elimina un mensaje previamente ocultado.
 \end{itemize}
 
 \begin{itemize}
- \item  getFile nombreArchivo "rutaDestino": Obtiene un archivo del ocultador.
+ \item  getFile nombreArchivo rutaDestino : Obtiene un archivo del ocultador.
 \end{itemize}
 
 \begin{itemize}
- \item  showFiles: Muestra el nombre de los archivos ocultos.
+ \item  showFiles : Muestra el nombre de los archivos ocultos.
 \end{itemize}
 
 \begin{itemize}
- \item  showDirectories: Muestra la ruta de los directorios que contienen que se utilizan para ocultar textos.
+ \item  showDirectories : Muestra la ruta de los directorios que contienen que se utilizan para ocultar textos.
 \end{itemize}
 
 \begin{itemize}
- \item  changePassword "oldPassword" "newPassword": Modifica el password de ingreso.
+ \item  changePassword oldPassword newPassword : Modifica el password de ingreso.
 \end{itemize}
 
 \begin{itemize}
- \item  quit: Finaliza el programa.lat
+ \item  quit : Finaliza el programa.
 \end{itemize}
 
+Estos comandos pueden ser escritos tanto con mayusculas, con minuscusculas o una mezcla entre ambas.
 \smallskip
 \smallskip
 \begin{center}
- Comando Help
+ Ejemplo: Comando Help
 \end{center}
 \smallskip
 \begin{center}
@@ -302,5 +297,7 @@ No se les debe cambiar de nombre a las imágenes agregadas al sistema, si esto su
 No se deben borrar archivos del sistema sino el programa quedará corrompido.
 Si algún intruso intenta cambiar el archivo de password por otro el programa lo detectara y quedará corrompido, debiéndolo reinstalar para volver a usarlo.
 
+\subsection{EL MENSAJE ORIGINAL ES BORRADO}
+Cuando el usuario oculta un archivo (addfile), el archivo original es borrado automaticamente. Si el usuario quiere recuperarlo para leerlo lo que tendrá que hacer es ejecutar en el programa el comando getFile, este generará una copia del archivo. Una vez utilizado es aconsejable borrarlo ya que cualquier usuario podra leerlo.
 \end{document}
 
