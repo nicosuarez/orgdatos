@@ -1,0 +1,293 @@
+\documentclass[12pt]{article}
+
+%------------------------- Carga de paquetes ---------------------------
+%
+% Si no necesitás algún paquete, comentalo.
+%
+
+%
+% Definición del tama?o de página y los márgenes:
+%
+\usepackage[a4paper,headheight=16pt,scale={0.7,0.75},hoffset=0.5cm,voffset=0.5cm]{geometry}
+
+%
+% Vamos a escribir en castellano:
+%
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+
+%
+% Si preferís el tipo de letra Helvetica (Arial), descomentá las siguientes
+% dos lineas (las fórmulas seguirán estando en Times):
+%
+%\usepackage[scaled=0.9]{helvet}
+%\renewcommand\familydefault{\sfdefault}
+
+%
+% El paquete amsmath agrega algunas funcionalidades extra a las fórmulas. 
+% Además defino la numeración de las tablas y figuras al estilo "Figura 2.3", 
+% en lugar de "Figura 7". (Por lo tanto, aunque no uses fórmulas, si querés
+% este tipo de numeración dejá el paquete amsmath descomentado).
+%
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\usepackage{amssymb}
+
+%
+% Para tener cabecera y pie de página con un estilo personalizado:
+%
+\usepackage{fancyhdr}
+
+%
+% Para poner el texto "Figura X" en negrita:
+% (Si no tenés el paquete 'caption2', probá con 'caption').
+%
+\usepackage[hang,bf]{caption2}
+
+%
+% Para poder usar subfiguras: (al estilo Figura 2.3(b) )
+%
+\usepackage{subfigure}
+
+%
+% Para poder agregar notas al pie en tablas:
+%
+%\usepackage{threeparttable}
+
+%
+% Para que ponga "Tabla" en lugar de "Cuadro":
+%
+\addto\captionsspanish{\def\tablename{Tabla}}
+
+%
+% Para incluir código fuente:
+%
+\usepackage{moreverb}
+\usepackage{listings}
+%
+% Para tener secciones con interlineado controlable:
+%
+\usepackage{setspace}
+
+%------------------------------ graphicx ----------------------------------
+%
+% Para incluir imágenes, el siguiente código carga el paquete graphicx 
+% según se esté generando un archivo dvi o un pdf (con pdflatex). 
+%
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+	\pdffalse
+\else
+	\pdfoutput=1
+	\pdftrue
+\fi
+
+\ifpdf
+	\usepackage[pdftex]{graphicx}
+	\pdfcompresslevel=9
+\else
+	\usepackage[dvips]{graphicx}
+\fi
+
+\usepackage{epsfig}
+
+%Directorio de imagenes
+\newcommand{\imgdir}{images}
+\graphicspath{{\imgdir/}}
+
+%------------------------- Inicio del documento ---------------------------
+
+\usepackage{url}
+\usepackage{caratula}
+
+\materia{75.06 Organización de Datos}
+\submateria{Primer Cuatrimestre de 2007}
+\titulo{Lector de feed RSS}
+\subtitulo{Manual de usuario}
+\grupo{Grupo 20}
+\integrante{Colinas, Sergio}{84189}{scolinas@hotmail.com}
+\integrante{Keena, Hernán}{84471}{hpk2987@yahoo.com.ar}
+\integrante{Gonzales, Ramiro Javier}{84488}{ramirojgon@yahoo.com.ar}
+
+\begin{document}
+
+%
+% Hago que en la cabecera de página se muestre a la derecha la sección,
+% y en el pie, en número de página a la derecha:
+%
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markboth{}{\thesection\ \ #1}}
+\lhead{}
+\chead{}
+\rhead{\rightmark}
+\lfoot{}
+\cfoot{}
+\rfoot{\thepage}
+
+\maketitle
+
+%
+% Pongo el índice en una página aparte:
+%
+\tableofcontents
+\newpage
+
+%
+% Inicio del TP:
+%
+
+\section{Requerimientos minimos}
+Para poder utilizar DataSafe v1.0, los requerimientos mínimos de hardware son:
+
+\begin{itemize}
+ \item Procesador Intel o AMD compatible a 800Mhz
+\end{itemize}
+
+\begin{itemize}
+ \item 256 Mb. RAM
+\end{itemize}
+
+\begin{itemize}
+ \item 250 Mb. espacio libre en disco
+\end{itemize}
+
+\section{Dependencias}
+
+\subsection{Sistema Operativo}
+Linux
+
+\subsection{Librerias necesarias}
+Las dependencias y librerias que se deben instalar en el sistema operativo son:
+
+\begin{itemize}
+ \item libreadline5
+\end{itemize}
+
+\begin{itemize}
+ \item libpng
+\end{itemize}
+
+\begin{itemize}
+ \item X11
+\end{itemize}
+
+\begin{itemize}
+ \item CImg
+\end{itemize}
+
+\begin{itemize}
+ \item imageMagick
+\end{itemize}
+
+\section{Manual de instalación}
+\subsection{Instalacion}
+HACERRRRRRRRRRRRRRRRRRRR
+Para instalar la aplicación hay que copiar el directorio BubbleReader desde el cd-rom a una carpeta en el disco donde se desea instalar el programa. Luego ejecutar el archivo setup, ubicado en la carpeta BubbleReader, el mismo compilará toda los fuentes y dejara la aplicación lista para ejecutarse.
+\subsection{Ejecución}
+HACERRRRRRRRRRRRRRRRRRRRRRR
+Para ejecutar BubbleReader hay que ejecutar el archivo server, ubicado en la carpeta BubbleReader/bin y por último abrir en un explorador el archivo principal.html, ubicado en la carpeta BubbleReader/web/html.
+
+\section{Interfaz de usuario}
+
+\subsection{Comandos}
+La siguiente lista son los comandos posibles que podemos ejecutar:
+
+\begin{itemize}
+ \item Help: muestra todos los comandos posibles y como ejecutarlos.
+\end{itemize}
+
+\begin{itemize}
+ \item addDirectory "directorio": Agrega el directorio y todos los subdirectorios con las imagenes contenidas en ellos y soportadas por el programa a la base de datos.
+\end{itemize}
+
+\begin{itemize}
+ \item  removeDirectory "directorio": Elimina un directorio y todos sus subdirectorios desvinculando los mensajes asociados en las imagenes de la base de datos.
+\end{itemize}
+
+\begin{itemize}
+ \item  addFile "nombreArchivo": Oculta un mensaje.
+\end{itemize}
+
+\begin{itemize}
+ \item  removeFile "nombreArchivo": Elimina un mensaje previamente ocultado.
+\end{itemize}
+
+\begin{itemize}
+ \item  getFile nombreArchivo "rutaDestino": Obtiene un archivo del ocultador.
+\end{itemize}
+
+\begin{itemize}
+ \item  showFiles: Muestra el nombre de los archivos ocultos.
+\end{itemize}
+
+\begin{itemize}
+ \item  showDirectories: Muestra la ruta de los directorios que contienen que se utilizan para ocultar textos.
+\end{itemize}
+
+\begin{itemize}
+ \item  changePassword "oldPassword" "newPassword": Modifica el password de ingreso.
+\end{itemize}
+
+\begin{itemize}
+ \item  quit: Finaliza el programa.lat
+\end{itemize}
+
+\smallskip
+Comando Help
+\begin{center}
+ \includegraphics[width=280pt,height=230pt]{help.png}
+\end{center}
+
+\subsection{Tips de acceso rapido}
+Se puede utilizar la tecla TAB para autocompletar los nombres de los comandos, los nombres deben estar en minúscula
+Si hay 2 o mas comandos que empiezan iguales presionando 2 veces la tecla TAB mostrara la lista de comandos posibles.
+
+\section{Modos de uso}
+
+\subsection{Creacion de password}
+Al iniciar por primera vez DataSafe nos solicitara un password. Este password es muy importante recordarlo ya que cada vez que se inicie el programa el mismo sera solicitado,
+y es la única forma de poder guardar y recuperar los mensajes.
+
+\smallskip
+Ingreso por primera vez a DataSafe
+\begin{center}
+ \includegraphics[width=280pt,height=230pt]{inicio.png}
+\end{center}
+
+\subsection{Primeros pasos en DataSafe}
+Para poder ocultar un mensaje lo primero que se debe hacer es agregar a la base de datos directorios (adddirectory) que contengan imágenes soportadas por el sistema,
+estos formatos son Jpg,Bmp,Gif y Png.
+En esta etapa se preparan las imágenes y se calcula el espacio disponible para almacenar los mensajes.
+Estos directorios se actualizan cada vez que se inicia el sistema, agregando nuevas imágenes o eliminando imágenes que ya no existen.
+El próximo paso seria ocultar un mensaje para ello se debe utilizar el comando (addfile), el mismo informa si se ha podido guardar
+el mensaje ("El mensaje se ha ocultado exitosamente"), en caso contrario muestra "No hay espacio suficiente para almacenar el mensaje"
+
+\subsection{Dectector de intrusos}
+Cuando una persona intenta ingresar al programa sin el password correcto (tiene 3 intentos), el sistema almacenara la fecha y los password que ingreso el intruso. Estos se mostraran cuando el usuario correcto ingrese al sistema y así poder identificar al intruso.
+\smallskip
+Detector de intrusos
+\begin{center}
+ \includegraphics[width=280pt,height=230pt]{intrusos.png}
+\end{center}
+
+\section{Aclaraciones importantes}
+Los puntos siguientes son muy importantes y deben ser leídos para no perder información.
+
+\subsection{NO CAMBIAR DE NOMBRE LOS DIRECTORIOS}
+Los directorios no pueden ser cambiados de nombre, si esto sucede lo que DataSafe hará será dar de baja el directorio que se había almacenado y dar de alta el mismo directorio con otro nombre. Esto acarrea que se va a perder todos los mensajes que estaban ocultos en las imágenes que estaban dentro del directorio.
+
+\subsection{NO MODIFICAR IMAGENES}
+Las imágenes agregadas al sistema no deben ser modificadas, si esto sucede DataSafe lo detectara y dará de baja a la imagen y luego dará de alta la misma imagen (ya que al modificar una imagen los datos contenidos en ella no sin los mismo).
+
+\subsection{NO CAMBIAR DE NOMBRES A LAS IMAGENES}
+No se les debe cambiar de nombre a las imágenes agregadas al sistema, si esto sucede DataSafe dará de baja la imagen y luego dará de alta la misma imagen cambiada de nombre.
+
+\subsection{NO BORRAR ARCHIVOS DEL PROGRAMA}
+No se deben borrar archivos del sistema sino el programa quedará corrompido.
+Si algún intruso intenta cambiar el archivo de password por otro el programa lo detectara y quedará corrompido, debiéndolo reinstalar para volver a usarlo.
+
+\end{document}
+

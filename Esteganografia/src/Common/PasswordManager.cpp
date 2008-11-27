@@ -68,12 +68,14 @@ bool PasswordManager::IsCorrectPass(const std::string& st){
 Message PasswordManager::Extract(const Message& msg,const Message& msgTarget){
 	Message m1=EncriptationManager::Decrypt(msg);
 	CompressionManager::Decompress(m1,msgTarget);
+	m1.Delete();
 	return msgTarget;
 }
 
 void PasswordManager::Hide(const Message& msg,const Message& msgTarget){
 	Message m1=CompressionManager::Compress(msg);
 	EncriptationManager::Encrypt(m1,msgTarget);
+	m1.Delete();
 }
 
 void PasswordManager::CreatePass(const Message& msg,short mode){
