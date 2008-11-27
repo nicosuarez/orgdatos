@@ -169,7 +169,7 @@ void MessageManager::Hide(Message msg,Message msgTarget){
 	UpdateListMessage(regMsg);
 
 	//Elimino los archivos de mensajes
-//	msg.Delete();
+	msg.Delete();
 	m1.Delete();
 	msgTarget.Delete();
 }
