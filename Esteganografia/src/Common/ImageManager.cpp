@@ -35,11 +35,57 @@ ImageManager* ImageManager::GetInstance()
 	return instance;
 }
 /* -------------------------------------------------------------------------- */
-
-
 ImageManager::~ImageManager()
 {
 
+}
+/* -------------------------------------------------------------------------- */
+void ImageManager::ShowMessageFromDirectory(const char* dirPath)
+{
+    if( imgTree.empty())
+        return;
+    tVecStr fileList = FileSystem::GetFiles(dirPath,File);
+    if(fileList.empty())
+        return;
+    std::list<string> listNameMsg;
+    
+    string strDirPath(dirPath);
+    StrToken::FormatPath(strDirPath);
+    
+    for( unsigned int i=0; i<fileList.size(); i++)
+    {
+    	string fullPath = strDirPath + fileList[i];
+        KeyStr key(fileList[i]);
+        ValueInt* vInt = dynamic_cast<ValueInt*>(imgTree.find(key));
+        if( vInt == NULL)
+           continue;
+        ImgRegistry* imgReg = dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(vInt->getValue()));
+        tRegisterList* listIdMsg = this->orgListMsgs.GetList(imgReg->GetPtrFreeSpaceList());
+        if( listIdMsg != NULL )
+        {
+            itRegisterList it;
+            MessageManager* messageManager = MessageManager::GetInstance();
+            for( it=listIdMsg->begin(); it != listIdMsg->end(); it++ )
+            {
+                ListMsgRegistry* listMsgReg = dynamic_cast<ListMsgRegistry*>(*it);
+                ID_type idMsg = listMsgReg->GetIDMessage();
+                std::string nameMsg = messageManager->GetNameMessage(idMsg);
+                listNameMsg.push_back(nameMsg);
+                delete listMsgReg;
+            }
+            delete listIdMsg;
+        }
+       
+        delete vInt;
+        delete imgReg;
+        delete listIdMsg;
+    }
+    listNameMsg.unique();
+    std::list<string>::iterator it;
+    for(it=listNameMsg.begin(); it != listNameMsg.end(); it++)
+    {
+        std::cout << (*it) << "\n";
+    }
 }
 /* -------------------------------------------------------------------------- */
 pListUpdate ImageManager::UpdateImages()
@@ -63,7 +109,7 @@ pListUpdate ImageManager::UpdateImages()
 	return updatesList;
 }
 /* -------------------------------------------------------------------------- */
-void ImageManager::DeleteImage(string imgPath, tVecStr* imgErasedList, bool filterAll)
+void ImageManager::DeleteImage(string imgPath, tVecStr* imgErasedList, bool filterAll, bool removetoTree)
 {
 	KeyStr key(imgPath);
 	if(!imgTree.empty())
@@ -71,7 +117,7 @@ void ImageManager::DeleteImage(string imgPath, tVecStr* imgErasedList, bool filt
 		if(imgTree.exists(key))
 		{
 			ValueInt* vInt = dynamic_cast<ValueInt*>(imgTree.find(key));
-			DeleteImage(vInt->getValue(), imgErasedList, filterAll);
+			DeleteImage(vInt->getValue(), imgErasedList, filterAll, removetoTree);
 			delete vInt;
 		}
 	}
@@ -124,7 +170,7 @@ ID_type ImageManager::AddImage(const char* imagePath){
 	return idImg ;
 }
 /* -------------------------------------------------------------------------- */
-void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filterAll){
+void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filterAll, bool removetoTree){
 
 	ImgRegistry* img=dynamic_cast<ImgRegistry*>(orgImages.GetRegistry(idImg));
 	FreeSpaceManager* fsManager = FreeSpaceManager::GetInstance();
@@ -161,7 +207,7 @@ void ImageManager::DeleteImage(ID_type idImg, tVecStr* imgErasedList, bool filte
 	this->orgImages.DeleteRegistry(idImg);
 	//Eliminar el arbol.
 	KeyStr kImgTree(path.c_str());
-	if (!imgTree.empty())
+	if (!imgTree.empty() && removetoTree)
 		if (imgTree.exists(kImgTree))
 			imgTree.remove(kImgTree);
 }
@@ -310,7 +356,7 @@ tVecStr ImageManager::DeleteDirectory(const char* dirPath){
 		if ((strcmp(tokens[tokens.size()-1].c_str(),END_DIRECTORY)) )
 		{
 			ValueInt* vInt=(ValueInt*)it.getValue();
-			DeleteImage(vInt->getValue(),NULL,true);
+			DeleteImage(vInt->getValue(),NULL,true,false);
 			string pathFile=(kStr->getKey());
 			vkFile.push_back(kStr->getKey());
 			delete vInt;
