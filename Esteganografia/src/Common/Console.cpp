@@ -18,13 +18,16 @@ int Console::Run(int argc,char* argv[])
 	CreateDirectories();
 	bool isUser=false;
 	string cmd;
-	if (PasswordManager::ValidatePassword()){
+	if (PasswordManager::ValidatePassword())
+	{
 		pair<bool, tVecStr> valPass=ValidatePassword();
 		if(valPass.first)
 			isUser=true;
 		else
 			IntrudersManager::writeIntruder(valPass.second);
-	}else{
+	}
+	else
+	{
 		/*PEDIR PASS Y CREAR TODAS LAS ESTRUCTURAS*/
 		Message pass;
 		bool isOk=Console::InsertNewPassword(pass);
@@ -34,9 +37,11 @@ int Console::Run(int argc,char* argv[])
 			pass.Delete();
 		}
 	}
-	if (isUser){
+	if (isUser)
+	{
 		ShowInitialMessage();
-		if (IntrudersManager::ExistNewIntruder() ){
+		if (IntrudersManager::ExistNewIntruder() )
+		{
 			Console::ShowIntruderMessage();
 		}
 		UpdatesImage();
@@ -50,8 +55,8 @@ int Console::Run(int argc,char* argv[])
 				delete command;
 			}
 		}
+		Destroy();
 	}
-	Destroy();
 	return 0;
 }
 
