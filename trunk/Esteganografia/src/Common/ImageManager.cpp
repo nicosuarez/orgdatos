@@ -640,6 +640,10 @@ void ImageManager::RemoveMessageToImage( ID_type idImage, ID_type idMessage)
 	if( imgReg == NULL )
 		throw eFile(PATH_IMG_FILE);
 	ID_type firstList = imgReg->GetPtrMsgList();
+	
+	//verifica si la lista no esta vacia.
+	if( firstList == 0 )
+		return;
 	try
 	{
 		//Eliminar de la lista de mensajes de la imagen, el mensaje especifico.
@@ -662,7 +666,6 @@ void ImageManager::RemoveMessageToImage( ID_type idImage, ID_type idMessage)
 					if( msgReg->GetID() == imgReg->GetPtrMsgList())
 					{
 						imgReg->SetPtrMsgList(msgReg->GetNextID());
-						imgReg->SetPtrMsgList(msgReg->GetID());
 					}
 					break;
 				}
