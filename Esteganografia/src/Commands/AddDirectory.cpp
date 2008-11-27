@@ -36,7 +36,7 @@ bool AddDirectory::InternalProcess(tVecStr params)
 		cout << FIRST_MSG_ADD_DIRECTORY << "\n";
 		for (unsigned int i=0;i<vec.size();i++)
 		{
-			cout<< CIRCLE << "\t" << vec[vec.size()-1-i]<< "\n";
+			cout<< "\t" << CIRCLE << vec[vec.size()-1-i]<< "\n";
 		}
 		cout << "\n";
 	}catch(eNotExist e){

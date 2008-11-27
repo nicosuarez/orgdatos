@@ -54,6 +54,7 @@ bool Command::Run(string cmd)
 	else
 	{
 		this->ShowHelpCommand();
+		std::cout << "\n";
 	}
 	return false;
 }

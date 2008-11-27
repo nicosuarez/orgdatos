@@ -38,7 +38,7 @@ bool RemoveDirectory::InternalProcess(tVecStr params)
 	}
 	for (unsigned int i=0;i<lDir.size();i++)
 	{
-		cout<< CIRCLE << "	" << lDir[i]<<"\n";
+		cout<< "\t" << CIRCLE << lDir[i]<<"\n";
 	}
 	cout << "\n";
 	return true;
