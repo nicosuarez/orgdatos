@@ -89,6 +89,7 @@ void PasswordManager::CreatePass(const Message& msg,short mode){
 	}else{
 		reg=new ImgRegistry;
 		reg->SetDate(datePass);
+		reg->SetIDImagePath(0);
 		fImg.WriteRegistry(*reg);
 	}
 	delete reg;

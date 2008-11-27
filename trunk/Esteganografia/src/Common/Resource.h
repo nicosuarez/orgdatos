@@ -60,9 +60,9 @@ typedef unsigned int ID_type;
 #define MSG_ADDED_DIRECTORIES "Los siguientes archivos han sido dado de alta:\n"
 #define MSG_DELETED_DIRECTORIES "Los siguientes archivos han sido eliminados:\n"
 #define MSG_INITIAL_PROGRAM "\n\
-////////////////////////////////////////////////////////////////////////////////\n\
-//                         Bienvenido a DataSafe v1.0                         //\n\
-////////////////////////////////////////////////////////////////////////////////\n\
+//////////////////////////////////////////////////////////////////////////////\n\
+//                        Bienvenido a DataSafe v1.0                        //\n\
+//////////////////////////////////////////////////////////////////////////////\n\
 \nIngrese un comando: (Para la ayuda ingrese: help)\n"
 #define ERR_PARAMS_SIZE_INCORRECT "\
 La cantidad de parametros es incorrecta.\n\
@@ -71,7 +71,7 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 #define MSG_INTRUDERS1 "Han sido detectado que "
 #define MSG_INTRUDERS2 " intruso intento entrar: \n "
 #define MSG_INTRUDERS3 " intrusos intentaron entrar: \n "
-#define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introduciodos por el intruso: \n"
+#define MSG_INTRUDERS_GETPASS "Los siguientes son los passwords introducidos por el intruso: \n"
 
 
 #define HLP_HELP "\
