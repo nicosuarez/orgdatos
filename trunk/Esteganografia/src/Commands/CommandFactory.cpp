@@ -62,7 +62,7 @@ bool CommandFactory::IsChangePasswordCommand(string cmd)
 
 void CommandFactory::ShowCommandNotExistMsg()
 {
-	cout << ERR_COMMAND_NOT_EXIST << "\n";
+	cout << "\n" << ERR_COMMAND_NOT_EXIST << "\n\n";
 }
 
 Command* CommandFactory::CreateCommand(string cmd)

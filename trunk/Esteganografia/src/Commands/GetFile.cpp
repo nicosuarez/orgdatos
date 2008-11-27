@@ -33,16 +33,16 @@ bool GetFile::InternalProcess(tVecStr params)
 	MessageManager *messageManager = MessageManager::GetInstance();
 	try
 	{
-		std::cout << PROCESS_COMMAND;
+		std::cout << "\n" << PROCESS_COMMAND;
 		messageManager->Extract(nameMessage, pathMessage);
 		std::cout << MSG_EXTARCT_SUCCESS;
 	}
 	catch(eFile &e){
-		std::cout << EXC_EFILE << e.what() << "\n";
+		std::cout << EXC_EFILE << e.what() << "\n\n";
 	}
 	catch(eNotExist &e)
 	{
-		std::cout << e.what() << "\n"; 
+		std::cout << e.what() << "\n\n"; 
 	}
 	return true;
 }

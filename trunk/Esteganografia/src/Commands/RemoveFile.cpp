@@ -34,15 +34,15 @@ bool RemoveFile::InternalProcess(tVecStr params)
 	try
 	{
 		messageManager->DeleteMessage(nameMessage, true);
-		cout << MSG_DELETE_SUCCESS << endl;
+		cout <<  "\n" << MSG_DELETE_SUCCESS << endl;
 	}
 	catch(eFile &e)
 	{
-		cout << EXC_EFILE << e.what() << "\n";
+		cout <<  "\n" << EXC_EFILE << e.what() << "\n";
 	}
 	catch(eNotExist &e)
 	{
-		cout << e.what() << "\n";
+		cout << "\n" << e.what() << "\n";
 	}
 	return true;
 }

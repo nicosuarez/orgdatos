@@ -35,7 +35,7 @@ typedef unsigned int ID_type;
 #define ERR_IMAGE_WITHOUT_CAPACITY "La imagen no tiene capacidad para ocultar un mensaje"
 #define ERR_COMMAND_NOT_EXIST "El commando no existe."
 #define ERR_FILE_ERROR "Error al leer en el directorio: "
-#define ERR_PATH_NOT_EXIST "El directorio no exite: "
+#define ERR_PATH_NOT_EXIST "El directorio no existe: "
 #define ERR_FILE_OPEN "No se pudo abrir el archivo: "
 #define ERR_FILE_DELETE "No se pudo eliminar el archivo"
 #define LBL_PROMT "> "
@@ -89,11 +89,11 @@ Por favor respete la siguiente sintaxis para el comando:\n"
 	●   removeDirectory <directorio> \n \t \
 	Quita un directorio de imágenes del ocultador."
 
-#define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente."
+#define FIRST_MSG_REMOVE_DIRECTORY "Los siguientes Directorios han sido eliminados exitosamente:"
 
 #define ERR_MSG_REMOVE_DIRECTORY "El directorio que quiere borrar no existe."
 
-#define FIRST_MSG_ANY_DIRECTORY "\nNo hay directorios cargados:"
+#define FIRST_MSG_ANY_DIRECTORY "\nNo hay directorios cargados\n"
 #define FIRST_MSG_SHOW_DIRECTORY "\nLos directorios cargados son:"
 #define FIRST_MSG_ADD_DIRECTORY "\nLos siguientes Directorios han sido dados de alta exitosamente:"
 #define WRONG_MSG_ADD_DIRECTORY "\nEl directorio ha sido agregado previamente a la base de datos"

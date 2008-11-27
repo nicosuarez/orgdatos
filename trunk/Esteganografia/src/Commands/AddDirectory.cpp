@@ -35,11 +35,12 @@ bool AddDirectory::InternalProcess(tVecStr params)
 	ImageManager* iManager=ImageManager::GetInstance();
 	try{
 		tVecStr vec =iManager->AddDirectory(path.c_str());
-		cout<<FIRST_MSG_ADD_DIRECTORY<< "\n";
+		cout << FIRST_MSG_ADD_DIRECTORY << "\n";
 		for (unsigned int i=0;i<vec.size();i++)
 		{
 			cout<< CIRCLE << "\t" << vec[vec.size()-1-i]<< "\n";
 		}
+		cout << "\n";
 	}catch(eNotExist e){
 		cout<<e.what()<< "\n";
 	}	

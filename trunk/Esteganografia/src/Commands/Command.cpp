@@ -24,7 +24,7 @@ bool Command::InternalProcess(tVecStr params)
  
 void Command::ShowParamsErrMsg()
 {
-	cout << ERR_PARAMS_SIZE_INCORRECT << "\n" << flush;
+	cout << "\n" << ERR_PARAMS_SIZE_INCORRECT << "\n" << flush;
 }
 
 void Command::ShowHelpCommand()

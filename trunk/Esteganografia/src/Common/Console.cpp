@@ -11,8 +11,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-using namespace std;
-
 int Console::Run(int argc,char* argv[])
 {
 	CreateDirectories();
@@ -85,6 +83,7 @@ void Console::UpdatesImage()
 	{
 		std::cout<<"	"<<(*addList)[i]<<"\n";
 	}
+	std::cout << "\n";
 	delete addList;
 	delete removeList;
 }

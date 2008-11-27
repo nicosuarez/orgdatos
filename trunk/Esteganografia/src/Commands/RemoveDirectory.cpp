@@ -36,15 +36,12 @@ bool RemoveDirectory::InternalProcess(tVecStr params)
 	tVecStr lDir=img->DeleteDirectory(path.c_str());
 	if (lDir.size()>0)
 	{
-		cout<<FIRST_MSG_REMOVE_DIRECTORY<<"\n";
-	}
-	else
-	{
-		cout<<ERR_MSG_REMOVE_DIRECTORY<<"\n";
+		cout << "\n" << FIRST_MSG_REMOVE_DIRECTORY <<"\n\n";
 	}
 	for (unsigned int i=0;i<lDir.size();i++)
 	{
-		cout<<lDir[i]<<"\n";
+		cout<< CIRCLE << "	" << lDir[i]<<"\n";
 	}
+	cout << "\n";
 	return true;
 }

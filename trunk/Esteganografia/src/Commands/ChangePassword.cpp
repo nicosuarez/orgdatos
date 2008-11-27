@@ -35,8 +35,8 @@ bool ChangePassword::InternalProcess(tVecStr params)
 	string newPass=params[2];
 	bool isOk=PasswordManager::ChangePass(oldPass,newPass);
 	if (!isOk)
-		cout<<CHANGE_PASS_WRONG_PASS<< "\n";
+		cout<<CHANGE_PASS_WRONG_PASS<< "\n\n";
 	else
-		cout<<CHANGE_PASS_ACCEPTED<< "\n";
+		cout<<CHANGE_PASS_ACCEPTED<< "\n\n";
 	return true;
 }
