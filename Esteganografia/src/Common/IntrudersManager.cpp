@@ -37,7 +37,7 @@ tVecinstrud IntrudersManager::getIntruders(){
 bool IntrudersManager::ExistNewIntruder(){
 	OrgExtensibleRelative fImg(PATH_IMG_FILE, ImgRegistry::Create);
 	ImgRegistry* reg=(ImgRegistry*)fImg.GetRegistry(1);
-	return ( (reg->GetIDImagePath())>0);
+	return (reg->GetIDImagePath() > 0);
 }
 
 void IntrudersManager::writeIntruder(tVecStr vStr){
