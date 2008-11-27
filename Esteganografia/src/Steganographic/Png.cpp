@@ -17,7 +17,7 @@ Space* Png::Load()
 	long initialPosition=0;
 	SetPngInfo(this->GetFilePath());
 	long totalComponents = (this->Height * this->Width) * this->Channels;
-	long freeSpace = (totalComponents / (8/BitsLSB));
+	long freeSpace = (totalComponents / (8/BitsLSB)) - 1;
 	
 	Space* space = new Space(this->GetFilePath());
 	space->SetInitialPosition(initialPosition);

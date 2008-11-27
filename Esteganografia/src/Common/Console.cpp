@@ -95,6 +95,7 @@ tVecStr Console::GetAllCommands()
 	vecCmd.push_back(CMD_REMOVE_DIRECTORY);
 	vecCmd.push_back(CMD_HELP);
 	vecCmd.push_back(CMD_ADD_FILE);
+	vecCmd.push_back(CMD_GET_FILE);
 	vecCmd.push_back(CMD_REMOVE_FILE);
 	vecCmd.push_back(CMD_SHOW_DIRECTORIES);
 	vecCmd.push_back(CMD_SHOW_FILES);
