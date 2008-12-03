@@ -7,7 +7,10 @@
 	    this->ptrFreeSpaceList = NULL;
 	}
 	
-	ImgRegistry::ImgRegistry():ExtensibleRelativeRegistry(){};
+	ImgRegistry::ImgRegistry() : ExtensibleRelativeRegistry()
+	{
+		
+	}
 
 	ExtensibleRelativeRegistry* ImgRegistry::Create()
 	{

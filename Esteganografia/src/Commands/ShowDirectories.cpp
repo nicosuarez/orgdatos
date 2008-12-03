@@ -27,7 +27,6 @@ void ShowDirectories::ShowHelpCommand()
  */
 bool ShowDirectories::InternalProcess(tVecStr params)
 {
-	//string path = params[1];
 	ImageManager* iManager=ImageManager::GetInstance();
 	tVecStr vec =iManager->GetAllDirectories();
 	if (vec.size()!=0)

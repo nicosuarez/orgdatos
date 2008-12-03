@@ -1,11 +1,10 @@
 #ifndef __TRANSPOSITION__H__
 #define __TRANSPOSITION__H__
 
-#include "encrypter.h"
-#include <fstream.h>
-#include <string.h>
+#include <fstream>
+#include <string>
 
-class Transposition{//:public Encrypt{
+class Transposition{
 	private:
 		static const unsigned int N=3;
 		static const unsigned int NMAX=5;
@@ -15,7 +14,7 @@ class Transposition{//:public Encrypt{
 		Transposition();
 		~Transposition();
 
-		static void readVarLong(ifstream* fp,ofstream* fpTarget);
+		static void readVarLong(std::ifstream* fp,std::ofstream* fpTarget);
 
 		static void decrypt(const char* fileOrigin,const char* fileTarget);
 		static void encrypt(const char* fileOrigin,const char* fileTarget);

@@ -11,7 +11,6 @@
 #include "CImg.h"
 #include "../Steganographic/Image.h"
 #include <list>
-#include <string>
 #include "../DataAccess/Organizations/OrgExtensibleRelative.h"
 #include "../DataAccess/Organizations/OrgList.h"
 #include "../DataAccess/Organizations/OrgText.h"
@@ -71,10 +70,6 @@ class ImageManager
 	/* Devuelve una lista con los espacios libres que tiene
 	 * la imagen parámetro */
 	list<Space> GetFreeSpaces(Image* image);
-
-	/*Dado el tamaño de un mensaje, devuelve una lista de espacios
-	 * libres para almacenarlo*/
-	list<Space> GetSpacesToStore(unsigned long sizeMsg);
 
 	/**
 	 * Devuelve el IdImage del archivo pasado como parametro

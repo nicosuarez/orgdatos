@@ -1,9 +1,7 @@
 #ifndef __BITS_INVERTER__H__
 #define __BITS_INVERTER__H__
 
-#include "encrypter.h"
-
-class BitsInverter:public Encrypter{
+class BitsInverter {
 	private:
 		unsigned int currN;
 		static const unsigned int BASE=0;

@@ -3,6 +3,8 @@
 #include <math.h>
 #include "../Common/Exception/eFile.h"
 
+using namespace std;
+
 Lzss::Lzss() :
 	bitsLong(getCantBitsLong()), bitsPos(getCantBitsPos()) {
 }
@@ -32,7 +34,7 @@ void Lzss::compress(const char* toCompress, const char* temporaryFile)  {
 	while (this->windows.size() > 0) {
 		posMatch = 0;
 		longMatch = 0;
-		char charComp;
+		char charComp='\0';
 		int currPos = this->buffer.size() - 1;
 		unsigned int currPosMatch, currLongMatch = 0;
 		for (vector<unsigned char>::iterator it = this->buffer.begin(); it

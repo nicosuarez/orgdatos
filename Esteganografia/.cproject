@@ -15,14 +15,14 @@
 </extensions>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<configuration artifactExtension="" artifactName="Esteganografia" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.365937912" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+<configuration artifactExtension="" artifactName="Esteganografia" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.365937912" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 <folderInfo id="cdt.managedbuild.config.gnu.exe.debug.365937912." name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.604390846" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug.1775281623" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
 <builder buildPath="${workspace_loc:/Esteganografia/Debug}" id="cdt.managedbuild.target.gnu.builder.exe.debug.880776424" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.archiver.base.1920299224" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1558316115" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
-<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1927994435" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1927994435" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.more" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1225725028" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.option.preprocessor.nostdinc.508699505" name="Do not search system directories (-nostdinc)" superClass="gnu.cpp.compiler.option.preprocessor.nostdinc"/>
 <option id="gnu.cpp.compiler.option.preprocessor.preprocess.164610209" name="Preprocess only (-E)" superClass="gnu.cpp.compiler.option.preprocessor.preprocess"/>
@@ -34,13 +34,13 @@
 <option id="gnu.cpp.compiler.option.debugging.prof.356846747" name="Generate prof information (-p)" superClass="gnu.cpp.compiler.option.debugging.prof"/>
 <option id="gnu.cpp.compiler.option.debugging.gprof.785437214" name="Generate gprof information (-pg)" superClass="gnu.cpp.compiler.option.debugging.gprof"/>
 <option id="gnu.cpp.compiler.option.warnings.syntax.1572531679" name="Check syntax only (-fsyntax-only)" superClass="gnu.cpp.compiler.option.warnings.syntax"/>
-<option id="gnu.cpp.compiler.option.warnings.pedantic.167312507" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" value="false" valueType="boolean"/>
-<option id="gnu.cpp.compiler.option.warnings.pedantic.error.1260127397" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.cpp.compiler.option.warnings.pedantic.error"/>
-<option id="gnu.cpp.compiler.option.warnings.nowarn.2000995742" name="Inhibit all warnings (-w)" superClass="gnu.cpp.compiler.option.warnings.nowarn"/>
+<option id="gnu.cpp.compiler.option.warnings.pedantic.167312507" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
+<option id="gnu.cpp.compiler.option.warnings.pedantic.error.1260127397" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.cpp.compiler.option.warnings.pedantic.error" value="false" valueType="boolean"/>
+<option id="gnu.cpp.compiler.option.warnings.nowarn.2000995742" name="Inhibit all warnings (-w)" superClass="gnu.cpp.compiler.option.warnings.nowarn" value="false" valueType="boolean"/>
 <option id="gnu.cpp.compiler.option.warnings.allwarn.983523687" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn"/>
-<option id="gnu.cpp.compiler.option.warnings.toerrors.1738125624" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors"/>
+<option id="gnu.cpp.compiler.option.warnings.toerrors.1738125624" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors" value="false" valueType="boolean"/>
 <option id="gnu.cpp.compiler.option.other.other.981594929" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -I $PREFIX/include" valueType="string"/>
-<option id="gnu.cpp.compiler.option.other.verbose.972453756" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose"/>
+<option id="gnu.cpp.compiler.option.other.verbose.972453756" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" value="false" valueType="boolean"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.690061677" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.36645310" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -56,11 +56,11 @@
 <option id="gnu.c.compiler.option.debugging.gprof.321321183" name="Generate gprof information (-pg)" superClass="gnu.c.compiler.option.debugging.gprof"/>
 <option id="gnu.c.compiler.option.debugging.prof.1955188494" name="Generate prof information (-p)" superClass="gnu.c.compiler.option.debugging.prof"/>
 <option id="gnu.c.compiler.option.warnings.syntax.2027590264" name="Check syntax only (-fsyntax-only)" superClass="gnu.c.compiler.option.warnings.syntax"/>
-<option id="gnu.c.compiler.option.warnings.pedantic.1074705524" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic"/>
-<option id="gnu.c.compiler.option.warnings.pedantic.error.1270537626" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.c.compiler.option.warnings.pedantic.error"/>
+<option id="gnu.c.compiler.option.warnings.pedantic.1074705524" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" value="false" valueType="boolean"/>
+<option id="gnu.c.compiler.option.warnings.pedantic.error.1270537626" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.c.compiler.option.warnings.pedantic.error" value="false" valueType="boolean"/>
 <option id="gnu.c.compiler.option.warnings.nowarn.2383564" name="Inhibit all warnings (-w)" superClass="gnu.c.compiler.option.warnings.nowarn"/>
 <option id="gnu.c.compiler.option.warnings.allwarn.1971947848" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn"/>
-<option id="gnu.c.compiler.option.warnings.toerrors.1146606072" name="Warnings as errors (-Werror)" superClass="gnu.c.compiler.option.warnings.toerrors"/>
+<option id="gnu.c.compiler.option.warnings.toerrors.1146606072" name="Warnings as errors (-Werror)" superClass="gnu.c.compiler.option.warnings.toerrors" value="false" valueType="boolean"/>
 <option id="gnu.c.compiler.option.misc.other.968211528" name="Other flags" superClass="gnu.c.compiler.option.misc.other"/>
 <option id="gnu.c.compiler.option.misc.verbose.1149435424" name="Verbose (-v)" superClass="gnu.c.compiler.option.misc.verbose"/>
 <option id="gnu.c.compiler.option.misc.ansi.758285547" name="Support ANSI programs (-ansi)" superClass="gnu.c.compiler.option.misc.ansi"/>
@@ -74,7 +74,6 @@
 <option id="gnu.cpp.link.option.strip.385577932" name="Omit all symbol information (-s)" superClass="gnu.cpp.link.option.strip"/>
 <option id="gnu.cpp.link.option.libs.816081562" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="pthread"/>
-<listOptionValue builtIn="false" value="m"/>
 <listOptionValue builtIn="false" value="readline"/>
 <listOptionValue builtIn="false" value="X11"/>
 </option>
