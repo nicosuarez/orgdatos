@@ -1,11 +1,13 @@
 #include "transposition.h"
 #include "../Common/Exception/eFile.h"
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <iomanip>
+
 using std::ofstream;
 using std::ifstream;
 using std::ios;
+using std::string;
 
 
 Transposition::Transposition(){

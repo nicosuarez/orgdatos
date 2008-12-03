@@ -20,8 +20,6 @@ public:
 	static int Run(int argc,char* argv[]);
 private:
 	static bool InsertNewPassword(Message& msg);
-	//static bool ExistPassword();
-	//static bool IsCorrectPass(const std::string& st);
 	static void ShowIntruderMessage();
 	static pair<bool,tVecStr> ValidatePassword();
 	static std::string GetInputPassword();
@@ -31,7 +29,6 @@ private:
 	static char* Generator(const char* text, int state) ;
 	static tVecStr GetAllCommands();
 	static char * StrToChar (std::string str);
-//	static void *Xmalloc (int);
 	static const string temporaryFile;
 	static void UpdatesImage();
 	static void CreateDirectories();

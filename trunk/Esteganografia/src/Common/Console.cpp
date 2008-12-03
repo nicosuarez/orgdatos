@@ -2,7 +2,7 @@
 #include "Date.h"
 #include "Message.h"
 #include "Constant.h"
-#include <fstream.h>
+#include <fstream>
 #include "Exception/eBrokenProgram.h"
 #include "../DataAccess/Files/ExtensibleRelativeFile.h"
 #include "../DataAccess/Registries/ImgRegistry.h"

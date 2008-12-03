@@ -1,9 +1,9 @@
 #ifndef __LZSS_H_
 #define __LZSS_H_
 
-#include <fstream.h>
-#include <string.h>
-#include <vector.h>
+#include <fstream>
+#include <string>
+#include <vector>
 /*
 typedef union{
 		    unsigned long vlong;

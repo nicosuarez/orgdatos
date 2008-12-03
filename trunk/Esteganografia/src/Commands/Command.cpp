@@ -1,9 +1,10 @@
 #include "Command.h"
 
 using std::cout;
+using std::string;
 
 Command::Command(string cmd){
-
+	this->cmd = cmd;
 }
 
 Command::~Command(){

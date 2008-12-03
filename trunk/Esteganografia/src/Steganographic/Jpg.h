@@ -60,7 +60,7 @@ public:
 private:
 	long initPosFreeSpace;
 	int SearchBestCompression();
-	static const double CompressionPercentage = 30;
+	static const int CompressionPercentage = 30;
 
 };
 #endif // !defined(EA_B637FB36_98EA_11dd_B49B_001B2425640C__INCLUDED_)

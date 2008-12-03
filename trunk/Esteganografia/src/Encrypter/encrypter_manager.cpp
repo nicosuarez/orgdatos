@@ -4,7 +4,6 @@
 #include "../Lzss/lzss.h"
 #include <stdio.h>
 
-using std::cout;
 
 void EncrypterManager::encrypt(const char* fileOrigin,const char* fileTarget){
 	std::string stTarget="./alaPipetua3.dat";

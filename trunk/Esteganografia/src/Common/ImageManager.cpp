@@ -559,7 +559,6 @@ tVecStr* ImageManager::GetUpdatedList( IMMode mode )
 
 	return updatedList;
 }
-
 /* -------------------------------------------------------------------------- */
 ID_type ImageManager::GetIDImage(const char* path){
 	if(imgTree.empty())
@@ -577,7 +576,6 @@ ID_type ImageManager::GetIDImage(const char* path){
 		ans=0;
 	return ans;
 }
-
 /* -------------------------------------------------------------------------- */
 list<int> ImageManager::GetMessages(Image* image)
 {
@@ -585,28 +583,16 @@ list<int> ImageManager::GetMessages(Image* image)
 	return listMessages;
 }
 /* -------------------------------------------------------------------------- */
-
-
 list<Space> ImageManager::GetFreeSpaces(Image* image)
 {
 	list<Space> listSpaces;
 	return listSpaces;
 }
 /* -------------------------------------------------------------------------- */
-
-
 unsigned long ImageManager::GetTotalFreeSize() const
 {
 	return totalFreeSize;
 }
-/* -------------------------------------------------------------------------- */
-
-list<Space> ImageManager::GetSpacesToStore(unsigned long sizeMsg)
-{
-	list<Space> lista;
-	return lista;
-}
-
 /* -------------------------------------------------------------------------- */
 void ImageManager::AddMessageToImage( ID_type idImage, ID_type idMessage)
 {

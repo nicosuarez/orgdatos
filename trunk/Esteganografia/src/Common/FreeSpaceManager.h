@@ -11,7 +11,7 @@
 #include "../Steganographic/ImageFactory.h"
 #include "Exception/eFile.h"
 #include "Exception/eNotSpace.h"
-#include <list.h>
+#include <list>
 
 typedef std::list<Space*> tListSpaces;
 typedef std::list<Space*>::iterator itListSpaces;
