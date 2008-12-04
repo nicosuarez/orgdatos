@@ -33,6 +33,7 @@ sexo='M'
 #include <sstream>
 #include <iostream>
 #include <stdarg.h>
+#include <algorithm>
 
 using std::string;
 using std::vector;
