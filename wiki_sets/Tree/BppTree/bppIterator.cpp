@@ -1,7 +1,7 @@
 #include "bppIterator.h"
 #include "leaf_node.h"
 #include "level_node.h"
-#include "Exception/iterator_out_of_range.h"
+#include "../Exception/iterator_out_of_range.h"
 #include "control_register.h"
 
 BppIterator::BppIterator(unsigned int leafNodeOffset, NodeRegister& reg, NodeManager& nodeManager)
