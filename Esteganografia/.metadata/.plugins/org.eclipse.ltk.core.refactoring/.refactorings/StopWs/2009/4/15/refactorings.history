@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;StopWs/src/StopWs.cpp&apos; to &apos;main.cpp&apos;" description="Rename resource &apos;StopWs.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/StopWs.cpp" name="main.cpp" stamp="1239316724839" updateReferences="true"/>
+</session>
