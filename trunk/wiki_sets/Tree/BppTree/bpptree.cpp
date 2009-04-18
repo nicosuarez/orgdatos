@@ -52,6 +52,8 @@ bool BppTree::empty(){
 }
 
 bool BppTree::exists(const Register& key){
+	if(this->empty())
+		return false;
 	TreeIterator& it = this->iterator(key);
 	// si !a<b y !b<a => b=a
 	bool ret = ( !(it.peekKey()<key) && !(key<it.peekKey()) );
@@ -60,6 +62,8 @@ bool BppTree::exists(const Register& key){
 }
 
 Register* BppTree::find(const Register& key){
+	if(this->empty())
+			return NULL;
 	LevelRegister lr(ControlRegister(key,-1,0),NodeManager::NO_OFFSET);
 	return nodeFind(NULL,lr);
 }
