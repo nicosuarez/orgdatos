@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <map>
+#include <string.h>
 #include "cell.h"
 #include "../Common/register_factory.h"
 #include "../Common/register.h"
