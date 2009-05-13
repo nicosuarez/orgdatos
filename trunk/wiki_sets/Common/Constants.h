@@ -13,6 +13,7 @@
 #define PATH_FILE_LIST_SETS "./Files/listSets.dat"
 #define PATH_FILE_LIST_BLACK_WORDS "./Files/listBlackWords.dat"
 #define PATH_FILE_BLACK_WORDS "./Files/blackWords.dat"
+#define PATH_TREE_WORDS "./Files/treeWords.dat"
 
 
 #endif /* CONSTANTS_H_ */

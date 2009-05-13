@@ -5,10 +5,11 @@
 #include <cstring>
 #include <string>
 #include <utility>
-
+#include <glibmm/ustring.h>
 #include "Common/register.h"
 #include "Common/register_factory.h"
 
+using Glib::ustring;
 
 class ValueInt : public Register{
 	private:
@@ -46,10 +47,10 @@ class ValueInt : public Register{
 
 class KeyStr : public Register{
 	protected:
-		std::string key;
+		ustring key;
 
 	public:
-		KeyStr(std::string key){
+		KeyStr(ustring key){
 			this->key = key;
 		}
 
