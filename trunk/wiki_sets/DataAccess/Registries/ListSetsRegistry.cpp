@@ -1,5 +1,7 @@
 #include "ListSetsRegistry.h"
 
+unsigned int ListSetsRegistry::AmountIdByNode = 32;
+
 ListSetsRegistry::ListSetsRegistry()
 {
 	idInitial = 0;
@@ -72,11 +74,12 @@ std::list<ID_type>* ListSetsRegistry::GetListSets()const
 	unsigned int totalBits = sizeof(idSets)*8;
 	for(unsigned int i=0; i<totalBits; i++)
 	{
-		if((idSets >> (totalBits-1-i) & 1) == 1)
+		if((idSets>>i & 1) == 1)
 		{
 			listSets->push_back(idInitial + i);
 		}
 	}
+	listSets->sort();
 	return listSets;
 }
 
@@ -87,4 +90,9 @@ void ListSetsRegistry::AddIdSet(ID_type idSet)
 	unsigned int byte = 1;
 	byte = byte <<	(idSet-idInitial);
 	idSets = idSets | byte;
+}
+
+unsigned int ListSetsRegistry::GetAmountIdByNode()
+{
+	return AmountIdByNode;
 }

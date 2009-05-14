@@ -34,9 +34,12 @@ public:
 
 	void AddIdSet(ID_type idSet);
 
+	static unsigned int GetAmountIdByNode();
+
 private:
 	ID_type idInitial;
 	uint32_t idSets;
+	static unsigned int AmountIdByNode;
 };
 
 #endif /* LISTSETSREGISTRY_H_ */
