@@ -14,24 +14,24 @@
 typedef std::list<ListRegistry*> tRegisterList;
 typedef std::list<ListRegistry*>::iterator itRegisterList;
 
-/* This class handles the ExtensibleRelativeFile as an organization of 
+/* This class handles the ExtensibleRelativeFile as an organization of
  * linked registries, building a list. */
 class OrgList
 {
   public:
-    /* Constructor. 
-     * filename: Name of the file that the organization uses. 
-     * ptrMethodCreateRegistry: Pointer to a method that return a 
+    /* Constructor.
+     * filename: Name of the file that the organization uses.
+     * ptrMethodCreateRegistry: Pointer to a method that return a
      * pointer to a new ListRegistry. */
     OrgList(const string &fileName, ExtensibleRelativeRegistry* (*ptrMethodCreateRegistry)());
 
-    /* Destructor. */ 
+    /* Destructor. */
     virtual ~OrgList();
-    
+
     /* Gets the entire list. The caller must free the allocated memory.
      * first: The ID of the first registry in the list. */
     tRegisterList* GetList(ID_type first);
-    
+
     /* Starts a new list.
      * firstReg: The first registry of the new list. */
     void CreateList(ListRegistry &firstReg);
@@ -57,10 +57,14 @@ class OrgList
     /* Destroys the organization deleting all the files. */
     void Destroy();
 
-    /* Static method that deletes correctly a list of 
-     * pointer ListRegistry. 
+    /* Static method that deletes correctly a list of
+     * pointer ListRegistry.
      * list; Pointer to the list that will be erased/freed. */
     static void FreeList(std::list<ListRegistry*> *list);
+
+    /* Updates the registry to the file.
+     * reg: The registry to update. */
+    void UpdateRegistry(const ListRegistry &reg);
 
   private:
     ExtensibleRelativeFile *file;
