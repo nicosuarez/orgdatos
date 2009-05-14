@@ -225,3 +225,9 @@ void OrgList::AssertNotDeleted(const ListRegistry &reg) const
     throw "The registry is marked as Deleted.";
 }
 
+/* -------------------------------------------------------------------------- */
+
+void OrgList::UpdateRegistry(const ListRegistry &reg)
+{
+	file->Update(reg);
+}
