@@ -21,9 +21,12 @@ using std::list;
 class WordsManager {
 public:
 
-	WordsManager* getInstance();
+	static WordsManager* getInstance();
 
 	~WordsManager();
+
+	/*Devuelve el Id de una palabra*/
+	ID_type getIdWord(ustring word);
 
 	/*Agrega una nueva palabra al arbol y un nuevo registro a orgWords*/
 	ID_type addWord(ustring word);
@@ -31,9 +34,11 @@ public:
 	/*Agrega un nuevo nodo a la lista de sets de una palabra*/
 	void addSetToWord(ID_type idWord, ID_type idSet);
 
+	/*Agrega un nuevo nodo a la lista de sets de una palabra*/
+	void addSetToWord(ustring word, ID_type idSet);
+
 	/*Devuelve la lista de sets de una palabra*/
 	list<ID_type>* getSets(ID_type idWord);
-
 
 private:
 
@@ -45,7 +50,7 @@ private:
 
 	OrgExtensibleRelative orgWords;
 	OrgList orgListSets;
-	BppTree treeWords;
+public: BppTree treeWords;
 
 };
 
