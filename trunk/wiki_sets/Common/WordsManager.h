@@ -31,6 +31,9 @@ public:
 	/*Agrega una nueva palabra al arbol y un nuevo registro a orgWords*/
 	ID_type addWord(ustring word);
 
+	/*Agrega una nueva palabra y un set a su lista*/
+	ID_type addWord(ustring word, ID_type idSet);
+
 	/*Agrega un nuevo nodo a la lista de sets de una palabra*/
 	void addSetToWord(ID_type idWord, ID_type idSet);
 

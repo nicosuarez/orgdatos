@@ -18,7 +18,7 @@ using std::list;
 class SetsManager {
 public:
 
-	SetsManager* getInstance();
+	static SetsManager* getInstance();
 
 	~SetsManager();
 
