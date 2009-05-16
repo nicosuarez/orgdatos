@@ -38,17 +38,21 @@ ID_type WordsManager::getIdWord(ustring word)
 	ValueInt *vInt = dynamic_cast<ValueInt*>(treeWords.find(key));
 	if(vInt != NULL)
 		return vInt->getValue();
-	else return -1;
+	else return 0;
 }
 /* -------------------------------------------------------------------------- */
 
 ID_type WordsManager::addWord(ustring word)
 {
 	//Chequeo si la palabra ya existe en el arbol
-	KeyStr key(word);
-	if( treeWords.exists(key) )
-		return -1;
-
+//	KeyStr key(word);
+//	if( treeWords.exists(key) )
+//		return -1;
+	ID_type idWord = getIdWord(word);
+	if(idWord>0)
+	{
+		return idWord;
+	}
 	//Agrego un nuevo registro a orgWords
 	ExtensibleRelativeRegistry *reg = new WordRegistry();
 	orgWords.WriteRegistry(*reg);
@@ -56,11 +60,20 @@ ID_type WordsManager::addWord(ustring word)
 	//Si el registro se pudo agregar, inserto la palabra en el arbol
 	if(idReg>0)
 	{
-		ValueInt value(reg->GetID());
+		ValueInt value(idReg);
+		KeyStr key(word);
 		treeWords.insert(key, value);
 	}
 	delete reg;
 	return idReg;
+}
+/* -------------------------------------------------------------------------- */
+
+ID_type WordsManager::addWord(ustring word, ID_type idSet)
+{
+	ID_type idWord = addWord(word);
+	addSetToWord(idWord, idSet);
+	return idWord;
 }
 /* -------------------------------------------------------------------------- */
 
@@ -112,7 +125,9 @@ void WordsManager::addSetToWord(ID_type idWord, ID_type idSet)
 			regList = new ListSetsRegistry();
 			regList->SetIdInitial(idInitial);
 			regList->AddIdSet(idSet);
-			orgListSets.AddToListLast(*regList, regWord->GetIdListSets());
+			orgListSets.AddToListFirst(*regList, regWord->GetIdListSets());
+			regWord->SetIdListSets(regList->GetID());
+			orgWords.UpdateRegistry(*regWord);
 			delete regList;
 		}
 		OrgList::FreeList(listSets);
@@ -126,6 +141,7 @@ void WordsManager::addSetToWord(ustring word, ID_type idSet)
 	addSetToWord(getIdWord(word), idSet);
 }
 /* -------------------------------------------------------------------------- */
+
 list<ID_type>* WordsManager::getSets(ID_type idWord)
 {
 	WordRegistry *regWord;
