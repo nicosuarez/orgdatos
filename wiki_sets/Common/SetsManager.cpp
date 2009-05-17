@@ -7,9 +7,8 @@
 
 SetsManager* SetsManager:: instance = NULL;
 
-SetsManager::SetsManager(): orgSets(PATH_FILE_SETS, SetRegistry::Create)
+SetsManager::SetsManager(): orgSets(PATH_FILE_SETS, SetRegistry::Create), count(0)
 {
-
 }
 
 SetsManager::~SetsManager() {
@@ -25,7 +24,13 @@ SetsManager* SetsManager::getInstance()
 
 ID_type SetsManager::addSet(list<ustring> *listWords)
 {
+
 	return 0;
+}
+
+ID_type SetsManager::addSet()
+{
+	return ++count;
 }
 
 std::list<ustring>* SetsManager::getSet(ID_type idSet) const

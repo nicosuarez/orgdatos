@@ -25,6 +25,8 @@ public:
 	/*Agrega un nuevo set de palabras*/
 	ID_type addSet(list<ustring> *listWords);
 
+	ID_type addSet();
+
 	/*Retorna la lista de palabras de un set*/
 	list<ustring>* getSet(ID_type idSet)const;
 
@@ -37,6 +39,8 @@ private:
 	static SetsManager *instance;
 
 	OrgExtensibleRelative orgSets;
+
+	int count;
 
 
 };

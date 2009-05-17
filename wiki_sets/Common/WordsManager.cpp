@@ -61,7 +61,7 @@ ID_type WordsManager::addWord(ustring word)
 	if(idReg>0)
 	{
 		ValueInt value(idReg);
-		KeyStr key(word);
+		KeyStr key(word.raw());
 		treeWords.insert(key, value);
 	}
 	delete reg;
@@ -172,4 +172,32 @@ list<ID_type>* WordsManager::getSets(ID_type idWord)
 	delete regWord;
 	OrgList::FreeList(listRegSets);
 	return listIdSets;
+}
+/* -------------------------------------------------------------------------- */
+
+void WordsManager::print()
+{
+	if(treeWords.empty())
+		return;
+	TreeIterator& it = this->treeWords.first();
+	while(!it.end())
+	{
+		KeyStr* key=(KeyStr*)it.getKey();
+		ustring word=key->getKey();
+		std::cout<<word<<std::endl;
+		ValueInt *value= (ValueInt*)it.getValue();
+		ID_type idWord = value->getValue();
+		list<ID_type> *lista = this->getSets(idWord);
+		list<ID_type>::iterator it;
+		for(it=lista->begin(); it!=lista->end();it++)
+		{
+			std::cout << (*it) << " ";
+		}
+		std::cout<<std::endl;
+		delete key;
+		delete value;
+		delete lista;
+		++it;
+	}
+	treeWords.deleteIterator(it);
 }
