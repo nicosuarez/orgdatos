@@ -47,23 +47,23 @@ class ValueInt : public Register{
 
 class KeyStr : public Register{
 	protected:
-		ustring key;
+		string key;
 
 	public:
-		KeyStr(ustring key){
+		KeyStr(string key){
 			this->key = key;
 		}
 
-		//KeyStr(const KeyStr& key){
-		//	this->key = key.key;
-		//}
+		KeyStr(const KeyStr& key){
+			this->key = key.key;
+		}
 
 		virtual ~KeyStr(){
 		}
 
 		virtual Register* duplicate() const{ return new KeyStr(*this); }
 
-		ustring getKey()const{ return this->key; }
+		string getKey()const{ return this->key; }
 
 		void setFields(const Register& b2){
 			this->key = ((KeyStr&)b2).key;
@@ -117,7 +117,7 @@ class KeyStrFactory : public RegisterFactory{
 		char* operator()(Register& reg,char* data){
 			KeyStr& akey = dynamic_cast<KeyStr&>(reg);
 
-			ustring keystr  = akey.getKey();
+			string keystr  = akey.getKey();
 
 			strcpy(data,keystr.c_str());
 			data+=akey.getSize();
@@ -126,7 +126,7 @@ class KeyStrFactory : public RegisterFactory{
 		}
 
 		virtual Register* operator()(char* data){
-			return new KeyStr(ustring(data));
+			return new KeyStr(string(data));
 		}
 };
 

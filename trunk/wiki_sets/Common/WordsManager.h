@@ -26,7 +26,7 @@ public:
 	~WordsManager();
 
 	/*Devuelve el Id de una palabra*/
-	ID_type getIdWord(ustring word);
+	ID_type getIdWord(string word);
 
 	/*Agrega una nueva palabra al arbol y un nuevo registro a orgWords*/
 	ID_type addWord(ustring word);

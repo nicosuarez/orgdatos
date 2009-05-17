@@ -37,8 +37,6 @@ class ParseResultDump
 	private:
 		fstream file;
 		ThreadMutex mutex;
-		WordsManager *wordsManager;
-		SetsManager *setsManager;
 
 
 		/* Allocation and copy constructor are private to prevent errors. */

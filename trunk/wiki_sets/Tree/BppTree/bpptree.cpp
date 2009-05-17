@@ -62,8 +62,8 @@ bool BppTree::exists(const Register& key){
 }
 
 Register* BppTree::find(const Register& key){
-	if(this->empty())
-			return NULL;
+//	if(this->empty())
+//			return NULL;
 	LevelRegister lr(ControlRegister(key,-1,0),NodeManager::NO_OFFSET);
 	return nodeFind(NULL,lr);
 }
