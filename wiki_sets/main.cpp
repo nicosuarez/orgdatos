@@ -6,6 +6,7 @@
 #include "Common/BlackWordsManager.h"
 #include <string>
 #include "WikiArticlesParser/WikiArticlesParser.h"
+#include <fstream>
 
 std::string intToString( int entero )
 {
@@ -85,6 +86,55 @@ void testBlackWordsManager()
 	delete bm;
 }
 
+void testSetsManager()
+{
+	list<ustring> *lista = new list<ustring>;
+	lista->push_back("Hola");
+	lista->push_back("Como");
+	lista->push_back("Te");
+	lista->push_back("Llamas");
+	lista->push_back("Amiguito");
+	lista->push_back("Del");
+	lista->push_back("Alma");
+	SetsManager *sm = SetsManager::getInstance();
+	ID_type id = sm->addSet(lista);
+	std::cout << id <<std::endl;
+	delete lista;
+	lista = sm->getSet(id);
+	list<ustring>::iterator it;
+	for(it=lista->begin(); it!=lista->end(); it++)
+	{
+		std::cout<< (*it) << std::endl;
+	}
+	delete lista;
+//	delete sm;
+
+}
+
+void testSetsManager2()
+{
+	list<ustring> *lista = new list<ustring>;
+	lista->push_back("Me");
+	lista->push_back("Quiero");
+	lista->push_back("ir");
+	lista->push_back("a");
+	lista->push_back("Mi");
+	lista->push_back("Casa");
+	lista->push_back("ya");
+	SetsManager *sm = SetsManager::getInstance();
+	ID_type id = sm->addSet(lista);
+	std::cout << id <<std::endl;
+	delete lista;
+	lista = sm->getSet(id);
+	list<ustring>::iterator it;
+	for(it=lista->begin(); it!=lista->end(); it++)
+	{
+		std::cout<< (*it) << std::endl;
+	}
+	delete lista;
+	delete sm;
+
+}
 
 int main(int argc, char* argv[])
 {
@@ -92,8 +142,14 @@ int main(int argc, char* argv[])
 //	testBlackWordsManager();
 	WikiArticlesParser wikiArticlesParser(argv[1]);
 	wikiArticlesParser.Parse();
-	WordsManager *wm = WordsManager::getInstance();
-	wm->print();
-	delete wm;
+	WikiArticlesParser::parseTxt();
+//
+//	WordsManager *wm = WordsManager::getInstance();
+//	wm->print();
+	WikiArticlesParser::print();
+//	delete wm;
+//	testSetsManager();
+//	testSetsManager2();
+
 	return 0;
 }

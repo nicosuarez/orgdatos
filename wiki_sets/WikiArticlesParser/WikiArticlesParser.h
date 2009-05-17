@@ -10,7 +10,7 @@
 #include <glibmm/ustring.h>
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
-
+#include <list>
 #include "Defines.h"
 #include "ArticleParserManager.h"
 
@@ -21,19 +21,24 @@ using namespace xmlpp;
 class WikiArticlesParser
 {
   public:
-    /* Constructor. 
+    /* Constructor.
      * dumpPath: Path to the dump file. */
     WikiArticlesParser(const ustring &dumpPath);
 
-    /* Destructor. */ 
+    /* Destructor. */
     virtual ~WikiArticlesParser();
 
     /* Parse all the articles of the Wikipedia from its dump. */
     void Parse();
 
+    static void parseTxt();
+
+    static void print();
 	private:
 		ustring dumpPath;
 		ArticleParserManager parserManager;
+		static std::string intToString( int entero );
+
 
 		/* Allocation and copy constructor are private to prevent errors. */
     WikiArticlesParser(const WikiArticlesParser &wikiArticlesParser);

@@ -41,7 +41,7 @@ void WikiArticlesParser::Parse()
   {
 		nodeType = reader.get_node_type();
 		notEmpty = !reader.is_empty_element();
-		
+
 		if (notEmpty && nodeType == TextReader::Element)
 		{
 			name = reader.get_name();
@@ -73,3 +73,71 @@ void WikiArticlesParser::Parse()
   reader.close();
 }
 
+std::string WikiArticlesParser::intToString( int entero )
+{
+
+    std::stringstream cadena("");
+    cadena << entero;
+    return cadena.str();
+}
+
+void WikiArticlesParser::parseTxt()
+{
+	ifstream file;
+	file.open("./dump/parse_result.txt");
+	string linea;
+	if(!file.is_open())
+		return;
+	if(!file.eof())
+		getline(file, linea);
+	list<ustring>* lista = new list<ustring>;
+	SetsManager* sm = SetsManager::getInstance();
+	WordsManager *wm = WordsManager::getInstance();
+	while(!file.eof())
+	{
+		getline(file, linea);
+		if( linea.size() != 0)
+		{
+			lista->push_back(linea);
+		}
+		else
+		{
+			ID_type idSet = sm->addSet(lista);
+			list<ustring>::iterator it;
+			int i=0;
+			for(it=lista->begin(); it!=lista->end(); it++)
+			{
+				wm->addWord((*it).raw(), idSet);
+
+//				wm->addWord(intToString(i), idSet);
+				i++;
+//				std::cout << (*it).raw() << " " << idSet << std::endl;
+			}
+			lista->clear();
+		}
+
+	}
+	file.close();
+	delete lista;
+}
+
+void WikiArticlesParser::print()
+{
+	ifstream file;
+	file.open("./dump/parse_result.txt");
+	string linea;
+	if(!file.is_open())
+		return;
+	if(!file.eof())
+		getline(file, linea);
+	WordsManager *wm = WordsManager::getInstance();
+	while(!file.eof())
+	{
+		getline(file, linea);
+		if( wm->getIdWord(linea)<=0)
+		{
+			std::cout<<"NO ENCONTRO: " << linea << std::endl;
+		}
+	}
+	file.close();
+}

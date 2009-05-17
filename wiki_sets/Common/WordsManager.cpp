@@ -11,7 +11,7 @@ WordsManager* WordsManager::instance = NULL;
 
 WordsManager::WordsManager(): orgWords(PATH_FILE_WORDS, WordRegistry::Create),
 							  orgListSets(PATH_FILE_LIST_SETS, ListSetsRegistry::Create),
-							  treeWords(512, KeyStrFactory(), ValueIntFactory(), PATH_TREE_WORDS)
+							  treeWords(1024, KeyStrFactory(), ValueIntFactory(), PATH_TREE_WORDS)
 {
 
 }
@@ -32,8 +32,9 @@ WordsManager* WordsManager::getInstance()
 }
 /* -------------------------------------------------------------------------- */
 
-ID_type WordsManager::getIdWord(ustring word)
+ID_type WordsManager::getIdWord(string word)
 {
+//	KeyStr key(word.raw());
 	KeyStr key(word);
 	ValueInt *vInt = dynamic_cast<ValueInt*>(treeWords.find(key));
 	if(vInt != NULL)
@@ -179,25 +180,26 @@ void WordsManager::print()
 {
 	if(treeWords.empty())
 		return;
-	TreeIterator& it = this->treeWords.first();
-	while(!it.end())
-	{
-		KeyStr* key=(KeyStr*)it.getKey();
-		ustring word=key->getKey();
-		std::cout<<word<<std::endl;
-		ValueInt *value= (ValueInt*)it.getValue();
-		ID_type idWord = value->getValue();
-		list<ID_type> *lista = this->getSets(idWord);
-		list<ID_type>::iterator it;
-		for(it=lista->begin(); it!=lista->end();it++)
-		{
-			std::cout << (*it) << " ";
-		}
-		std::cout<<std::endl;
-		delete key;
-		delete value;
-		delete lista;
-		++it;
-	}
-	treeWords.deleteIterator(it);
+	std::cout << treeWords;
+//	TreeIterator& it = this->treeWords.first();
+//	while(!it.end())
+//	{
+//		KeyStr* key=(KeyStr*)it.getKey();
+//		ustring word=key->getKey();
+//		std::cout<<word<<std::endl;
+//		ValueInt *value= (ValueInt*)it.getValue();
+//		ID_type idWord = value->getValue();
+//		list<ID_type> *lista = this->getSets(idWord);
+//		list<ID_type>::iterator it;
+//		for(it=lista->begin(); it!=lista->end();it++)
+//		{
+//			std::cout << (*it) << " ";
+//		}
+//		std::cout<<std::endl;
+//		delete key;
+//		delete value;
+//		delete lista;
+//		++it;
+//	}
+//	treeWords.deleteIterator(it);
 }
