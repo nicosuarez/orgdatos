@@ -13,6 +13,8 @@
 #include "ParseResult.h"
 #include "ThreadMutex.h"
 #include "ThreadLocking.h"
+#include "../Common/WordsManager.h"
+#include "../Common/SetsManager.h"
 
 using Glib::ustring;
 
@@ -23,17 +25,21 @@ class ParseResultDump
     /* Constructor. */
     ParseResultDump(const ustring &dumpPath);
 
-    /* Destructor. */ 
+    /* Destructor. */
     virtual ~ParseResultDump();
 
 		/* Writes the result of the parse.
 		 * title: Title of the article.
 		 * result: Result to write. */
-		void Write(const ustring *title, const ParseResult *result);
+//		void Write(const ustring *title, const ParseResult *result);
+		void Write(const ustring *title, ParseResult *result);
 
 	private:
 		fstream file;
 		ThreadMutex mutex;
+		WordsManager *wordsManager;
+		SetsManager *setsManager;
+
 
 		/* Allocation and copy constructor are private to prevent errors. */
     ParseResultDump(const ParseResultDump &parseResultDump);

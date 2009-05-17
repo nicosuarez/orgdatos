@@ -63,7 +63,7 @@ class KeyStr : public Register{
 
 		virtual Register* duplicate() const{ return new KeyStr(*this); }
 
-		std::string getKey()const{ return this->key; }
+		ustring getKey()const{ return this->key; }
 
 		void setFields(const Register& b2){
 			this->key = ((KeyStr&)b2).key;
@@ -117,7 +117,7 @@ class KeyStrFactory : public RegisterFactory{
 		char* operator()(Register& reg,char* data){
 			KeyStr& akey = dynamic_cast<KeyStr&>(reg);
 
-			std::string keystr  = akey.getKey();
+			ustring keystr  = akey.getKey();
 
 			strcpy(data,keystr.c_str());
 			data+=akey.getSize();
@@ -126,7 +126,7 @@ class KeyStrFactory : public RegisterFactory{
 		}
 
 		virtual Register* operator()(char* data){
-			return new KeyStr(std::string(data));
+			return new KeyStr(ustring(data));
 		}
 };
 

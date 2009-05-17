@@ -43,6 +43,9 @@ public:
 	/*Devuelve la lista de sets de una palabra*/
 	list<ID_type>* getSets(ID_type idWord);
 
+	void print();
+
+
 private:
 
 	/*Constructor Privado*/
@@ -53,7 +56,7 @@ private:
 
 	OrgExtensibleRelative orgWords;
 	OrgList orgListSets;
-public: BppTree treeWords;
+	BppTree treeWords;
 
 };
 
